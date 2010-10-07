@@ -1,0 +1,7 @@
+#summary Screenshots
+
+http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard01.jpg
+http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard02.jpg
+http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard03.jpg
+http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard04.jpg
+http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard05.jpg
