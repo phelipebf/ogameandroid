@@ -3,5 +3,5 @@
 =Changelog=
 
 ==1.0.5==
-*Countdown für Forschung hinzugefügt
-*Overview zeigt jetzt Planetendaten und Flottenbewegung
+ * Countdown für Forschung hinzugefügt
+ * Overview zeigt jetzt Planetendaten und Flottenbewegung
