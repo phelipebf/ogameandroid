@@ -2,6 +2,12 @@
 
 =Changelog=
 
+==0.2==
+ * Einstellungen eingebaut (noch nicht alle mit Funktion)
+ * Flotten Benachrichtigung (alpha)
+ * Anzeige aktueller Flottenbewegung
+ * Nachfragen vor dem versenden eines Auftrages
+
 ==0.1.6==
  * Unterscheidung zwischen off und disabled (Issue 3)
  * Automatisches laden der univerums-liste (einmalig)
