@@ -2,18 +2,5 @@
 
 =Changelog=
 
-==0.2==
- * Einstellungen eingebaut (noch nicht alle mit Funktion)
- * Flotten Benachrichtigung (alpha)
- * Anzeige aktueller Flottenbewegung
- * Nachfragen vor dem versenden eines Auftrages
-
-==0.1.6==
- * Unterscheidung zwischen off und disabled (Issue 3)
- * Automatisches laden der univerums-liste (einmalig)
-
-==0.1.5==
- * Speichergebäude hinzugefügt
- * Login wird jetzt im TabView durchgeführt
- * Countdown für Forschung und Schiffe hinzugefügt
- * Overview zeigt jetzt Planetendaten und Flottenbewegung
+==0.3==
+ * Public beta release
