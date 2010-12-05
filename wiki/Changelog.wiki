@@ -2,5 +2,11 @@
 
 =Changelog=
 
+==0.3.1==
+ * Completed translation for English and German
+ * Added function to reload the universe-list.
+ * Fixed freeze/crash with wrong login
+ * Added PayPal-Donate Button
+
 ==0.3==
  * Public beta release
