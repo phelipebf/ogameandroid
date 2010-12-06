@@ -4,7 +4,8 @@
 
 ==0.3.1==
  * Completed translation for English and German
- * Added function to reload the universe-list.
+ * Added function to reload the universe-list
+ * Fixed crash when loading universe-list without network connection
  * Fixed freeze/crash with wrong login
  * Added PayPal-Donate Button
 
