@@ -2,6 +2,10 @@
 
 =Changelog=
 
+==0.4==
+ * Added moons to the planet list (Issue 11)
+ * Added icons an values for moon buildings
+
 ==0.3.2==
  * fixed countdown stacking
  * added (readonly) message system
