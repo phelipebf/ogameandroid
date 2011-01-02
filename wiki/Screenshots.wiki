@@ -1,4 +1,4 @@
-#summary Screenshots
+#summary This is how the app looks like
 
 || http://image.cp-g.de/pics/4d20d145db7da.png || http://image.cp-g.de/pics/4d20d149b07b2.png || http://image.cp-g.de/pics/4d20d2a60e079.png ||
 || *Login Screen* || *Settings* || *Building List* ||
