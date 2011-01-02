@@ -2,7 +2,11 @@
 
 =Changelog=
 
-==0.4==
+==0.4.1==
+ * Fixed not displaying field count on overview tab
+ * Improved message list (see [http://image.cp-g.de/pics/4d20d1708cebf.png here])
+
+==0.4.0==
  * Added moons to the planet list (Issue 11)
  * Added icons an values for moon buildings
  * Changed User Agent to default agent for Android 2.2.1
