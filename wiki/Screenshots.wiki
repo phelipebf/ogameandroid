@@ -1,6 +1,8 @@
 #summary Screenshots
 
-http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard02.jpg
-http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard03.jpg
-http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard04.jpg
-http://ogameandroid.googlecode.com/svn/trunk/image/Clipboard01.jpg
+|| http://image.cp-g.de/pics/4d20d145db7da.png || http://image.cp-g.de/pics/4d20d149b07b2.png || http://image.cp-g.de/pics/4d20d1510c655.png ||
+|| *Login Screen* || *Settings* || *Building List* ||
+|| http://image.cp-g.de/pics/4d20d158bafc5.png || http://image.cp-g.de/pics/4d20d1640e14e.png || http://image.cp-g.de/pics/4d20d16a4dead.png ||
+|| *Change Current Planet* || *Menu* || *Fleet Events* ||
+|| http://image.cp-g.de/pics/4d20d1708cebf.png ||
+|| *Messages* ||
