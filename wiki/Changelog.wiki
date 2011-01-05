@@ -2,6 +2,15 @@
 
 =Changelog=
 
+==0.4.2==
+ * Reworked notification system
+ * Change color of title text
+ * Hiding resource info if value is 0
+ * Added energy information where useful
+ * Improved message view
+ * Enabled message delete button (other buttons coming soon)
+ * disabled "new mission" button on fleetview (had no function anyway)
+
 ==0.4.1==
  * Fixed not displaying field count on overview tab
  * Improved message list (see [http://image.cp-g.de/pics/4d20d1708cebf.png here])
