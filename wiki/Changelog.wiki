@@ -3,6 +3,7 @@
 =Changelog=
 
 ==0.4.2==
+ * New icon (if you got a better one, feel free to tell me)
  * Reworked notification system
  * Change color of title text
  * Hiding resource info if value is 0
