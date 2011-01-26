@@ -8,6 +8,7 @@ import android.util.Log;
 /**
  * A variant of MergeCursor that sorts the cursors being merged. If decent
  * performance is ever obtained, it can be put back under android.database.
+ * This class is needed for the sound selection
  */
 public class SortCursor extends AbstractCursor
 {

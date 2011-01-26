@@ -154,8 +154,6 @@ public class LoginView extends Activity {
 		});
 		
 		Button btn_login = (Button)findViewById(R.id.btn_login);
-		//Sprite s = new Sprite(getResources().getDrawable(R.drawable.mission_icons), 11, new String[]{"on", "selected", "off"});
-		//btn_login.setBackgroundDrawable(s.get(1, "on"));
 		btn_login.setOnClickListener(new Button.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -184,6 +182,7 @@ public class LoginView extends Activity {
 		btn_donate.setOnClickListener(new Button.OnClickListener() {	
 			@Override
 			public void onClick(View v) {
+				//PLEASE DO NOT CHANGE THIS PAYPAL LINK!!
 				Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
 				startActivity(myIntent);
 			}		

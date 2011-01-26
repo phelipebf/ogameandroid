@@ -12,6 +12,12 @@ import org.apache.http.ParseException;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+/**
+ * HtmlSelect reads and <select> tag and lets you read the key and value data
+ * key and value are defined as <option value="VALUE">KEY</option>
+ * @author ov3rk1ll
+ *
+ */
 public class HtmlSelect{
 
 	private ArrayList<String> mKeys;
