@@ -20,6 +20,13 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * Handles fleet control
+ * Different states are set by and extra named tab. if tab isn't set the movement tab will be used
+ * The different values of tab origin from the ingame use of the page parameter
+ * @author Stephan
+ *
+ */
 public class FleetView extends ListActivity {
 	String task = "movement";
 	@SuppressWarnings("rawtypes")
@@ -48,9 +55,12 @@ public class FleetView extends ListActivity {
 					objects_mil.addAll(objects_civ);
 					adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, objects_mil);
 				}else if(task.equals("movement")){			
+					//Read the current eventList data
 					String body = MainTabActivity.game.get("page=eventList&ajax=1");
+					//if the date contains at least on event
 					if(body.contains("<div class=\"eventFleet\"")){
 						body = Tools.between(body, "<div id=\"eventContent\" style=\"text-align:center\">", "<div id=\"eventFooter\">");
+						//Split the events and put them into the adapter
 						String[] eventshtml = body.split("<div class=\"eventFleet\"");
 						ArrayList<FleetEvent> events = new ArrayList<FleetEvent>(eventshtml.length - 1);
 						for(int i = 1; i < eventshtml.length; i++){
