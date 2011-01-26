@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+           
+    <TextView
+        android:id="@+id/originName"
+        android:text="Android"
+        android:textColor="#efefef"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+      
+    <TextView
+        android:id="@+id/originCoords"
+        android:textColor="#efefef"
+        android:text="[4:170:4]"
+        android:layout_below="@id/originName" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        
+        
+    <TextView
+        android:id="@+id/destName"
+        android:text="Aion"
+        android:textColor="#efefef"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+      
+    <TextView
+        android:id="@+id/destCoords"
+        android:textColor="#efefef"
+        android:text="[4:171:12]"
+        android:layout_below="@id/destName" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" />
+        
+	<TextView
+        android:id="@+id/mission"
+        android:textColor="#efefef"
+        android:text="3 ships (Angriff)"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/originName"
+        android:layout_width="fill_parent"
+        android:layout_toLeftOf="@+id/destName"
+        android:gravity="center" />
+  
+	<TextView
+        android:id="@+id/info"
+        android:textColor="#efefef"
+        android:text="17:40:00 Uhr"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mission" 
+        android:layout_toRightOf="@+id/originCoord"
+        android:layout_width="fill_parent"
+        android:layout_toLeftOf="@+id/destCoord"
+        android:gravity="center" /> 
+</RelativeLayout>
