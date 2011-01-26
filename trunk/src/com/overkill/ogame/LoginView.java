@@ -64,8 +64,10 @@ public class LoginView extends Activity {
 			e.printStackTrace();
 		}
 		
+		//load settings
 		final SharedPreferences settings = getSharedPreferences(TAG, 0);
 		
+		//Do we need to show the TOS
 		if(settings.getBoolean("tos_" + getString(R.string.tos_version), false) == false){
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Terms of Service");
@@ -88,23 +90,28 @@ public class LoginView extends Activity {
 			alert.show();
 		}
 		
+		//if there is no username stored -> uncheck the save username box
 		if(settings.getString("username","").equals("") == false)
 			((CheckBox)LoginView.this.findViewById(R.id.check_save)).setChecked(true);
 		
+		//Write settings to TextBox
 		((EditText)findViewById(R.id.txt_login_user)).setText(settings.getString("username",""));
 		((EditText)findViewById(R.id.txt_login_password)).setText(settings.getString("password",""));
 		
+		//Set selected universe
 		((Spinner) findViewById(R.id.sel_domain)).setSelection(settings.getInt("domain", 0));
 		
 		((Spinner) findViewById(R.id.sel_domain)).setOnItemSelectedListener(new ListView.OnItemSelectedListener(){
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, final int position, long arg3) {			
-				Log.i(TAG, "onItemSelected");
+				//Read country array
 				String[] contries = getResources().getStringArray(R.array.countries);
 				final String domain = getResources().getStringArray(R.array.domainlist)[position];
+				//Prepare loading screen
 				final ProgressDialog loaderDialog = new ProgressDialog(LoginView.this);				
 				loaderDialog.setMessage("Loading universe list...");
-				final File file = new File(getFilesDir().getAbsolutePath() + "/" + contries[position]);
+				//Check if the universe list exsits or if we need to download it
+				final File file = new File(getFilesDir().getAbsolutePath() + "/" + contries[position]);				
 				if(file.exists()){
 					final HtmlSelect select = new HtmlSelect(file);
 					Spinner spinner = (Spinner) findViewById(R.id.sel_uni);
