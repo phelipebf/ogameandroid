@@ -96,7 +96,7 @@ public class GameClient{
         nameValuePairs.add(new BasicNameValuePair("pass", password));
         nameValuePairs.add(new BasicNameValuePair("submit", "Einloggen"));
         httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-        //execure request
+        //execute request
         HttpResponse response = http.execute(httppost);		
         //read the target location (HTTP 302)
        	String state = response.getHeaders("Location")[0].getValue();
