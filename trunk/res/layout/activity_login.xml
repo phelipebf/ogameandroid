@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:admobsdk="http://schemas.android.com/apk/res/com.overkill.ogame"	
+    android:background="@drawable/background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:orientation="vertical">
+<!-- <com.admob.android.ads.AdView  
+	 	android:id="@+id/ad" 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    admobsdk:backgroundColor="#000000"
+	    admobsdk:primaryTextColor="#FFFFFF"
+        admobsdk:secondaryTextColor="#CCCCCC"
+        admobsdk:keywords="Android application" /> -->
+<Spinner
+    android:layout_height="wrap_content"     
+    android:id="@+id/sel_domain"
+    android:entries="@array/countries" android:layout_width="fill_parent"/>
+
+    
+<Spinner
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"     
+    android:id="@+id/sel_uni"
+    />
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/username"
+    />
+<EditText
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txt_login_user"
+    android:text=""
+/>
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/password"
+    />
+<EditText
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txt_login_password"    
+    android:text=""
+    android:password="true"
+/>
+<CheckBox
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/check_save"
+    android:text="@string/save_login" />
+<Button
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/btn_login"
+    android:text="@string/login_button"
+    style="@style/MyLoginButton"/>
+<ImageButton
+	android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"   
+    android:id="@+id/btn_donate"
+    android:background="@null"
+    android:src="@drawable/btn_donate"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:layout_marginTop="30dp"/>  
+
+<TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="bottom" android:id="@+id/txt_info" android:text="OGame and most of the graphics are\n© 2003 - 2011 Gameforge Productions" android:textSize="10dp"></TextView>
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- This is a primitive example showing the different types of preferences available. -->
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="@string/settings_display">
+            
+        <!-- <CheckBoxPreference
+                android:key="hide_ads"
+                android:title="Hide Ads" /> -->        
+            
+        <CheckBoxPreference
+                android:key="show_disabled"
+                android:title="@string/settings_disabled"
+                android:summary="@string/settings_disabled_summary" />              
+        <!--
+       	<ListPreference
+                android:key="show_sort"
+                android:title="Sortierung"
+                android:summary="In welcher Reihenfolge sollen die Objekte angezeigt werden"
+                android:entries="@array/select_sort_key"
+                android:entryValues="@array/select_sort_key"
+                android:dialogTitle="Wähle" />--> 
+    </PreferenceCategory>
+                
+    <PreferenceCategory
+            android:title="@string/settings_fleet">
+
+		 <CheckBoxPreference
+                android:key="fleetsystem_global"
+                android:title="@string/settings_fleet_global"
+                android:summary="@string/settings_fleet_global_summary" />
+		<!-- 
+        <ListPreference
+                android:key="fleetsystem_intervall"
+                android:title="Prüfintervall"
+                android:summary="Höheres Intervall benötigt weniger Akku"
+                android:entries="@array/select_intervall_key"
+                android:entryValues="@array/select_intervall_value"
+                android:dialogTitle="Wähle"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+              -->   
+        <ListPreference
+                android:key="fleetsystem_sound"
+                android:title="@string/settings_fleet_sound"
+                android:summary="@string/settings_fleet_sound_summary"
+                android:dialogTitle="Select"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+
+		<CheckBoxPreference
+                android:key="fleetsystem_alarm_neutral"
+                android:title="@string/settings_fleet_neutral"
+                android:summary="@string/settings_fleet_neutral_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+		<CheckBoxPreference
+                android:key="fleetsystem_alarm_friendly"
+                android:title="@string/settings_fleet_friendly"
+                android:summary="@string/settings_fleet_friendly_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+        <CheckBoxPreference
+                android:key="fleetsystem_alarm_hostile"
+                android:title="@string/settings_fleet_hostile"
+                android:summary="@string/settings_fleet_hostile_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
