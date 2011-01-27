@@ -1,6 +1,8 @@
 #summary ToDo list
 
 = Basic =
+ * Overview
+  * Add (up to 3) countdowns
  * Resource Settings
   * See current production
   * Change percent
