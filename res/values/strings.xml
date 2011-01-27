@@ -66,4 +66,7 @@
 	<string name="message_date">Date:</string>
 	<string name="message_subject">Subject:</string>
 	
+	<string name="object_amount">Amount</string>
+	<string name="object_level">Level</string>
+	
 </resources>

@@ -63,11 +63,11 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				((TextView) v.findViewById(R.id.name)).setText(b.getName() + " (");
 				
 				if(Tools.getQuetypeById(b.getId()) == Item.QUETYPE_MULTIPLE)
-					((TextView) v.findViewById(R.id.name)).append("Anzahl ");
+					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_amount));
 				else
-					((TextView) v.findViewById(R.id.name)).append("Stufe ");
+					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_level));
 			
-				((TextView) v.findViewById(R.id.name)).append(b.getLevel() + ")");
+				((TextView) v.findViewById(R.id.name)).append(" " + b.getLevel() + ")");
 			}else{
 				((TextView) v.findViewById(R.id.name)).setText(b.getName());
 			}
@@ -126,7 +126,6 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 			int e = Resources.calc(b.getId(), b.getLevel() + 1, Item.RESOURCE_ENERGY) - Resources.calc(b.getId(), b.getLevel(), Item.RESOURCE_ENERGY);
 			if(b.getId() == Item.RESEARCH_GRAVITON)
 				e = Resources.calc(b.getId(), b.getLevel() + 1, Item.RESOURCE_ENERGY);
-			Log.i("e", "Resources.calc(" + b.getId() + ", " + b.getLevel() + ", Item.RESOURCE_ENERGY) = " + e);
 			if(e == 0){
 				energy.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_energy)).setVisibility(View.GONE);				
