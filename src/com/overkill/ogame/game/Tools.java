@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAgent;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -18,6 +20,7 @@ public class Tools {
 	public static String filesDir;
 	
 	public static Drawable ImageOperations(String address) {
+		// TODO The image should be save somewhere to prevent permanent reloading of the same file
 		/*//get filename
 		String[] parts = address.split("/");
 		String filename = parts[parts.length - 1];
@@ -68,19 +71,29 @@ public class Tools {
 	 * @return The part of string between begin and end
 	 */
 	public static String between(String string, String begin, String end){
-		int start = string.indexOf(begin) + begin.length();
-		int ende = string.indexOf(end, start);
-		return string.substring(start, ende);
+		try{
+			int start = string.indexOf(begin) + begin.length();
+			int ende = string.indexOf(end, start);
+			return string.substring(start, ende);
+		}catch(Exception ex){
+			FlurryAgent.onError("Tools.between", "String: " + string + "\n" + "Begin: " + begin + "\n" + "End: " + end, "StringIndexOutOfBoundsException");
+			return "";
+		}
 	}
 	
 	public static String between(String string, String begin, String end, String alternativ_end){
-		int start = string.indexOf(begin) + begin.length();
-		int ende1 = string.indexOf(end, start);
-		int ende2 = string.indexOf(alternativ_end, start);
-		int ende = ende1;
-		if(ende > ende2)
-			ende = ende2;
-		return string.substring(start, ende);
+		try{
+			int start = string.indexOf(begin) + begin.length();
+			int ende1 = string.indexOf(end, start);
+			int ende2 = string.indexOf(alternativ_end, start);
+			int ende = ende1;
+			if(ende > ende2)
+				ende = ende2;
+			return string.substring(start, ende);
+		}catch(Exception ex){
+			FlurryAgent.onError("Tools.between", "String: " + string + "\n" + "Begin: " + begin + "\n" + "End: " + end, "StringIndexOutOfBoundsException");
+			return "";
+		}
 	}
 		
 	public static String sec2str(int sec){
