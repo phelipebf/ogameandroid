@@ -11,7 +11,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.admob.android.ads.AdManager;
 import com.flurry.android.FlurryAgent;
 import com.overkill.gui.HtmlSelect;
 import com.overkill.ogame.game.Tools;
@@ -50,17 +49,12 @@ public class LoginView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-				
-		AdManager.setTestDevices( new String[] { 
-			      AdManager.TEST_EMULATOR, 
-			      "BDCF75581F822D58E8E23F9B4497DF4B"}); 
-			
+							
 		try {
 			PackageInfo pinfo = getPackageManager().getPackageInfo(this.getClass().getPackage().getName(),0);
 			TextView info = (TextView)findViewById(R.id.txt_info);
 			info.setText("Current Version of OGame for Android: " + pinfo.versionName + "\n" + info.getText());
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
