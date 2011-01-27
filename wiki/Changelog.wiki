@@ -2,6 +2,10 @@
 
 =Changelog=
 
+==0.4.3==
+ * Added delete all messages button
+ * Added dutch translation
+
 ==0.4.2==
  * New icon (if you got a better one, feel free to tell me)
  * Reworked notification system
