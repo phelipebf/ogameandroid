@@ -325,10 +325,18 @@ public class GameClient{
 		return this.current_planet;
 	}
 	
+	/**
+	 * Returns path of the image folder
+	 * @return path of the image folder
+	 */
 	public String getImageBase(){
 		return this.imagebase;
 	}
 	
+	/**
+	 * Reads messages from server
+	 * @return All messages displayed on the first page
+	 */
 	public Message[] getMassages(){
 		String html = Tools.between(get("page=messages&ajax=1"), "<tbody>", "</tbody>");
 		String tr[] = html.split("</tr>");
@@ -337,7 +345,6 @@ public class GameClient{
 			return m;
 		}
 		Message m[] = new Message[tr.length - 3];
-		Log.i("ogame.getMassages", "got " + m.length + " msgs");
 		for(int i = 1; i <= m.length; i++){
 			m[i-1] = Message.parse(tr[i].trim());
 		}
@@ -345,9 +352,24 @@ public class GameClient{
 		
 	}
 	
+	/**
+	 * Deletes the message with the given ID
+	 * @param msg_id The ID to delete
+	 */
 	public void deleteMessage(int msg_id){
+		this.deleteMessage(new int[]{msg_id});
+	}
+	
+	/**
+	 * Deletes all messages with the given IDs
+	 * @param msg_ids The IDs to delete
+	 */
+	public void deleteMessage(int msg_ids[]){
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("deleteMessageIds[]", String.valueOf(msg_id)));
+		
+		for(int msg_id : msg_ids)
+			 nameValuePairs.add(new BasicNameValuePair("deleteMessageIds[]", String.valueOf(msg_id)));		
+       
         nameValuePairs.add(new BasicNameValuePair("actionMode", "2"));
         this.execute("page=messages", nameValuePairs, "");
 	}
