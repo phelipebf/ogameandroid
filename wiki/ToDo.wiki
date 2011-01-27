@@ -1,0 +1,27 @@
+#summary ToDo list
+
+= Basic =
+ * Resource Settings
+  * See current production
+  * Change percent
+ * Fleet
+  * New mission
+   * Display current ships on planet
+   * Select Ships
+   * Set target and mission type
+   * Set speed and cargo
+  * Cancel current fleet event
+ * Messages
+  * ~~List messages~~
+   * ~~Delete all messages~~
+  * ~~View message~~
+  * Reply to message
+  * ~~Delete message~~
+  * Report message
+  * Create new message
+
+= Extra =
+
+
+= Non-Code-Stuff =
+ * Create/find new icon
