@@ -61,6 +61,7 @@
 <string name="message_respond">Antwoord</string>
 <string name="message_report">Raport</string>
 <string name="message_delete">Verwijder</string>
+<string name="message_delete_all">Alles verwijderen</string>
 <string name="message_from">Van:</string>
 <string name="message_to">Aan:</string>
 <string name="message_date">Datum:</string>
