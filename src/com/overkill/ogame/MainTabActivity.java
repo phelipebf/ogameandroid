@@ -219,7 +219,6 @@ public class MainTabActivity extends ScrollableTabActivity{
         ((ImageButton)findViewById(R.id.reload_button)).setOnClickListener(new ImageButton.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-		       	notify.setShipsAndNotifyWhenChanged(1,2,3, null);
 				reloadTitleData();
 			}
 		});
