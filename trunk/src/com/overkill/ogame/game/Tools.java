@@ -76,6 +76,7 @@ public class Tools {
 			int ende = string.indexOf(end, start);
 			return string.substring(start, ende);
 		}catch(Exception ex){
+			ex.printStackTrace();
 			FlurryAgent.onError("Tools.between", "String: " + string + "\n" + "Begin: " + begin + "\n" + "End: " + end, "StringIndexOutOfBoundsException");
 			return "";
 		}
@@ -91,6 +92,7 @@ public class Tools {
 				ende = ende2;
 			return string.substring(start, ende);
 		}catch(Exception ex){
+			ex.printStackTrace();
 			FlurryAgent.onError("Tools.between", "String: " + string + "\n" + "Begin: " + begin + "\n" + "End: " + end, "StringIndexOutOfBoundsException");
 			return "";
 		}
