@@ -84,6 +84,12 @@ public class BuildObject {
 //		this.timeLeft = Tools.str2sec(timestring);
 //	}
 	
+	public String getBuildTime(GameClient game){
+		String html = game.get("page=resources&ajax=1&type=" + String.valueOf(this.id));
+		html = Tools.between(html, "<span class=\"time\">", "</span>").trim();
+		return html;
+	}
+	
 	public void checkRecources(int metall, int kristal, int deuterium){
 		this.hasMetall = false;
 		this.hasKristal = false;
