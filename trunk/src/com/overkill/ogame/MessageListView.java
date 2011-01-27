@@ -9,6 +9,8 @@ import com.overkill.ogame.game.MessageAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
@@ -26,6 +28,10 @@ public class MessageListView extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		load();
+	}
+	
+	private void load(){
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {		
@@ -54,17 +60,38 @@ public class MessageListView extends ListActivity {
 		adapter.notifyDataSetChanged();
 		Intent i = new Intent(this, MessageDetailView.class).putExtra("msg_id", m.getID());
 		startActivity(i);
-		/*final Message m = adapter.getItem(position);
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    	alert.setTitle(m.getSubject() + " from " + m.getFrom());
-    	alert.setMessage(Html.fromHtml(m.getContent(MainTabActivity.game)));
-    	alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-	    	  public void onClick(DialogInterface dialog, int whichButton) {
-	    		  m.setRead(true);
-	    		  adapter.notifyDataSetChanged();
-	    		  dialog.cancel();
-	    	  }
-	    	});
-    	alert.show();    	*/
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    menu.add(0, 0, 0, R.string.message_delete_all);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    	case 0:
+	    		Thread t = new Thread(new Runnable() {			
+	    			@Override
+	    			public void run() {		
+	    			int[] ids = new int[adapter.getCount()];
+	    			for(int i = 0; i < ids.length; i++)
+	    				ids[i] = adapter.getItem(i).getID();
+	    			MainTabActivity.game.deleteMessage(ids);
+	    				runOnUiThread(new Runnable() {					
+	    					@Override
+	    					public void run() {
+	    						setProgressBarIndeterminateVisibility(false);
+	    						load();
+	    					}
+	    				});
+	    			}
+	    		});
+	    		setProgressBarIndeterminateVisibility(true);
+	    		t.start();
+		        return true;
+	    }
+        return super.onOptionsItemSelected(item);
 	}
 }
