@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+      
+        
+    <ImageView
+        android:background="@null"
+        android:id="@+id/image"
+        android:src="@drawable/supply2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingRight="5dp"/>    
+        
+    <TextView
+        android:id="@+id/name"
+        android:text="Kristallmine"
+        android:textColor="#efefef"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/image"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+        
+    <ImageButton
+        android:background="@null"
+    	android:id="@+id/ship_add"
+    	android:src="@drawable/ship_add"
+        android:layout_below="@id/name" 
+        android:layout_toRightOf="@id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp" android:paddingLeft="1dp"/>
+    
+    <ImageButton
+        android:background="@null"
+    	android:id="@+id/ship_remove"
+    	android:src="@drawable/ship_remove"
+        android:layout_below="@id/name" 
+        android:layout_toRightOf="@id/ship_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp" android:paddingLeft="1dp"/>
+        
+	<ImageButton
+        android:background="@null"
+    	android:id="@+id/ship_all"
+    	android:src="@drawable/ship_all"
+        android:layout_below="@id/name" 
+        android:layout_toRightOf="@id/ship_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp" android:paddingLeft="1dp"/>
+      
+       <TextView
+        android:id="@+id/menge"
+        android:textColor="#efefef"
+        android:text="200"
+        android:layout_below="@id/name" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="1dp" android:paddingLeft="1dp"  android:layout_alignParentRight="true" android:textStyle="bold" />   
+      
+     <TextView
+     	android:id="@+id/slash"
+        android:textColor="#efefef"
+        android:text="/"
+        android:layout_below="@id/name" 
+        android:layout_toLeftOf="@id/menge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="1dp" android:paddingLeft="1dp" android:textStyle="bold" /> 
+        
+        <TextView
+        android:id="@+id/used"
+        android:text="20"
+        android:textColor="#efefef"
+        android:layout_below="@id/name" 
+        android:layout_toLeftOf="@id/slash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="1dp" android:paddingLeft="1dp" android:textStyle="bold" />
+        
+    
+     
+     
+     
+     
+        
+</RelativeLayout>

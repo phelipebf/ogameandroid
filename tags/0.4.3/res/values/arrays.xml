@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string-array name="countries">
+		<item>Argentina</item>
+		<item>Brazil</item>
+		<item>Bulgaria</item>
+		<item>Croatia</item>
+		<item>Czech Republic</item>
+		<item>Denmark</item>
+		<item>Finland</item>
+		<item>France</item>
+		<item>Germany</item>
+		<item>Greece</item>
+		<item>Hungary</item>
+		<item>Italy</item>
+		<item>Japan</item>
+		<item>Latvia</item>
+		<item>Lithuania</item>
+		<item>Mexico</item>
+		<item>Netherlands</item>
+		<item>Norway</item>
+		<item>Poland</item>
+		<item>Portugal</item>
+		<item>Romania</item>
+		<item>Russian Federation</item>
+		<item>Serbia</item>
+		<item>Slovakia</item>
+		<item>Slovenia</item>
+		<item>Spain</item>
+		<item>Sweden</item>
+		<item>Taiwan</item>
+		<item>Turkey</item>
+		<item>United Arab Emirates</item>
+		<item>United Kingdom</item>
+		<item>United States of America</item>
+	</string-array>
+
+	<string-array name="domainlist">
+		<item>http://www.ogame.com.ar</item>
+		<item>http://www.ogame.com.br</item>
+		<item>http://www.bg.ogame.org</item>
+		<item>http://www.ogame.com.hr</item>
+		<item>http://www.ogame.cz</item>
+		<item>http://www.ogame.dk</item>
+		<item>http://www.fi.ogame.org</item>
+		<item>http://www.ogame.fr</item>
+		<item>http://www.ogame.de</item>
+		<item>http://www.ogame.gr</item>
+		<item>http://www.ogame.hu</item>
+		<item>http://www.ogame.it</item>
+		<item>http://www.ogame.jp</item>
+		<item>http://www.ogame.lv</item>
+		<item>http://www.ogame.lt</item>
+		<item>http://www.mx.ogame.org</item>
+		<item>http://www.ogame.nl</item>
+		<item>http://www.ogame.no</item>
+		<item>http://www.ogame.pl</item>
+		<item>http://www.ogame.com.pt</item>
+		<item>http://www.ogame.ro</item>
+		<item>http://www.ogame.ru</item>
+		<item>"http://www.ogame.rs</item>
+		<item>http://www.ogame.sk</item>
+		<item>http://www.ogame.si</item>
+		<item>http://www.ogame.com.es</item>
+		<item>http://www.ogame.se</item>
+		<item>http://www.ogame.tw</item>
+		<item>http://www.tr.ogame.org</item>
+		<item>http://www.ae.ogame.org</item>
+		<item>http://www.ogame.org</item>
+		<item>http://www.ogame.us</item>
+	</string-array>
+
+    <string-array name="select_intervall_key">
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>1 Stunde</item> 
+        <item>2 Stunde</item>   
+    </string-array>
+
+    <string-array name="select_intervall_value">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>  
+        <item>120</item>  
+    </string-array>
+    
+    <string-array name="select_sort_key">
+        <item>Wie auf Homepage</item>
+        <item>A-Z</item>
+    </string-array>
+
+</resources>
