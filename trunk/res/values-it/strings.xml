@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">OGame</string>
+<string name="select_planet">Seleziona il pianeta</string>
+<string name="moon">Luna</string>
+
+<string name="tos_version">1</string>
+<string name="tos">Applicazione non approvata da Gameforge: non sono responsabile dell\'eventuale ban dell\'account. Applicazione altamente sperimentale: non sono responsabile dei danni che potrebbe causare all\'account.</string>
+
+<string name="menu_settings">Impostazioni</string>
+<string name="menu_reload_serverlist">Ricarica la lista dei server</string>
+<string name="menu_messages">Messaggi</string>
+<string name="menu_fleet">Flotta</string>
+<string name="menu_galaxy">Galassia</string>
+<string name="menu_resources">Impostazioni delle risorse</string>
+
+<string name="tab_overview">Overview</string>
+<string name="tab_resources">Risorse</string>
+<string name="tab_station">Stazione</string>
+<string name="tab_research">Ricerca</string>
+<string name="tab_shipyard">Shipyard</string>
+<string name="tab_defense">Difesa</string>
+
+<string name="save_login">Salva le credenziali</string>
+<string name="username">Username</string>
+<string name="password">Password</string>
+<string name="login_button">Login</string>
+
+<string name="fleet_info_title">Info sulla flotta</string>
+<string name="new_mission">Nuova missione</string>
+
+<string name="error_login">Login errata</string>
+<string name="error_load">Server non raggiungibile</string>
+<string name="error_send_command">Impossibile inviare il comando</string>
+
+<string name="new_command">Nuovo comando</string>
+<string name="enter_amount">Quantità</string>
+<string name="send_command">Invio comando...</string>
+<string name="ask_with_count" formatted="false">Invia comando per %d %s?</string>
+<string name="ask_no_count">Invia comando per %s?</string>
+<string name="now_building">%s in costruzione.</string>
+<string name="loading">Caricamento...</string>
+<string name="change_planet">Switching to \"%s\"</string>
+
+<string name="settings_display">Impostazioni display</string>
+<string name="settings_disabled">Nascondi inattive</string>
+<string name="settings_disabled_summary">Nascondi gli oggetti che non puoi costruire</string>
+
+<string name="settings_fleet">Impostazioni allarmi flotta</string>
+<string name="settings_fleet_global">Attiva allarmi flotta</string>
+<string name="settings_fleet_global_summary">Attiva gli allarmi flotta globalmente</string>
+<string name="settings_fleet_sound">Suono di notifica</string>
+<string name="settings_fleet_sound_summary">Seleziona il suono di notifica</string>
+<string name="settings_fleet_neutral">Neutrale</string>
+<string name="settings_fleet_neutral_summary">Notifica gli eventi neutrali</string>
+<string name="settings_fleet_friendly">Amici</string>
+<string name="settings_fleet_friendly_summary">Notifica gli eventi degli amici</string>
+<string name="settings_fleet_hostile">Nemici</string>
+<string name="settings_fleet_hostile_summary">Notifica gli eventi dei nemici</string>
+
+<string name="message_respond">Rispondi</string>
+<string name="message_report">Report</string>
+<string name="message_delete">Cancella</string>
+<string name="message_delete_all">Cancella tutto</string>
+<string name="message_from">Da:</string>
+<string name="message_to">A:</string>
+<string name="message_date">Data:</string>
+<string name="message_subject">Soggetto:</string>
+
+<string name="object_amount">Quantita</string>
+<string name="object_level">Livello</string>
+
+</resources>
