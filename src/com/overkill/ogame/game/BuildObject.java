@@ -1,5 +1,10 @@
 package com.overkill.ogame.game;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import android.content.Context;
 
 /**
@@ -88,6 +93,25 @@ public class BuildObject {
 		String html = game.get("page=resources&ajax=1&type=" + String.valueOf(this.id));
 		html = Tools.between(html, "<span class=\"time\">", "</span>").trim();
 		return html;
+	}
+	
+	public String getTechTree(GameClient game){
+		String ret = "";
+		String html = game.get("page=globalTechtree");
+		Document doc = Jsoup.parse(html);
+		String imgSelector = "img[src$=tiny_" + String.valueOf(this.id) + ".jpg]";
+		Elements images = doc.select(imgSelector);
+		if(images.size() == 0) {
+			ret = "not found";
+		} else {
+			Element img = images.get(0);
+			Element tr = img.parent().parent();
+			for (Element li : tr.select("li")) {
+				//boolean isRed = "overmark".equals(li.attr("class"));
+				ret += li.text() + "\n";
+			}
+		}
+		return ret;
 	}
 	
 	public void checkRecources(int metall, int kristal, int deuterium){

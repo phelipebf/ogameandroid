@@ -104,15 +104,42 @@ public class ObjectListActivity extends ListActivity {
 		}
 	@Override
 	protected void onListItemClick(ListView l, View v, final int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		final ProgressDialog loader = new ProgressDialog(this);				
-		loader.setMessage(getString(R.string.send_command));
+		super.onListItemClick(l, v, position, id);	
 		final BuildObject b = (BuildObject)getListAdapter().getItem(position);
+		
 		//object can't be built at the moment
-		if(b.getStatus().equals("on") == false){
+		if("disabled".equals(b.getStatus())){
 			Toast.makeText(getApplicationContext(), R.string.error_send_command, Toast.LENGTH_SHORT).show();
 			return;
-		}	
+		} else if("off".equals(b.getStatus())){
+			final ProgressDialog loaderDialog = new ProgressDialog(this);					
+			loaderDialog.setMessage(getString(R.string.loading));
+			
+		    final AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
+	    	alert.setTitle(R.string.more);
+	    	alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		    	public void onClick(DialogInterface dialog, int whichButton) {	
+		    			dialog.cancel();
+		    		}
+		    	});
+	    	Thread t = new Thread(new Runnable() {					
+				@Override
+				public void run() {
+					final String msg = b.getTechTree(MainTabActivity.game);	
+					runOnUiThread(new Runnable() {							
+						@Override
+						public void run() {
+							loaderDialog.cancel();
+							alert.setMessage(msg);	
+					    	alert.show();				
+						}
+					});						
+				}
+			});
+	    	loaderDialog.show();
+	    	t.start();
+			return;
+		}
 		
 		//if we can build more than one
 		if(b.needsValue()){
@@ -159,14 +186,14 @@ public class ObjectListActivity extends ListActivity {
 	}
 	
 	//show a question to the user and sends the build request if user clicks yes
-	private void askBuild(final BuildObject b, final int menge){
+	private void askBuild(final BuildObject b, final int amount){
 		final ProgressDialog loaderDialog = new ProgressDialog(this);				
 		loaderDialog.setMessage(getString(R.string.send_command));
 		//thread to send build request to server
 		final Thread buildThread = new Thread(new Runnable() {	
 			@Override
 			public void run() {				
-				/*int c = */MainTabActivity.game.build(b.getId(), menge, pageKey, token);	
+				/*int c = */MainTabActivity.game.build(b.getId(), amount, pageKey, token);	
 				// TODO alarm in c sec
 				((MainTabActivity) getParent()).reloadTitleData();
 				//Hide the loader and tell the user that the request was sent
@@ -182,8 +209,8 @@ public class ObjectListActivity extends ListActivity {
 		});	
 		//Build question for user
 		String ask = "";
-		if(menge > 1)
-			ask = getString(R.string.ask_with_count, menge, b.getName());
+		if(amount > 1)
+			ask = getString(R.string.ask_with_count, amount, b.getName());
 		else
 			ask = getString(R.string.ask_no_count, b.getName());
 
