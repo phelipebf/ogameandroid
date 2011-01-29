@@ -216,12 +216,25 @@ public class MainTabActivity extends ScrollableTabActivity{
 			}
 		});
         
-        ((ImageButton)findViewById(R.id.reload_button)).setOnClickListener(new ImageButton.OnClickListener() {			
+        getReloadButton().setOnClickListener(new ImageButton.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				reloadTitleData();
+				final Planet p1 = MainTabActivity.game.getCurrentPlanet();
+				setInfo(p1.getUpdatedResources());
 			}
 		});
+        
+        getReloadButton().setOnLongClickListener(new ImageButton.OnLongClickListener() {			
+			@Override
+			public boolean onLongClick(View v) {
+				reloadTitleData();
+				return true;
+			}
+		});
+    }
+    
+    private ImageButton getReloadButton() {
+    	return ((ImageButton)findViewById(R.id.reload_button));
     }
     
 	@Override
@@ -257,11 +270,12 @@ public class MainTabActivity extends ScrollableTabActivity{
     }
     
 	public void reloadTitleData(){
-		final ImageButton syncIndicator = (ImageButton) findViewById(R.id.reload_button);
+		final ImageButton syncIndicator = getReloadButton();
+		
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {
-				final Planet p1 = MainTabActivity.game.getCurrentPlanet();
+				final Planet p1 = MainTabActivity.game.getCurrentPlanet();	
 				p1.parse(MainTabActivity.game.get("page=fetchResources&ajax=1"));
 				runOnUiThread(new Runnable() {
 		            public void run() {		
@@ -269,12 +283,11 @@ public class MainTabActivity extends ScrollableTabActivity{
 		            		setTitle(p1.getName() + " " + p1.getCoordinates() + " " + getString(R.string.moon));
 		            	else
 					        setTitle(p1.getName() + " " + p1.getCoordinates());
-					        setInfo(p1.getResources());
-					        setIcon(p1.getIcon());
-					        //reloadTab();
-					        syncIndicator.setImageResource(android.R.drawable.ic_menu_rotate);							
-		        }});   
-				
+				        setInfo(p1.getResources());
+				        setIcon(p1.getIcon());
+				        //reloadTab();
+				        syncIndicator.setImageResource(android.R.drawable.ic_menu_rotate);							
+		        }});			
 			}
 		});
 		runOnUiThread(new Runnable() {

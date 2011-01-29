@@ -2,6 +2,7 @@ package com.overkill.ogame.game;
 
 import org.json.JSONObject;
 import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
 
 public class Planet {
 	private int id;
@@ -17,6 +18,16 @@ public class Planet {
 	private int crystal;
 	private int deuterium;
 	private int energy;
+
+	private int metalMax;
+	private int crystalMax;
+	private int deuteriumMax;
+	
+	private double metalProduction;
+	private double crystalProduction;
+	private double deuteriumProduction;
+	
+	private long timeLastAjaxCall;
 	
 	private Planet moon = null;
 	
@@ -40,15 +51,36 @@ public class Planet {
 	
 	public void parse(String jsonstring){
 		try{
+			timeLastAjaxCall = SystemClock.elapsedRealtime();
+			
 			JSONObject json = new JSONObject(jsonstring);
-			this.metal = this.getvalue(json, "metal");
-			this.crystal = this.getvalue(json, "crystal");
-			this.deuterium = this.getvalue(json, "deuterium");
-			this.energy = this.getvalue(json, "energy");
+
+	    	JSONObject object = json.getJSONObject("metal");
+	    	JSONObject resources = object.getJSONObject("resources");			
+			this.metal = resources.getInt("actual");
+			this.metalMax = resources.getInt("max");
+			this.metalProduction = resources.getDouble("production");
+	    	
+			object = json.getJSONObject("crystal");
+	    	resources = object.getJSONObject("resources");			
+			this.crystal = resources.getInt("actual");
+			this.crystalMax = resources.getInt("max");
+			this.crystalProduction = resources.getDouble("production");
+	    	
+			object = json.getJSONObject("deuterium");
+	    	resources = object.getJSONObject("resources");			
+			this.deuterium = resources.getInt("actual");
+			this.deuteriumMax = resources.getInt("max");
+			this.deuteriumProduction = resources.getDouble("production");
+
+	    	object = json.getJSONObject("energy");
+	    	resources = object.getJSONObject("resources");			
+	    	this.energy = Integer.valueOf(resources.getString("actualFormat").replace(".", ""));
+			
 		}catch(Exception ex){
 			return;
 		}		
-	}
+	}	
 	
 	public void setShortInfo(String shortinfo){
 		//Log.i("parse planet info", shortinfo);
@@ -63,18 +95,16 @@ public class Planet {
 		this.shortInfo = shortinfo;
 	}
 	
+	public String getUpdatedResources(){
+		long timeDiff = SystemClock.elapsedRealtime() - timeLastAjaxCall;
+		int m = this.metal + (int) (this.metalProduction * timeDiff / 1000);
+		int k = this.crystal + (int) (this.crystalProduction * timeDiff / 1000);
+		int d = this.deuterium + (int) (this.deuteriumProduction * timeDiff / 1000);
+		return "M: " + m + " K: " + k + " D: " + d + " E: " + this.energy;
+	}
+	
 	public String getResources(){
 		return "M: " + this.metal + " K: " + this.crystal + " D: " + this.deuterium + " E: " + this.energy;
-	}
-
-	private int getvalue(JSONObject json, String key){
-		try{
-	    	JSONObject metal = json.getJSONObject(key);
-	    	JSONObject resources = metal.getJSONObject("resources");
-			return Integer.valueOf(resources.getString("actualFormat").replace(".", ""));
-		}catch(Exception ex){
-			return 0;
-		}
 	}
 	
 	public int getId(){
