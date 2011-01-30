@@ -167,7 +167,7 @@ public class Tools {
 			
 			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
 			m.setRecources(
-					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_METALL), 
+					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_METAL), 
 					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_CRYSTAL), 
 					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_DEUTERIUM)
 					);		

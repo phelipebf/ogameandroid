@@ -109,7 +109,8 @@ public class ObjectListActivity extends ListActivity {
 		
 		//object can't be built at the moment
 		if("disabled".equals(b.getStatus())){
-			Toast.makeText(getApplicationContext(), R.string.error_send_command, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.error_send_command) + "\n" +
+													Tools.sec2str(b.getBuildableIn(MainTabActivity.game.getCurrentPlanet())), Toast.LENGTH_SHORT).show();
 			return;
 		} else if("off".equals(b.getStatus())){
 			final ProgressDialog loaderDialog = new ProgressDialog(this);					

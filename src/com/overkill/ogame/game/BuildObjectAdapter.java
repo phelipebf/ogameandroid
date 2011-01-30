@@ -91,7 +91,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				metall.setVisibility(View.VISIBLE);
 				((ImageView) v.findViewById(R.id.image_metall)).setVisibility(View.VISIBLE);	
 				metall.setText(String.valueOf(b.getMetall()));
-				if (b.hasMetall())
+				if (b.hasMetal())
 					metall.setTextColor(Color.GREEN);
 				else
 					metall.setTextColor(Color.RED);	
