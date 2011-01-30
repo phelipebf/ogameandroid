@@ -166,7 +166,7 @@ public class Tools {
 			Log.i("parse", name + "|" + id + "|" + status + "|" + level);
 			
 			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
-			m.setRecources(
+			m.setResources(
 					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_METAL), 
 					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_CRYSTAL), 
 					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_DEUTERIUM)

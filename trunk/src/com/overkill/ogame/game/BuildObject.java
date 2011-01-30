@@ -58,7 +58,7 @@ public class BuildObject {
 		}
 	}
 	
-	public void setRecources(int metall, int crystal, int deuterium){
+	public void setResources(int metall, int crystal, int deuterium){
 		this.metal = metall;
 		this.crystal = crystal;
 		this.deuterium = deuterium;
@@ -89,18 +89,26 @@ public class BuildObject {
 //		this.timeLeft = Tools.str2sec(timestring);
 //	}
 	
-	public String getBuildTime(GameClient game){
+	public String getBuildTime(GameClient game) {
+				
+		/*int robot = game.getCurrentPlanet().getRoboticsFactoryLevel();
+		int nanity = game.getCurrentPlanet().getNaniteFactoryLevel();
+		int buildTime = (int) Math.floor(3600 * (this.metal + this.crystal) / (2500 * (robot + 1)) * Math.pow(0.5, nanity));
+		return Tools.sec2str(buildTime);*/
 		String html = game.get("page=resources&ajax=1&type=" + String.valueOf(this.id));
 		html = Tools.between(html, "<span class=\"time\">", "</span>").trim();
 		return html;
 	}
 	
-	public String getTechTree(GameClient game){
+	public String getTechnologyNeeded(GameClient game){
 		String ret = "";
-		String html = game.get("page=globalTechtree");
-		Document doc = Jsoup.parse(html);
+		Planet currentPlanet = game.getCurrentPlanet();
+		if(currentPlanet.getGlobalTechtree() == null) {
+			String html = game.get("page=globalTechtree");
+			currentPlanet.setGlobalTechtree(Jsoup.parse(html));
+		}
 		String imgSelector = "img[src$=tiny_" + String.valueOf(this.id) + ".jpg]";
-		Elements images = doc.select(imgSelector);
+		Elements images = currentPlanet.getGlobalTechtree().select(imgSelector);
 		if(images.size() == 0) {
 			ret = "not found";
 		} else {
