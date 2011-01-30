@@ -6,19 +6,19 @@ package com.overkill.ogame.game;
  *
  */
 public class Item {
-	public static final int RESOURCE_METALL = 1;
+	public static final int RESOURCE_METAL = 1;
 	public static final int RESOURCE_CRYSTAL = 2;
 	public static final int RESOURCE_DEUTERIUM = 3;
 	public static final int RESOURCE_ENERGY = 4;
 	
-	public static final int BUIDLING_METALL = 1;
-	public static final int BUIDLING_KRISTALL = 2;
+	public static final int BUIDLING_METAL = 1;
+	public static final int BUIDLING_CRYSTAL = 2;
 	public static final int BUIDLING_DEUTERIUM = 3;
 	public static final int BUIDLING_SOLAR = 4;
 	public static final int BUIDLING_FUSION = 12;
 	
-	public static final int BUIDLING_STORE_METALL = 22;
-	public static final int BUIDLING_STORE_KRISTALL = 23;
+	public static final int BUIDLING_STORE_METAL = 22;
+	public static final int BUIDLING_STORE_CRYSTAL = 23;
 	public static final int BUIDLING_STORE_DEUTERIUM = 24;
 	
 	public static final int BUIDLING_ROBOTER = 14;	

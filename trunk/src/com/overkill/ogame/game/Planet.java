@@ -170,7 +170,7 @@ public class Planet {
 	
 	public double getProduction(int resource){
 		switch(resource){
-			case Item.RESOURCE_METALL: return this.metalProduction;
+			case Item.RESOURCE_METAL: return this.metalProduction;
 			case Item.RESOURCE_CRYSTAL: return this.crystalProduction;
 			case Item.RESOURCE_DEUTERIUM: return this.deuteriumProduction;
 			default: return 0;		
