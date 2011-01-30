@@ -2,12 +2,12 @@ package com.overkill.ogame.game;
 
 /**
  * ItemIds
- * @author Stephan
+ * @author ov3rk1ll
  *
  */
 public class Item {
 	public static final int RESOURCE_METALL = 1;
-	public static final int RESOURCE_KRISTALL = 2;
+	public static final int RESOURCE_CRYSTAL = 2;
 	public static final int RESOURCE_DEUTERIUM = 3;
 	public static final int RESOURCE_ENERGY = 4;
 	

@@ -97,14 +97,14 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					metall.setTextColor(Color.RED);	
 			}	
 			
-			if(b.getKristal() == 0){
+			if(b.getCrystal() == 0){
 				kristal.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_kristal)).setVisibility(View.GONE);				
 			}else{
 				kristal.setVisibility(View.VISIBLE);
 				((ImageView) v.findViewById(R.id.image_kristal)).setVisibility(View.VISIBLE);	
-				kristal.setText(String.valueOf(b.getKristal()));
-				if (b.hasKristal())
+				kristal.setText(String.valueOf(b.getCrystal()));
+				if (b.hasCrystal())
 					kristal.setTextColor(Color.GREEN);
 				else
 					kristal.setTextColor(Color.RED);	

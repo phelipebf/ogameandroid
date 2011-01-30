@@ -21,11 +21,11 @@ public class BuildObject {
 	private int timeLeft = 0;
 	
 	private int metall = 0;
-	private int kristal = 0;
+	private int crystal = 0;
 	private int deuterium = 0;
 	
 	private boolean hasMetall = false;
-	private boolean hasKristal = false;
+	private boolean hasCrystal = false;
 	private boolean hasDeuterium = false;
 	
 	//false: menge = 1
@@ -60,13 +60,13 @@ public class BuildObject {
 	
 	public void setRecources(int metall, int kristal, int deuterium){
 		this.metall = metall;
-		this.kristal = kristal;
+		this.crystal = kristal;
 		this.deuterium = deuterium;
 	}
 	
 	public int getMax(int curMetall, int curKrisal, int curDeut){
 		int max_m = curMetall/metall; 
-		int max_k = curKrisal/kristal; 
+		int max_k = curKrisal/crystal; 
 		int max_d = curDeut/deuterium; 
 		return Math.min(Math.min(max_m, max_k), max_d);
 	}
@@ -75,7 +75,7 @@ public class BuildObject {
 		int max_m = planet.getMetal(); 
 		if(metall > 0) max_m = planet.getMetal() / metall; 
 		int max_k = planet.getCrystal();
-		if(kristal > 0) max_k = planet.getCrystal() / kristal; 
+		if(crystal > 0) max_k = planet.getCrystal() / crystal; 
 		int max_d = planet.getDeuterium();
 		if(deuterium > 0) max_d = planet.getDeuterium() / deuterium; 
 		return Math.min(Math.min(max_m, max_k), max_d);
@@ -114,14 +114,30 @@ public class BuildObject {
 		return ret;
 	}
 	
+	public int getBuildableIn(Planet p){
+		int sec_metal = 0;
+		if(this.metall - p.getMetal() > 0)
+			sec_metal = (int) ((this.metall - p.getMetal()) / p.getProduction(Item.RESOURCE_METALL));
+		
+		int sec_crystal = 0;
+		if(this.crystal - p.getCrystal() > 0)
+			sec_crystal = (int) ((this.metall - p.getMetal()) / p.getProduction(Item.RESOURCE_METALL));
+		
+		int sec_deuterium = 0;
+		if(this.deuterium - p.getMetal() > 0)
+			sec_deuterium = (int) ((this.metall - p.getMetal()) / p.getProduction(Item.RESOURCE_METALL));
+		
+		return Math.min(sec_metal, Math.min(sec_crystal, sec_deuterium));
+	}
+	
 	public void checkRecources(int metall, int kristal, int deuterium){
 		this.hasMetall = false;
-		this.hasKristal = false;
+		this.hasCrystal = false;
 		this.hasDeuterium = false;
 		if(metall >= this.metall)
 			this.hasMetall = true;
-		if(kristal >= this.kristal)
-			this.hasKristal = true;
+		if(kristal >= this.crystal)
+			this.hasCrystal = true;
 		if(deuterium >= this.deuterium)
 			this.hasDeuterium = true;
 	}
@@ -165,8 +181,8 @@ public class BuildObject {
 		return metall;
 	}
 
-	public int getKristal() {
-		return kristal;
+	public int getCrystal() {
+		return crystal;
 	}
 
 	public int getDeuterium() {
@@ -177,8 +193,8 @@ public class BuildObject {
 		return hasMetall;
 	}
 
-	public boolean hasKristal() {
-		return hasKristal;
+	public boolean hasCrystal() {
+		return hasCrystal;
 	}
 
 	public boolean hasDeuterium() {
