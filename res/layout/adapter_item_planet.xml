@@ -13,8 +13,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_width="48px"
-        android:layout_height="48px" />
+        android:layout_width="48dip"
+        android:layout_height="48dip" />
 
     <TextView
         android:id="@+id/name"

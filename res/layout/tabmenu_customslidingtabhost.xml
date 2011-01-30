@@ -34,12 +34,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<LinearLayout android:id="@+id/contentViewLayout" 
-		android:orientation="vertical"
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent" 
-		android:background="#EEE" android:layout_marginBottom="55dip" />
-
     	
 	<HorizontalScrollView
     	android:id="@+id/bottomBar"
@@ -48,7 +42,7 @@
     	android:scrollbarSize="2dip"
     	android:layout_alignParentBottom="true" 
     	android:layout_width="fill_parent"
-    	android:background="@drawable/bottom_bar" android:layout_height="55dip">
+    	android:background="@drawable/bottom_bar" android:layout_height="wrap_content">
     	<RadioGroup
         		android:layout_width="fill_parent"
         		android:layout_height="wrap_content"
@@ -56,4 +50,10 @@
         		android:id="@+id/bottomMenu">
     	</RadioGroup>
 	</HorizontalScrollView>	
+	
+	<LinearLayout android:id="@+id/contentViewLayout" 
+		android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent" 
+		android:background="#EEE" android:layout_above="@id/bottomBar" />
 </RelativeLayout>
