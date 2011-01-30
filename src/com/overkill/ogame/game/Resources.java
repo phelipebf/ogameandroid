@@ -1,6 +1,14 @@
 package com.overkill.ogame.game;
 
 public class Resources {
+	
+	/**
+	 * Calculate the resources needed for the requested level of a building
+	 * @param building
+	 * @param level
+	 * @param resource
+	 * @return
+	 */
 	public static int calc(int building, int level, int resource){
 		switch(building){
 			case Item.BUIDLING_METAL:

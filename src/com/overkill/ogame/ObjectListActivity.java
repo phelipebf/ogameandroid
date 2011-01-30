@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.overkill.ogame.game.BuildObject;
 import com.overkill.ogame.game.BuildObjectAdapter;
+import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Tools;
 
 import android.app.AlertDialog;
@@ -68,6 +69,9 @@ public class ObjectListActivity extends ListActivity {
 	}
 	
 	public boolean onContextItemSelected(MenuItem item) {
+		return false;
+		  /* we still need it?
+		  
 		  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		  final BuildObject b = (BuildObject)getListAdapter().getItem(info.position);
 		  switch (item.getItemId()) {
@@ -100,25 +104,30 @@ public class ObjectListActivity extends ListActivity {
 			return true;
 		  default:
 		    return super.onContextItemSelected(item);
-		  }
+		  }*/
 		}
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, final int position, long id) {
 		super.onListItemClick(l, v, position, id);	
 		final BuildObject b = (BuildObject)getListAdapter().getItem(position);
+	    final AlertDialog.Builder dialog = new AlertDialog.Builder(ObjectListActivity.this);
 		
-		//object can't be built at the moment
-		if("disabled".equals(b.getStatus())){
-			Toast.makeText(getApplicationContext(), getString(R.string.error_send_command) + "\n" +
-													Tools.sec2str(b.getBuildableIn(MainTabActivity.game.getCurrentPlanet())), Toast.LENGTH_SHORT).show();
-			return;
-		} else if("off".equals(b.getStatus())){
+		if("disabled".equals(b.getStatus())){ //not enough resources
+		    dialog.setTitle(R.string.not_available);
+		    dialog.setMessage(getString(R.string.buildable_in, Tools.sec2str(b.getBuildableIn(MainTabActivity.game.getCurrentPlanet()))));
+		    dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		    	public void onClick(DialogInterface dialog, int whichButton) {	
+		    			dialog.cancel();
+		    		}
+		    	});
+		    dialog.show();
+		} else if("off".equals(b.getStatus())){ //not buildable yet
 			final ProgressDialog loaderDialog = new ProgressDialog(this);					
 			loaderDialog.setMessage(getString(R.string.loading));
 			
-		    final AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
-	    	alert.setTitle(R.string.more);
-	    	alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		    dialog.setTitle(R.string.requirements);
+		    dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int whichButton) {	
 		    			dialog.cancel();
 		    		}
@@ -126,27 +135,23 @@ public class ObjectListActivity extends ListActivity {
 	    	Thread t = new Thread(new Runnable() {					
 				@Override
 				public void run() {
-					final String msg = b.getTechTree(MainTabActivity.game);	
+					final String msg = b.getTechnologyNeeded(MainTabActivity.game);	
 					runOnUiThread(new Runnable() {							
 						@Override
 						public void run() {
 							loaderDialog.cancel();
-							alert.setMessage(msg);	
-					    	alert.show();				
+							dialog.setMessage(msg);	
+							dialog.show();
 						}
 					});						
 				}
 			});
 	    	loaderDialog.show();
 	    	t.start();
-			return;
-		}
-		
-		//if we can build more than one
-		if(b.needsValue()){
-			AlertDialog.Builder valueRequest = new AlertDialog.Builder(ObjectListActivity.this);
-	    	valueRequest.setTitle(R.string.new_command);
-	    	valueRequest.setMessage(getString(R.string.enter_amount));
+		} else if(b.needsValue()){ //Object that can be build more than once
+			dialog.setTitle(R.string.new_command);
+			dialog.setMessage(getString(R.string.enter_amount));
+			
 	    	//Build Input field
 	    	LinearLayout layout = new LinearLayout(this);
 	    	layout.setOrientation(LinearLayout.VERTICAL);
@@ -162,65 +167,90 @@ public class ObjectListActivity extends ListActivity {
 	    	btn_all.setOnClickListener(new Button.OnClickListener() {				
 				@Override
 				public void onClick(View v) {
-					input.setText(String.valueOf(b.getMax(MainTabActivity.game.getCurrentPlanet())));
+					input.setText(btn_all.getText());
 				}
 			});
 	    	layout.addView(btn_all);
 	    	
-	    	valueRequest.setView(layout);
+	    	dialog.setView(layout);
 	    	
-	    	valueRequest.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+	    	dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int whichButton) {
 		    		String value = input.getText().toString();	    	
-					askBuild(b, Integer.valueOf(value));
-		    	  }
-		    	});
-	    	valueRequest.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-		    	  public void onClick(DialogInterface dialog, int whichButton) {
-		    		  dialog.cancel();
-		    	  }
-		    	});
-	    	valueRequest.show();
-		}else{	//Object can only be built once	
-			askBuild(b, 1);
+		    		askBuildWithTime(b, Integer.valueOf(value));
+		    	}
+		    });
+	    	dialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+		    	public void onClick(DialogInterface dialog, int whichButton) {
+		    		dialog.cancel();
+		    	}
+		    });
+	    	dialog.show();
+		} else {	//Object can only be built once	
+			askBuildWithTime(b, 1);
 		}
 	}
 	
-	//show a question to the user and sends the build request if user clicks yes
-	private void askBuild(final BuildObject b, final int amount){
-		final ProgressDialog loaderDialog = new ProgressDialog(this);				
-		loaderDialog.setMessage(getString(R.string.send_command));
-		//thread to send build request to server
-		final Thread buildThread = new Thread(new Runnable() {	
+	//get build time
+	private void askBuildWithTime(final BuildObject b, final int amount) {
+
+		final ProgressDialog loaderDialog = new ProgressDialog(this);					
+		loaderDialog.setMessage(getString(R.string.loading));
+		
+    	Thread t = new Thread(new Runnable() {					
 			@Override
-			public void run() {				
-				/*int c = */MainTabActivity.game.build(b.getId(), amount, pageKey, token);	
-				// TODO alarm in c sec
-				((MainTabActivity) getParent()).reloadTitleData();
-				//Hide the loader and tell the user that the request was sent
-				runOnUiThread(new Runnable() {					
+			public void run() {
+				//Build question for user
+				String ask = "";
+				if(amount > 1) {
+					ask = getString(R.string.ask_with_count, amount, b.getName());
+				} else {
+					ask = getString(R.string.ask_no_count, b.getName());
+				}
+				ask += "\n" + getString(R.string.building_time, b.getBuildTime(MainTabActivity.game));
+				final String msg = ask;
+				runOnUiThread(new Runnable() {							
 					@Override
 					public void run() {
-						Toast.makeText(getApplicationContext(), getString(R.string.now_building, b.getName()), Toast.LENGTH_SHORT).show();
 						loaderDialog.cancel();
-						loadData();
+						askBuild(b, amount, msg);
 					}
-				});
+				});						
 			}
-		});	
-		//Build question for user
-		String ask = "";
-		if(amount > 1)
-			ask = getString(R.string.ask_with_count, amount, b.getName());
-		else
-			ask = getString(R.string.ask_no_count, b.getName());
-
+		});
+    	loaderDialog.show();
+    	t.start();		
+	}
+	
+	//show a question to the user and sends the build request if user clicks yes
+	private void askBuild(final BuildObject b, final int amount, final String msg){
+		
 		AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
     	alert.setTitle(R.string.new_command);
-    	alert.setMessage(ask);
+    	alert.setMessage(msg);
     	alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-	    	public void onClick(DialogInterface dialog, int whichButton) {	
-	    		loaderDialog.show();			
+	    	public void onClick(DialogInterface dialog, int whichButton) {
+	    		final ProgressDialog loaderDialog = new ProgressDialog(ObjectListActivity.this);	
+	    		loaderDialog.setMessage(getString(R.string.send_command));
+	    		loaderDialog.show();	
+	    		//thread to send build request to server
+	    		final Thread buildThread = new Thread(new Runnable() {	
+	    			@Override
+	    			public void run() {				
+	    				/*int c = */MainTabActivity.game.build(b.getId(), amount, pageKey, token);	
+	    				// TODO alarm in c sec
+	    				((MainTabActivity) getParent()).reloadTitleData();
+	    				//Hide the loader and tell the user that the request was sent
+	    				runOnUiThread(new Runnable() {					
+	    					@Override
+	    					public void run() {
+	    						Toast.makeText(getApplicationContext(), getString(R.string.now_building, b.getName()), Toast.LENGTH_SHORT).show();
+	    						loaderDialog.cancel();
+	    						loadData();
+	    					}
+	    				});
+	    			}
+	    		});			
 	    		buildThread.start();
 	    	  }
 	    	});
@@ -248,11 +278,13 @@ public class ObjectListActivity extends ListActivity {
 				if(body.contains("name='token'")){
 					token = Tools.between(body, "name='token' value='", "'");					
 				}
+
+				Planet currentPlanet = MainTabActivity.game.getCurrentPlanet();	
+				currentPlanet.setGlobalTechtree(null);//reset techtree
 				
-				
-				ArrayList<BuildObject> objectlist = Tools.parseObjectList(body, ulKey[0], liKey[0], MainTabActivity.game.getCurrentPlanet(), ObjectListActivity.this);
+				ArrayList<BuildObject> objectlist = Tools.parseObjectList(body, ulKey[0], liKey[0], currentPlanet, ObjectListActivity.this);
 				for(int i=1; i < ulKey.length; i++){
-					ArrayList<BuildObject> o = Tools.parseObjectList(body, ulKey[i], liKey[i], MainTabActivity.game.getCurrentPlanet(), ObjectListActivity.this);
+					ArrayList<BuildObject> o = Tools.parseObjectList(body, ulKey[i], liKey[i], currentPlanet, ObjectListActivity.this);
 					objectlist.addAll(o);
 				}
 				adapter = new BuildObjectAdapter(ObjectListActivity.this, R.layout.adapter_item_object, objectlist);

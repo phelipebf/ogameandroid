@@ -1,6 +1,8 @@
 package com.overkill.ogame.game;
 
 import org.json.JSONObject;
+import org.jsoup.nodes.Document;
+
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 
@@ -30,6 +32,8 @@ public class Planet {
 	private long timeLastAjaxCall;
 	
 	private Planet moon = null;
+	
+	private Document globalTechtree = null;
 	
 	private boolean is_moon;
 	
@@ -95,16 +99,12 @@ public class Planet {
 		this.shortInfo = shortinfo;
 	}
 	
-	public String getUpdatedResources(){
-		long timeDiff = SystemClock.elapsedRealtime() - timeLastAjaxCall;
-		int m = this.metal + (int) (this.metalProduction * timeDiff / 1000);
-		int k = this.crystal + (int) (this.crystalProduction * timeDiff / 1000);
-		int d = this.deuterium + (int) (this.deuteriumProduction * timeDiff / 1000);
-		return "M: " + m + " K: " + k + " D: " + d + " E: " + this.energy;
+	private long getTimeFromLastAjaxCall() {
+		return SystemClock.elapsedRealtime() - timeLastAjaxCall;
 	}
 	
 	public String getResources(){
-		return "M: " + this.metal + " K: " + this.crystal + " D: " + this.deuterium + " E: " + this.energy;
+		return "M: " + getMetal() + " K: " + getCrystal() + " D: " + getDeuterium() + " E: " + this.energy;
 	}
 	
 	public int getId(){
@@ -132,15 +132,15 @@ public class Planet {
 	}
 	
 	public int getMetal() {
-		return metal;
+		return this.metal + (int) (this.metalProduction * getTimeFromLastAjaxCall() / 1000);
 	}
 
 	public int getCrystal() {
-		return crystal;
+		return this.crystal + (int) (this.crystalProduction * getTimeFromLastAjaxCall() / 1000);
 	}
 
 	public int getDeuterium() {
-		return deuterium;
+		return this.deuterium + (int) (this.deuteriumProduction * getTimeFromLastAjaxCall() / 1000);
 	}
 
 	public int getEnergy() {
@@ -176,7 +176,12 @@ public class Planet {
 			default: return 0;		
 		}
 	}
-	
-	
-	
+
+	public Document getGlobalTechtree() {
+		return globalTechtree;
+	}
+
+	public void setGlobalTechtree(Document globalTechtree) {
+		this.globalTechtree = globalTechtree;
+	}
 }

@@ -27,6 +27,8 @@
 	<string name="login_button">Login</string>
 	
 	<string name="more">More</string>
+	<string name="requirements">Requirements</string>
+	<string name="not_available">Not available</string>
 	
 	<string name="fleet_info_title">Fleet Information</string>
 	<string name="new_mission">New Mission</string>
@@ -41,6 +43,8 @@
 	<string name="ask_with_count" formatted="false">Send command for %d %s?</string>
 	<string name="ask_no_count">Send command for %s?</string>
 	<string name="now_building">%s is now being built.</string>
+	<string name="building_time">Building time: %s</string>
+	<string name="buildable_in">Not enough resources\nBuildable in: %s</string>
 	<string name="loading">Loading...</string>
 	<string name="change_planet">Switching to \"%s\"</string>
 	

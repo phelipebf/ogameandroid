@@ -220,7 +220,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 			@Override
 			public void onClick(View v) {
 				final Planet p1 = MainTabActivity.game.getCurrentPlanet();
-				setInfo(p1.getUpdatedResources());
+				setInfo(p1.getResources());
 			}
 		});
         

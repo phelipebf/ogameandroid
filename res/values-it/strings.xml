@@ -25,6 +25,10 @@
 <string name="username">Username</string>
 <string name="password">Password</string>
 <string name="login_button">Login</string>
+	
+<string name="more">Altro</string>
+<string name="requirements">Requisiti</string>
+<string name="not_available">Non disponibile</string>
 
 <string name="fleet_info_title">Info sulla flotta</string>
 <string name="new_mission">Nuova missione</string>
@@ -39,6 +43,8 @@
 <string name="ask_with_count" formatted="false">Invia comando per %d %s?</string>
 <string name="ask_no_count">Invia comando per %s?</string>
 <string name="now_building">%s in costruzione.</string>
+<string name="building_time">Tempo di costruzione: %s</string>
+<string name="buildable_in">Risorse non sufficienti\nCostruibile tra: %s</string>
 <string name="loading">Caricamento...</string>
 <string name="change_planet">Switching to \"%s\"</string>
 
