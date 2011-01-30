@@ -168,6 +168,15 @@ public class Planet {
 		this.is_moon = isMoon;
 	}
 	
+	public double getProduction(int resource){
+		switch(resource){
+			case Item.RESOURCE_METALL: return this.metalProduction;
+			case Item.RESOURCE_CRYSTAL: return this.crystalProduction;
+			case Item.RESOURCE_DEUTERIUM: return this.deuteriumProduction;
+			default: return 0;		
+		}
+	}
+	
 	
 	
 }

@@ -215,7 +215,7 @@ public class ObjectListActivity extends ListActivity {
 			ask = getString(R.string.ask_no_count, b.getName());
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
-    	alert.setTitle("Bauauftrag");
+    	alert.setTitle(R.string.new_command);
     	alert.setMessage(ask);
     	alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 	    	public void onClick(DialogInterface dialog, int whichButton) {	
