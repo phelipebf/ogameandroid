@@ -44,6 +44,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
@@ -144,9 +145,11 @@ public class RadioStateDrawable extends Drawable{
 	
 	@Override
 	public void draw(Canvas canvas) {
+		//Converting px to dip to scale up on hdpi devices      
+        final float scale = this.context.getResources().getDisplayMetrics().density;   
 		
-		int bwidth = bitmap.getWidth();
-		int bheight = bitmap.getHeight();
+		int bwidth = (int) (bitmap.getWidth() * scale);
+		int bheight = (int) (bitmap.getHeight() * scale);
 		/*
 		if (width==0)
 		{
@@ -154,23 +157,29 @@ public class RadioStateDrawable extends Drawable{
 			width=screen_width/5;
 		}*/
 		int x = (width-bwidth)/2;
-		int y = 2;
+		int y = (int) (2 * scale);
 
 		canvas.drawColor(Color.TRANSPARENT);
 		Paint p = new Paint();
 		
 		p.setColor(Color.WHITE);
         p.setStyle(Paint.Style.FILL);
-		p.setTextSize(10);
+        
+        
+		p.setTextSize((int) (10 * scale));
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setFakeBoldText(true);
 		p.setTextAlign(Align.CENTER);
 		p.setShader(textShader);
 		p.setAntiAlias(true);
-		canvas.drawText(label, width/2 ,y+bheight+8, p);
+		canvas.drawText(label, width/2, y + bheight + (8 * scale), p);
 		
 		p.setShader(shader);
-		canvas.drawBitmap(bitmap, x, y, p);
+		//canvas.drawBitmap(bitmap, x, y, p);
+		canvas.drawBitmap(bitmap,
+							new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+							new Rect(x, y, bwidth + x, bheight + y),
+							p );	
 	}
 
 	@Override
