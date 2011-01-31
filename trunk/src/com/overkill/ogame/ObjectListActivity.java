@@ -2,6 +2,8 @@ package com.overkill.ogame;
 
 import java.util.ArrayList;
 
+import org.apache.http.message.BasicNameValuePair;
+
 import com.overkill.ogame.game.BuildObject;
 import com.overkill.ogame.game.BuildObjectAdapter;
 import com.overkill.ogame.game.Planet;
@@ -61,16 +63,16 @@ public class ObjectListActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 	  super.onCreateContextMenu(menu, v, menuInfo);
-	  AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+	  /*AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 	  menu.add(0, 2, 0, R.string.more);
 	  BuildObject b = (BuildObject)getListAdapter().getItem(info.position);
 	  if(b.getTimeLeft() > 0)
-		  menu.add(0, 1, 0, android.R.string.cancel);
+		  menu.add(0, 1, 0, android.R.string.cancel);*/
 	}
 	
 	public boolean onContextItemSelected(MenuItem item) {
-		return false;
-		  /* we still need it?
+		return super.onContextItemSelected(item);
+		  /* do we still need it?
 		  
 		  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		  final BuildObject b = (BuildObject)getListAdapter().getItem(info.position);
@@ -116,38 +118,70 @@ public class ObjectListActivity extends ListActivity {
 		if("disabled".equals(b.getStatus())){ //not enough resources
 		    dialog.setTitle(R.string.not_available);
 		    dialog.setMessage(getString(R.string.buildable_in, Tools.sec2str(b.getBuildableIn(MainTabActivity.game.getCurrentPlanet()))));
-		    dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-		    	public void onClick(DialogInterface dialog, int whichButton) {	
-		    			dialog.cancel();
-		    		}
-		    	});
+		    dialog.setPositiveButton(android.R.string.ok, cancelDialog());
 		    dialog.show();
-		} else if("off".equals(b.getStatus())){ //not buildable yet
-			final ProgressDialog loaderDialog = new ProgressDialog(this);					
-			loaderDialog.setMessage(getString(R.string.loading));
-			
-		    dialog.setTitle(R.string.requirements);
-		    dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-		    	public void onClick(DialogInterface dialog, int whichButton) {	
-		    			dialog.cancel();
-		    		}
-		    	});
-	    	Thread t = new Thread(new Runnable() {					
-				@Override
-				public void run() {
-					final String msg = b.getTechnologyNeeded(MainTabActivity.game);	
-					runOnUiThread(new Runnable() {							
-						@Override
-						public void run() {
-							loaderDialog.cancel();
-							dialog.setMessage(msg);	
-							dialog.show();
+		} else if("off".equals(b.getStatus())){
+			if(b.getTimeLeft() > 0) { //in queue
+				dialog.setTitle(R.string.in_queue);
+				String message = getString(R.string.time_to_complete, Tools.sec2str(b.getTimeLeft()));
+				if("resources".equals(pageKey) || "station".equals(pageKey) || "research".equals(pageKey)) {//cancellable
+					message += "\n" + getString(R.string.cancel_upgrade);
+					dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							final ProgressDialog loaderDialog = new ProgressDialog(ObjectListActivity.this);	
+							loaderDialog.setMessage(getString(R.string.send_command));
+							loaderDialog.show();	
+							//thread to send cancel request to server
+							final Thread buildThread = new Thread(new Runnable() {	
+								@Override
+								public void run() {				
+									MainTabActivity.game.cancelBuild(b.getId(), pageKey);
+									((MainTabActivity) getParent()).reloadTitleData();
+									//Hide the loader and tell the user that the request was sent
+									runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											//remove old countdown (fixes stacking)
+											h_countdown.removeCallbacks(t_countdown);
+											loaderDialog.cancel();
+											Toast.makeText(getApplicationContext(), getString(R.string.expansion_cancelled, b.getName()), Toast.LENGTH_SHORT).show();
+											loadData();
+										}
+									});
+								}
+							});			
+							buildThread.start();
 						}
-					});						
+					});
+			    	dialog.setNegativeButton(android.R.string.cancel, cancelDialog());									
+				} else {//not cancellable
+					dialog.setPositiveButton(android.R.string.ok, cancelDialog());					
 				}
-			});
-	    	loaderDialog.show();
-	    	t.start();
+				dialog.setMessage(message);
+				dialog.show();
+			} else {//not buildable yet		
+				final ProgressDialog loaderDialog = new ProgressDialog(this);					
+				loaderDialog.setMessage(getString(R.string.loading));
+				
+				dialog.setTitle(R.string.requirements);
+				dialog.setPositiveButton(android.R.string.ok, cancelDialog());
+				Thread t = new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						final String msg = b.getTechnologyNeeded(MainTabActivity.game);	
+						runOnUiThread(new Runnable() {							
+							@Override
+							public void run() {
+								loaderDialog.cancel();
+								dialog.setMessage(msg);	
+								dialog.show();
+							}
+						});						
+					}
+				});
+				loaderDialog.show();
+				t.start();
+			}
 		} else if(b.needsValue()){ //Object that can be build more than once
 			dialog.setTitle(R.string.new_command);
 			dialog.setMessage(getString(R.string.enter_amount));
@@ -180,16 +214,20 @@ public class ObjectListActivity extends ListActivity {
 		    		askBuildWithTime(b, Integer.valueOf(value));
 		    	}
 		    });
-	    	dialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-		    	public void onClick(DialogInterface dialog, int whichButton) {
-		    		dialog.cancel();
-		    	}
-		    });
+	    	dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
 	    	dialog.show();
 		} else {	//Object can only be built once	
 			askBuildWithTime(b, 1);
 		}
 	}
+	
+	private DialogInterface.OnClickListener cancelDialog() { 
+		return new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int whichButton) {
+	    		dialog.cancel();
+	    	}
+		};
+    }
 	
 	//get build time
 	private void askBuildWithTime(final BuildObject b, final int amount) {
@@ -254,11 +292,7 @@ public class ObjectListActivity extends ListActivity {
 	    		buildThread.start();
 	    	  }
 	    	});
-    	alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-	    	  public void onClick(DialogInterface dialog, int whichButton) {
-	    		  dialog.cancel();
-	    	  }
-	    	});
+    	alert.setNegativeButton(android.R.string.no, cancelDialog());
     	alert.show();
 	}
 	

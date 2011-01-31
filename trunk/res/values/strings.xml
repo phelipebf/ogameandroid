@@ -47,6 +47,10 @@
 	<string name="buildable_in">Not enough resources\nBuildable in: %s</string>
 	<string name="loading">Loading...</string>
 	<string name="change_planet">Switching to \"%s\"</string>
+	<string name="in_queue">In queue</string>
+	<string name="time_to_complete">Time to complete: %s</string>
+	<string name="cancel_upgrade">Cancel upgrade?</string>
+	<string name="expansion_cancelled">Expansion cancelled</string>
 	
 	<string name="settings_display">Display Settings</string>
 	<string name="settings_disabled">Hide inactive</string>
