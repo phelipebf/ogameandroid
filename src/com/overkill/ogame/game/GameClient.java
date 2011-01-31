@@ -280,6 +280,25 @@ public class GameClient{
 	}
 	
 	/**
+	 * Sends a cancel upgrade request to the server 
+	 * @param objectID
+	 * @param pageKey
+	 */
+	public void cancelBuild(int objectID, String pageKey) {
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("modus", "2"));
+		if("resources".equals(pageKey) || "station".equals(pageKey)) {
+			postData.add(new BasicNameValuePair("listid", "1"));
+	        postData.add(new BasicNameValuePair("techid", String.valueOf(objectID)));			
+		} else if("research".equals(pageKey)) {
+	        postData.add(new BasicNameValuePair("type", String.valueOf(objectID)));			
+		} else {
+			return;
+		}
+        this.execute("page=" + pageKey, postData, "");	
+	}
+	
+	/**
 	 * Send the request to change the current planet
 	 * @param id The id of the taget planet
 	 */

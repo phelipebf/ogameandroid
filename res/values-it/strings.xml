@@ -47,6 +47,10 @@
 <string name="buildable_in">Risorse non sufficienti\nCostruibile tra: %s</string>
 <string name="loading">Caricamento...</string>
 <string name="change_planet">Switching to \"%s\"</string>
+<string name="in_queue">In coda</string>
+<string name="time_to_complete">Tempo residuo: %s</string>
+<string name="cancel_upgrade">Cancellare l\'upgrade?</string>
+<string name="expansion_cancelled">Upgrade cancellato</string>
 
 <string name="settings_display">Impostazioni display</string>
 <string name="settings_disabled">Nascondi inattive</string>
