@@ -128,7 +128,7 @@ public class Galaxy {
 					//trim off icon if there is one
 					if(planetActivity.contains("<"))
 						planetActivity = planetActivity.substring(0, planetActivity.indexOf("<")).trim();
-					planet.setPlanetActivity(planetActivity);
+					planet.setPlanetActivity(Tools.htmlconvert(planetActivity));
 				}
 				
 				planet.setPlanetCoords(microplanet.select("#pos-planet").text());
