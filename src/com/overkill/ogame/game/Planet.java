@@ -184,4 +184,14 @@ public class Planet {
 	public void setGlobalTechtree(Document globalTechtree) {
 		this.globalTechtree = globalTechtree;
 	}
+		
+	public int getGalaxy(){
+		String parts[] = coordinates.substring(1).split(":"); //cut of leading [ 
+		return Integer.valueOf(parts[0]);
+	}
+	
+	public int getSystem(){
+		String parts[] = coordinates.substring(1).split(":"); //cut of leading [ 
+		return Integer.valueOf(parts[1]);
+	}
 }
