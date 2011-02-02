@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.overkill.ogame.R;
@@ -34,8 +35,11 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 		}
 		GalaxyPlanet p = this.system.getPlanet(position + 1);
 		if (p != null) {			
-			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName());
-			((TextView) v.findViewById(R.id.txt_player)).setText(String.valueOf(p.getPlayerName()));
+			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName() + " " + p.getPlanetActivity());
+			((TextView) v.findViewById(R.id.txt_player)).setText(String.valueOf(p.getPlayerName()) + " #" + p.getPlayerRank());
+			//((ImageView) v.findViewById(R.id.img_moon)).setVisibility(p.getMoon() == null ? View.INVISIBLE : View.VISIBLE);
+			((ImageView) v.findViewById(R.id.img_debris)).setVisibility(p.getDebrisRecyclersNeeded() == null ? View.INVISIBLE : View.VISIBLE);
+			
 		}
 		return v;
 	}

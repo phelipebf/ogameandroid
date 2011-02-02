@@ -19,6 +19,20 @@ public class Tools {
 	
 	public static String filesDir;
 	
+	/**
+	 * Converts an html escapted Umlaut into the real char
+	 * @param html
+	 * @return
+	 */
+	public static String htmlconvert(String html){
+		return html.replace("&auml;", "ä").
+					replace("&ouml;", "ö").
+					replace("&uuml;", "ü").
+					replace("&Auml;", "Ä").
+					replace("&Ouml;", "Ö").
+					replace("&Uuml;", "Ü");
+	}
+	
 	public static Drawable ImageOperations(String address) {
 		// TODO The image should be save somewhere to prevent permanent reloading of the same file
 		/*//get filename
