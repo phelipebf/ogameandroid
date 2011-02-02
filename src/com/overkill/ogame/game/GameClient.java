@@ -225,14 +225,12 @@ public class GameClient{
 	 * Runs a post request on the OGame server
 	 * @param url The url to request
 	 * @param postData The post data for this request
-	 * @param token The token for this request
 	 * @return The HTTP-Satuscode of the reply
 	 */
-	public String execute(String url, List<NameValuePair> postData, String token){
+	public String execute(String url, List<NameValuePair> postData){
 		try{
 			HttpPost httppost = new HttpPost(this.indexbase + url + "&session=" + this.session);
 			httppost.addHeader("User-Agent", USER_AGENT);
-			postData.add(new BasicNameValuePair("token", token));
 			httppost.setEntity(new UrlEncodedFormEntity(postData));
 			Log.i(TAG, "execute " + httppost.getURI().toString() + " POST");
 			HttpResponse response = this.http.execute(httppost);
@@ -246,6 +244,18 @@ public class GameClient{
 		}catch(Exception ex){
 			return "";
 		}
+	}
+	
+	/**
+	 * Runs a post request on the OGame server
+	 * @param url The url to request
+	 * @param postData The post data for this request
+	 * @param token The token for this request
+	 * @return The HTTP-Satuscode of the reply
+	 */
+	public String execute(String url, List<NameValuePair> postData, String token){
+		postData.add(new BasicNameValuePair("token", token));
+		return  execute(url, postData);
 	}
 	
 	/**
@@ -295,7 +305,7 @@ public class GameClient{
 		} else {
 			return;
 		}
-        this.execute("page=" + pageKey, postData, "");	
+        this.execute("page=" + pageKey, postData);	
 	}
 	
 	/**
@@ -390,6 +400,6 @@ public class GameClient{
 			 nameValuePairs.add(new BasicNameValuePair("deleteMessageIds[]", String.valueOf(msg_id)));		
        
         nameValuePairs.add(new BasicNameValuePair("actionMode", "2"));
-        this.execute("page=messages", nameValuePairs, "");
+        this.execute("page=messages", nameValuePairs);
 	}
 }
