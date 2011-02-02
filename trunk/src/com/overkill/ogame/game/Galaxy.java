@@ -13,6 +13,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.util.Log;
+
 public class Galaxy {
 
 	private String probeValue;
@@ -21,7 +23,7 @@ public class Galaxy {
 	private String slotUsed;
 	private String slotTot;
 	
-	HashMap<String, GalaxySystem> solarSystems = null;//cache
+	HashMap<String, GalaxySystem> solarSystems = new HashMap<String, GalaxySystem>();//cache
 
 	/**
 	 * false -> not enough Deuterium! You need 10 Units of Deuterium
@@ -50,7 +52,7 @@ public class Galaxy {
 
 	public GalaxySystem getSolarSystem(GameClient game, int galaxy, int system) {
 		String key = galaxy + "-" + system;
-		if(solarSystems.get(key) == null) { //not in cache
+		if(solarSystems.containsKey(key) == false) { //not in cache
 			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
 	        postData.add(new BasicNameValuePair("galaxy", String.valueOf(galaxy)));
 	        postData.add(new BasicNameValuePair("system", String.valueOf(system)));
@@ -105,15 +107,30 @@ public class Galaxy {
 			
 			int position = Integer.parseInt(tr.select("td.position").text());
 			
-			Element microplanet = tr.select("td.microplanet").get(0);
+			Element microplanet;
+			//empty slots have microplanet1 - used have microplanet as class name
+			if(tr.select("td.microplanet").isEmpty())
+				microplanet = tr.select("td.microplanet1").get(0);
+			else
+				microplanet = tr.select("td.microplanet").get(0);
 			if(microplanet.children().size() > 0) { //no planet
 				planet = new GalaxyPlanet();
 				planet.setPosition(position);
 				
 				planet.setPlanetName(microplanet.select("span.textNormal").text());
-				String planetActivity = microplanet.select("h4").text();
-				planetActivity = planetActivity.substring(planetActivity.indexOf("Activity:") + 10);
-				planet.setPlanetActivity(planetActivity);
+				//Check if there is an activity
+				String planetActivity = microplanet.select("h4").html();
+				if(planetActivity.lastIndexOf("</span>") + "</span>".length() == planetActivity.length()){
+					//no activity
+					planet.setPlanetActivity("");
+				}else{
+					planetActivity = planetActivity.substring(planetActivity.lastIndexOf("</span>") + "</span>".length());
+					//trim off icon if there is one
+					if(planetActivity.contains("<"))
+						planetActivity = planetActivity.substring(0, planetActivity.indexOf("<")).trim();
+					planet.setPlanetActivity(planetActivity);
+				}
+				
 				planet.setPlanetCoords(microplanet.select("#pos-planet").text());
 				
 				//TODO: moon data
@@ -135,9 +152,15 @@ public class Galaxy {
 				
 				Element player = tr.select("td.playername").get(0);
 				planet.setPlayerName(player.select("h4 > span > span").text());
-				String playerRank = player.select("li.rank").text();
-				playerRank = playerRank.substring(playerRank.indexOf(": ") + 2);
-				planet.setPlayerRank(playerRank);
+				//Don't try to read more if the player is us
+				if(planet.getPlayerName().equals("") == false){
+					String playerRank = player.select("li.rank").text();
+					playerRank = playerRank.substring(playerRank.indexOf(": ") + 2);
+					planet.setPlayerRank(playerRank);
+				}else{
+					planet.setPlayerName(player.select("span").text());
+					planet.setPlayerRank("-");
+				}
 				
 				Element allytag = tr.select("td.allytag").get(0);
 				if(allytag.children().size() > 0) {	//no ally

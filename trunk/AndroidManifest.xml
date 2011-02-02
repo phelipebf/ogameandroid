@@ -15,7 +15,7 @@
         
         <activity android:name="MainTabActivity"
         		  android:label="@string/app_name" 
-        		  android:theme="@style/MyTheme" 
+        		  android:theme="@style/InfoTitleTheme" 
         		  android:screenOrientation="portrait" 
         		  android:alwaysRetainTaskState="true" />  
 
@@ -31,6 +31,11 @@
 				  
 		<activity android:name="FleetView"
 				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="GalaxyView"
+				  android:label="@string/app_name"
+        		  android:theme="@style/InfoTitleTheme" 
 				  android:screenOrientation="portrait" />
 				  
 		<activity android:name="MessageListView"
