@@ -2,13 +2,6 @@ package com.overkill.ogame;
 
 import java.util.ArrayList;
 
-import org.apache.http.message.BasicNameValuePair;
-
-import com.overkill.ogame.game.BuildObject;
-import com.overkill.ogame.game.BuildObjectAdapter;
-import com.overkill.ogame.game.Planet;
-import com.overkill.ogame.game.Tools;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -16,18 +9,19 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.overkill.ogame.game.BuildObject;
+import com.overkill.ogame.game.BuildObjectAdapter;
+import com.overkill.ogame.game.Planet;
+import com.overkill.ogame.game.Tools;
 
 public class ObjectListActivity extends ListActivity {
 	String token = "";
@@ -59,55 +53,6 @@ public class ObjectListActivity extends ListActivity {
 		super.onResume();
 		loadData();	
 	}
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  /*AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-	  menu.add(0, 2, 0, R.string.more);
-	  BuildObject b = (BuildObject)getListAdapter().getItem(info.position);
-	  if(b.getTimeLeft() > 0)
-		  menu.add(0, 1, 0, android.R.string.cancel);*/
-	}
-	
-	public boolean onContextItemSelected(MenuItem item) {
-		return super.onContextItemSelected(item);
-		  /* do we still need it?
-		  
-		  AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		  final BuildObject b = (BuildObject)getListAdapter().getItem(info.position);
-		  switch (item.getItemId()) {
-		  case 1:
-			Toast.makeText(this, "Unable to do that", Toast.LENGTH_SHORT).show();
-		    return true;
-		  case 2:
-			    final AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
-		    	alert.setTitle(R.string.more);
-		    	alert.setMessage(R.string.loading);
-		    	alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-			    	public void onClick(DialogInterface dialog, int whichButton) {	
-			    		dialog.cancel();
-			    	  }
-			    	});
-		    	Thread t = new Thread(new Runnable() {					
-					@Override
-					public void run() {
-						final String msg = b.getBuildTime(MainTabActivity.game);	
-						runOnUiThread(new Runnable() {							
-							@Override
-							public void run() {
-								alert.setMessage(msg);	
-						    	alert.show();							
-							}
-						});						
-					}
-				});
-		    	t.start();
-			return true;
-		  default:
-		    return super.onContextItemSelected(item);
-		  }*/
-		}
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, final int position, long id) {
