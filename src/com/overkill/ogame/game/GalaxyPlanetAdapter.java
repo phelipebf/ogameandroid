@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.overkill.ogame.R;
 
@@ -16,13 +17,11 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 
 	private Context context;
 	private int textViewResourceId;
-	private GalaxySystem system;
 
- 	public GalaxyPlanetAdapter(Context context, int textViewResourceId, GalaxySystem system) {
-		super(context, textViewResourceId);
+ 	public GalaxyPlanetAdapter(Context context, int textViewResourceId, ArrayList<GalaxyPlanet> system) {
+		super(context, textViewResourceId, system);
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
-		this.system = system;
  	}
  	
 	@Override
@@ -33,13 +32,28 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
-		GalaxyPlanet p = this.system.getPlanet(position + 1);
-		if (p != null) {			
+		((ImageView) v.findViewById(R.id.img_moon)).setVisibility(View.INVISIBLE);
+		ImageView imgDebris = ((ImageView) v.findViewById(R.id.img_debris));
+		imgDebris.setVisibility(View.INVISIBLE);
+		final GalaxyPlanet p = this.getItem(position);
+		if(p.isEmptySlot()) {
+			((TextView) v.findViewById(R.id.txt_name)).setText("empty");
+			((TextView) v.findViewById(R.id.txt_player)).setText("slot");			
+		} else {
 			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName() + " " + p.getPlanetActivity());
-			((TextView) v.findViewById(R.id.txt_player)).setText(String.valueOf(p.getPlayerName()) + " #" + p.getPlayerRank());
-			//((ImageView) v.findViewById(R.id.img_moon)).setVisibility(p.getMoon() == null ? View.INVISIBLE : View.VISIBLE);
-			((ImageView) v.findViewById(R.id.img_debris)).setVisibility(p.getDebrisRecyclersNeeded() == null ? View.INVISIBLE : View.VISIBLE);
-			
+			String player = p.getPlayerName();
+			if(p.getPlayerRank() != null)
+				player += " #" + p.getPlayerRank();
+			((TextView) v.findViewById(R.id.txt_player)).setText(player);
+			if(p.getDebrisRecyclersNeeded() > 0) {
+				imgDebris.setVisibility(View.VISIBLE);
+				imgDebris.setOnClickListener(new ImageView.OnClickListener() {			
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(context, "m:" + p.getDebrisMetal() + ", k:" + p.getDebrisCrystal(), Toast.LENGTH_LONG).show();
+					}
+				});				
+			}
 		}
 		return v;
 	}

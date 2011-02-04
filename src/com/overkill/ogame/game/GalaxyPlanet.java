@@ -3,6 +3,7 @@ package com.overkill.ogame.game;
 public class GalaxyPlanet {
 	
 	private Integer position;
+	private boolean emptySlot = true;
 	
 	private String planetName;
 	private String planetActivity;
@@ -12,7 +13,7 @@ public class GalaxyPlanet {
 	
 	private String debrisMetal;
 	private String debrisCrystal;
-	private String debrisRecyclersNeeded;
+	private int debrisRecyclersNeeded = 0;
 	
 	private String playerName;
 	private String playerRank;
@@ -26,6 +27,12 @@ public class GalaxyPlanet {
 	}
 	public void setPosition(Integer position) {
 		this.position = position;
+	}	
+	public boolean isEmptySlot() {
+		return emptySlot;
+	}
+	public void setEmptySlot(boolean emptySlot) {
+		this.emptySlot = emptySlot;
 	}
 	public String getPlanetName() {
 		return planetName;
@@ -87,11 +94,15 @@ public class GalaxyPlanet {
 	public void setDebrisCrystal(String debrisCrystal) {
 		this.debrisCrystal = debrisCrystal;
 	}
-	public String getDebrisRecyclersNeeded() {
+	public int getDebrisRecyclersNeeded() {
 		return debrisRecyclersNeeded;
 	}
 	public void setDebrisRecyclersNeeded(String debrisRecyclersNeeded) {
-		this.debrisRecyclersNeeded = debrisRecyclersNeeded;
+		try {
+			this.debrisRecyclersNeeded = Integer.parseInt(debrisRecyclersNeeded);
+		} catch (NumberFormatException e) {
+			this.debrisRecyclersNeeded = 0;
+		}
 	}
 	@Override
 	public String toString() {
