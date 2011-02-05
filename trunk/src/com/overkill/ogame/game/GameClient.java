@@ -331,7 +331,8 @@ public class GameClient{
 			HttpResponse response = this.http.execute(httpget);
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
             response.getEntity().writeTo(ostream);
-			return ostream.toString();
+            // TODO check if connection is valid. If not call login function
+            return ostream.toString();
 		}catch(Exception ex){
 			return "";
 		}
