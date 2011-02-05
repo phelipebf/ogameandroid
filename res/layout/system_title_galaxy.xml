@@ -27,11 +27,10 @@
 		android:focusable="true"
 		android:singleLine="true"
 		android:scrollHorizontally="true"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:marqueeRepeatLimit="marquee_forever"
         android:focusableInTouchMode="true"        
         android:layout_below="@android:id/title"
         android:layout_alignLeft="@android:id/title"
-        android:layout_alignRight="@android:id/title" />      
+        android:layout_alignRight="@android:id/title" android:layout_width="fill_parent"/>      
 </RelativeLayout>

@@ -92,7 +92,7 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
         titleList	= new ArrayList<String>();
         states 		= new ArrayList<int[]>();
         
-        buttonLayoutParams = new RadioGroup.LayoutParams(320/5, RadioGroup.LayoutParams.WRAP_CONTENT);
+        buttonLayoutParams = new RadioGroup.LayoutParams(480/5, RadioGroup.LayoutParams.WRAP_CONTENT);
     }
     
     public void onResume()

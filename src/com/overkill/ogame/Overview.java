@@ -1,5 +1,6 @@
 package com.overkill.ogame;
 
+import com.overkill.ogame.game.Item;
 import com.overkill.ogame.game.Tools;
 
 import android.app.Activity;
@@ -41,8 +42,10 @@ public class Overview extends Activity {
 						int end = info.indexOf("<", start);
 						txt_info.append(info.substring(start, end));
 						
-						//txt_info.append("\n\nFlottenbewegung:\n");
-						//txt_info.append(MainTabActivity.notify.toString());
+						txt_info.append("\n\n" + Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_BUILDING)) + "\n");
+						txt_info.append(Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_RESEARCH)) + "\n");
+						txt_info.append(Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_MULTIPLE)) + "\n");
+						
 					}
 				});
 			}

@@ -1,5 +1,7 @@
 package com.overkill.ogame;
 
+import com.overkill.ogame.game.GalaxyPlanetAdapter;
+import com.overkill.ogame.game.Planet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
