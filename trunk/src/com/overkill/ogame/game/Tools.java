@@ -9,6 +9,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.flurry.android.FlurryAgent;
 
 import android.content.Context;
@@ -113,6 +118,7 @@ public class Tools {
 	}
 		
 	public static String sec2str(int sec){
+		if(sec == 0) return "0s";
 		String str = "";
 		int day = sec / 86400;
 		sec -= 86400 * day;
@@ -132,52 +138,40 @@ public class Tools {
 	}
 	
 	public static ArrayList<BuildObject> parseObjectList(String body, String ulKey, String liKey, Planet planet, Context context){
-		String ul = "";
 		if(body.contains(ulKey)==false){
 			Log.e("parseObjectList", ulKey + " not found>>\n" + body);
 			return new ArrayList<BuildObject>();
 		}
-		if(body.contains("<ul id=\"" + ulKey + "\">")){
-			ul = Tools.between(body, "<ul id=\"" + ulKey + "\">", "</ul>");
-		}else{
-			int start = 0; int end = 0;
-			start = body.indexOf("<ul id=\"" + ulKey) + ("<ul id=\"" + ulKey).length();
-			start = body.indexOf(">", start) + 1;
-			end = body.indexOf("</ul>", start);
-			ul = body.substring(start, end);
-		}
+		
+		Document document = Jsoup.parse(body);
+		
+		Elements ul = document.select("ul#" + ulKey);
+		Elements li = ul.select("li");
+		
+		
 		ArrayList<BuildObject> objectlist = new ArrayList<BuildObject>();		
-		String[] items = ul.split("</li>");
-		for(String item : items){
-			if(item.contains("<li ") == false)
-				continue;
+		
+		for(int i = 0; i < li.size(); i++){
+			Element item = li.get(i);
 			
-			String status = Tools.between(item, "class=\"", "\"");
-			String id = Tools.between(item, "class=\"" + liKey + "", "\"", " ");
+			String status = item.className();				
+			String id = item.select("div").get(0).className().replace(liKey, "");
+			if(id.contains(" "))
+				id = id.substring(0, id.indexOf(" "));
 			
-			String name = "";
-			String level = "";
 			int timeleft = 0;
-			if(item.contains(liKey + id + " tipsStandard")){ //Dieses Object hat einen Countdown
-				name = Tools.between(item, "title=\"|", "\"").trim();
-				// TODO Anzahl der Schiffe auslesen
-				if(getQuetypeById(Integer.valueOf(id)) == Item.QUETYPE_BUILDING || getQuetypeById(Integer.valueOf(id)) == Item.QUETYPE_RESEARCH)
-					level = Tools.between(item, "<span class=\"level\">", "</span>", "<").trim();	
-				else
-					level = "0";
+			String name = "";
+			
+			if(item.select("div").get(0).classNames().size() > 1){ //with countdown
+				name = item.select("div").get(0).attr("title").substring(1); // cut off leading |
 				timeleft = getCountdown(body, getQuetypeById(Integer.valueOf(id)));
 			}else{
-				name = Tools.between(item, "<span class=\"textlabel\">", "</span>", "<").trim();	
-				int offset = item.indexOf("<span class=\"textlabel\">") + "<span class=\"textlabel\">".length();
-				offset = item.indexOf("</span>", offset) + "</span>".length();
-				int ende = item.indexOf("</span>", offset);
-				int ende2 = item.indexOf("<span", offset);
-				if((ende2 > 0) && (ende2 < ende))
-					ende = ende2;
-				level = item.substring(offset, ende).trim();
+				name = item.select("span.textlabel").text();
 			}
-					
-			Log.i("parse", name + "|" + id + "|" + status + "|" + level);
+
+			String level = item.select("span.level").text().replace(name, "").trim();
+						
+			//Log.i("li", id + " " + name + " (" + level + ") " + status);
 			
 			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
 			m.setResources(
@@ -190,13 +184,14 @@ public class Tools {
 				m.checkRecources(
 							planet.getMetal(), 
 							planet.getCrystal(), 
-							planet.getDeuterium());		
+							planet.getDeuterium()
+						);		
 			}
 			objectlist.add(m);
-		}		
+		}
 		return objectlist;
 	}
-	
+		
 	public static int getQuetypeById(int id){
 		int i = Item.QUETYPE_BUILDING;
 		if(id > 100)

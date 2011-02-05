@@ -49,6 +49,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class RadioStateDrawable extends Drawable{
 
@@ -155,8 +156,11 @@ public class RadioStateDrawable extends Drawable{
 		{
 			if (screen_width==0) screen_width = 320;
 			width=screen_width/5;
-		}*/
-		int x = (width-bwidth)/2;
+		}*/	
+		
+		//Log.i("draw", width * scale + " " + bwidth);
+		
+		int x = (int) ((width - bwidth) / 2);
 		int y = (int) (2 * scale);
 
 		canvas.drawColor(Color.TRANSPARENT);
@@ -172,10 +176,10 @@ public class RadioStateDrawable extends Drawable{
 		p.setTextAlign(Align.CENTER);
 		p.setShader(textShader);
 		p.setAntiAlias(true);
-		canvas.drawText(label, width/2, y + bheight + (8 * scale), p);
+		canvas.drawText(label, width / 2, y + bheight + (8 * scale), p);
 		
 		p.setShader(shader);
-		//canvas.drawBitmap(bitmap, x, y, p);
+		//canvas.drawBitmap(bitmap, x, y, p);		
 		canvas.drawBitmap(bitmap,
 							new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
 							new Rect(x, y, bwidth + x, bheight + y),
