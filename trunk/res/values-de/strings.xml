@@ -44,7 +44,7 @@
 <string name="ask_no_count">Bauaufrag für %s senden?</string>
 <string name="now_building">%s wird gebaut.</string>
 <string name="building_time">Baudauer: %s</string>
-<string name="buildable_in">Nicht genügend Ressourcen vorhanden.\\nVerfügbar in %s.</string>
+<string name="buildable_in">Nicht genügend Ressourcen vorhanden.\nVerfügbar in %s.</string>
 <string name="loading">Laden...</string>
 <string name="change_planet">Wechsle nach \"%s\"</string>
 <string name="in_queue">In Bauliste</string>
