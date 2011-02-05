@@ -3,6 +3,7 @@ package com.overkill.ogame.game;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,24 +34,26 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
 		((ImageView) v.findViewById(R.id.img_moon)).setVisibility(View.INVISIBLE);
+		TextView txtPlayer = ((TextView) v.findViewById(R.id.txt_player));
 		ImageView imgDebris = ((ImageView) v.findViewById(R.id.img_debris));
 		imgDebris.setVisibility(View.INVISIBLE);
 		final GalaxyPlanet p = this.getItem(position);
 		if(p.isEmptySlot()) {
-			((TextView) v.findViewById(R.id.txt_name)).setText("empty");
-			((TextView) v.findViewById(R.id.txt_player)).setText("slot");			
+			((TextView) v.findViewById(R.id.txt_name)).setText("empty slot");
+			txtPlayer.setVisibility(View.INVISIBLE);
 		} else {
 			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName() + " " + p.getPlanetActivity());
 			String player = p.getPlayerName();
 			if(p.getPlayerRank() != null)
 				player += " #" + p.getPlayerRank();
-			((TextView) v.findViewById(R.id.txt_player)).setText(player);
+			txtPlayer.setText(player);
+			txtPlayer.setTextColor(p.getPlayerColor());
 			if(p.getDebrisRecyclersNeeded() > 0) {
 				imgDebris.setVisibility(View.VISIBLE);
 				imgDebris.setOnClickListener(new ImageView.OnClickListener() {			
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(context, "m:" + p.getDebrisMetal() + ", k:" + p.getDebrisCrystal(), Toast.LENGTH_LONG).show();
+						Toast.makeText(context, "m:" + p.getDebrisMetal() + ", k:" + p.getDebrisCrystal(), Toast.LENGTH_SHORT).show();
 					}
 				});				
 			}

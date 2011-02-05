@@ -1,7 +1,5 @@
 package com.overkill.ogame;
 
-import com.overkill.ogame.game.GalaxyPlanetAdapter;
-import com.overkill.ogame.game.Planet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.overkill.ogame.game.GalaxyPlanet;
 import com.overkill.ogame.game.GalaxyPlanetAdapter;
@@ -32,7 +31,7 @@ import com.overkill.ogame.game.Planet;
 public class GalaxyView extends ListActivity {
 
 	private String probeValue;
-	private String recyclerValue;
+	private int recyclerValue;
 	private String missileValue;
 	private String slotUsed;
 	private String slotTot;
@@ -71,17 +70,29 @@ public class GalaxyView extends ListActivity {
 	protected void onListItemClick(ListView l, View v, final int position, long id) {
 		super.onListItemClick(l, v, position, id);	
 		final GalaxyPlanet p = (GalaxyPlanet)getListAdapter().getItem(position);
+
+		if(p.isEmptySlot() && recyclerValue == 0) {
+			Toast.makeText(getApplicationContext(), "no colony ship", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 	    final AlertDialog.Builder dialog = new AlertDialog.Builder(GalaxyView.this);
 		dialog.setTitle(R.string.more);
 		if(p.isEmptySlot()) {
-			dialog.setMessage("Empty slot, position: " + p.getPosition());			
-		} else {
+			dialog.setMessage("Colonize? " + p.getPosition());
+			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
+			dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					Toast.makeText(getApplicationContext(), "missing functionality", Toast.LENGTH_SHORT).show();
+				}
+			});
+		}  else {
 			dialog.setMessage("Position: " + p.getPosition() 
 					+ "\n RecyclersNeeded: " + p.getDebrisRecyclersNeeded()
 					+ "\n recyclerValue: " + recyclerValue);
+			dialog.setPositiveButton(android.R.string.ok, cancelDialog());
 		}
-		dialog.setPositiveButton(android.R.string.ok, cancelDialog());
-    	dialog.show();	    
+    	dialog.show();
 	}
 	
 	private DialogInterface.OnClickListener cancelDialog() { 
@@ -161,7 +172,7 @@ public class GalaxyView extends ListActivity {
 		
 		Document solarSystem = Jsoup.parse(html);
 		probeValue = solarSystem.select("#probeValue").text();
-		recyclerValue = solarSystem.select("#recyclerValue").text();
+		recyclerValue = Integer.parseInt(solarSystem.select("#recyclerValue").text());
 		missileValue = solarSystem.select("#missileValue").text();
 		
 		Elements slotValue = solarSystem.select("#slotValue");
@@ -210,8 +221,6 @@ public class GalaxyView extends ListActivity {
 					planet.setDebrisRecyclersNeeded(debrisRecyclersNeeded);
 				}
 				
-
-				//TODO: status_abbr_vacation, status_abbr_inactive, status_abbr_noob
 				Element player = tr.select("td.playername").get(0);
 				h4 = player.select("h4");				
 				if(h4.isEmpty()) {//player is us
@@ -221,6 +230,7 @@ public class GalaxyView extends ListActivity {
 					String playerRank = player.select("li.rank").text();
 					playerRank = playerRank.substring(playerRank.indexOf(": ") + 2);
 					planet.setPlayerRank(playerRank);
+					planet.setPlayerStatus(player.select("a.tipsGalaxy > span").attr("class"));			
 				}
 				
 				Element allytag = tr.select("td.allytag").get(0);
