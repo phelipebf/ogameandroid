@@ -28,9 +28,9 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
 //		this.sort(new Comparator<BuildObject>() {
-//			public int compare(BuildObject object1, BuildObject object2) {
-//				return object1.getName().compareTo(object2.getName());		
-//			}});
+//		public int compare(BuildObject object1, BuildObject object2) {
+//			return object1.getName().compareTo(object2.getName());		
+//		}});
 	}
  	
  	public int getObjectWithCountdown(){
