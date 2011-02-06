@@ -30,11 +30,11 @@ import com.overkill.ogame.game.Planet;
 
 public class GalaxyView extends ListActivity {
 
-	private String probeValue;
-	private int recyclerValue;
-	private String missileValue;
-	private String slotUsed;
-	private String slotTot;
+	private String probeCount;
+	private int recyclerCount;
+	private String missileCount;
+	private String slotsUsed;
+	private String slotsTotal;
 	
 	HashMap<String, ArrayList<GalaxyPlanet>> solarSystems = new HashMap<String, ArrayList<GalaxyPlanet>>();//cache
 
@@ -51,7 +51,7 @@ public class GalaxyView extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);  
-		setContentView(R.layout.activity_tab_resources);	
+		setContentView(R.layout.activity_tab_listview);	
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_galaxy);   
 		
 		Planet origin = MainTabActivity.game.getCurrentPlanet();
@@ -59,7 +59,9 @@ public class GalaxyView extends ListActivity {
 
 		setTitle("OGame Galaxy View");
 		setInfo(origin.getGalaxy() + ":" + origin.getSystem());
-
+		((TextView)findViewById(R.id.txt_info)).setVisibility(View.VISIBLE);
+		((TextView)findViewById(R.id.txt_info)).setText(toString());
+		
 		GalaxyPlanetAdapter adapter = new GalaxyPlanetAdapter(this, R.layout.adapter_galaxy_parent, system);
 		
 		setListAdapter(adapter);		
@@ -71,7 +73,7 @@ public class GalaxyView extends ListActivity {
 		super.onListItemClick(l, v, position, id);	
 		final GalaxyPlanet p = (GalaxyPlanet)getListAdapter().getItem(position);
 
-		if(p.isEmptySlot() && recyclerValue == 0) {
+		if(p.isEmptySlot() && recyclerCount == 0) {
 			Toast.makeText(getApplicationContext(), "no colony ship", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -89,7 +91,7 @@ public class GalaxyView extends ListActivity {
 		}  else {
 			dialog.setMessage("Position: " + p.getPosition() 
 					+ "\n RecyclersNeeded: " + p.getDebrisRecyclersNeeded()
-					+ "\n recyclerValue: " + recyclerValue);
+					+ "\n recyclerValue: " + recyclerCount);
 			dialog.setPositiveButton(android.R.string.ok, cancelDialog());
 		}
     	dialog.show();
@@ -171,14 +173,14 @@ public class GalaxyView extends ListActivity {
 		ArrayList<GalaxyPlanet> galaxySystem = new ArrayList<GalaxyPlanet>();
 		
 		Document solarSystem = Jsoup.parse(html);
-		probeValue = solarSystem.select("#probeValue").text();
-		recyclerValue = Integer.parseInt(solarSystem.select("#recyclerValue").text());
-		missileValue = solarSystem.select("#missileValue").text();
+		probeCount = solarSystem.select("#probeValue").text();
+		recyclerCount = Integer.parseInt(solarSystem.select("#recyclerValue").text());
+		missileCount = solarSystem.select("#missileValue").text();
 		
 		Elements slotValue = solarSystem.select("#slotValue");
-		slotUsed = slotValue.select("#slotUsed").text();
+		slotsUsed = slotValue.select("#slotUsed").text();
 		slotValue.remove("#slotUsed");
-		slotTot = slotValue.text().trim().substring(2);
+		slotsTotal = slotValue.text().trim().substring(2);
 		
 		for(Element tr : solarSystem.select("tr.row")) {
 			GalaxyPlanet planet = new GalaxyPlanet();
@@ -250,11 +252,11 @@ public class GalaxyView extends ListActivity {
 	}
 	
 	public String toString() {
-		return "probeValue:" + probeValue 
-			+ ", recyclerValue:" + recyclerValue 
-			+ ", missileValue:" + missileValue
-			+ ", slotUsed:" + slotUsed
-			+ ", slotTot:" + slotTot;
+		return "probe: " + probeCount 
+			+ " recycler: " + recyclerCount 
+			+ " missile: " + missileCount
+			+ " slots: " + slotsUsed
+			+ "/" + slotsTotal;
 	}
 	
 	

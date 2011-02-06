@@ -40,7 +40,7 @@ public class ObjectListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_tab_resources);	
+		setContentView(R.layout.activity_tab_listview);	
 		registerForContextMenu(getListView());
 		pageKey = getIntent().getExtras().getString("pageKey");    
 		ulKey = (getIntent().getExtras().getStringArray("ulKey")); 
@@ -267,7 +267,7 @@ public class ObjectListActivity extends ListActivity {
 					objectlist.addAll(o);
 				}
 				adapter = new BuildObjectAdapter(ObjectListActivity.this, R.layout.adapter_item_object, objectlist);
-				((TextView)findViewById(R.id.txt_countdown)).post(new Runnable() {					
+				((TextView)findViewById(R.id.txt_info)).post(new Runnable() {					
 					@Override
 					public void run() {
 						setListAdapter(adapter);					
@@ -275,7 +275,7 @@ public class ObjectListActivity extends ListActivity {
 						if(countdownkey >= 0){
 							//remove old countdown (fixes stacking)
 							h_countdown.removeCallbacks(t_countdown);
-							final TextView countdown = (TextView)findViewById(R.id.txt_countdown);
+							final TextView countdown = (TextView)findViewById(R.id.txt_info);
 							countdown.setVisibility(View.VISIBLE);
 							countdown.setText(Tools.sec2str(adapter.getItem(countdownkey).getTimeLeft()));
 							t_countdown = new Runnable() {
@@ -297,7 +297,7 @@ public class ObjectListActivity extends ListActivity {
 							};
 							t_countdown.run();
 						}else{
-							((TextView)findViewById(R.id.txt_countdown)).setVisibility(View.GONE);
+							((TextView)findViewById(R.id.txt_info)).setVisibility(View.GONE);
 						}	
 						loader.cancel();	
 					}
