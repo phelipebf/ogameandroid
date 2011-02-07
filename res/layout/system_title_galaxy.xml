@@ -5,32 +5,42 @@
     android:id="@+id/title_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+     
+    <Spinner 
+    	android:layout_width="wrap_content" 
+    	android:layout_alignParentTop="true" 
+    	android:id="@+id/galaxy_spinner" 
+    	android:layout_height="wrap_content" />
+    
+    <ImageButton 
+    	android:layout_width="wrap_content"
+        android:src="@drawable/arrow_left" 
+        android:id="@+id/prev_system" 
+        android:layout_height="wrap_content" 
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/galaxy_spinner" 
+        android:layout_alignTop="@+id/galaxy_spinner" 
+        android:layout_alignBottom="@+id/galaxy_spinner" />
 
-    <TextView
-        android:id="@android:id/title"
-        android:text="..."
-        style="?android:attr/windowTitleStyle"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/colorForeground"
-        android:textStyle="bold"
-        android:ellipsize="marquee"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/subtitle"
-        android:text="@string/app_name"
-        style="?android:attr/windowTitleStyle"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="?android:attr/colorForeground"
-        android:ellipsize="marquee"
-		android:focusable="true"
-		android:singleLine="true"
-		android:scrollHorizontally="true"
-        android:layout_height="wrap_content"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:focusableInTouchMode="true"        
-        android:layout_below="@android:id/title"
-        android:layout_alignLeft="@android:id/title"
-        android:layout_alignRight="@android:id/title" android:layout_width="fill_parent"/>      
+    <EditText 
+    	android:text="192" 
+    	android:maxLength="3"
+    	android:lines="1"
+    	android:inputType="number"
+    	android:cursorVisible="false"
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content" 
+    	android:id="@+id/system" 
+    	android:layout_toRightOf="@+id/prev_system" 
+    	android:layout_alignTop="@+id/prev_system" 
+    	android:layout_alignBottom="@+id/prev_system" />     
+    	
+    <ImageButton 
+    	android:layout_width="wrap_content"
+        android:src="@drawable/arrow_right" 
+        android:id="@+id/next_system"
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@+id/system" 
+        android:layout_alignTop="@+id/system" 
+        android:layout_alignBottom="@+id/system" />
 </RelativeLayout>

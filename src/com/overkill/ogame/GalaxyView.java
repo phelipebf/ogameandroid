@@ -19,10 +19,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,22 +47,13 @@ public class GalaxyView extends ListActivity {
 	private int galaxy;
 	private int system;
 	
-	private String probeCount;
+	private String probeCount = "0";
 	private int recyclerCount;
-	private String missileCount;
-	private String slotsUsed;
-	private String slotsTotal;
+	private String missileCount = "0";
+	private String slotsUsed = "0";
+	private String slotsTotal = "0";
 	
 	HashMap<String, ArrayList<GalaxyPlanet>> solarSystems = new HashMap<String, ArrayList<GalaxyPlanet>>();//cache
-
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        ((TextView) findViewById(android.R.id.title)).setText(title);
-    }
-    
-    public void setInfo(CharSequence info) {
-    	((TextView) findViewById(R.id.subtitle)).setText(info);
-    }
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +78,49 @@ public class GalaxyView extends ListActivity {
 		
 		galaxy = origin.getGalaxy();
 		system = origin.getSystem();
+        
+		//initialize spinner with galaxies
+        final Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
+        ArrayAdapter galaxiesAdapter = ArrayAdapter.createFromResource(
+                this, R.array.galaxies, android.R.layout.simple_spinner_item);
+        galaxiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        galaxySpinner.setAdapter(galaxiesAdapter);
+        galaxySpinner.setSelection(galaxy-1);
+        
+        final EditText systemText = (EditText) findViewById(R.id.system);
+        systemText.setText(String.valueOf(system));
+        systemText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        	@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				try {
+					//first try to parse then load
+					int selectedGalaxy = (Integer) galaxySpinner.getSelectedItemPosition()+1;
+					int actualSystem = Integer.parseInt(systemText.getText().toString());
+					
+					galaxy = selectedGalaxy;
+					system = actualSystem;
+					load();					
+				} catch (NumberFormatException e) {
+					Toast.makeText(getApplicationContext(), "not possible", Toast.LENGTH_SHORT).show();
+				}
+				return false;
+			}
+		});
+        
+        ((ImageButton) findViewById(R.id.prev_system)).setOnClickListener(new ImageButton.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				prevSystem();
+			}
+		});	
+        
+        ((ImageButton) findViewById(R.id.next_system)).setOnClickListener(new ImageButton.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				nextSystem();
+			}
+		});
+        
 		load();
 	}
 	
@@ -93,17 +132,9 @@ public class GalaxyView extends ListActivity {
                     return false;
                 // right to left swipe
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                	system--;
-                	if(system < 0)
-                		system = 0;
-                	load();
-                	return true;
+                	return prevSystem();
                 }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                	system++;
-                	if(system > 499)
-                		system = 499;
-                	load();
-                	return true;
+                	return nextSystem();
                 }
             } catch (Exception e) {
                 // nothing
@@ -111,6 +142,22 @@ public class GalaxyView extends ListActivity {
             return false;
         }
     }
+	
+	private boolean prevSystem() {
+    	system--;
+    	if(system < 0)
+    		system = 0;
+    	load();
+    	return true;
+	}
+	
+	private boolean nextSystem() {
+		system++;
+    	if(system > 499)
+    		system = 499;
+    	load();
+    	return true;
+	}
     
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -122,21 +169,22 @@ public class GalaxyView extends ListActivity {
 	
 	private void load(){			
 		getListView().setVisibility(View.INVISIBLE);
-		setTitle("OGame Galaxy View");
-		setInfo(galaxy + ":" + system);
 		((TextView)findViewById(R.id.txt_info)).setVisibility(View.VISIBLE);
-		((TextView)findViewById(R.id.txt_info)).setText(toString());
+		((TextView)findViewById(R.id.txt_info)).setText(getInfo());
 		
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {
+				//final boolean canLoad = canLoadContent(MainTabActivity.game, newGalaxy, newSystem);
 				final GalaxyPlanetAdapter adapter = new GalaxyPlanetAdapter(GalaxyView.this, R.layout.adapter_galaxy_parent,
 						getSolarSystem(MainTabActivity.game, galaxy, system));
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
 						setListAdapter(adapter);	
-						getListView().setVisibility(View.VISIBLE);						
+						getListView().setVisibility(View.VISIBLE);	
+						((TextView)findViewById(R.id.txt_info)).setText(getInfo());	
+						((EditText) findViewById(R.id.system)).setText(String.valueOf(system));
 					}
 				});
 			}
@@ -189,6 +237,8 @@ public class GalaxyView extends ListActivity {
 	 * @return
 	 */
 	private boolean canLoadContent(GameClient game, int galaxy, int system) {
+		
+		if(isSolarSystemInCache(galaxy, system)) return true;
 				
 		List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
         postData.add(new BasicNameValuePair("galaxy", String.valueOf(galaxy)));
@@ -198,17 +248,20 @@ public class GalaxyView extends ListActivity {
         boolean canLoad = false;
 		try {
 			JSONObject json = new JSONObject(jsonString);
-			JSONObject status = json.getJSONObject("status");
-			canLoad = status.getBoolean("status");
+			canLoad = json.getBoolean("status");
 	        
 		} catch (JSONException e) {}
 			
 		return canLoad;
 	}
+	
+	private boolean isSolarSystemInCache(int galaxy, int system) {
+		return solarSystems.containsKey(galaxy + "-" + system);
+	}
 
 	private ArrayList<GalaxyPlanet> getSolarSystem(GameClient game, int galaxy, int system) {
 		String key = galaxy + "-" + system;
-		if(solarSystems.containsKey(key) == false) { //not in cache
+		if(!isSolarSystemInCache(galaxy, system)) { //not in cache
 			List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
 	        postData.add(new BasicNameValuePair("galaxy", String.valueOf(galaxy)));
 	        postData.add(new BasicNameValuePair("system", String.valueOf(system)));
@@ -281,6 +334,11 @@ public class GalaxyView extends ListActivity {
 					planetActivity = "now";
 				} else {
 					planetActivity = h4.text().trim();
+					if(planetActivity.indexOf("Activity:") >= 0) {
+						planetActivity = planetActivity.substring(planetActivity.indexOf("Activity:")+9);
+					} else {
+						planetActivity = "no activity";
+					}
 				}
 				planet.setPlanetActivity(planetActivity);
 				
@@ -331,7 +389,7 @@ public class GalaxyView extends ListActivity {
 		return galaxySystem;
 	}
 	
-	public String toString() {
+	public String getInfo() {
 		return "probe: " + probeCount 
 			+ " recycler: " + recyclerCount 
 			+ " missile: " + missileCount
