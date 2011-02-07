@@ -46,6 +46,7 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			String player = p.getPlayerName();
 			if(p.getPlayerRank() != null)
 				player += " #" + p.getPlayerRank();
+			txtPlayer.setVisibility(View.VISIBLE);
 			txtPlayer.setText(player);
 			txtPlayer.setTextColor(p.getPlayerColor());
 			if(p.getDebrisRecyclersNeeded() > 0) {
