@@ -220,6 +220,10 @@ public class GalaxyView extends ListActivity {
 		return solarSystems.get(key);
 	}
 	
+	private String sendProbe(GameClient game, int galaxy, int system, int planetPosition, int shipCount) {
+		return sendShips(game, 6, galaxy, system, planetPosition, 1, shipCount);
+	}
+	
 	/**
 	 * Post data to server
 	 * @param game

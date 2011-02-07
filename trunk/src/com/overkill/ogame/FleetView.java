@@ -2,6 +2,11 @@ package com.overkill.ogame;
 
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.overkill.ogame.game.FleetAdapter;
 import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.FleetEventAdapter;
@@ -13,6 +18,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.Window;
@@ -97,7 +103,13 @@ public class FleetView extends ListActivity {
 		final FleetEvent tmp = (FleetEvent) getListAdapter().getItem(position);
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	alert.setTitle(R.string.fleet_info_title);
-    	alert.setMessage(Html.fromHtml(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId()))).toString());
+    	String info = "";
+    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId())));
+    	Elements tr = table.select("tr");
+    	for(int i = 0; i < tr.size(); i++){
+    		info += tr.get(i).text() + "\n";
+    	}
+    	alert.setMessage(info);
     	alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	    	  public void onClick(DialogInterface dialog, int whichButton) {
 	    		  dialog.cancel();
