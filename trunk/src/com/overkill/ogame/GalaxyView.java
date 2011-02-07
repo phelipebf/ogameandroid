@@ -17,6 +17,9 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
@@ -30,6 +33,15 @@ import com.overkill.ogame.game.Planet;
 
 public class GalaxyView extends ListActivity {
 
+	private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+	private GestureDetector gestureDetector;
+	View.OnTouchListener gestureListener;
+	
+	private int galaxy;
+	private int system;
+	
 	private String probeCount;
 	private int recyclerCount;
 	private String missileCount;
@@ -54,18 +66,82 @@ public class GalaxyView extends ListActivity {
 		setContentView(R.layout.activity_tab_listview);	
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_galaxy);   
 		
+        gestureDetector = new GestureDetector(new MyGestureDetector());
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
+        };
+               
+        getListView().setOnTouchListener(gestureListener);
+        
 		Planet origin = MainTabActivity.game.getCurrentPlanet();
-		ArrayList<GalaxyPlanet> system = getSolarSystem(MainTabActivity.game, origin.getGalaxy(), origin.getSystem());		
-
+		
+		galaxy = origin.getGalaxy();
+		system = origin.getSystem();
+		load();
+	}
+	
+	class MyGestureDetector extends SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // right to left swipe
+                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                	system--;
+                	if(system < 0)
+                		system = 0;
+                	load();
+                	return true;
+                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                	system++;
+                	if(system > 499)
+                		system = 499;
+                	load();
+                	return true;
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (gestureDetector.onTouchEvent(event))
+	        return true;
+	    else
+	    	return false;
+    }
+	
+	private void load(){			
+		getListView().setVisibility(View.INVISIBLE);
 		setTitle("OGame Galaxy View");
-		setInfo(origin.getGalaxy() + ":" + origin.getSystem());
+		setInfo(galaxy + ":" + system);
 		((TextView)findViewById(R.id.txt_info)).setVisibility(View.VISIBLE);
 		((TextView)findViewById(R.id.txt_info)).setText(toString());
 		
-		GalaxyPlanetAdapter adapter = new GalaxyPlanetAdapter(this, R.layout.adapter_galaxy_parent, system);
-		
-		setListAdapter(adapter);		
-		
+		Thread t = new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				final GalaxyPlanetAdapter adapter = new GalaxyPlanetAdapter(GalaxyView.this, R.layout.adapter_galaxy_parent,
+						getSolarSystem(MainTabActivity.game, galaxy, system));
+				runOnUiThread(new Runnable() {					
+					@Override
+					public void run() {
+						setListAdapter(adapter);	
+						getListView().setVisibility(View.VISIBLE);						
+					}
+				});
+			}
+		});		
+		t.start();		
 	}
 	
 	@Override
