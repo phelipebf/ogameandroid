@@ -168,8 +168,8 @@ public class Tools {
 			}else{
 				name = item.select("span.textlabel").text();
 			}
-
-			String level = item.select("span.level").text().replace(name, "").trim();
+			// Fix '.' if value >= 1000
+			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "");
 						
 			//Log.i("li", id + " " + name + " (" + level + ") " + status);
 			
