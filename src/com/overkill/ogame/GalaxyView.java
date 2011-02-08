@@ -213,10 +213,25 @@ public class GalaxyView extends ListActivity {
 				}
 			});
 		}  else {
-			dialog.setMessage("Position: " + p.getPosition() 
-					+ "\n RecyclersNeeded: " + p.getDebrisRecyclersNeeded()
-					+ "\n recyclerValue: " + recyclerCount);
-			dialog.setPositiveButton(android.R.string.ok, cancelDialog());
+			dialog.setMessage("Send esp. probe?");
+			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
+			dialog.setPositiveButton(android.R.string.ok,  new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {					
+					Thread t = new Thread(new Runnable() {			
+						@Override
+						public void run() {
+							final String sendResult = sendProbe(MainTabActivity.game, galaxy, system, p.getPosition(), 1);
+							runOnUiThread(new Runnable() {					
+								@Override
+								public void run() {
+									Toast.makeText(getApplicationContext(), sendResult, Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
+					});		
+					t.start();					
+				}
+			});
 		}
     	dialog.show();
 	}
@@ -277,14 +292,18 @@ public class GalaxyView extends ListActivity {
 		return sendShips(game, 6, galaxy, system, planetPosition, 1, shipCount);
 	}
 	
+	private String sendRecycler(GameClient game, int galaxy, int system, int planetPosition, int shipCount) {
+		return sendShips(game, 8, galaxy, system, planetPosition, 2, shipCount);
+	}
+	
 	/**
 	 * Post data to server
 	 * @param game
-	 * @param mission 6=espionage?
+	 * @param mission 6=espionage, 8=recycle
 	 * @param galaxy
 	 * @param system
 	 * @param planetPosition
-	 * @param planetType 1=planet?
+	 * @param planetType 1=planet, 2=debris
 	 * @param shipCount
 	 * @return
 	 */
@@ -426,7 +445,7 @@ public class GalaxyView extends ListActivity {
 				result = "Error, there is no moon " + retVals[1];
 			break;
 			case 603:
-				result = "Error, player can`t be approached because of newbie protection " + retVals[1];
+				result = "Error, player can't be approached because of newbie protection " + retVals[1];
 			break;
 			case 604:
 				result = "Player is too strong to be attacked " + retVals[1];
@@ -444,7 +463,7 @@ public class GalaxyView extends ListActivity {
 				result = "Error, no free fleet slots available " + retVals[1];
 			break;
 			case 613:
-				result = "Error, you don`t have enough deuterium " + retVals[1];
+				result = "Error, you don't have enough deuterium " + retVals[1];
 			break;
 			case 614:
 				result = "Error, there is no planet there " + retVals[1];
