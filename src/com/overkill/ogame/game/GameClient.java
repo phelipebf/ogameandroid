@@ -14,7 +14,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -27,6 +32,8 @@ public class GameClient{
 	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
 	
+	//
+	Context context;
 	//Client to hold login cookies
 	private DefaultHttpClient http = new DefaultHttpClient();
 	//session parameter for url (s)
@@ -50,7 +57,8 @@ public class GameClient{
 	 * @param session The session-id passed on in the url
 	 * @param base The base of the url, containing univers and tld
 	 */
-	public GameClient(DefaultHttpClient http, String session, String universe) {
+	public GameClient(Context context, DefaultHttpClient http, String session, String universe) {
+		this.context = context;
 		this.http = http;
 		this.session = session;
 		this.indexbase = "http://"  + universe + "/game/index.php?";
@@ -58,8 +66,8 @@ public class GameClient{
 		this.loadPlanets();
 	}
 	
-	public GameClient(){
-		//nothing todo
+	public GameClient(Context context){
+		this.context = context;
 	}
 	
 	/**
@@ -142,6 +150,62 @@ public class GameClient{
 		//empty array
 		this.planets = new ArrayList<Planet>();
 		//get the div containing our planets
+		Document html = Jsoup.parse(body);
+		Elements divs = html.select("div.smallplanet");
+		for(int i = 0; i < divs.size(); i++){
+			Element div = divs.get(i);
+			String name = div.select("span.planet-name").text();
+			String img = div.select("img.planetPic").attr("src");
+			img = img.replace("img/planets/", "").replace(".gif", "");
+			img = img.substring(0, img.lastIndexOf("_"));
+			int img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, context.getPackageName());
+			Element link = div.select("a").get(0);
+			String info = link.attr("title");
+			int id = 0;
+			
+			if(!link.attr("href").equals("#")){
+				String href = link.attr("href");
+				id = Integer.valueOf(href.substring(href.indexOf("&cp=") + "&cp=".length()));
+			}
+			
+			Planet tmp = new Planet(id, name, img_id);
+			tmp.setShortInfo(info);
+			
+			Elements moon = div.select("a.moonlink");
+			if(moon.size() > 0){
+				Element moon_div = moon.get(0);
+				int moon_id = 0;
+				String moon_href = moon_div.attr("href");
+				if(!moon_href.equals("#")){
+					moon_id = Integer.valueOf(moon_href.substring(moon_href.indexOf("&cp=") + "&cp=".length()));
+				}
+				String moon_img = div.select("img").attr("src");
+				String moon_img_nr = Tools.between(moon_img, "_", "_");
+				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
+				String moon_name = moon_div.attr("title");
+				moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
+				
+				Planet m = new Planet(moon_id, moon_name, moon_img_id);		
+				m.setShortInfo(info);
+				tmp.setMoon(m);
+				
+				if(m.getId() == 0)
+					this.current_planet = m;
+				
+			}
+			
+			if(tmp.getId() == 0)
+				this.current_planet = tmp;
+			
+			this.planets.add(tmp);			
+			
+		}
+	}
+	
+	/*public void loadPlanetsOld(String body){
+		//empty array
+		this.planets = new ArrayList<Planet>();
+		//get the div containing our planets
 		int start = body.indexOf("<div class=\"smallplanet\">");
 		int end = 0;
 		int i = 0;
@@ -188,7 +252,7 @@ public class GameClient{
 			start = body.indexOf("<div class=\"smallplanet\">", start);
 			i++;
 		}
-	}
+	}*/
 	
 	/**
 	 * Reads the planetname of the given overview-page

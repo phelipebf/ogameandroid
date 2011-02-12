@@ -39,6 +39,7 @@ public class Tools {
 	}
 	
 	public static Drawable ImageOperations(String address) {
+		Log.i("ImageOperations", address);
 		// TODO The image should be save somewhere to prevent permanent reloading of the same file
 		/*//get filename
 		String[] parts = address.split("/");

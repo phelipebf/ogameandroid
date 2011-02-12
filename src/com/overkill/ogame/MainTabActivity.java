@@ -49,8 +49,8 @@ public class MainTabActivity extends ScrollableTabActivity{
     	((TextView) findViewById(R.id.subtitle)).setText(title);
     }
     
-    public void setIcon(Drawable icon) {
-    	((ImageButton) findViewById(R.id.home_button)).setImageDrawable(icon);
+    public void setIcon(int icon) {
+    	((ImageButton) findViewById(R.id.home_button)).setImageResource(icon);
     }
 	
     @Override
@@ -86,7 +86,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 					parameters.put("country", domain);
 					parameters.put("universe", universe);
 					FlurryAgent.onEvent("Login", parameters);
-					game = new GameClient();
+					game = new GameClient(MainTabActivity.this);
 					boolean state = game.login(universe, username, password);
 			       	//?error querystring indicates login error
 			       	if(state == false){

@@ -12,7 +12,7 @@ public class GalaxyPlanet {
 	private String planetName;
 	private String planetActivity;
 	private String planetCoords;
-	
+	private int image;
 	//Element moon;
 	
 	private String debrisMetal;
@@ -168,6 +168,12 @@ public class GalaxyPlanet {
 		} catch (NumberFormatException e) {
 			this.debrisRecyclersNeeded = 0;
 		}
+	}
+	public int getImage() {
+		return image;
+	}
+	public void setImage(int image) {
+		this.image = image;
 	}
 	@Override
 	public String toString() {
