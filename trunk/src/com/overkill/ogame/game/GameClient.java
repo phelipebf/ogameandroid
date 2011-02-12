@@ -202,58 +202,6 @@ public class GameClient{
 		}
 	}
 	
-	/*public void loadPlanetsOld(String body){
-		//empty array
-		this.planets = new ArrayList<Planet>();
-		//get the div containing our planets
-		int start = body.indexOf("<div class=\"smallplanet\">");
-		int end = 0;
-		int i = 0;
-		while(start > 0){
-			start += "<div class=\"smallplanet\">".length();
-			end = body.indexOf("</div>", start);
-			String div = body.substring(start, end);
-			int id = 0;
-			if(div.contains("&cp="))
-				id = Integer.valueOf(Tools.between(div, "&cp=", "\""));
-			String img = this.imagebase + Tools.between(div, "src=\"", "\"");
-			String name = Tools.between(div, "planet-name\">", "<");
-			String info = Tools.between(div, "title=\"", "\">");
-			
-			Planet tmp = new Planet(id, name, img);
-			tmp.setShortInfo(info);
-			
-			if(div.contains("<a class=\"moonlink")){
-				String moon_div = Tools.between(div, "<a class=\"moonlink", "</a>");
-				int moon_id = 0;
-				if(moon_div.contains("&cp="))
-					moon_id = Integer.valueOf(Tools.between(div, "&cp=", "\""));
-				String moon_img = this.imagebase + Tools.between(moon_div, "src=\"", "\"");
-				//replace img/planets/moon/moon_2_small.gif with img/planets/large/moon_2.gif
-				String moon_img_nr = Tools.between(moon_img, "_", "_");
-				moon_img = this.imagebase + "img/planets/large/moon_" + moon_img_nr + ".gif";
-				String moon_name = Tools.between(moon_div, "title=\"", "\"");
-				moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
-				
-				Planet moon = new Planet(moon_id, moon_name, moon_img);		
-				moon.setShortInfo(info);
-				tmp.setMoon(moon);				
-			}
-			
-			//add planet to array
-			this.planets.add(tmp);			
-			//check if this planet is currently selected
-			if(this.getPlanetNameFromOverview(body).equals(tmp.getName()))
-				this.current_planet = tmp;		
-			
-			if(tmp.hasMoon() && this.getPlanetNameFromOverview(body).equals(tmp.getMoon().getName()))
-				this.current_planet = tmp.getMoon();	
-			
-			start = body.indexOf("<div class=\"smallplanet\">", start);
-			i++;
-		}
-	}*/
-	
 	/**
 	 * Reads the planetname of the given overview-page
 	 * @param body The HTML data of the overview
