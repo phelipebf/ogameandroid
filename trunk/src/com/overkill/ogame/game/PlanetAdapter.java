@@ -41,7 +41,7 @@ public class PlanetAdapter extends ArrayAdapter<Planet> {
                     	((TextView) v.findViewById(R.id.info)).setText(p.getCoordinates() + " | " + context.getString(R.string.moon));
                     else
                     	((TextView) v.findViewById(R.id.info)).setText(p.getCoordinates() + " | " + p.getUsedFields() + "/" + p.getMaxFields());
-                    ((ImageView) v.findViewById(R.id.image)).setImageDrawable(p.getIcon());     
+                    ((ImageView) v.findViewById(R.id.image)).setImageResource(p.getIcon());     
             }
             return v;
     }	

@@ -14,7 +14,7 @@ public class Planet {
 	private int fields_used;
 	private int fields_max;
 	
-	private Drawable image;
+	private int image;
 	
 	private int metal;
 	private int crystal;
@@ -37,19 +37,19 @@ public class Planet {
 	
 	private boolean is_moon;
 	
-	public Planet(int id, String name, String image) {
+	public Planet(int id, String name, int image) {
 		this.id = id;
 		this.name = name;
-		this.image = Tools.ImageOperations(image);
+		this.image = image;
 	}
 	
-	public Planet(String name, String image, String json) {
+	public Planet(String name, int image, String json) {
 		this.name = name;
-		this.image = Tools.ImageOperations(image);
+		this.image = image;
 		this.parse(json);
 	}
 	
-	public Drawable getIcon(){
+	public int getIcon(){
 		return this.image;
 	}
 	

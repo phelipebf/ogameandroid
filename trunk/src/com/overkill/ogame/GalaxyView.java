@@ -35,6 +35,7 @@ import com.overkill.ogame.game.GalaxyPlanet;
 import com.overkill.ogame.game.GalaxyPlanetAdapter;
 import com.overkill.ogame.game.GameClient;
 import com.overkill.ogame.game.Planet;
+import com.overkill.ogame.game.Tools;
 
 public class GalaxyView extends ListActivity {
 
@@ -343,6 +344,12 @@ public class GalaxyView extends ListActivity {
 			if(tr.select("td.microplanet").size() == 1) {
 				planet.setEmptySlot(false);
 				Element microplanet = tr.select("td.microplanet").get(0);
+				
+				String img = microplanet.attr("style");
+				img = Tools.between(img, "(", ")");
+				img = img.replace("img/planets/micro/", "").replace(".gif", "");
+				img = img.substring(0, img.lastIndexOf("_"));				
+				planet.setImage(getResources().getIdentifier("drawable/planet_" + img, null, getPackageName()));
 				
 				Elements h4 = microplanet.select("h4");
 				planet.setPlanetName(h4.select("span.textNormal").text());

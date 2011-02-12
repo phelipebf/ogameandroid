@@ -5,8 +5,16 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
   
+  	<ImageView 
+    	android:layout_alignParentLeft="true"
+    	android:layout_width="40dip"
+    	android:layout_height="40dip" 
+    	android:id="@+id/img_planet" 
+    	android:src="@null"
+    	android:layout_marginRight="2dip" />
+  
     <TextView 
-    	android:layout_alignParentLeft="true" 
+    	android:layout_toRightOf="@id/img_planet"
     	android:layout_height="wrap_content" 
     	android:id="@+id/txt_name" 
     	android:text="Name" 

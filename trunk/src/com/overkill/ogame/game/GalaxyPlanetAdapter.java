@@ -3,7 +3,6 @@ package com.overkill.ogame.game;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +40,7 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 		if(p.isEmptySlot()) {
 			((TextView) v.findViewById(R.id.txt_name)).setText("empty slot");
 			txtPlayer.setVisibility(View.INVISIBLE);
+			((ImageView) v.findViewById(R.id.img_planet)).setVisibility(View.INVISIBLE);
 		} else {
 			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName() + " " + p.getPlanetActivity());
 			String player = p.getPlayerName();
@@ -49,6 +49,9 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			txtPlayer.setVisibility(View.VISIBLE);
 			txtPlayer.setText(player);
 			txtPlayer.setTextColor(p.getPlayerColor());
+			
+			((ImageView) v.findViewById(R.id.img_planet)).setImageResource(p.getImage());
+			
 			if(p.getDebrisRecyclersNeeded() > 0) {
 				imgDebris.setVisibility(View.VISIBLE);
 				imgDebris.setOnClickListener(new ImageView.OnClickListener() {			
