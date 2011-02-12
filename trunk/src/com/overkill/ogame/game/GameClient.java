@@ -179,7 +179,8 @@ public class GameClient{
 				if(!moon_href.equals("#")){
 					moon_id = Integer.valueOf(moon_href.substring(moon_href.indexOf("&cp=") + "&cp=".length()));
 				}
-				String moon_img = div.select("img").attr("src");
+				String moon_img = moon_div.select("img").attr("src");
+				Log.i("moon", moon_img);
 				String moon_img_nr = Tools.between(moon_img, "_", "_");
 				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
 				String moon_name = moon_div.attr("title");
