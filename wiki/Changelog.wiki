@@ -2,6 +2,15 @@
 
 =Changelog=
 
+==0.4.4==
+ * Added planet and moon images to local storage
+ * Added needed build time
+ * Added cancel function for buildings and research
+ * Added list of requirements for disabled objects
+ * Added buildable in X time display
+ * Reworked current resources update to calculate instead of request
+ * Fixed missing linefeed in fleetinfo
+
 ==0.4.3==
  * Added delete all messages button
  * Added dutch translation
