@@ -138,22 +138,17 @@ public class Tools {
 		return str.substring(0, str.length() - 1);
 	}
 	
-	public static ArrayList<BuildObject> parseObjectList(String body, String ulKey, String liKey, Planet planet, Context context){
-		if(body.contains(ulKey)==false){
-			Log.e("parseObjectList", ulKey + " not found>>\n" + body);
-			return new ArrayList<BuildObject>();
-		}
-		
-		Document document = Jsoup.parse(body);
-		
-		Elements ul = document.select("ul#" + ulKey);
-		Elements li = ul.select("li");
-		
+	public static ArrayList<BuildObject> parseObjectList(Document document, String ulKey, String liKey, Planet planet, Context context){
 		
 		ArrayList<BuildObject> objectlist = new ArrayList<BuildObject>();		
+		Elements ul = document.select("ul#" + ulKey);
 		
-		for(int i = 0; i < li.size(); i++){
-			Element item = li.get(i);
+		if(ul.size() == 0){
+			Log.e("parseObjectList", ulKey + " not found");
+			return objectlist;
+		}		
+		
+		for(Element item : ul.select("li")) {
 			
 			String status = item.className();				
 			String id = item.select("div").get(0).className().replace(liKey, "");
@@ -162,10 +157,11 @@ public class Tools {
 			
 			int timeleft = 0;
 			String name = "";
-			
+
 			if(item.select("div").get(0).classNames().size() > 1){ //with countdown
+				String script = document.select("script").not("script[src]").html();
 				name = item.select("div").get(0).attr("title").substring(1); // cut off leading |
-				timeleft = getCountdown(body, getQuetypeById(Integer.valueOf(id)));
+				timeleft = getCountdown(script, getQuetypeById(Integer.valueOf(id)));
 			}else{
 				name = item.select("span.textlabel").text();
 			}

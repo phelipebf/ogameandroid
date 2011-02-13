@@ -2,6 +2,10 @@ package com.overkill.ogame;
 
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -249,6 +253,8 @@ public class ObjectListActivity extends ListActivity {
 			@Override
 			public void run() {
 				String body = MainTabActivity.game.get("page=" + pageKey);
+				final Document document = Jsoup.parse(body); //parse only once
+				
 				//Token aus links
 				if(body.contains("token=")){
 					token = Tools.between(body, "token=", "'");
@@ -261,13 +267,13 @@ public class ObjectListActivity extends ListActivity {
 				Planet currentPlanet = MainTabActivity.game.getCurrentPlanet();	
 				currentPlanet.setGlobalTechtree(null);//reset techtree
 				
-				ArrayList<BuildObject> objectlist = Tools.parseObjectList(body, ulKey[0], liKey[0], currentPlanet, ObjectListActivity.this);
-				for(int i=1; i < ulKey.length; i++){
-					ArrayList<BuildObject> o = Tools.parseObjectList(body, ulKey[i], liKey[i], currentPlanet, ObjectListActivity.this);
+				ArrayList<BuildObject> objectlist = new ArrayList<BuildObject>();
+				for(int i = 0; i < ulKey.length; i++){
+					ArrayList<BuildObject> o = Tools.parseObjectList(document, ulKey[i], liKey[i], currentPlanet, ObjectListActivity.this);
 					objectlist.addAll(o);
 				}
 				adapter = new BuildObjectAdapter(ObjectListActivity.this, R.layout.adapter_item_object, objectlist);
-				((TextView)findViewById(R.id.txt_info)).post(new Runnable() {					
+				((TextView)findViewById(R.id.txt_info)).post(new Runnable() {
 					@Override
 					public void run() {
 						setListAdapter(adapter);					
@@ -299,9 +305,15 @@ public class ObjectListActivity extends ListActivity {
 						}else{
 							((TextView)findViewById(R.id.txt_info)).setVisibility(View.GONE);
 						}	
-						loader.cancel();	
+						loader.cancel();
+						
+						Elements alertBox = document.select("#message_alert_box");
+						if(alertBox.size() == 1) {
+							String unreadMessages = alertBox.select("span").text().trim();
+							Toast.makeText(getApplicationContext(), "Unread messages: " + unreadMessages, Toast.LENGTH_SHORT).show();
+						}
 					}
-				});				
+				});
 			}
 		});
 		loader.show();
