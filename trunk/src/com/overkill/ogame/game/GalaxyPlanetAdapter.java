@@ -32,25 +32,55 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
-		((ImageView) v.findViewById(R.id.img_moon)).setVisibility(View.INVISIBLE);
+
+		TextView txtPlanetName = ((TextView) v.findViewById(R.id.txt_name));
+		TextView txtActivity = ((TextView) v.findViewById(R.id.txt_activity));
 		TextView txtPlayer = ((TextView) v.findViewById(R.id.txt_player));
+		TextView txtRank = ((TextView) v.findViewById(R.id.txt_rank));
+		TextView txtAlly = ((TextView) v.findViewById(R.id.txt_ally));
+		ImageView imgPlanet = ((ImageView) v.findViewById(R.id.img_planet));
 		ImageView imgDebris = ((ImageView) v.findViewById(R.id.img_debris));
+		ImageView imgMoon = ((ImageView) v.findViewById(R.id.img_moon));
+
+		txtActivity.setVisibility(View.INVISIBLE);
+		txtPlayer.setVisibility(View.INVISIBLE);
+		txtRank.setVisibility(View.INVISIBLE);
+		txtAlly.setVisibility(View.INVISIBLE);
+		imgPlanet.setVisibility(View.INVISIBLE);
 		imgDebris.setVisibility(View.INVISIBLE);
+		imgMoon.setVisibility(View.INVISIBLE);
+		
 		final GalaxyPlanet p = this.getItem(position);
 		if(p.isEmptySlot()) {
-			((TextView) v.findViewById(R.id.txt_name)).setText("empty slot");
-			txtPlayer.setVisibility(View.INVISIBLE);
-			((ImageView) v.findViewById(R.id.img_planet)).setVisibility(View.INVISIBLE);
+			txtPlanetName.setText(context.getString(R.string.galaxy_empty_slot));
 		} else {
-			((TextView) v.findViewById(R.id.txt_name)).setText(p.getPlanetName() + " " + p.getPlanetActivity());
-			String player = p.getPlayerName();
-			if(p.getPlayerRank() != null)
-				player += " #" + p.getPlayerRank();
-			txtPlayer.setVisibility(View.VISIBLE);
-			txtPlayer.setText(player);
-			txtPlayer.setTextColor(p.getPlayerColor());
+			txtPlanetName.setText(p.getPlanetName());
+
+			if(p.getPlanetActivity() != null) {
+				txtActivity.setVisibility(View.VISIBLE);
+				txtActivity.setText(context.getString(R.string.galaxy_activity, p.getPlanetActivity()));
+			}
 			
-			((ImageView) v.findViewById(R.id.img_planet)).setImageResource(p.getImage());
+			if(p.getPlayerRank() != null) {
+				txtRank.setVisibility(View.VISIBLE);
+				txtRank.setText("#" + p.getPlayerRank());
+			}
+			
+			if(p.getAllyName() != null) {
+				txtAlly.setVisibility(View.VISIBLE);
+				txtAlly.setText("[" + p.getAllyName() + "]");
+			}
+			
+			txtPlayer.setVisibility(View.VISIBLE);
+			txtPlayer.setText(p.getPlayerName());
+			txtPlayer.setTextColor(p.getPlayerColor());
+
+			imgPlanet.setVisibility(View.VISIBLE);
+			imgPlanet.setImageResource(p.getImage());
+			
+			if(p.hasMoon()) {
+				imgMoon.setVisibility(View.VISIBLE);
+			}
 			
 			if(p.getDebrisRecyclersNeeded() > 0) {
 				imgDebris.setVisibility(View.VISIBLE);
