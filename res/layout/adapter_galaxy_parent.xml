@@ -17,8 +17,18 @@
     	android:layout_toRightOf="@id/img_planet"
     	android:layout_height="wrap_content" 
     	android:id="@+id/txt_name" 
-    	android:text="Name" 
-    	android:layout_width="wrap_content" />
+    	android:text="Planet" 
+    	android:layout_width="wrap_content"
+    	android:paddingRight="5dp" />
+    	
+    <TextView 
+    	android:id="@+id/txt_activity" 
+    	android:layout_toRightOf="@+id/txt_name" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content" 
+    	android:text="Activity" 
+    	android:layout_alignTop="@+id/txt_name" 
+    	android:layout_alignBottom="@+id/txt_name" />
     	
     <TextView 
     	android:layout_width="wrap_content" 
@@ -26,7 +36,27 @@
     	android:layout_height="wrap_content" 
     	android:layout_alignLeft="@+id/txt_name" 
     	android:id="@+id/txt_player" 
-    	android:text="Player" />
+    	android:text="Player"
+    	android:paddingRight="5dp" />
+    	
+    <TextView 
+    	android:id="@+id/txt_rank" 
+    	android:layout_toRightOf="@+id/txt_player" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content" 
+    	android:text="Rank" 
+    	android:layout_alignTop="@+id/txt_player" 
+    	android:layout_alignBottom="@+id/txt_player"
+    	android:paddingRight="5dp"  />
+    	
+    <TextView 
+    	android:id="@+id/txt_ally" 
+    	android:layout_toRightOf="@+id/txt_rank" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content" 
+    	android:text="Ally" 
+    	android:layout_alignTop="@+id/txt_rank" 
+    	android:layout_alignBottom="@+id/txt_rank" />
     
     <ImageView 
     	android:layout_width="wrap_content" 

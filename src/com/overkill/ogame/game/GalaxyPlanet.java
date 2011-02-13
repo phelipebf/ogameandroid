@@ -13,7 +13,8 @@ public class GalaxyPlanet {
 	private String planetActivity;
 	private String planetCoords;
 	private int image;
-	//Element moon;
+
+	private boolean moon = false;
 	
 	private String debrisMetal;
 	private String debrisCrystal;
@@ -174,6 +175,12 @@ public class GalaxyPlanet {
 	}
 	public void setImage(int image) {
 		this.image = image;
+	}	
+	public boolean hasMoon() {
+		return moon;
+	}
+	public void setMoon(boolean moon) {
+		this.moon = moon;
 	}
 	@Override
 	public String toString() {

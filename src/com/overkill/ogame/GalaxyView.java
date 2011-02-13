@@ -198,15 +198,15 @@ public class GalaxyView extends ListActivity {
 		super.onListItemClick(l, v, position, id);	
 		final GalaxyPlanet p = (GalaxyPlanet)getListAdapter().getItem(position);
 
-		if(p.isEmptySlot() && recyclerCount == 0) {
+		/*if(p.isEmptySlot() && ??? == 0) {
 			Toast.makeText(getApplicationContext(), "no colony ship", Toast.LENGTH_SHORT).show();
 			return;
-		}
+		}*/
 		
 	    final AlertDialog.Builder dialog = new AlertDialog.Builder(GalaxyView.this);
 		dialog.setTitle(R.string.more);
 		if(p.isEmptySlot()) {
-			dialog.setMessage("Colonize? " + p.getPosition());
+			dialog.setMessage(getApplicationContext().getString(R.string.galaxy_colonize, p.getPosition()));
 			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
 			dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -214,7 +214,7 @@ public class GalaxyView extends ListActivity {
 				}
 			});
 		}  else {
-			dialog.setMessage("Send esp. probe?");
+			dialog.setMessage(getApplicationContext().getString(R.string.galaxy_probes));
 			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
 			dialog.setPositiveButton(android.R.string.ok,  new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {					
@@ -300,11 +300,11 @@ public class GalaxyView extends ListActivity {
 	/**
 	 * Post data to server
 	 * @param game
-	 * @param mission 6=espionage, 8=recycle
+	 * @param mission 6=espionage, 7=colonize, 8=recycle
 	 * @param galaxy
 	 * @param system
 	 * @param planetPosition
-	 * @param planetType 1=planet, 2=debris
+	 * @param planetType 1=planet, 2=debris, 3=moon
 	 * @param shipCount
 	 * @return
 	 */
@@ -348,7 +348,7 @@ public class GalaxyView extends ListActivity {
 				String img = microplanet.attr("style");
 				img = Tools.between(img, "(", ")");
 				img = img.replace("img/planets/micro/", "").replace(".gif", "");
-				img = img.substring(0, img.lastIndexOf("_"));				
+				img = img.substring(0, img.lastIndexOf("_"));
 				planet.setImage(getResources().getIdentifier("drawable/planet_" + img, null, getPackageName()));
 				
 				Elements h4 = microplanet.select("h4");
@@ -356,22 +356,24 @@ public class GalaxyView extends ListActivity {
 				
 				h4.remove("span.spacing");
 				String planetActivity = "";
-				if(h4.select("img").size() > 0){ //icon					
-					planetActivity = "now";
+				if(h4.select("img").size() > 0){ //icon	
+					planetActivity = getApplicationContext().getString(R.string.galaxy_activity_now);
 				} else {
 					planetActivity = h4.text().trim();
 					if(planetActivity.indexOf("Activity:") >= 0) {
 						planetActivity = planetActivity.substring(planetActivity.indexOf("Activity:")+9);
 					} else {
-						planetActivity = "no activity";
+						planetActivity = null;
 					}
 				}
 				planet.setPlanetActivity(planetActivity);
 				
 				planet.setPlanetCoords(microplanet.select("#pos-planet").text());
-				
-				//TODO: moon data
-				//Element moon = tr.select("td.moon").get(0);
+								
+				Element moon = tr.select("td.moon").get(0);
+				if(moon.children().size() > 0) {
+					planet.setMoon(true);
+				}
 				
 				Element debris = tr.select("td.debris").get(0);
 				Elements debrisContent = debris.select("li.debris-content");
@@ -401,9 +403,11 @@ public class GalaxyView extends ListActivity {
 				
 				Element allytag = tr.select("td.allytag").get(0);
 				if(allytag.children().size() > 0) {	//no ally
-					planet.setAllyName(allytag.select("h4 > span").text());
+					String allyName = allytag.select("h4 > span").text();
+					allyName = allyName.substring(allyName.indexOf("Alliance ") + 9);
+					planet.setAllyName(allyName);
 					String allyRank = allytag.select("li.rank").text();
-					allyRank = allyRank.substring(allyRank.indexOf(": ")+2);
+					allyRank = allyRank.substring(allyRank.indexOf(": ") + 2);
 					planet.setAllyRank(allyRank);
 					String allyMembers = allytag.select("li.members").text();
 					allyMembers = allyMembers.substring(allyMembers.indexOf(": ") + 2);

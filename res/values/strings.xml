@@ -80,4 +80,9 @@
 	<string name="object_amount">Amount</string>
 	<string name="object_level">Level</string>
 	
+	<string name="galaxy_colonize">Colonize position %s?</string>
+	<string name="galaxy_probes">Send esp. probe?</string>
+	<string name="galaxy_activity">Activity: %s</string>
+	<string name="galaxy_activity_now">now</string>
+	<string name="galaxy_empty_slot">Empty slot</string>
 </resources>
