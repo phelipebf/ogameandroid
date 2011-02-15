@@ -118,23 +118,23 @@ public class Tools {
 		}
 	}
 		
-	public static String sec2str(int sec){
-		if(sec == 0) return "0s";
+	public static String sec2str(long time){
+		if(time == 0) return "0s";
 		String str = "";
-		int day = sec / 86400;
-		sec -= 86400 * day;
-		int hour = sec / 3600;
-		sec -= 3600 * hour;
-		int min = sec / 60;
-		sec -= 60 * min;
+		long day = time / 86400;
+		time -= 86400 * day;
+		long hour = time / 3600;
+		time -= 3600 * hour;
+		long min = time / 60;
+		time -= 60 * min;
 		if(day > 0)
 			str+= day + "d ";
 		if(hour > 0)
 			str+= hour + "h ";
 		if(min > 0)
 			str+= min + "m ";
-		if(sec > 0)
-			str+= sec + "s ";
+		if(time > 0)
+			str+= time + "s ";
 		return str.substring(0, str.length() - 1);
 	}
 	
@@ -205,18 +205,40 @@ public class Tools {
 					return 0;
 				return Integer.valueOf(Tools.between(body, "new baulisteCountdown(getElementByIdWithCache(\"Countdown\"), ", ","));	
 			case Item.QUETYPE_RESEARCH: 
-				if(body.contains("new bauCountdown(" ) == false)
+				if(body.contains("new bauCountdown(" ) == false && body.contains("new baulisteCountdown(getElementByIdWithCache('researchCountdown'),") == false)
 					return 0;
-				String s = Tools.between(body, "new bauCountdown(" , ");");
-				String[] param = s.split(","); 
-				return Integer.valueOf(param[1].trim());	
+				if(body.contains("new baulisteCountdown(getElementByIdWithCache('researchCountdown'),")){
+					String s = Tools.between(body, "new baulisteCountdown(getElementByIdWithCache('researchCountdown'), ", ",");
+					return Integer.valueOf(s.trim());	
+				}else{
+					String s = Tools.between(body, "new bauCountdown(" , ");");
+					String[] param = s.split(","); 
+					return Integer.valueOf(param[1].trim());	
+				}
 			case Item.QUETYPE_MULTIPLE: 
-				if(body.contains("new schiffbauCountdown(" ) == false)
+				if(body.contains("new shipCountdown(" ) == false)
 					return 0;
-				String s2 = Tools.between(body, "new schiffbauCountdown(" , ");");
+				String s2 = Tools.between(body, "new shipCountdown(" , ");");
 				String[] param2 = s2.split(","); 
-				return Integer.valueOf(param2[3].trim()) + ((Integer.valueOf(param2[1].trim()) - 1) * Integer.valueOf(param2[4].trim()));	
+				return Integer.valueOf(param2[4].trim()) + ((Integer.valueOf(param2[6].trim()) - 1) * Integer.valueOf(param2[3].trim()));	
 		}
 		return 0;
 	}	
+	
+	/**
+	 * Returns the time left for a single ship
+	 * @param body HTML String
+	 * @param currentShip If set the real value of the currently built ship will be returned
+	 * @return Seconds needed for a ship or seconds left for current ship if currentShip is true
+	 */
+	public static int getCountdownPerShip(String body, boolean currentShip){
+		if(body.contains("new shipCountdown(" ) == false)
+			return 0;
+		String s2 = Tools.between(body, "new shipCountdown(" , ");");
+		String[] param2 = s2.split(","); 
+		if(currentShip)
+			return Integer.valueOf(param2[4].trim());
+		else
+			return Integer.valueOf(param2[3].trim());	
+	}
 }
