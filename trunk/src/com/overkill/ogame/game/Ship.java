@@ -6,27 +6,20 @@ public class Ship {
 	private int id;
 	private String name;
 	private int icon;
-	private int count;
+	private int total;
 	private int used;
 	
-	public Ship(int id, String name, int count, Context context) {
+	public Ship(int id, String name, int total, Context context) {
 		this.id = id;
 		this.name = name;
-		this.count = count;
+		this.total = total;
 		this.icon = context.getResources().getIdentifier("drawable/supply" + this.id, null, context.getPackageName());
 	}
 
-	public void add(){
-		used++;
-		if(used > count){
-			used = count;
-		}
-	}
-	
-	public void remove(){
-		used--;
-		if(used < 0){
-			used = 0;
+	public void add(int value){
+		used = used + value;
+		if(used > total){
+			used = total;
 		}
 	}
 	
@@ -46,14 +39,6 @@ public class Ship {
 		this.name = name;
 	}
 
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
 	public int getUsed() {
 		return used;
 	}
@@ -61,14 +46,17 @@ public class Ship {
 	public void setUsed(int used) {
 		this.used = used;
 	}
-	
-	public int getRest(){
-		return count - used;
-	}
 
 	public int getIcon() {
 		return icon;
 	}
-	
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}	
 	
 }

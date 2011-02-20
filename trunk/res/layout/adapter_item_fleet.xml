@@ -5,88 +5,88 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-      
-        
-    <ImageView
+              
+    <ImageButton
         android:background="@null"
         android:id="@+id/image"
-        android:src="@drawable/supply2"
+        android:src="@drawable/supply204"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingRight="5dp"/>    
+        android:layout_width="wrap_content" 
+        android:layout_height="fill_parent" 
+        android:paddingRight="5dp" />    
         
     <TextView
         android:id="@+id/name"
-        android:text="Kristallmine"
+        android:text="Light fighter"
         android:textColor="#efefef"
         android:textStyle="bold"
         android:layout_toRightOf="@id/image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-        
-    <ImageButton
-        android:background="@null"
-    	android:id="@+id/ship_add"
-    	android:src="@drawable/ship_add"
-        android:layout_below="@id/name" 
-        android:layout_toRightOf="@id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="5dp" android:paddingLeft="1dp"/>
-    
-    <ImageButton
-        android:background="@null"
-    	android:id="@+id/ship_remove"
-    	android:src="@drawable/ship_remove"
-        android:layout_below="@id/name" 
-        android:layout_toRightOf="@id/ship_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="5dp" android:paddingLeft="1dp"/>
-        
-	<ImageButton
-        android:background="@null"
-    	android:id="@+id/ship_all"
-    	android:src="@drawable/ship_all"
-        android:layout_below="@id/name" 
-        android:layout_toRightOf="@id/ship_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="5dp" android:paddingLeft="1dp"/>
-      
+            
        <TextView
-        android:id="@+id/menge"
+        android:id="@+id/used"
         android:textColor="#efefef"
-        android:text="200"
-        android:layout_below="@id/name" 
+        android:text="0"
+    	android:layout_below="@+id/name" 
+    	android:layout_alignLeft="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="1dp" android:paddingLeft="1dp"  android:layout_alignParentRight="true" android:textStyle="bold" />   
+        android:paddingRight="1dp" 
+        android:paddingLeft="1dp"  
+        android:textStyle="bold" />   
       
      <TextView
      	android:id="@+id/slash"
         android:textColor="#efefef"
         android:text="/"
         android:layout_below="@id/name" 
-        android:layout_toLeftOf="@id/menge"
+        android:layout_toRightOf="@id/used"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="1dp" android:paddingLeft="1dp" android:textStyle="bold" /> 
         
-        <TextView
-        android:id="@+id/used"
-        android:text="20"
+	<TextView
+        android:id="@+id/total"
+        android:text="100"
         android:textColor="#efefef"
         android:layout_below="@id/name" 
-        android:layout_toLeftOf="@id/slash"
+        android:layout_toRightOf="@id/slash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="1dp" android:paddingLeft="1dp" android:textStyle="bold" />
-        
-    
-     
-     
-     
-     
+                
+	<Button 
+		android:layout_height="wrap_content" 
+		android:id="@+id/add100" 
+		android:layout_width="wrap_content" 
+		android:text="+100"
+		android:layout_toLeftOf="@+id/add10" 
+		android:layout_alignTop="@+id/add10" />
+		
+	<Button 
+		android:layout_height="wrap_content" 
+		android:id="@+id/add10" 
+		android:layout_width="wrap_content" 
+		android:text="+10" 
+		android:layout_toLeftOf="@+id/add1"  
+		android:layout_alignTop="@+id/add1" />
+		
+	<Button 
+		android:layout_height="wrap_content" 
+		android:id="@+id/add1" 
+		android:layout_width="wrap_content" 
+		android:text="+1" 
+		android:layout_toLeftOf="@+id/reset"  
+		android:layout_alignTop="@+id/reset" />
+	
+	<Button 
+		android:layout_height="wrap_content" 
+		android:id="@+id/reset" 
+		android:layout_width="wrap_content" 
+		android:text="0" 
+		android:layout_alignParentRight="true"  />
         
 </RelativeLayout>

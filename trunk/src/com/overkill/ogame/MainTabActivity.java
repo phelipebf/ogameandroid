@@ -203,9 +203,12 @@ public class MainTabActivity extends ScrollableTabActivity{
         			.putExtra("liKey", new String[]{"defense"})
         		);
         
-        //this.addTab("Flotte", R.drawable.navi_ikon_fleet1_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW, new Intent(this, Overview.class));
-        //this.addTab("Galaxie", R.drawable.navi_ikon_galaxy_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW, new Intent(this, Overview.class));
-
+        this.addTab(getString(R.string.tab_fleet), R.drawable.navi_ikon_fleet1_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW, 
+        		new Intent(this, FleetView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        			.putExtra("tab", "fleet1")
+        			.putExtra("ulKey", new String[]{"military", "civil"})
+        		);
+        
         commit();
         
         ((ImageButton)findViewById(R.id.home_button)).setOnClickListener(new ImageButton.OnClickListener() {			

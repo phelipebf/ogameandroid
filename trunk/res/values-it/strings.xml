@@ -14,12 +14,13 @@
 	<string name="menu_galaxy">Galassia</string>
 	<string name="menu_resources">Impostazioni delle risorse</string>
 	
-	<string name="tab_overview">Overview</string>
+	<string name="tab_overview">Riepilogo</string>
 	<string name="tab_resources">Risorse</string>
-	<string name="tab_station">Stazione</string>
+	<string name="tab_station">Strutture</string>
 	<string name="tab_research">Ricerca</string>
-	<string name="tab_shipyard">Shipyard</string>
+	<string name="tab_shipyard">Cantiere</string>
 	<string name="tab_defense">Difesa</string>
+	<string name="tab_fleet">Flotta</string>
 	
 	<string name="save_login">Salva le credenziali</string>
 	<string name="username">Username</string>
@@ -85,5 +86,9 @@
 	<string name="galaxy_activity">Attività: %s</string>
 	<string name="galaxy_activity_now">adesso</string>
 	<string name="galaxy_empty_slot">Slot vuoto</string>
+	
+	<string name="fleet1_reset">Reset</string>
+	<string name="fleet1_all">Tutte</string>
+	<string name="fleet1_next">Avanti</string>
 
 </resources>

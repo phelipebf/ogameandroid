@@ -20,6 +20,7 @@
 	<string name="tab_research">Research</string>
 	<string name="tab_shipyard">Shipyard</string>
 	<string name="tab_defense">Defense</string>
+	<string name="tab_fleet">Fleet</string>
 	
 	<string name="save_login">Save login</string>    
 	<string name="username">Username</string>   
@@ -85,4 +86,8 @@
 	<string name="galaxy_activity">Activity: %s</string>
 	<string name="galaxy_activity_now">now</string>
 	<string name="galaxy_empty_slot">Empty slot</string>
+	
+	<string name="fleet1_reset">Reset</string>
+	<string name="fleet1_all">All</string>
+	<string name="fleet1_next">Next</string>
 </resources>
