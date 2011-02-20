@@ -15,10 +15,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.flurry.android.FlurryAgent;
+import com.overkill.ogame.R;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 public class Tools {
 	
@@ -184,6 +187,36 @@ public class Tools {
 							planet.getDeuterium()
 						);		
 			}
+			objectlist.add(m);
+		}
+		return objectlist;
+	}
+	
+	public static ArrayList<Ship> parseFleet(Document document, String ulKey, Context context){
+		
+		ArrayList<Ship> objectlist = new ArrayList<Ship>();		
+		Elements ul = document.select("ul#" + ulKey);
+		
+		if(ul.size() == 0){
+			Log.e("parseObjectList", ulKey + " not found");
+			return objectlist;
+		}		
+		
+		for(Element li : ul.select("li")) {
+			
+			String status = li.className();
+			if(!"on".equals(status)) {
+				continue;
+			}
+			
+			String id = li.id().replace("button", "");
+			String name = li.select("span.textlabel").text();
+			String total = li.select("span.level").text().replace(name, "").trim().replace(".", "");
+						
+			//Log.i("li", id + " " + name + " (" + level + ") " + status);
+			
+			Ship m = new Ship(Integer.valueOf(id), name, Integer.valueOf(total), context);
+
 			objectlist.add(m);
 		}
 		return objectlist;

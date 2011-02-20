@@ -4,27 +4,26 @@ import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.overkill.ogame.game.FleetAdapter;
 import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.FleetEventAdapter;
 import com.overkill.ogame.game.Ship;
 import com.overkill.ogame.game.Tools;
-
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.View;
-import android.view.Window;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 /**
  * Handles fleet control
@@ -37,30 +36,57 @@ public class FleetView extends ListActivity {
 	String task = "movement";
 	@SuppressWarnings("rawtypes")
 	ArrayAdapter adapter;
+
+	String[] ulKey;
+	
+	public int selectedShips = 0;
+
+	// 1 -> 2
+	//index.php?page=fleet2&session=912bb66e8f11 POST
+	
+	//$('form[name=shipsChosen]').serialize()
+	//"galaxy=3&system=293&position=7&type=1&mission=0&speed=10&am202=2"
+	
+	
+
+	// 2 -> 3
+	//index.php?page=fleet3&session=912bb66e8f11 POST
+	
+	//$('form[name=details]').serialize()
+	//"type=1&mission=0&union=0&am202=2&galaxy=3&system=293&position=8&speed=10"
+	
+
+	
+	// 3 -> 4
+	//index.php?page=movement&session=912bb66e8f11
+	
+	//$('form[name=sendForm]').serialize()
+	//"holdingtime=1&expeditiontime=1&galaxy=3&system=293&position=8&type=1&mission=4&union2=0&holdingOrExpTime=0&speed=10&am202=2&metal=0&crystal=0&deuterium=0"
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
    	 	getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+				
+		if(getIntent().hasExtra("tab")) {
+			task = getIntent().getExtras().getString("tab");
+		}
 		
-		setContentView(R.layout.activity_tab_fleet);
+		if("fleet1".equals(task)) {
+			setContentView(R.layout.activity_tab_fleet1);			
+		} else {
+			setContentView(R.layout.activity_tab_movement);			
+		}
 		
 		registerForContextMenu(getListView());
-		
-		if(getIntent().hasExtra("tab"))
-			task = getIntent().getExtras().getString("tab");
 		
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {			
-				if(task.equals("fleet1")){
-					String body = MainTabActivity.game.get("page=fleet1");
-					ArrayList<Ship> objects_mil = getShipList(body, "military", "button");
-					ArrayList<Ship> objects_civ = getShipList(body, "civil", "button");
-					
-					objects_mil.addAll(objects_civ);
-					adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, objects_mil);
-				}else if(task.equals("movement")){			
+				if("fleet1".equals(task)) {
+					onCreateFleet1();
+				} else if("movement".equals(task)){
 					//Read the current eventList data
 					String body = MainTabActivity.game.get("page=eventList&ajax=1");
 					//if the date contains at least on event
@@ -90,6 +116,55 @@ public class FleetView extends ListActivity {
 		t.start();
 	}
 	
+	private void onCreateFleet1() {
+		ulKey = getIntent().getExtras().getStringArray("ulKey"); 
+		
+		String body = MainTabActivity.game.get("page=fleet1&ajax=1");
+		final Document document = Jsoup.parse(body);
+		
+		ArrayList<Ship> ships = new ArrayList<Ship>();
+		for(int i = 0; i < ulKey.length; i++){
+			ArrayList<Ship> o = Tools.parseFleet(document, ulKey[i], FleetView.this);
+			ships.addAll(o);
+		}
+		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, ships);
+		
+		final Button next = (Button) this.findViewById(R.id.fleet1_next);
+		next.setOnClickListener(new Button.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "next", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		((Button) this.findViewById(R.id.fleet1_all)).setOnClickListener(new Button.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				selectedShips = 0;
+				for(int i = 0; i < adapter.getCount(); i++) {
+					Ship ship = (Ship) adapter.getItem(i);
+					ship.setUsed(ship.getTotal());
+					selectedShips += ship.getTotal();
+				}
+				next.setEnabled(true);
+				adapter.notifyDataSetChanged();
+			}
+		});
+		
+		((Button) this.findViewById(R.id.fleet1_reset)).setOnClickListener(new Button.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				selectedShips = 0;
+				for(int i = 0; i < adapter.getCount(); i++) {
+					Ship ship = (Ship) adapter.getItem(i);
+					ship.setUsed(0);
+				}
+				next.setEnabled(false);
+				adapter.notifyDataSetChanged();
+			}
+		});
+	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 	  super.onCreateContextMenu(menu, v, menuInfo);
@@ -100,64 +175,25 @@ public class FleetView extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		final FleetEvent tmp = (FleetEvent) getListAdapter().getItem(position);
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    	alert.setTitle(R.string.fleet_info_title);
-    	String info = "";
-    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId())));
-    	Elements tr = table.select("tr");
-    	for(int i = 0; i < tr.size(); i++){
-    		info += tr.get(i).text() + "\n";
-    	}
-    	alert.setMessage(info);
-    	alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-	    	  public void onClick(DialogInterface dialog, int whichButton) {
-	    		  dialog.cancel();
-	    	  }
-	    	});
-    	alert.show();    	
-	}
-	
-	private ArrayList<Ship> getShipList(String body, String ulKey, String liKey){
-		String ul = "";
 		
-		if(body.contains("<ul id=\"" + ulKey + "\">")){
-			ul = Tools.between(body, "<ul id=\"" + ulKey + "\">", "</ul>");
-		}else{
-			int start = 0; int end = 0;
-			start = body.indexOf("<ul id=\"" + ulKey) + ("<ul id=\"" + ulKey).length();
-			start = body.indexOf(">", start) + 1;
-			end = body.indexOf("</ul>", start);
-			ul = body.substring(start, end);
+		if("movement".equals(task)){
+			final FleetEvent tmp = (FleetEvent) getListAdapter().getItem(position);
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+	    	alert.setTitle(R.string.fleet_info_title);
+	    	String info = "";
+	    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId())));
+	    	Elements tr = table.select("tr");
+	    	for(int i = 0; i < tr.size(); i++){
+	    		info += tr.get(i).text() + "\n";
+	    	}
+	    	alert.setMessage(info);
+	    	alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		    	  public void onClick(DialogInterface dialog, int whichButton) {
+		    		  dialog.cancel();
+		    	  }
+		    	});
+	    	alert.show();
 		}
-		ArrayList<Ship> objectlist = new ArrayList<Ship>();		
-		String[] items = ul.split("</li>");
-		for(String item : items){
-			if(item.contains("<li ") == false)
-				continue;
-			
-			String status = Tools.between(item, "class=\"", "\"");
-			if(status.equals("on") == false)
-				continue;
-			String id = Tools.between(item, "id=\"" + liKey + "", "\"", " ");
-			
-			String name = "";
-			String level = "";
-			
-			name = Tools.between(item, "<span class=\"textlabel\">", "</span>", "<").trim();	
-			int offset = item.indexOf("<span class=\"textlabel\">") + "<span class=\"textlabel\">".length();
-			offset = item.indexOf("</span>", offset) + "</span>".length();
-			int ende = item.indexOf("</span>", offset);
-			int ende2 = item.indexOf("<span", offset);
-			if((ende2 > 0) && (ende2 < ende))
-				ende = ende2;
-			level = item.substring(offset, ende).trim();
-			
-			Ship m = new Ship(Integer.valueOf(id), name, Integer.valueOf(level), getApplicationContext());	
-			
-			objectlist.add(m);
-		}		
-		return objectlist;
 	}
 	
 }
