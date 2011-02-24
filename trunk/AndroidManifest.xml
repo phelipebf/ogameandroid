@@ -17,7 +17,7 @@
         		  android:label="@string/app_name" 
         		  android:theme="@style/InfoTitleTheme" 
         		  android:screenOrientation="portrait" 
-        		  android:alwaysRetainTaskState="true" />  
+        		  android:alwaysRetainTaskState="true" />
 
 	    <activity android:name="ObjectListActivity" 
 	    		  android:screenOrientation="portrait" />

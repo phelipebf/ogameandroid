@@ -35,7 +35,7 @@ public class PlanetListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		if(MainTabActivity.game.getPlanets().get(position).getId()==0){
+		if(planets.get(position).getId()==0){
 			finish();
 			return;
 		}

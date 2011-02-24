@@ -88,6 +88,8 @@ public class Overview extends Activity {
 	}
 	
 	private void loadCountdown(){		
+		resetCountdown();
+		
 		long diff = (SystemClock.elapsedRealtime() - timeLastAjaxCall) / 1000;
 		
 		Document html = Jsoup.parse(info);
@@ -137,4 +139,13 @@ public class Overview extends Activity {
 			}
 		}
 	}	
+	
+	private void resetCountdown(){
+		((ImageView)findViewById(R.id.img_building)).setVisibility(View.INVISIBLE);
+		((ImageView)findViewById(R.id.img_reseach)).setVisibility(View.INVISIBLE);
+		((ImageView)findViewById(R.id.img_ships)).setVisibility(View.INVISIBLE);
+		((TextView)findViewById(R.id.txt_building)).setVisibility(View.INVISIBLE);
+		((TextView)findViewById(R.id.txt_research)).setVisibility(View.INVISIBLE);
+		((TextView)findViewById(R.id.txt_ships)).setVisibility(View.INVISIBLE);
+	}
 }

@@ -17,7 +17,7 @@
 	android:layout_alignParentBottom="true"
 	android:layout_width="fill_parent"
 	android:layout_alignParentLeft="true"
-	android:text="@string/new_mission" android:enabled="false"/>
+	android:text="@string/new_mission" android:enabled="true" android:onClick="onNewMissionClick"/>
   
   <Button android:id="@+id/btn_back"
 	android:layout_height="wrap_content"
