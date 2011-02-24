@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -194,6 +195,13 @@ public class FleetView extends ListActivity {
 		    	});
 	    	alert.show();
 		}
+	}
+	
+	public void onNewMissionClick(View view){
+		Intent i = new Intent(this, FleetView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+		.putExtra("tab", "fleet1")
+		.putExtra("ulKey", new String[]{"military", "civil"});
+		startActivity(i);
 	}
 	
 }
