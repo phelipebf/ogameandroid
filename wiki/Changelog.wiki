@@ -2,6 +2,10 @@
 
 =Changelog=
 
+==0.4.5==
+ * Added Galaxy View (see [Screenshots])
+ * Fixed crash when selecting last planet while having at least one moon (Issue 24)
+
 ==0.4.4==
  * Added planet and moon images to local storage
  * Added needed build time
