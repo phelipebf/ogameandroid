@@ -6,3 +6,5 @@
 || *Change Current Planet* || *Menu* || *Fleet Events* ||
 || http://image.cp-g.de/pics/4d20d1708cebf.png || http://image.cp-g.de/pics/4d2391f2ceb7c.png || http://image.cp-g.de/pics/4d2391ca2d294.png ||
 || *Message List* || *Message View* || *Fleet Event* ||
+|| http://image.cp-g.de/pics/4d709f10dd09f.png ||
+|| *Galaxy View* ||
