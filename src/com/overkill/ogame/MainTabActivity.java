@@ -146,7 +146,9 @@ public class MainTabActivity extends ScrollableTabActivity{
     	//create NotificationSystem and show it
     	SharedPreferences preferences = getSharedPreferences("ogame", 0);
     	if(preferences.getBoolean("fleetsystem_global", false)){
-	       	notify = new NotificationSystem(getApplicationContext(), game, Uri.parse(preferences.getString("fleetsystem_sound", null)));
+	       	notify = new NotificationSystem(getApplicationContext(), game,
+	       			preferences.getString("fleetsystem_sound", null) == null ? null : Uri.parse(preferences.getString("fleetsystem_sound", null)));
+	       			// Fix: Not trying to parse null as URI if nothing is set
 	       	notify.setDelay(60); // TODO int array?
 	       	notify.config(
 	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
