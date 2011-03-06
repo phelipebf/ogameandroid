@@ -3,9 +3,6 @@ package com.overkill.ogame.game;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.overkill.ogame.FleetView;
-import com.overkill.ogame.R;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +12,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.overkill.ogame.MovementView;
+import com.overkill.ogame.R;
 
 public class NotificationSystem {
 	private static final String TAG = "NotificationSystem";
@@ -49,7 +49,7 @@ public class NotificationSystem {
 		this.mGame = game;
 		this.mNotificationManager = (NotificationManager) this.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 		this.mNotification = new Notification(R.drawable.bar_icon, "OGame Fleet System", System.currentTimeMillis());
-		contentIntent = PendingIntent.getActivity(this.mContext, 0, new Intent(this.mContext, FleetView.class).putExtra("tab", "movement"), 0);
+		contentIntent = PendingIntent.getActivity(this.mContext, 0, new Intent(this.mContext, MovementView.class), 0);
 		this.mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
 		this.mNotification.contentIntent = contentIntent;
 		//if(uri != null)

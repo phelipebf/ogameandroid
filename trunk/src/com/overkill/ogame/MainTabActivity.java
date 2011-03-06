@@ -149,7 +149,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 	       	notify = new NotificationSystem(getApplicationContext(), game,
 	       			preferences.getString("fleetsystem_sound", null) == null ? null : Uri.parse(preferences.getString("fleetsystem_sound", null)));
 	       			// Fix: Not trying to parse null as URI if nothing is set
-	       	notify.setDelay(60); // TODO int array?
+	       	notify.setDelay(600); // TODO int array?
 	       	notify.config(
 	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
 	       			preferences.getBoolean("fleetsystem_alarm_neutral", false),
@@ -260,7 +260,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        	case R.id.fleet: startActivity(new Intent(this, FleetView.class)); return true;
+        	case R.id.fleet: startActivity(new Intent(this, MovementView.class)); return true;
         	case R.id.messages: startActivity(new Intent(this, MessageListView.class)); return true;
         	case R.id.galaxy: startActivity(new Intent(this, GalaxyView.class)); return true;
         }
