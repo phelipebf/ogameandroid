@@ -122,6 +122,11 @@ public class Overview extends Activity {
 						img = (ImageView)findViewById(R.id.img_ships);
 						txt = (TextView)findViewById(R.id.txt_ships);
 						id = src.substring(src.lastIndexOf("/") + 1, src.indexOf("_"));
+						String s2 = Tools.between(info, "new shipCountdown(" , ");");
+						String[] param2 = s2.split(","); 
+						int count = Integer.valueOf(param2[6].trim());
+						count -= diff / Integer.valueOf(param2[3].trim());
+						name += " (" + count + ")";
 						break;									
 				}
 				

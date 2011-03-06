@@ -152,9 +152,14 @@ public class FleetView extends ListActivity {
 		}
 
 		final Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
-        ArrayAdapter<CharSequence> shortcutsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> shortcutsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
         shortcutsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shortcutsSpinner.setAdapter(shortcutsAdapter);
+        runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+		        shortcutsSpinner.setAdapter(shortcutsAdapter);				
+			}
+		});
         for(Element option : document.select("#slbox > option")) {
         	shortcutsAdapter.add(option.html());
         	shortcuts.add(option.attr("value"));
@@ -224,7 +229,7 @@ public class FleetView extends ListActivity {
 	private void onCreateFleet1() {
 		ulKey = getIntent().getExtras().getStringArray("ulKey"); 
 		
-		String body = MainTabActivity.game.get("page=fleet1&ajax=1");
+		String body = MainTabActivity.game.get("page=fleet1");
 		final Document document = Jsoup.parse(body);
 		
 		ArrayList<Ship> ships = new ArrayList<Ship>();
@@ -291,25 +296,24 @@ public class FleetView extends ListActivity {
 		String coordsWithoutBrackets = coords.substring(1, coords.length()-1);
 		String parts[] = coordsWithoutBrackets.split(":");
 		
-		Log.i("sendShips", "galaxy:" + parts[0] + ", system:" + parts[1] + ", position:" + parts[2]);
+		//Log.i("sendShips", "galaxy:" + parts[0] + ", system:" + parts[1] + ", position:" + parts[2]);
 
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
-		postData.add(new BasicNameValuePair("mission", mission));
         postData.add(new BasicNameValuePair("galaxy", parts[0]));
         postData.add(new BasicNameValuePair("system", parts[1]));
         postData.add(new BasicNameValuePair("position", parts[2]));
         postData.add(new BasicNameValuePair("type", planetType));
+		postData.add(new BasicNameValuePair("mission", mission));
         postData.add(new BasicNameValuePair("speed", "10"));
         
         HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         for (String name : ships.keySet()) {
         	String value = ships.get(name);
 	        postData.add(new BasicNameValuePair(name, value));
-			Log.i("sendShips", name + ":" + value);
 		}
         String html = MainTabActivity.game.execute("page=fleet2", postData);
 
-		Log.i("sendShips", "html:" + html);
+		//Log.i("sendShips", "html:" + html);
 		
         return  Jsoup.parse(html);
 	}	
