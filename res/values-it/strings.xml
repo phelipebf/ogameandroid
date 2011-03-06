@@ -90,5 +90,17 @@
 	<string name="fleet1_reset">Reset</string>
 	<string name="fleet1_all">Tutte</string>
 	<string name="fleet1_next">Avanti</string>
+	
+	<string name="fleet2_shortcuts">Scorciatoie</string>
+	<string name="fleet2_speed">Velocità</string>
+	<string name="fleet2_refresh">Ricarica</string>
+	<string name="fleet2_back">Indietro</string>
+	<string name="fleet2_planet">Pianeta</string>
+	<string name="fleet2_debris">Detriti</string>
+	<string name="fleet2_consumption">Consumo di deuterio:</string>
+	<string name="fleet2_duration">Durata del volo:</string>
+	<string name="fleet2_arrival">Arrivo:</string>
+	<string name="fleet2_return">Ritorno:</string>
+	<string name="fleet2_cargobays">Portata:</string>
 
 </resources>

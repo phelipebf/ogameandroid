@@ -1,28 +1,36 @@
 package com.overkill.ogame;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.overkill.ogame.game.FleetAdapter;
-import com.overkill.ogame.game.FleetEvent;
-import com.overkill.ogame.game.FleetEventAdapter;
+import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Ship;
 import com.overkill.ogame.game.Tools;
 
@@ -40,14 +48,23 @@ public class FleetView extends ListActivity {
 
 	String[] ulKey;
 	
-	public int selectedShips = 0;
+	public int selectedShips = 0;	
+	
+	private final String colonizationID = "208";
+	
+	private String coords = null;
+	private String mission = "0";
+	private String planetType = "1";
+	
+	private int maxSpeed = 0;
+	private int speedFactor = 0;	
+	private ArrayList<String> shipIDs = new ArrayList<String>();
+	private ArrayList<Integer> speeds = new ArrayList<Integer>();
+	private ArrayList<Integer> completeConsumptions = new ArrayList<Integer>();
+	private int storageCapacity = 0;
 
-	// 1 -> 2
-	//index.php?page=fleet2&session=912bb66e8f11 POST
-	
-	//$('form[name=shipsChosen]').serialize()
-	//"galaxy=3&system=293&position=7&type=1&mission=0&speed=10&am202=2"
-	
+	private ArrayList<String> shortcuts = new ArrayList<String>();
+	private ArrayList<String> combatForces = new ArrayList<String>();
 	
 
 	// 2 -> 3
@@ -76,8 +93,8 @@ public class FleetView extends ListActivity {
 		
 		if("fleet1".equals(task)) {
 			setContentView(R.layout.activity_tab_fleet1);			
-		} else {
-			setContentView(R.layout.activity_tab_movement);			
+		} else if("fleet2".equals(task)) {
+			setContentView(R.layout.activity_tab_fleet2);			
 		}
 		
 		registerForContextMenu(getListView());
@@ -87,22 +104,8 @@ public class FleetView extends ListActivity {
 			public void run() {			
 				if("fleet1".equals(task)) {
 					onCreateFleet1();
-				} else if("movement".equals(task)){
-					//Read the current eventList data
-					String body = MainTabActivity.game.get("page=eventList&ajax=1");
-					//if the date contains at least on event
-					if(body.contains("<div class=\"eventFleet\"")){
-						body = Tools.between(body, "<div id=\"eventContent\" style=\"text-align:center\">", "<div id=\"eventFooter\">");
-						//Split the events and put them into the adapter
-						String[] eventshtml = body.split("<div class=\"eventFleet\"");
-						ArrayList<FleetEvent> events = new ArrayList<FleetEvent>(eventshtml.length - 1);
-						for(int i = 1; i < eventshtml.length; i++){
-							events.add(new FleetEvent(eventshtml[i], MainTabActivity.game));
-						}
-						adapter = new FleetEventAdapter(FleetView.this, R.layout.adapter_item_fleetevent, events);
-						adapter.setNotifyOnChange(true);
-						
-					}
+				} else if("fleet2".equals(task)) {
+					onCreateFleet2();
 				}
 				runOnUiThread(new Runnable() {					
 					@Override
@@ -115,6 +118,107 @@ public class FleetView extends ListActivity {
 		});
 		setProgressBarIndeterminateVisibility(true);
 		t.start();
+	}
+	
+	private void onCreateFleet2() {
+
+		Document document;
+		if(getIntent().hasExtra("coords")) {
+			coords = getIntent().getExtras().getString("coords");
+			mission = getIntent().getExtras().getString("mission");
+			planetType = getIntent().getExtras().getString("planetType");
+		} else {
+			Planet p = MainTabActivity.game.getCurrentPlanet();
+			coords = p.getCoordinates();
+			mission = "0";
+			planetType = "1";
+		}
+		document = sendShips();
+		updateWidgets();
+        
+		String script = document.select("script").not("script[src]").html();		
+		maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
+		speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
+		storageCapacity = Integer.parseInt(Tools.between(script, "storageCapacity = ", ";"));
+		
+		for(int i = 0; i < 13; i++) {
+			if(script.indexOf("shipIDs[" + i + "]") > -1) {
+				shipIDs.add(Tools.between(script, "shipIDs[" + i + "] = ", ";"));
+				completeConsumptions.add(Integer.parseInt(Tools.between(script, "completeConsumptions[" + i + "] = ", ";")));
+				speeds.add(Integer.parseInt(Tools.between(script, "speeds[" + i + "] = ", ";")));
+			} else {
+				break;
+			}
+		}
+
+		final Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
+        ArrayAdapter<CharSequence> shortcutsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        shortcutsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shortcutsSpinner.setAdapter(shortcutsAdapter);
+        for(Element option : document.select("#slbox > option")) {
+        	shortcutsAdapter.add(option.html());
+        	shortcuts.add(option.attr("value"));
+        }
+        shortcutsSpinner.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				shortLinkChange(false);
+				updateVariables();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+        
+        
+        /*final Spinner acs = (Spinner) findViewById(R.id.acs);
+        ArrayAdapter<CharSequence> acsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        acsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        acsAdapter(acsAdapter);
+        for(Element option : document.select("#aksbox > option")) {
+        	acsAdapter.add(option.html());
+        	combatForces.add(option.attr("value"));
+        }
+        acs.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				shortLinkChange(true);
+				updateVariables();
+				handleUnion();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {}
+        });*/
+        
+        ((RadioButton) findViewById(R.id.radioPlanet)).setOnClickListener(new OnClickListener() {		
+			@Override
+            public void onClick(View v) {
+                planetType = "1";
+            }
+        });
+        ((RadioButton) findViewById(R.id.radioMoon)).setOnClickListener(new OnClickListener() {		
+			@Override
+            public void onClick(View v) {
+            	planetType = "2";
+            }
+        });
+        ((RadioButton) findViewById(R.id.radioDebris)).setOnClickListener(new OnClickListener() {		
+			@Override
+            public void onClick(View v) {
+            	planetType = "3";
+            }
+        });
+        		
+		Button refresh = (Button)findViewById(R.id.refresh);
+		refresh.setOnClickListener(new Button.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				updateVariables();
+			}
+		});
 	}
 	
 	private void onCreateFleet1() {
@@ -134,7 +238,20 @@ public class FleetView extends ListActivity {
 		next.setOnClickListener(new Button.OnClickListener() {				
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "next", Toast.LENGTH_SHORT).show();
+				Intent fleet2 = new Intent(FleetView.this, FleetView.class)
+					.putExtra("tab", "fleet2");
+
+				HashMap<String, String> ships = new HashMap<String, String>();
+				for(int i = 0; i < adapter.getCount(); i++) {
+					Ship ship = (Ship) adapter.getItem(i);
+					if(ship.getUsed() > 0) {
+						ships.put("am" + ship.getId(), String.valueOf(ship.getUsed()));
+					} else {
+						ships.put("am" + ship.getId(), "");
+					}
+				}
+				fleet2.putExtra("ships", ships);
+	            startActivity(fleet2);   
 			}
 		});
 		
@@ -164,44 +281,243 @@ public class FleetView extends ListActivity {
 				adapter.notifyDataSetChanged();
 			}
 		});
-	}
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	  super.onCreateContextMenu(menu, v, menuInfo);
-	  //menu.add(0, 1, 0, "Spionagesonde senden");
-	  //menu.add(0, 2, 0, "Abbrechen");
-	}
-	
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
+	}	
+
+	// 1 -> 2
+	//index.php?page=fleet2&session=912bb66e8f11 POST	
+	//$('form[name=shipsChosen]').serialize()
+	//"galaxy=3&system=293&position=7&type=1&mission=0&speed=10&am202=2"
+	private Document sendShips() {
+		String coordsWithoutBrackets = coords.substring(1, coords.length()-1);
+		String parts[] = coordsWithoutBrackets.split(":");
 		
-		if("movement".equals(task)){
-			final FleetEvent tmp = (FleetEvent) getListAdapter().getItem(position);
-			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-	    	alert.setTitle(R.string.fleet_info_title);
-	    	String info = "";
-	    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId())));
-	    	Elements tr = table.select("tr");
-	    	for(int i = 0; i < tr.size(); i++){
-	    		info += tr.get(i).text() + "\n";
-	    	}
-	    	alert.setMessage(info);
-	    	alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-		    	  public void onClick(DialogInterface dialog, int whichButton) {
-		    		  dialog.cancel();
-		    	  }
-		    	});
-	    	alert.show();
+		Log.i("sendShips", "galaxy:" + parts[0] + ", system:" + parts[1] + ", position:" + parts[2]);
+
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+		postData.add(new BasicNameValuePair("mission", mission));
+        postData.add(new BasicNameValuePair("galaxy", parts[0]));
+        postData.add(new BasicNameValuePair("system", parts[1]));
+        postData.add(new BasicNameValuePair("position", parts[2]));
+        postData.add(new BasicNameValuePair("type", planetType));
+        postData.add(new BasicNameValuePair("speed", "10"));
+        
+        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        for (String name : ships.keySet()) {
+        	String value = ships.get(name);
+	        postData.add(new BasicNameValuePair(name, value));
+			Log.i("sendShips", name + ":" + value);
+		}
+        String html = MainTabActivity.game.execute("page=fleet2", postData);
+
+		Log.i("sendShips", "html:" + html);
+		
+        return  Jsoup.parse(html);
+	}	
+	
+	
+	private void displayError(String errorCode) {
+		String message = "Fleets can not be sent to this target: ";
+		if("1".equals(errorCode)) {
+			message += "Uninhabited planet";
+		} else if("1d".equals(errorCode)) {
+			message += "No debris field";
+		} else if("2".equals(errorCode)) {
+			message += "Player in vacation mode";
+		} else if("3".equals(errorCode)) {
+			message += "Admin or GM";
+		} else if("4".equals(errorCode)) {
+			message += "You have to research Astrophysics first.";
+		} else if("5".equals(errorCode)) {
+			message += "Noob protection";
+		} else if("6".equals(errorCode)) {
+			message += "This planet can not be attacked as the player is to strong!";
+		}			
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	}
+
+	
+	private void updateWidgets() {
+
+       	runOnUiThread(new Runnable() {							
+			@Override
+			public void run() {
+				String parts[] = coords.substring(1).split(":");
+				((Spinner) findViewById(R.id.galaxy_spinner)).setSelection(Integer.parseInt(parts[0])-1);
+				((EditText) findViewById(R.id.system)).setText(parts[1]);
+				((Spinner) findViewById(R.id.position)).setSelection(Integer.parseInt(parts[0])-1);
+				
+				if("1".equals(planetType)) {
+					((RadioButton) findViewById(R.id.radioPlanet)).setSelected(true);
+				} else if("1".equals(planetType)) {
+					((RadioButton) findViewById(R.id.radioMoon)).setSelected(true);
+				} else if("1".equals(planetType)) {
+					((RadioButton) findViewById(R.id.radioDebris)).setSelected(true);			
+				}							
+			}
+		});		
+	}
+	
+	
+	/********** fleet.js **********************/
+	private double getDistance(int targetGalaxy, int targetSystem, int targetPosition) {
+
+		Planet p = MainTabActivity.game.getCurrentPlanet();
+		
+		double diffGalaxy = Math.abs(p.getGalaxy() - targetGalaxy);
+		double diffSystem = Math.abs(p.getSystem() - targetSystem);
+		double diffPlanet = Math.abs(p.getPosition() - targetPosition);
+
+		if(diffGalaxy != 0) {
+			return diffGalaxy * 20000;
+		} else if(diffSystem != 0) {
+			return diffSystem * 5 * 19 + 2700;
+		} else if(diffPlanet != 0) {
+			return diffPlanet * 5 + 1000;
+		} else {
+			return 5;
 		}
 	}
-	
-	public void onNewMissionClick(View view){
-		Intent i = new Intent(this, FleetView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-		.putExtra("tab", "fleet1")
-		.putExtra("ulKey", new String[]{"military", "civil"});
-		startActivity(i);
+
+	private long getDuration(int speed, double distance) {
+		return Math.round(((35000 / speed * Math.sqrt(distance * 10 / maxSpeed) + 10) / speedFactor ));
 	}
+
+	private long getConsumption(long duration, double distance) {
+		long consumptionCounter = 0;
+		//long holdingConsumption = 0;
+
+		int countedShips = 0;
+
+		for(int i=0; i < shipIDs.size(); i++) {
+			countedShips++;
+
+			double shipSpeedValue = 35000 / (duration * speedFactor - 10) * Math.sqrt(distance * 10 / speeds.get(i));
+
+			//holdingConsumption += completeConsumptions[i] * holdingTime;
+
+			consumptionCounter += completeConsumptions.get(i) * distance / 35000 * ((shipSpeedValue / 10) + 1) * ((shipSpeedValue / 10) + 1);
+		}
+
+		if(countedShips>0) {
+			consumptionCounter = Math.round(consumptionCounter) + 1;
+
+			/*if(holdingTime>0) {
+				consumptionCounter += Math.max(Math.floor(holdingConsumption/10),1);
+			}*/
+
+			return consumptionCounter;
+		} else {
+			return 0;
+		}
+	}
+
+	private long getFreeStorage(long consumption) {
+		long freeStorageCounter = storageCapacity;
+		freeStorageCounter -= consumption;
+		//freeStorageCounter -= (probeStorageCapacity-getConsumption(210));
+
+		return freeStorageCounter;
+	}
+
+	private void updateVariables() {
+        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
+        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
+
+        Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
+        int targetGalaxy = Integer.parseInt(getResources().getStringArray(R.array.galaxies)[galaxySpinner.getSelectedItemPosition()]);
+
+        EditText systemText = (EditText) findViewById(R.id.system);
+		int targetSystem = Integer.parseInt(systemText.getText().toString());
+		
+		Spinner positionSpinner = (Spinner) findViewById(R.id.position);
+        int targetPosition = Integer.parseInt(getResources().getStringArray(R.array.positions)[positionSpinner.getSelectedItemPosition()]);
+		
+		double distance = getDistance(targetGalaxy, targetSystem, targetPosition);
+		long duration = getDuration(speed, distance);
+		long consumption = getConsumption(duration, distance);
+		long cargoSpace = getFreeStorage(consumption);
+		//cargoLeft = cargoSpace - metal - crystal - deuterium;
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+		Date d = new Date();	    
+	    Date arrivalTime = new Date(d.getTime() + 1000 * duration);
+	    Date returnTime = new Date(d.getTime() + 1000 * 2 * duration);
+
+	    ((TextView) findViewById(R.id.fleet2_duration)).setText(Tools.sec2str(duration));
+	    ((TextView) findViewById(R.id.fleet2_arrival)).setText(sdf.format(arrivalTime));
+	    ((TextView) findViewById(R.id.fleet2_return)).setText(sdf.format(returnTime));
+	    ((TextView) findViewById(R.id.fleet2_consumption)).setText(String.valueOf(consumption));
+	    ((TextView) findViewById(R.id.fleet2_cargobays)).setText(String.valueOf(cargoSpace));
+	 
+	}	
+	
+
+	/********** fleet2.js **********************/	
+	private void shortLinkChange(boolean aks)
+	{
+		String value = "";
+	    if(aks) {
+	        //Spinner acs = (Spinner) findViewById(R.id.acs);
+	        //value = combatForces.get(acs.getSelectedItemPosition());
+	    } else {
+	        Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
+	        value = shortcuts.get(shortcutsSpinner.getSelectedItemPosition());
+	    }
+
+	    if("-".equals(value)) {
+	        return;
+	    } else {
+	        String[] parts = value.split("#");
+	        
+	        coords = "[" + parts[0] + ":" + parts[1] + ":" + parts[2] + "]";
+	        planetType = String.valueOf(parts[3]);
+	        
+	        updateWidgets();
+	    }
+	}
+
+	/*function handleUnion()
+	{
+	    value = $("#aksbox").val();
+
+	    if(value=="-")
+	    {
+	        document.details.union.value = 0;
+	        document.details.mission.value = missionNone;
+	    }
+	    else
+	    {
+	        parts = value.split("#");
+	        document.details.union.value = parts[5];
+	        document.details.mission.value = missionUnionattack;
+	    }
+	}*/
+
+
+	/*private void trySubmit() {
+	    String url = "index.php?page=fleetcheck&session=6e21c87a53e7&ajax=1&espionage=";
+	    
+	    params = new Object();
+	    params.galaxy = $("#galaxy").val();
+	    params.system = $("#system").val();
+	    params.planet = $("#position").val();
+	    params.type = $("#type").val();
+
+	    if
+	    (
+	        $("form[name='details'] input[name='am" + colonizationID + "']").length > 0
+	        && $("form[name='details'] input[name='am" + colonizationID + "']").val() > 0
+	    )
+	    {
+	        params.cs = 1;
+	    }
+
+	    String errorCode = $.post(url, params, displayError);
+		if (!"0".equals(errorCode)) {
+			displayError(errorCode);
+		} else {
+			//go to fleet3
+		}
+	}*/
 	
 }

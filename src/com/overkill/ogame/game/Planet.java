@@ -194,4 +194,9 @@ public class Planet {
 		String parts[] = coordinates.substring(1).split(":"); //cut of leading [ 
 		return Integer.valueOf(parts[1]);
 	}
+	
+	public int getPosition(){
+		String parts[] = coordinates.substring(1, coordinates.length()-1).split(":"); //cut brackets 
+		return Integer.valueOf(parts[2]);
+	}
 }
