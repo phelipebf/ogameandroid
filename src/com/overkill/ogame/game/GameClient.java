@@ -240,12 +240,12 @@ public class GameClient{
 	 * @param postData The post data for this request
 	 * @return The HTTP-Satuscode of the reply
 	 */
-	public String execute(String url, List<NameValuePair> postData){
+	public synchronized String execute(String url, List<NameValuePair> postData){
 		try{
 			HttpPost httppost = new HttpPost(this.indexbase + url + "&session=" + this.session);
 			httppost.addHeader("User-Agent", USER_AGENT);
 			httppost.setEntity(new UrlEncodedFormEntity(postData));
-			Log.i(TAG, "execute " + httppost.getURI().toString() + " POST");
+			Log.i(TAG, "execute " + httppost.getURI().toString() + " " + httppost.getMethod());
 			HttpResponse response = this.http.execute(httppost);
 			/*if(response.getStatusLine().getStatusCode() != 200){
 				this.login();

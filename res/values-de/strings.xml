@@ -5,7 +5,7 @@
 <string name="moon">Mond</string>
 
 <string name="tos_version">1</string>
-<string name="tos">Diese App ist nicht offiziell erlaubt, ich bin daher nicht verantwortlich falls dein Account gesperrt wird.\\\\\\\\nDiese App ist hoch experimentell, ich bin nicht verantwortlich fallst dein Account beschädigt wird.</string>
+<string name="tos">Diese App ist nicht offiziell erlaubt, ich bin daher nicht verantwortlich falls dein Account gesperrt wird.\nDiese App ist hoch experimentell, ich bin nicht verantwortlich fallst dein Account beschädigt wird.</string>
 
 <string name="menu_settings">Einstellungen</string>
 <string name="menu_reload_serverlist">Serverlist neu laden</string>
@@ -45,7 +45,7 @@
 <string name="ask_no_count">Bauaufrag für %s senden?</string>
 <string name="now_building">%s wird gebaut.</string>
 <string name="building_time">Baudauer: %s</string>
-<string name="buildable_in">Nicht genügend Ressourcen vorhanden.\\\\\\\\nVerfügbar in %s.</string>
+<string name="buildable_in">Nicht genügend Ressourcen vorhanden.\nVerfügbar in %s.</string>
 <string name="loading">Laden...</string>
 <string name="change_planet">Wechsle nach \"%s\"</string>
 <string name="in_queue">In Bauliste</string>
