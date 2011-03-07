@@ -8,9 +8,9 @@
   * Change percent
  * Fleet
   * New mission
-   * Display current ships on planet
-   * Select Ships
-   * Set target and mission type
+   * ~~Display current ships on planet~~
+   * ~~Select Ships~~
+   * ~~Set target and mission type~~
    * Set speed and cargo
   * Cancel current fleet event
  * Messages
