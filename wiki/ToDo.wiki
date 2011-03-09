@@ -21,6 +21,9 @@
   * ~~Delete message~~
   * Report message
   * Create new message
+ * Alliance
+  * View Info
+  * Join/Quit an alliance
 
 = Extra =
 
