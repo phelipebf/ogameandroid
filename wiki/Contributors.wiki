@@ -1,0 +1,11 @@
+#summary Listing all the People working on the Project
+
+= Development =
+ *
+ *
+
+= Translations =
+ * German
+ * Italian
+ * Dutch
+ * French
