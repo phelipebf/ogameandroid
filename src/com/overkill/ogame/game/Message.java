@@ -109,8 +109,6 @@ public class Message {
 	public void setTo(String to) {
 		this.to = to;
 	}
-
-	
 	
 	public String toString(){
 		if(read)

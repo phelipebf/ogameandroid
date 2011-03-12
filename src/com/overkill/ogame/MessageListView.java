@@ -64,14 +64,15 @@ public class MessageListView extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    menu.add(0, 0, 0, R.string.message_delete_all);
+	    menu.add(0,  R.string.message_delete_all, 0, R.string.message_delete_all);
+	    menu.add(0, R.string.message_send, 0, R.string.message_send);
 	    return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	    	case 0:
+	    	case R.string.message_delete_all:
 	    		Thread t = new Thread(new Runnable() {			
 	    			@Override
 	    			public void run() {		
@@ -91,6 +92,9 @@ public class MessageListView extends ListActivity {
 	    		setProgressBarIndeterminateVisibility(true);
 	    		t.start();
 		        return true;
+	    	case R.string.message_send:
+	    		startActivity(new Intent(this, MessageComposeView.class));
+	    		return true;
 	    }
         return super.onOptionsItemSelected(item);
 	}

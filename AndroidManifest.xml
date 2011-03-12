@@ -49,6 +49,10 @@
 		<activity android:name="MessageDetailView"
 				  android:label="@string/app_name"
 				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="MessageComposeView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
      	
 		<activity android:name=".PlanetListActivity"
 				  android:label="@string/select_planet"
