@@ -416,4 +416,21 @@ public class GameClient{
         nameValuePairs.add(new BasicNameValuePair("actionMode", "2"));
         this.execute("page=messages", nameValuePairs);
 	}
+	
+	public String sendMessage(int playerID, String subject, String text){
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("betreff", subject));
+        postData.add(new BasicNameValuePair("text", text));
+		return execute("page=messages&to=" + playerID, postData);
+	}
+	
+	public Player findPlayer(String playerName){
+		Document html = Jsoup.parse(get("page=search&ajax=1&method=2&currentSite=1&searchValue=" + playerName));
+		Elements tr = html.select("tr");
+		if(tr.size() <= 1)
+			return new Player(0);
+		Element link = tr.get(1).select("td.action > a").get(0);
+		String name = tr.get(1).select("td.userName").get(0).text();
+		return new Player(Integer.valueOf(Tools.between(link.attr("onclick"), "to=", "&")), name);
+	}
 }

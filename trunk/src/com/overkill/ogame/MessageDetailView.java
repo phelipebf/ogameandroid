@@ -1,24 +1,31 @@
 package com.overkill.ogame;
 
 import com.overkill.ogame.game.Message;
+import com.overkill.ogame.game.Player;
 import com.overkill.ogame.game.Tools;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MessageDetailView extends Activity {
 	int msg_id;
 	Message msg;
+	Player from;
+	boolean canRepley = false;
+	boolean canReport = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		
-		setContentView(R.layout.activity_message);
+		setContentView(R.layout.activity_message_detail);
 		
 		if(getIntent().getExtras().containsKey("msg_id")==false)
 			finish();
@@ -44,6 +51,8 @@ public class MessageDetailView extends Activity {
 				
 				msg.setContent(Html.fromHtml(content).toString());
 				
+				from = new Player(0, msg.getFrom());
+				
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
@@ -52,6 +61,8 @@ public class MessageDetailView extends Activity {
 						((TextView)findViewById(R.id.txt_subject)).append(" " + msg.getSubject());
 						((TextView)findViewById(R.id.txt_date)).append(" " + msg.getDate());
 						((TextView)findViewById(R.id.txt_msg)).setText(msg.getContent());
+						((Button)findViewById(R.id.btn_repley)).setEnabled(canRepley);
+						((Button)findViewById(R.id.btn_report)).setEnabled(canReport);
 						setProgressBarIndeterminateVisibility(false);
 					}
 				});
@@ -78,4 +89,9 @@ public class MessageDetailView extends Activity {
 		setProgressBarIndeterminateVisibility(true);
 		t.start();	
 	}
+	
+	public void btnRepley(View view){
+		startActivity(new Intent(this, MessageComposeView.class).putExtra("to", from));
+	}
+	
 }
