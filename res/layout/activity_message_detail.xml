@@ -27,8 +27,8 @@
 	<Button
 		android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content" 
-	    android:id="@+id/btn_repley"
-	    android:layout_weight="1" android:text="@string/message_respond" android:enabled="false" android:onClick="btnRepley"/>
+	    android:id="@+id/btn_reply"
+	    android:layout_weight="1" android:text="@string/message_reply" android:enabled="false" android:onClick="btnRepley"/>
 	
 	 <Button
 	 	android:id="@+id/btn_delete"
@@ -45,7 +45,7 @@
     <TextView  
     android:layout_width="fill_parent" 
     android:id="@+id/txt_msg"
-    android:text="text"
+    android:text="@string/loading"
     android:layout_height="wrap_content"/>
 </ScrollView>
 

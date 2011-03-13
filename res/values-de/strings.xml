@@ -69,7 +69,7 @@
 	<string name="settings_fleet_hostile">Feindlich</string>
 	<string name="settings_fleet_hostile_summary">Alarm bei feindlichen Flotten</string>
 	
-	<string name="message_respond">Antworten</string>
+	<string name="message_reply">Antworten</string>
 	<string name="message_report">Melden</string>
 	<string name="message_delete">Löschen</string>
 	<string name="message_delete_all">Alle Löschen</string>
