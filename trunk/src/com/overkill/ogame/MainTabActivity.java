@@ -12,9 +12,12 @@ import com.overkill.ogame.game.NotificationSystem;
 import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Tools;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +26,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -221,6 +226,41 @@ public class MainTabActivity extends ScrollableTabActivity{
 			}
 		});
         
+        ((ImageButton)findViewById(R.id.home_button)).setOnLongClickListener(new ImageButton.OnLongClickListener() {			
+			@Override
+			public boolean onLongClick(View v) {
+				AlertDialog.Builder dialog = new AlertDialog.Builder(MainTabActivity.this);
+				final EditText input = new EditText(MainTabActivity.this);
+		    	input.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+				dialog.setTitle("Rename Planet");
+				dialog.setMessage("Enter new Name:");
+				dialog.setView(input);
+				dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {			
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String newPlanetName = input.getEditableText().toString();
+						boolean result = MainTabActivity.game.renamePlanet(newPlanetName);
+						if(result){
+							Toast.makeText(MainTabActivity.this, "Success", Toast.LENGTH_SHORT).show();
+							reloadTitleData(true);
+							dialog.cancel();
+						}else{
+							Toast.makeText(MainTabActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+							dialog.cancel();
+						}
+					}
+				});
+				dialog.setNegativeButton(android.R.string.cancel, new OnClickListener() {			
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();				
+					}
+				});
+				dialog.show();
+				return true;
+			}
+		});
+        
         getReloadButton().setOnClickListener(new ImageButton.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -232,7 +272,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         getReloadButton().setOnLongClickListener(new ImageButton.OnLongClickListener() {			
 			@Override
 			public boolean onLongClick(View v) {
-				reloadTitleData();
+				reloadTitleData(false);
 				return true;
 			}
 		});
@@ -271,16 +311,22 @@ public class MainTabActivity extends ScrollableTabActivity{
     public void onResume() {
     	super.onResume();
     	if(ready){
-    		reloadTitleData();
+    		reloadTitleData(false);
     	}    		
     }
     
-	public void reloadTitleData(){
+    /**
+     * Refreshes the title data
+     * @param forceReload Refresh all Planet data (needed for rename)
+     */
+	public void reloadTitleData(final boolean forceReload){
 		final ImageButton syncIndicator = getReloadButton();
 		
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {
+				if(forceReload)
+					MainTabActivity.game.loadPlanets();
 				final Planet p1 = MainTabActivity.game.getCurrentPlanet();	
 				p1.parse(MainTabActivity.game.get("page=fetchResources&ajax=1"));
 				runOnUiThread(new Runnable() {
