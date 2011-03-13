@@ -1,8 +1,12 @@
 package com.overkill.ogame;
 
 import com.overkill.ogame.game.Player;
+import com.overkill.ogame.game.Tools;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,12 +50,34 @@ public class MessageComposeView extends Activity {
 	public void btnSend(View view){
 		String subject = ((EditText) findViewById(R.id.edit_subject)).getEditableText().toString();
 		String text = ((EditText) findViewById(R.id.txt_msg)).getEditableText().toString();
-		MainTabActivity.game.sendMessage(player.getPlayerID(), subject, text);
+		String html = MainTabActivity.game.sendMessage(player.getPlayerID(), subject, text);
+		html = Tools.between(html, "$(document).ready(function() {", "}");
+		String result = "Error sending Message";
+		if(html.contains("fadeBox("))
+			result = Tools.between(html, "fadeBox(\"", "\"");
+		
+		Toast.makeText(MessageComposeView.this, result, Toast.LENGTH_LONG).show();		
 		finish();
 	}
 	
 	public void btnDelete(View view){
-		finish();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+		dialog.setTitle(R.string.message_delete);
+		dialog.setMessage("Sure?");
+		dialog.setPositiveButton(android.R.string.yes, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+				finish();				
+			}
+		});
+		dialog.setNegativeButton(android.R.string.no, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();				
+			}
+		});
+		dialog.show();
 	}
 	
 }

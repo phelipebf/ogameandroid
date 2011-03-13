@@ -85,7 +85,7 @@ public class ObjectListActivity extends ListActivity {
 								@Override
 								public void run() {				
 									MainTabActivity.game.cancelBuild(b.getId(), pageKey);
-									((MainTabActivity) getParent()).reloadTitleData();
+									((MainTabActivity) getParent()).reloadTitleData(false);
 									//Hide the loader and tell the user that the request was sent
 									runOnUiThread(new Runnable() {
 										@Override
@@ -226,7 +226,7 @@ public class ObjectListActivity extends ListActivity {
 	    			public void run() {				
 	    				/*int c = */MainTabActivity.game.build(b.getId(), amount, pageKey, token);	
 	    				// TODO alarm in c sec
-	    				((MainTabActivity) getParent()).reloadTitleData();
+	    				((MainTabActivity) getParent()).reloadTitleData(false);
 	    				//Hide the loader and tell the user that the request was sent
 	    				runOnUiThread(new Runnable() {					
 	    					@Override

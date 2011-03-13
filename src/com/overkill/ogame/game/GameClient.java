@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -417,13 +418,26 @@ public class GameClient{
         this.execute("page=messages", nameValuePairs);
 	}
 	
+	/**
+	 * Send a message to the given Player
+	 * @param playerID The ID of the target
+	 * @param subject Subject Text
+	 * @param text Message Body
+	 * @return Html data of the result page
+	 */
 	public String sendMessage(int playerID, String subject, String text){
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+		//They are using the German word on every server O_o
         postData.add(new BasicNameValuePair("betreff", subject));
         postData.add(new BasicNameValuePair("text", text));
 		return execute("page=messages&to=" + playerID, postData);
 	}
 	
+	/**
+	 * Finds ID and name for the Player closest to the given name
+	 * @param playerName The name to search for
+	 * @return ID and name of the first result
+	 */
 	public Player findPlayer(String playerName){
 		Document html = Jsoup.parse(get("page=search&ajax=1&method=2&currentSite=1&searchValue=" + playerName));
 		Elements tr = html.select("tr");
@@ -432,5 +446,24 @@ public class GameClient{
 		Element link = tr.get(1).select("td.action > a").get(0);
 		String name = tr.get(1).select("td.userName").get(0).text();
 		return new Player(Integer.valueOf(Tools.between(link.attr("onclick"), "to=", "&")), name);
+	}
+	
+	/**
+	 * Tries to rename current Planet
+	 * @param newPlanetName New Name
+	 * @return True if successful, false on any error
+	 */
+	public boolean renamePlanet(String newPlanetName){
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("newPlanetName", newPlanetName));
+        String result = execute("page=planetRename", postData);
+        //returns json like {"status":true,"newName":"...","errorbox":{"type":"fadeBox","text":"...","failed":0}}
+        try{
+        	JSONObject json = new JSONObject(result);
+        	return json.getBoolean("status");
+        }catch(Exception e){
+        	return false;
+        }
+        
 	}
 }
