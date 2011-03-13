@@ -70,7 +70,7 @@
 	<string name="settings_fleet_hostile_summary">Notifica gli eventi dei nemici</string>
 	
 	<string name="message_send">Invia</string>
-	<string name="message_respond">Rispondi</string>
+	<string name="message_reply">Rispondi</string>
 	<string name="message_report">Segnala</string>
 	<string name="message_delete">Cancella</string>
 	<string name="message_delete_all">Cancella tutto</string>

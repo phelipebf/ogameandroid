@@ -70,7 +70,7 @@
 	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
 	
 	<string name="message_send">Send</string>
-	<string name="message_respond">Answer</string>
+	<string name="message_reply">Reply</string>
 	<string name="message_report">Report</string>
 	<string name="message_delete">Delete</string>
 	<string name="message_delete_all">Delete All</string>

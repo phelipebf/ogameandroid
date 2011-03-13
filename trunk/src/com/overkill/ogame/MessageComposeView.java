@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 public class MessageComposeView extends Activity {
 	Player player;
-
+	int isAnswerMessage = 0;
+	int relationMessageId = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +29,10 @@ public class MessageComposeView extends Activity {
 		if(getIntent().hasExtra("to")){
 			player = (Player) getIntent().getExtras().get("to");
 			((EditText) findViewById(R.id.edit_to)).setText(player.getPlayerName());
-			((EditText) findViewById(R.id.txt_msg)).setText(String.valueOf(player.getPlayerID()));
+			((EditText) findViewById(R.id.edit_subject)).setText(getIntent().getExtras().getString("replySubject"));
+			isAnswerMessage = 1;
+			relationMessageId = getIntent().getExtras().getInt("relationMessageId");
+			((EditText) findViewById(R.id.txt_msg)).requestFocus();
 		}
 		
 		((EditText) findViewById(R.id.edit_to)).setOnFocusChangeListener(new EditText.OnFocusChangeListener() {			
@@ -50,7 +55,9 @@ public class MessageComposeView extends Activity {
 	public void btnSend(View view){
 		String subject = ((EditText) findViewById(R.id.edit_subject)).getEditableText().toString();
 		String text = ((EditText) findViewById(R.id.txt_msg)).getEditableText().toString();
-		String html = MainTabActivity.game.sendMessage(player.getPlayerID(), subject, text);
+		
+		String html = MainTabActivity.game.sendMessage(player.getPlayerID(), subject, text, isAnswerMessage, relationMessageId);
+		
 		html = Tools.between(html, "$(document).ready(function() {", "}");
 		String result = "Error sending Message";
 		if(html.contains("fadeBox("))

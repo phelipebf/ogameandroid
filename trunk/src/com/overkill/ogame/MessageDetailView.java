@@ -1,13 +1,17 @@
 package com.overkill.ogame;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.overkill.ogame.game.Message;
 import com.overkill.ogame.game.Player;
 import com.overkill.ogame.game.Tools;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,8 +21,9 @@ public class MessageDetailView extends Activity {
 	int msg_id;
 	Message msg;
 	Player from;
-	boolean canRepley = false;
+	boolean canReply = false;
 	boolean canReport = false;
+	String replySubject = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,33 +40,51 @@ public class MessageDetailView extends Activity {
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {		
-				String html = MainTabActivity.game.get("page=showmessage&ajax=1&msg_id=" + msg_id);
-				String info = Tools.between(html, "<div class=\"infohead\">", "</div>");
+				Document html = Jsoup.parse(MainTabActivity.game.get("page=showmessage&ajax=1&msg_id=" + msg_id));
+				
+				if(html.select("li.reply").size() > 0)
+					canReply = true;
+				
+				/*if(html.select("li.notify").size() > 0)
+					canReport = true;*/			
+				
+				Element info = html.select("div.infohead").first();
 
-				String tr[] = info.split("</tr>");
-				Log.i("tr[0]", tr[0]);
-				Log.i("tr", "len " + tr.length);
+				Elements tr = info.select("tr");
+				
 				msg = new Message(msg_id);
-				msg.setFrom(Tools.between(tr[0], "<span class=\"playerName\">", " <").trim());
-				msg.setTo(Tools.between(tr[1], "<td>", "</td>"));
-				msg.setSubject(Tools.between(tr[2], "<td>", "</td>"));
-				msg.setDate(Tools.between(tr[3], "<td>", "</td>"));
+				String playerName = html.select("span.playerName").html();
+				String playerID = Tools.between(html.select("form").attr("action"), "&to=", "&");
+
+				if(playerName.contains("<")) //Not from system (no link after name)
+					playerName = playerName.substring(0, playerName.indexOf("<")).trim();
 				
-				String content = html.substring(html.indexOf("<div class=\"note\">"), html.lastIndexOf("</div>"));
+				msg.setFrom(playerName);
+				msg.setTo(tr.get(1).select("td").text());
+				msg.setSubject(tr.get(2).select("td").text());
+				msg.setDate(tr.get(3).select("td").text());
 				
-				msg.setContent(Html.fromHtml(content).toString());
+				String content = html.select("div.note").text();
 				
-				from = new Player(0, msg.getFrom());
+				msg.setContent(content);
+								
+				//Get subject and messageID
+				if(canReply){
+					replySubject = html.select("input[name=betreff]").attr("value");
+					from = new Player(Integer.valueOf(playerID), msg.getFrom());
+				}else{
+					from = new Player(0, msg.getFrom());
+				}
 				
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
-						((TextView)findViewById(R.id.txt_from)).append(" " + msg.getFrom());
-						((TextView)findViewById(R.id.txt_to)).append(" " + msg.getTo());
-						((TextView)findViewById(R.id.txt_subject)).append(" " + msg.getSubject());
+						((TextView)findViewById(R.id.txt_from)).append(" " + Tools.htmlconvert(msg.getFrom()));
+						((TextView)findViewById(R.id.txt_to)).append(" " + Tools.htmlconvert(msg.getTo()));
+						((TextView)findViewById(R.id.txt_subject)).append(" " + Tools.htmlconvert(msg.getSubject()));
 						((TextView)findViewById(R.id.txt_date)).append(" " + msg.getDate());
-						((TextView)findViewById(R.id.txt_msg)).setText(msg.getContent());
-						((Button)findViewById(R.id.btn_repley)).setEnabled(canRepley);
+						((TextView)findViewById(R.id.txt_msg)).setText(Tools.htmlconvert(msg.getContent()));
+						((Button)findViewById(R.id.btn_reply)).setEnabled(canReply);
 						((Button)findViewById(R.id.btn_report)).setEnabled(canReport);
 						setProgressBarIndeterminateVisibility(false);
 					}
@@ -91,7 +114,11 @@ public class MessageDetailView extends Activity {
 	}
 	
 	public void btnRepley(View view){
-		startActivity(new Intent(this, MessageComposeView.class).putExtra("to", from));
+		Intent newMessage = new Intent(this, MessageComposeView.class);
+		newMessage.putExtra("to", from);
+		newMessage.putExtra("replySubject", replySubject);
+		newMessage.putExtra("relationMessageId", msg_id);
+		startActivity(newMessage);
 	}
 	
 }

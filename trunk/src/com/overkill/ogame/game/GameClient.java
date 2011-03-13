@@ -423,14 +423,24 @@ public class GameClient{
 	 * @param playerID The ID of the target
 	 * @param subject Subject Text
 	 * @param text Message Body
+	 * @param relationMessageId 
+	 * @param isAnswerMessage 
 	 * @return Html data of the result page
 	 */
-	public String sendMessage(int playerID, String subject, String text){
+	public String sendMessage(int playerID, String subject, String text, int isAnswerMessage, int relationMessageId){
+		String url = "page=messages&to=" + playerID;
+		if(isAnswerMessage != 0){
+			url += "&isAnswerMessage=" + String.valueOf(isAnswerMessage);
+		}
+		if(relationMessageId != 0){
+			url += "&relationMessageId=" + String.valueOf(relationMessageId);
+		}
+		
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
 		//They are using the German word on every server O_o
         postData.add(new BasicNameValuePair("betreff", subject));
         postData.add(new BasicNameValuePair("text", text));
-		return execute("page=messages&to=" + playerID, postData);
+		return execute(url, postData);
 	}
 	
 	/**
