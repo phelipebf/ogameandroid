@@ -69,8 +69,9 @@
 	<string name="settings_fleet_hostile">Nemici</string>
 	<string name="settings_fleet_hostile_summary">Notifica gli eventi dei nemici</string>
 	
+	<string name="message_send">Invia</string>
 	<string name="message_respond">Rispondi</string>
-	<string name="message_report">Report</string>
+	<string name="message_report">Segnala</string>
 	<string name="message_delete">Cancella</string>
 	<string name="message_delete_all">Cancella tutto</string>
 	<string name="message_from">Da:</string>
@@ -91,6 +92,7 @@
 	<string name="fleet1_all">Tutte</string>
 	<string name="fleet1_next">Avanti</string>
 	
+	<string name="fleet2_acs">ACS</string>
 	<string name="fleet2_shortcuts">Scorciatoie</string>
 	<string name="fleet2_speed">Velocità</string>
 	<string name="fleet2_refresh">Ricarica</string>
