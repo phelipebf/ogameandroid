@@ -70,7 +70,7 @@
 	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
 	
 	<string name="message_send">Send</string>
-	<string name="message_respond">Respond</string>
+	<string name="message_respond">Answer</string>
 	<string name="message_report">Report</string>
 	<string name="message_delete">Delete</string>
 	<string name="message_delete_all">Delete All</string>
@@ -92,6 +92,7 @@
 	<string name="fleet1_all">All</string>
 	<string name="fleet1_next">Next</string>
 	
+	<string name="fleet2_acs">Combat forces</string>
 	<string name="fleet2_shortcuts">Shortcuts</string>
 	<string name="fleet2_speed">Speed</string>
 	<string name="fleet2_refresh">Refresh</string>

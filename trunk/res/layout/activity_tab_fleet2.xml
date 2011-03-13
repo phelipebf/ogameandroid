@@ -65,7 +65,6 @@
     	android:layout_below="@+id/radioGroup"  />
     
     <TextView 
-    	android:id="@+id/textView6" 
     	android:layout_toRightOf="@+id/shortcuts" 
     	android:textStyle="bold" 
     	android:textColor="#FF6F9FC8"
@@ -75,6 +74,23 @@
     	android:gravity="center" 
     	android:layout_alignTop="@+id/shortcuts" 
     	android:layout_alignBottom="@+id/shortcuts" />
+       
+    <Spinner 
+    	android:id="@+id/acs"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/shortcuts"  />
+    
+    <TextView 
+    	android:layout_toRightOf="@+id/acs" 
+    	android:textStyle="bold" 
+    	android:textColor="#FF6F9FC8"
+    	android:layout_width="wrap_content" 
+    	android:text="@string/fleet2_acs" 
+    	android:layout_height="wrap_content"
+    	android:gravity="center" 
+    	android:layout_alignTop="@+id/acs" 
+    	android:layout_alignBottom="@+id/acs" />
     
     <Spinner 
     	android:id="@+id/speed"  
@@ -82,10 +98,9 @@
     	android:entryValues="@array/speed"
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:layout_below="@+id/shortcuts"  />
+    	android:layout_below="@+id/acs"  />
     
     <TextView 
-    	android:id="@+id/textView6" 
     	android:layout_toRightOf="@+id/speed" 
     	android:textStyle="bold" 
     	android:textColor="#FF6F9FC8"
@@ -116,14 +131,14 @@
 	android:layout_alignParentBottom="true"
 	android:layout_width="wrap_content"
 	android:layout_alignParentLeft="true"
-	android:text="@string/fleet2_back"/>
+	android:text="@string/fleet2_back"
+	android:enabled="false" />
 	
   <Button android:id="@+id/fleet1_next"
 	android:layout_height="wrap_content"
 	android:layout_alignParentBottom="true"
 	android:layout_width="wrap_content"
 	android:layout_alignParentRight="true"
-	android:text="@string/fleet1_next"
-	android:enabled="false" />
+	android:text="@string/fleet1_next" />
 	
 </RelativeLayout>

@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -35,10 +36,8 @@ import com.overkill.ogame.game.Tools;
 
 /**
  * Handles fleet control
- * Different states are set by and extra named tab. if tab isn't set the movement tab will be used
- * The different values of tab origin from the ingame use of the page parameter
- * @author Stephan
- *
+ * Different states are set by and extra named tab. 
+ * @author Paolo
  */
 public class FleetView extends ListActivity {
 	String task = "movement";
@@ -49,11 +48,16 @@ public class FleetView extends ListActivity {
 	
 	public int selectedShips = 0;	
 	
-	private final String colonizationID = "208";
+	private final String COLONIZATION_ID = "208";
+	private final String MISSION_NONE = "0";
+	private final String MISSION_UNION_ATTACK = "2"; 
 	
-	private String coords = null;
-	private String mission = "0";
+	private String targetGalaxy = null;
+	private String targetSystem = null;
+	private String targetPosition = null;
+	private String mission = MISSION_NONE;
 	private String planetType = "1";
+	private String union = "1";
 	
 	private int maxSpeed = 0;
 	private int speedFactor = 0;	
@@ -100,7 +104,23 @@ public class FleetView extends ListActivity {
 		
 		Thread t = new Thread(new Runnable() {			
 			@Override
-			public void run() {			
+			public void run() {
+
+				if(getIntent().hasExtra("galaxy")) {
+					targetGalaxy = getIntent().getExtras().getString("galaxy");
+					targetSystem = getIntent().getExtras().getString("system");
+					targetPosition = getIntent().getExtras().getString("position");
+					mission = getIntent().getExtras().getString("mission");
+					planetType = getIntent().getExtras().getString("planetType");
+				} else {
+					Planet p = MainTabActivity.game.getCurrentPlanet();
+					targetGalaxy = String.valueOf(p.getGalaxy());
+					targetSystem = String.valueOf(p.getSystem());
+					targetPosition = String.valueOf(p.getPosition());
+					mission = "0";
+					planetType = "1";
+				}
+				
 				if("fleet1".equals(task)) {
 					onCreateFleet1();
 				} else if("fleet2".equals(task)) {
@@ -120,35 +140,28 @@ public class FleetView extends ListActivity {
 	}
 	
 	private void onCreateFleet2() {
-
-		Document document;
-		if(getIntent().hasExtra("coords")) {
-			coords = getIntent().getExtras().getString("coords");
-			mission = getIntent().getExtras().getString("mission");
-			planetType = getIntent().getExtras().getString("planetType");
-		} else {
-			Planet p = MainTabActivity.game.getCurrentPlanet();
-			coords = p.getCoordinates();
-			mission = "0";
-			planetType = "1";
-		}
-		document = sendShips();
-		updateWidgets();
+		
+		final Document document = sendShips();
+		updateWidgetsFromVariables();
         
 		String script = document.select("script").not("script[src]").html();		
 		maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
 		speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
 		storageCapacity = Integer.parseInt(Tools.between(script, "storageCapacity = ", ";"));
 		
+		//Log.i("fleet2", "maxSpeed="+maxSpeed+", speedFactor="+speedFactor+", storageCapacity="+storageCapacity);
+		
 		for(int i = 0; i < 13; i++) {
 			if(script.indexOf("shipIDs[" + i + "]") > -1) {
 				shipIDs.add(Tools.between(script, "shipIDs[" + i + "] = ", ";"));
 				completeConsumptions.add(Integer.parseInt(Tools.between(script, "completeConsumptions[" + i + "] = ", ";")));
 				speeds.add(Integer.parseInt(Tools.between(script, "speeds[" + i + "] = ", ";")));
+
 			} else {
 				break;
 			}
 		}
+		//Log.i("fleet2", "shipIDs="+shipIDs+", completeConsumptions="+completeConsumptions+", speeds="+speeds);
 
 		final Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
         final ArrayAdapter<CharSequence> shortcutsAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
@@ -157,12 +170,12 @@ public class FleetView extends ListActivity {
 			@Override
 			public void run() {
 		        shortcutsSpinner.setAdapter(shortcutsAdapter);				
+		        for(Element option : document.select("#slbox > option")) {
+		        	shortcutsAdapter.add(option.html());
+		        	shortcuts.add(option.attr("value"));
+		        }
 			}
 		});
-        for(Element option : document.select("#slbox > option")) {
-        	shortcutsAdapter.add(option.html());
-        	shortcuts.add(option.attr("value"));
-        }
         shortcutsSpinner.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -175,15 +188,19 @@ public class FleetView extends ListActivity {
 			public void onNothingSelected(AdapterView<?> arg0) {}
         });
         
-        
-        /*final Spinner acs = (Spinner) findViewById(R.id.acs);
-        ArrayAdapter<CharSequence> acsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        final Spinner acs = (Spinner) findViewById(R.id.acs);
+        final ArrayAdapter<CharSequence> acsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
         acsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        acsAdapter(acsAdapter);
-        for(Element option : document.select("#aksbox > option")) {
-        	acsAdapter.add(option.html());
-        	combatForces.add(option.attr("value"));
-        }
+        runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				acs.setAdapter(acsAdapter);
+				for(Element option : document.select("#aksbox > option")) {
+		        	acsAdapter.add(option.html());
+		        	combatForces.add(option.attr("value"));
+		        }
+			}
+		});
         acs.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -195,7 +212,19 @@ public class FleetView extends ListActivity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {}
-        });*/
+        });
+
+		final Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
+		speedSpinner.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				updateVariables();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {}
+        });
         
         ((RadioButton) findViewById(R.id.radioPlanet)).setOnClickListener(new OnClickListener() {		
 			@Override
@@ -206,13 +235,13 @@ public class FleetView extends ListActivity {
         ((RadioButton) findViewById(R.id.radioMoon)).setOnClickListener(new OnClickListener() {		
 			@Override
             public void onClick(View v) {
-            	planetType = "2";
+            	planetType = "3";
             }
         });
         ((RadioButton) findViewById(R.id.radioDebris)).setOnClickListener(new OnClickListener() {		
 			@Override
             public void onClick(View v) {
-            	planetType = "3";
+            	planetType = "2";
             }
         });
         		
@@ -220,7 +249,16 @@ public class FleetView extends ListActivity {
 		refresh.setOnClickListener(new Button.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
+				updateVariablesFromWidgets();
 				updateVariables();
+			}
+		});
+		
+		final Button next = (Button) this.findViewById(R.id.fleet1_next);
+		next.setOnClickListener(new Button.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				trySubmit();
 			}
 		});
 	}
@@ -255,6 +293,14 @@ public class FleetView extends ListActivity {
 					}
 				}
 				fleet2.putExtra("ships", ships);
+				
+				if(!"0".equals(mission)) {
+					fleet2.putExtra("galaxy", targetGalaxy);
+					fleet2.putExtra("system", targetSystem);
+					fleet2.putExtra("position", targetPosition);
+					fleet2.putExtra("mission", mission);
+					fleet2.putExtra("planetType", planetType);
+				}
 	            startActivity(fleet2);   
 			}
 		});
@@ -292,15 +338,11 @@ public class FleetView extends ListActivity {
 	//$('form[name=shipsChosen]').serialize()
 	//"galaxy=3&system=293&position=7&type=1&mission=0&speed=10&am202=2"
 	private Document sendShips() {
-		String coordsWithoutBrackets = coords.substring(1, coords.length()-1);
-		String parts[] = coordsWithoutBrackets.split(":");
-		
-		//Log.i("sendShips", "galaxy:" + parts[0] + ", system:" + parts[1] + ", position:" + parts[2]);
 
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
-        postData.add(new BasicNameValuePair("galaxy", parts[0]));
-        postData.add(new BasicNameValuePair("system", parts[1]));
-        postData.add(new BasicNameValuePair("position", parts[2]));
+        postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
+        postData.add(new BasicNameValuePair("system", targetSystem));
+        postData.add(new BasicNameValuePair("position", targetPosition));
         postData.add(new BasicNameValuePair("type", planetType));
 		postData.add(new BasicNameValuePair("mission", mission));
         postData.add(new BasicNameValuePair("speed", "10"));
@@ -311,8 +353,6 @@ public class FleetView extends ListActivity {
 	        postData.add(new BasicNameValuePair(name, value));
 		}
         String html = MainTabActivity.game.execute("page=fleet2", postData);
-
-		//Log.i("sendShips", "html:" + html);
 		
         return  Jsoup.parse(html);
 	}	
@@ -335,27 +375,43 @@ public class FleetView extends ListActivity {
 		} else if("6".equals(errorCode)) {
 			message += "This planet can not be attacked as the player is to strong!";
 		}			
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 	}
 
 	
-	private void updateWidgets() {
+	private void updateWidgetsFromVariables() {
 
        	runOnUiThread(new Runnable() {							
 			@Override
 			public void run() {
-				String parts[] = coords.substring(1).split(":");
-				((Spinner) findViewById(R.id.galaxy_spinner)).setSelection(Integer.parseInt(parts[0])-1);
-				((EditText) findViewById(R.id.system)).setText(parts[1]);
-				((Spinner) findViewById(R.id.position)).setSelection(Integer.parseInt(parts[0])-1);
+				((Spinner) findViewById(R.id.galaxy_spinner)).setSelection(Integer.parseInt(targetGalaxy)-1);
+				((EditText) findViewById(R.id.system)).setText(targetSystem);
+				((Spinner) findViewById(R.id.position)).setSelection(Integer.parseInt(targetPosition)-1);
 				
 				if("1".equals(planetType)) {
-					((RadioButton) findViewById(R.id.radioPlanet)).setSelected(true);
-				} else if("1".equals(planetType)) {
-					((RadioButton) findViewById(R.id.radioMoon)).setSelected(true);
-				} else if("1".equals(planetType)) {
-					((RadioButton) findViewById(R.id.radioDebris)).setSelected(true);			
-				}							
+					((RadioButton) findViewById(R.id.radioPlanet)).setChecked(true);
+				} else if("3".equals(planetType)) {
+					((RadioButton) findViewById(R.id.radioMoon)).setChecked(true);
+				} else if("2".equals(planetType)) {
+					((RadioButton) findViewById(R.id.radioDebris)).setChecked(true);			
+				}	
+			}
+		});		
+	}
+	
+	private void updateVariablesFromWidgets() {
+
+       	runOnUiThread(new Runnable() {							
+			@Override
+			public void run() {
+		        Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
+		        targetGalaxy = getResources().getStringArray(R.array.galaxies)[galaxySpinner.getSelectedItemPosition()];
+		
+		        EditText systemText = (EditText) findViewById(R.id.system);
+				targetSystem = systemText.getText().toString();
+				
+				Spinner positionSpinner = (Spinner) findViewById(R.id.position);
+		        targetPosition = getResources().getStringArray(R.array.positions)[positionSpinner.getSelectedItemPosition()];
 			}
 		});		
 	}
@@ -366,16 +422,16 @@ public class FleetView extends ListActivity {
 
 		Planet p = MainTabActivity.game.getCurrentPlanet();
 		
-		double diffGalaxy = Math.abs(p.getGalaxy() - targetGalaxy);
-		double diffSystem = Math.abs(p.getSystem() - targetSystem);
-		double diffPlanet = Math.abs(p.getPosition() - targetPosition);
+		int diffGalaxy = Math.abs(p.getGalaxy() - targetGalaxy);
+		int diffSystem = Math.abs(p.getSystem() - targetSystem);
+		int diffPlanet = Math.abs(p.getPosition() - targetPosition);
 
 		if(diffGalaxy != 0) {
 			return diffGalaxy * 20000;
 		} else if(diffSystem != 0) {
-			return diffSystem * 5 * 19 + 2700;
+			return (diffSystem * 5 * 19) + 2700;
 		} else if(diffPlanet != 0) {
-			return diffPlanet * 5 + 1000;
+			return (diffPlanet * 5) + 1000;
 		} else {
 			return 5;
 		}
@@ -423,34 +479,36 @@ public class FleetView extends ListActivity {
 	}
 
 	private void updateVariables() {
-        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
-        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
 
-        Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
-        int targetGalaxy = Integer.parseInt(getResources().getStringArray(R.array.galaxies)[galaxySpinner.getSelectedItemPosition()]);
-
-        EditText systemText = (EditText) findViewById(R.id.system);
-		int targetSystem = Integer.parseInt(systemText.getText().toString());
+		final int targetGalaxy = Integer.parseInt(this.targetGalaxy);
+		final int targetSystem = Integer.parseInt(this.targetSystem);
+		final int targetPosition = Integer.parseInt(this.targetPosition);
 		
-		Spinner positionSpinner = (Spinner) findViewById(R.id.position);
-        int targetPosition = Integer.parseInt(getResources().getStringArray(R.array.positions)[positionSpinner.getSelectedItemPosition()]);
+       	runOnUiThread(new Runnable() {							
+			@Override
+			public void run() {
+		        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
+		        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
+		        speed = speed / 10; //option values are 10,9,8... descriptions are 100,90,80...
+						
+				double distance = getDistance(targetGalaxy, targetSystem, targetPosition);
+				long duration = getDuration(speed, distance);
+				long consumption = getConsumption(duration, distance);
+				long cargoSpace = getFreeStorage(consumption);
+				//cargoLeft = cargoSpace - metal - crystal - deuterium;
 		
-		double distance = getDistance(targetGalaxy, targetSystem, targetPosition);
-		long duration = getDuration(speed, distance);
-		long consumption = getConsumption(duration, distance);
-		long cargoSpace = getFreeStorage(consumption);
-		//cargoLeft = cargoSpace - metal - crystal - deuterium;
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
-		Date d = new Date();	    
-	    Date arrivalTime = new Date(d.getTime() + 1000 * duration);
-	    Date returnTime = new Date(d.getTime() + 1000 * 2 * duration);
-
-	    ((TextView) findViewById(R.id.fleet2_duration)).setText(Tools.sec2str(duration));
-	    ((TextView) findViewById(R.id.fleet2_arrival)).setText(sdf.format(arrivalTime));
-	    ((TextView) findViewById(R.id.fleet2_return)).setText(sdf.format(returnTime));
-	    ((TextView) findViewById(R.id.fleet2_consumption)).setText(String.valueOf(consumption));
-	    ((TextView) findViewById(R.id.fleet2_cargobays)).setText(String.valueOf(cargoSpace));
+				SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+				Date d = new Date();	    
+			    Date arrivalTime = new Date(d.getTime() + 1000 * duration);
+			    Date returnTime = new Date(d.getTime() + 1000 * 2 * duration);
+		
+			    ((TextView) findViewById(R.id.fleet2_duration)).setText(Tools.sec2str(duration));
+			    ((TextView) findViewById(R.id.fleet2_arrival)).setText(sdf.format(arrivalTime));
+			    ((TextView) findViewById(R.id.fleet2_return)).setText(sdf.format(returnTime));
+			    ((TextView) findViewById(R.id.fleet2_consumption)).setText(String.valueOf(consumption));
+			    ((TextView) findViewById(R.id.fleet2_cargobays)).setText(String.valueOf(cargoSpace));
+			}
+       	});
 	 
 	}	
 	
@@ -460,8 +518,8 @@ public class FleetView extends ListActivity {
 	{
 		String value = "";
 	    if(aks) {
-	        //Spinner acs = (Spinner) findViewById(R.id.acs);
-	        //value = combatForces.get(acs.getSelectedItemPosition());
+	        Spinner acs = (Spinner) findViewById(R.id.acs);
+	        value = combatForces.get(acs.getSelectedItemPosition());
 	    } else {
 	        Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
 	        value = shortcuts.get(shortcutsSpinner.getSelectedItemPosition());
@@ -472,55 +530,70 @@ public class FleetView extends ListActivity {
 	    } else {
 	        String[] parts = value.split("#");
 	        
-	        coords = "[" + parts[0] + ":" + parts[1] + ":" + parts[2] + "]";
+	        targetGalaxy = String.valueOf(parts[0]);
+	        targetSystem = String.valueOf(parts[1]);
+	        targetPosition = String.valueOf(parts[2]);
 	        planetType = String.valueOf(parts[3]);
 	        
-	        updateWidgets();
+	        updateWidgetsFromVariables();
 	    }
 	}
 
-	/*function handleUnion()
+	private void handleUnion()
 	{
-	    value = $("#aksbox").val();
+        Spinner acs = (Spinner) findViewById(R.id.acs);
+        String value = combatForces.get(acs.getSelectedItemPosition());
 
-	    if(value=="-")
-	    {
-	        document.details.union.value = 0;
-	        document.details.mission.value = missionNone;
+	    if("-".equals(value)) {
+	        union = "0";
+	        mission = MISSION_NONE;
+	    } else {
+	        String[] parts = value.split("#");
+	        union = parts[5];
+	        mission = MISSION_UNION_ATTACK;
 	    }
-	    else
-	    {
-	        parts = value.split("#");
-	        document.details.union.value = parts[5];
-	        document.details.mission.value = missionUnionattack;
-	    }
-	}*/
+	}
 
 
-	/*private void trySubmit() {
-	    String url = "index.php?page=fleetcheck&session=6e21c87a53e7&ajax=1&espionage=";
-	    
-	    params = new Object();
-	    params.galaxy = $("#galaxy").val();
-	    params.system = $("#system").val();
-	    params.planet = $("#position").val();
-	    params.type = $("#type").val();
+	private void trySubmit() {
 
-	    if
-	    (
-	        $("form[name='details'] input[name='am" + colonizationID + "']").length > 0
-	        && $("form[name='details'] input[name='am" + colonizationID + "']").val() > 0
-	    )
-	    {
-	        params.cs = 1;
-	    }
+	    updateVariablesFromWidgets();
 
-	    String errorCode = $.post(url, params, displayError);
-		if (!"0".equals(errorCode)) {
-			displayError(errorCode);
-		} else {
-			//go to fleet3
-		}
-	}*/
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
+        postData.add(new BasicNameValuePair("system", targetSystem));
+        postData.add(new BasicNameValuePair("position", targetPosition));        
+        postData.add(new BasicNameValuePair("type", planetType));
+
+        //cannot send fleet to the current planet
+		Planet p = MainTabActivity.game.getCurrentPlanet();
+        if(targetGalaxy.equals(String.valueOf(p.getGalaxy())) &&
+        		targetSystem.equals(String.valueOf(p.getSystem())) &&
+        		targetPosition.equals(String.valueOf(p.getPosition())) &&
+        		planetType.equals("1")) { //TODO: sending fleet from moon
+        	return;
+        }
+
+        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        String amount = ships.get("am"+COLONIZATION_ID);
+    	if(!"".equals(amount)) {
+	        postData.add(new BasicNameValuePair("cs", "1"));
+    	}
+
+	    final String errorCode = MainTabActivity.game.execute("page=fleetcheck&ajax=1&espionage=", postData);
+
+       	runOnUiThread(new Runnable() {						
+			@Override
+			public void run() {
+				if (!"0".equals(errorCode)) {
+					displayError(errorCode);
+				} else {
+					//TODO: go to fleet3
+					String msg = targetGalaxy + ":" + targetSystem + ":" + targetPosition + ":" + planetType + ", mission:" + mission;
+					Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+	}
 	
 }
