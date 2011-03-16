@@ -5,13 +5,21 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
   
+  	<TextView android:id="@+id/txt_planet_index"
+  		android:layout_alignParentLeft="true"
+  		android:layout_height="wrap_content"
+  		android:text="15"
+  		android:layout_width="wrap_content"
+  		android:layout_centerVertical="true"
+    	android:layout_marginRight="6dip" android:textStyle="bold"/>
+  
   	<ImageView 
-    	android:layout_alignParentLeft="true"
     	android:layout_width="40dip"
     	android:layout_height="40dip" 
     	android:id="@+id/img_planet" 
     	android:src="@null"
-    	android:layout_marginRight="2dip" />
+    	android:layout_marginRight="2dip"
+    	android:layout_toRightOf="@id/txt_planet_index" />
   
     <TextView 
     	android:layout_toRightOf="@id/img_planet"
@@ -64,7 +72,9 @@
     	android:layout_alignParentRight="true" 
     	android:id="@+id/img_debris" 
     	android:src="@drawable/debris" 
-    	android:layout_centerVertical="true" />
+    	android:layout_centerVertical="true" 
+    	android:layout_marginRight="4dip"
+    	android:layout_marginLeft="4dip" />
     
     <ImageView 
     	android:layout_width="wrap_content" 

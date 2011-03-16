@@ -100,6 +100,24 @@
 		android:layout_toRightOf="@+id/image_energy"
         android:layout_below="@id/name"/>
         
+   <ImageView
+        android:layout_height="wrap_content"
+        android:id="@+id/image_percent"
+        android:src="@drawable/ressourcen_percent"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/energy"
+        android:layout_below="@id/name"/>
+        
+	<TextView android:id="@+id/percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="2dp"
+        android:paddingLeft="1dp" 
+        android:textColor="#00ff00"
+        android:text="200"
+		android:layout_toRightOf="@+id/image_percent"
+        android:layout_below="@id/name"/>
+        
         <ImageView
    		android:id="@+id/wrench"
         android:src="@drawable/wrench"

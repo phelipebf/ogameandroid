@@ -76,6 +76,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 			TextView kristal = (TextView) v.findViewById(R.id.kristal);
 			TextView deuterium = (TextView) v.findViewById(R.id.deuterium);
 			TextView energy = (TextView) v.findViewById(R.id.energy);
+			TextView percent = (TextView) v.findViewById(R.id.percent);
 			
 			if(b.getTimeLeft() > 0){
 				((ImageView) v.findViewById(R.id.wrench)).setVisibility(View.VISIBLE);
@@ -122,21 +123,31 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					deuterium.setTextColor(Color.RED);
 			}	
 			
-			int e = Resources.calc(b.getId(), b.getLevel() + 1, Item.RESOURCE_ENERGY) - Resources.calc(b.getId(), b.getLevel(), Item.RESOURCE_ENERGY);
-			if(b.getId() == Item.RESEARCH_GRAVITON)
-				e = Resources.calc(b.getId(), b.getLevel() + 1, Item.RESOURCE_ENERGY);
-			if(e == 0){
+			if(b.getEnergy() == 0){
 				energy.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_energy)).setVisibility(View.GONE);				
 			}else{
 				energy.setVisibility(View.VISIBLE);
 				((ImageView) v.findViewById(R.id.image_energy)).setVisibility(View.VISIBLE);	
-				energy.setText(String.valueOf(e));
-				if (e > 0)
+				energy.setText(String.valueOf(b.getEnergy()));
+				if (b.getEnergy() > 0)
 					energy.setTextColor(Color.GREEN);
 				else
 					energy.setTextColor(Color.RED);
 			}	
+			if(b.getEnergyMax() != 0){
+				energy.append("/" + String.valueOf(b.getEnergyMax()));
+			}
+			
+			if(b.getPercent() == 0){
+				percent.setVisibility(View.GONE);
+				((ImageView) v.findViewById(R.id.image_percent)).setVisibility(View.GONE);				
+			}else{
+				percent.setVisibility(View.VISIBLE);
+				((ImageView) v.findViewById(R.id.image_percent)).setVisibility(View.VISIBLE);	
+				percent.setText(String.valueOf(b.getPercent()));
+				//percent.setTextColor(Color.RED);
+			}
 		}
 		return v;
 	}

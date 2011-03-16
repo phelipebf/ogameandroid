@@ -33,6 +33,7 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
 
+		TextView txtPlanetIndex = ((TextView) v.findViewById(R.id.txt_planet_index));
 		TextView txtPlanetName = ((TextView) v.findViewById(R.id.txt_name));
 		TextView txtActivity = ((TextView) v.findViewById(R.id.txt_activity));
 		TextView txtPlayer = ((TextView) v.findViewById(R.id.txt_player));
@@ -42,15 +43,18 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 		ImageView imgDebris = ((ImageView) v.findViewById(R.id.img_debris));
 		ImageView imgMoon = ((ImageView) v.findViewById(R.id.img_moon));
 
-		txtActivity.setVisibility(View.GONE);
-		txtPlayer.setVisibility(View.GONE);
-		txtRank.setVisibility(View.GONE);
-		txtAlly.setVisibility(View.GONE);
-		imgPlanet.setVisibility(View.GONE);
-		imgDebris.setVisibility(View.GONE);
-		imgMoon.setVisibility(View.GONE);
+		txtActivity.setVisibility(View.INVISIBLE);
+		txtPlayer.setVisibility(View.INVISIBLE);
+		txtRank.setVisibility(View.INVISIBLE);
+		txtAlly.setVisibility(View.INVISIBLE);
+		imgPlanet.setVisibility(View.INVISIBLE);
+		imgDebris.setVisibility(View.INVISIBLE);
+		imgMoon.setVisibility(View.INVISIBLE);
 		
 		final GalaxyPlanet p = this.getItem(position);
+		
+		txtPlanetIndex.setText(String.valueOf(position + 1));
+		
 		if(p.isEmptySlot()) {
 			txtPlanetName.setText(context.getString(R.string.galaxy_empty_slot));
 		} else {

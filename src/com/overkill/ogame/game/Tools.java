@@ -9,19 +9,15 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.flurry.android.FlurryAgent;
-import com.overkill.ogame.R;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.RelativeLayout;
 
 public class Tools {
 	
@@ -168,10 +164,16 @@ public class Tools {
 			}else{
 				name = item.select("span.textlabel").text();
 			}
+			
+			if(name.contains("("))
+				name = name.substring(0, name.indexOf("(")).trim();
+			
 			// Fix '.' if value >= 1000
 			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "");
 						
-			//Log.i("li", id + " " + name + " (" + level + ") " + status);
+			//Sets status to "on" so we can add the same defense/ship to que again. 
+			if(getQuetypeById(Integer.valueOf(id)) == Item.QUETYPE_MULTIPLE && timeleft > 0 && status.equals("off"))
+				status = "on";
 			
 			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
 			m.setResources(
@@ -186,6 +188,10 @@ public class Tools {
 							planet.getCrystal(), 
 							planet.getDeuterium()
 						);		
+				//Set status to disabled if we cant build it
+				if(m.canBuild()==false && m.getStatus().equals("on")){
+					m.setStatus("disabled");
+				}
 			}
 			objectlist.add(m);
 		}

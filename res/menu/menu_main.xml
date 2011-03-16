@@ -29,5 +29,5 @@
     <item android:id="@+id/resourceSettings"
           android:icon="@android:drawable/ic_menu_manage"
           android:title="@string/menu_resources"
-          android:enabled="false" />
+          android:enabled="true" />
 </menu>
