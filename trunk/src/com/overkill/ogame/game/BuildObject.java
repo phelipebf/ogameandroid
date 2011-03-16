@@ -22,6 +22,9 @@ public class BuildObject {
 	private int metal = 0;
 	private int crystal = 0;
 	private int deuterium = 0;
+	private int energyUse = 0;
+	private int energyMax = 0;
+	private int percent = 0;
 	
 	private boolean hasMetal = false;
 	private boolean hasCrystal = false;
@@ -45,6 +48,9 @@ public class BuildObject {
 		this.icon = context.getResources().getIdentifier("drawable/supply" + this.id, null, context.getPackageName());
 		this.level = level;
 		this.setNeedsValue();
+		this.energyUse = Resources.calc(this.id, this.level + 1, Item.RESOURCE_ENERGY) - Resources.calc(this.id, this.level, Item.RESOURCE_ENERGY);
+		if(this.id == Item.RESEARCH_GRAVITON)
+			this.energyUse = Resources.calc(this.id, this.level + 1, Item.RESOURCE_ENERGY);
 	}
 
 	public void setNeedsValue(){
@@ -207,6 +213,36 @@ public class BuildObject {
 	public boolean hasDeuterium() {
 		return hasDeuterium;
 	}
+
+	public int getEnergy() {
+		return energyUse;
+	}
+
+	public void setEnergy(int energyUse) {
+		this.energyUse = energyUse;
+	}
+
+	public int getEnergyMax() {
+		return energyMax;
+	}
+
+	public void setEnergyMax(int energyMax) {
+		this.energyMax = energyMax;
+	}
+
+	public int getPercent() {
+		return percent;
+	}
+
+	public void setPercent(int percent) {
+		this.percent = percent;
+	}
 	
+	public boolean canBuild(){
+		return this.hasMetal && this.hasCrystal && this.hasDeuterium;
+	}
 	
+	public void setStatus(String status){
+		this.status = status;
+	}
 }
