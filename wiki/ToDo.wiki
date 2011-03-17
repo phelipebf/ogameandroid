@@ -17,6 +17,7 @@
   * ~~List messages~~
    * ~~Delete all messages~~
   * ~~View message~~
+   * Parse and show Message depending on the type
   * Reply to message
   * ~~Delete message~~
   * Report message
