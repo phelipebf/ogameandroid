@@ -70,8 +70,13 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 			}else{
 				((TextView) v.findViewById(R.id.name)).setText(b.getName());
 			}
-			((ImageView) v.findViewById(R.id.image)).setImageResource(b.getIcon());
-			
+			if(b.getIcon() == 0){
+				((ImageView) v.findViewById(R.id.image)).setVisibility(View.GONE);
+			}else{
+				((ImageView) v.findViewById(R.id.image)).setImageResource(b.getIcon());
+				((ImageView) v.findViewById(R.id.image)).setVisibility(View.VISIBLE);
+			}
+				
 			TextView metall = (TextView) v.findViewById(R.id.metall);
 			TextView kristal = (TextView) v.findViewById(R.id.kristal);
 			TextView deuterium = (TextView) v.findViewById(R.id.deuterium);
@@ -84,7 +89,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				((ImageView) v.findViewById(R.id.wrench)).setVisibility(View.GONE);
 			}	
 			
-			if(b.getMetall() == 0){
+			if(b.getMetall() == 0 && b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
 				metall.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_metall)).setVisibility(View.GONE);				
 			}else{
@@ -97,7 +102,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					metall.setTextColor(Color.RED);	
 			}	
 			
-			if(b.getCrystal() == 0){
+			if(b.getCrystal() == 0&& b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
 				kristal.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_kristal)).setVisibility(View.GONE);				
 			}else{
@@ -110,7 +115,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					kristal.setTextColor(Color.RED);	
 			}	
 			
-			if(b.getDeuterium() == 0){
+			if(b.getDeuterium() == 0&& b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
 				deuterium.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_deuterium)).setVisibility(View.GONE);				
 			}else{
@@ -123,7 +128,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					deuterium.setTextColor(Color.RED);
 			}	
 			
-			if(b.getEnergy() == 0){
+			if(b.getEnergy() == 0 && b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
 				energy.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_energy)).setVisibility(View.GONE);				
 			}else{
@@ -139,7 +144,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				energy.append("/" + String.valueOf(b.getEnergyMax()));
 			}
 			
-			if(b.getPercent() == 0){
+			if(b.getPercent() == 0 && b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
 				percent.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_percent)).setVisibility(View.GONE);				
 			}else{
