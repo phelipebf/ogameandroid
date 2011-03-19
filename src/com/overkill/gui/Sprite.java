@@ -7,9 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public class Sprite {
-
-	private final String TAG = "Sprite";
-	
 	private Bitmap sprite;
 	private Rect sRectangle = new Rect();
 	private int count;

@@ -49,7 +49,6 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class RadioStateDrawable extends Drawable{
 

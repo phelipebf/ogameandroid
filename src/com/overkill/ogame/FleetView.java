@@ -15,7 +15,6 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -189,7 +188,7 @@ public class FleetView extends ListActivity {
         });
         
         final Spinner acs = (Spinner) findViewById(R.id.acs);
-        final ArrayAdapter<CharSequence> acsAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> acsAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
         acsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         runOnUiThread(new Runnable() {			
 			@Override

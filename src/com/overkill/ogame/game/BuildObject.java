@@ -12,6 +12,9 @@ import android.content.Context;
  *
  */
 public class BuildObject {
+	public static int DISPLAY_TYPE_VALUE = 0;
+	public static int DISPLAY_TYPE_ALL = 1;
+	
 	private String name;
 	private int id;
 	private int icon;
@@ -30,6 +33,8 @@ public class BuildObject {
 	private boolean hasCrystal = false;
 	private boolean hasDeuterium = false;
 	
+	private int displayType = DISPLAY_TYPE_VALUE;
+	
 	//false: menge = 1
 	boolean needsValue = false;
 	
@@ -45,7 +50,10 @@ public class BuildObject {
 		this.id = id;
 		this.name = name;
 		this.status = status;
-		this.icon = context.getResources().getIdentifier("drawable/supply" + this.id, null, context.getPackageName());
+		if(id == 0)
+			this.icon = 0;
+		else
+			this.icon = context.getResources().getIdentifier("drawable/supply" + this.id, null, context.getPackageName());
 		this.level = level;
 		this.setNeedsValue();
 		this.energyUse = Resources.calc(this.id, this.level + 1, Item.RESOURCE_ENERGY) - Resources.calc(this.id, this.level, Item.RESOURCE_ENERGY);
@@ -244,5 +252,13 @@ public class BuildObject {
 	
 	public void setStatus(String status){
 		this.status = status;
+	}
+
+	public void setDisplayType(int displayType) {
+		this.displayType = displayType;
+	}
+
+	public int getDisplayType() {
+		return displayType;
 	}
 }
