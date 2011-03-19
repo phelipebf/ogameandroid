@@ -1,5 +1,7 @@
 package com.overkill.ogame;
 
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,6 +14,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,8 +45,9 @@ public class Overview extends Activity {
 				info =  MainTabActivity.game.get("page=overview");	
 				runOnUiThread(new Runnable() {					
 					@Override
-					public void run() {
+					public void run() {						
 						txt_info.setText("");
+						
 						txt_info.append(Tools.between(info, "textContent[0] = \"", "\"") + " ");
 						txt_info.append(Tools.between(info, "textContent[1] = \"", "\"").replace("<span>", "").replace("</span>", "") + "\n");
 						

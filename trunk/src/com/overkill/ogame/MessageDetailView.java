@@ -12,6 +12,8 @@ import com.overkill.ogame.game.Tools;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -64,7 +66,8 @@ public class MessageDetailView extends Activity {
 				msg.setSubject(tr.get(2).select("td").text());
 				msg.setDate(tr.get(3).select("td").text());
 				
-				String content = html.select("div.note").text();
+				String content = html.select("div.note").html();
+				content = content.replaceAll("javascript:showGalaxy\\((.+),(.+),(.+)\\)", "ogame://galaxy/show?galaxy=$1&system=$2");
 				
 				msg.setContent(content);
 								
@@ -83,7 +86,8 @@ public class MessageDetailView extends Activity {
 						((TextView)findViewById(R.id.txt_to)).append(" " + Tools.htmlconvert(msg.getTo()));
 						((TextView)findViewById(R.id.txt_subject)).append(" " + Tools.htmlconvert(msg.getSubject()));
 						((TextView)findViewById(R.id.txt_date)).append(" " + msg.getDate());
-						((TextView)findViewById(R.id.txt_msg)).setText(Tools.htmlconvert(msg.getContent()));
+						((TextView)findViewById(R.id.txt_msg)).setText(Html.fromHtml(Tools.htmlconvert(msg.getContent())));
+						((TextView)findViewById(R.id.txt_msg)).setMovementMethod(LinkMovementMethod.getInstance());
 						((Button)findViewById(R.id.btn_reply)).setEnabled(canReply);
 						((Button)findViewById(R.id.btn_report)).setEnabled(canReport);
 						setProgressBarIndeterminateVisibility(false);

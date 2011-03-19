@@ -16,7 +16,9 @@ import org.jsoup.select.Elements;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -63,6 +65,9 @@ public class GalaxyView extends ListActivity {
 		setContentView(R.layout.activity_tab_listview);	
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_galaxy);   
 		
+        
+        
+        
         gestureDetector = new GestureDetector(new MyGestureDetector());
         gestureListener = new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -77,8 +82,17 @@ public class GalaxyView extends ListActivity {
         
 		Planet origin = MainTabActivity.game.getCurrentPlanet();
 		
-		galaxy = origin.getGalaxy();
-		system = origin.getSystem();
+		Uri uri = getIntent().getData();
+        if(uri != null){
+	        Log.i("scheme", uri.getScheme());
+	        Log.i("host", uri.getHost());
+	        Log.i("data", uri.getQuery());
+	        galaxy = Integer.valueOf(uri.getQueryParameter("galaxy"));
+	        system = Integer.valueOf(uri.getQueryParameter("system"));
+	    }else{
+			galaxy = origin.getGalaxy();
+			system = origin.getSystem();
+	    }
         
 		//initialize spinner with galaxies
         final Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
