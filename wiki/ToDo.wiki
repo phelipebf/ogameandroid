@@ -3,9 +3,9 @@
 = Basic =
  * Overview
   * ~~Add (up to 3) countdowns~~
- * Resource Settings
-  * See current production
-  * Change percent
+ * ~~Resources Settings~~
+  * ~~See current production~~
+  * ~~Resources percent~~
  * Fleet
   * New mission
    * ~~Display current ships on planet~~
