@@ -18,6 +18,11 @@
    * ~~Delete all messages~~
   * ~~View message~~
    * Parse and show Message depending on its type
+    * Pure Text Message
+    * Player to Player Message
+    * Battle Report
+    * Hostile Espionage
+    * Espionage Report
   * Reply to message
   * ~~Delete message~~
   * Report message
