@@ -104,5 +104,12 @@
 	<string name="fleet2_arrival">Arrivo:</string>
 	<string name="fleet2_return">Ritorno:</string>
 	<string name="fleet2_cargobays">Portata:</string>
+	
+	<string name="fleet3_metal">Metallo:</string>
+	<string name="fleet3_crystal">Cristallo:</string>
+	<string name="fleet3_deuterium">Deuterio:</string>
+	<string name="fleet3_target">Obiettivo:</string>
+	<string name="fleet3_send">Invia</string>
+	<string name="fleet3_cargobays">Portata:</string>
 
 </resources>
