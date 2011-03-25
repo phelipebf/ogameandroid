@@ -13,8 +13,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -24,6 +26,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,15 +52,31 @@ public class FleetView extends ListActivity {
 	public int selectedShips = 0;	
 	
 	private final String COLONIZATION_ID = "208";
+	
 	private final String MISSION_NONE = "0";
+	private final String MISSION_ATTACK = "1"; 
 	private final String MISSION_UNION_ATTACK = "2"; 
+	private final String MISSION_TRANSPORT = "3"; 
+	private final String MISSION_DEPLOYMENT = "4"; 
+	private final String MISSION_ACS_DEFEND = "5"; 
+	private final String MISSION_ESPIONAGE = "6"; 
+	private final String MISSION_COLONIZATION = "7"; 
+	private final String MISSION_RECYCLE = "8"; 
+	private final String MISSION_MOON_DESTRUCTION = "10"; 
+	private final String MISSION_EXPEDITION = "15"; 
 	
 	private String targetGalaxy = null;
 	private String targetSystem = null;
 	private String targetPosition = null;
 	private String mission = MISSION_NONE;
 	private String planetType = "1";
-	private String union = "1";
+	private String union = "0";
+	
+	private int metal = 0;
+	private int crystal = 0;
+	private int deuterium = 0;
+	private int remainingresources = 0;
+	private int progress = 0;
 	
 	private int maxSpeed = 0;
 	private int speedFactor = 0;	
@@ -67,23 +87,10 @@ public class FleetView extends ListActivity {
 
 	private ArrayList<String> shortcuts = new ArrayList<String>();
 	private ArrayList<String> combatForces = new ArrayList<String>();
-	
 
-	// 2 -> 3
-	//index.php?page=fleet3&session=912bb66e8f11 POST
-	
-	//$('form[name=details]').serialize()
-	//"type=1&mission=0&union=0&am202=2&galaxy=3&system=293&position=8&speed=10"
-	
+	private ArrayList<String> missions = new ArrayList<String>();
 
-	
-	// 3 -> 4
-	//index.php?page=movement&session=912bb66e8f11
-	
-	//$('form[name=sendForm]').serialize()
-	//"holdingtime=1&expeditiontime=1&galaxy=3&system=293&position=8&type=1&mission=4&union2=0&holdingOrExpTime=0&speed=10&am202=2&metal=0&crystal=0&deuterium=0"
-
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,15 +98,22 @@ public class FleetView extends ListActivity {
 				
 		if(getIntent().hasExtra("tab")) {
 			task = getIntent().getExtras().getString("tab");
+		} else {
+			task = "fleet1";
 		}
 		
 		if("fleet1".equals(task)) {
 			setContentView(R.layout.activity_tab_fleet1);			
 		} else if("fleet2".equals(task)) {
 			setContentView(R.layout.activity_tab_fleet2);			
+		} else if("fleet3".equals(task)) {
+			setContentView(R.layout.activity_tab_fleet3);			
 		}
 		
 		registerForContextMenu(getListView());
+
+		final ProgressDialog loaderDialog = new ProgressDialog(FleetView.this);					
+		loaderDialog.setMessage(getString(R.string.loading));
 		
 		Thread t = new Thread(new Runnable() {			
 			@Override
@@ -109,46 +123,233 @@ public class FleetView extends ListActivity {
 					targetGalaxy = getIntent().getExtras().getString("galaxy");
 					targetSystem = getIntent().getExtras().getString("system");
 					targetPosition = getIntent().getExtras().getString("position");
-					mission = getIntent().getExtras().getString("mission");
 					planetType = getIntent().getExtras().getString("planetType");
 				} else {
 					Planet p = MainTabActivity.game.getCurrentPlanet();
 					targetGalaxy = String.valueOf(p.getGalaxy());
 					targetSystem = String.valueOf(p.getSystem());
 					targetPosition = String.valueOf(p.getPosition());
-					mission = "0";
 					planetType = "1";
+				}
+				if(getIntent().hasExtra("mission")) {
+					mission = getIntent().getExtras().getString("mission");
+				} else {
+					mission = MISSION_NONE;
 				}
 				
 				if("fleet1".equals(task)) {
 					onCreateFleet1();
 				} else if("fleet2".equals(task)) {
 					onCreateFleet2();
+				} else { //fleet3
+					onCreateFleet3();
 				}
+				
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
 						setListAdapter(adapter);	
-						setProgressBarIndeterminateVisibility(false);												
+						setProgressBarIndeterminateVisibility(false);
 					}
 				});
+				
+				loaderDialog.cancel();
 			}
 		});
 		setProgressBarIndeterminateVisibility(true);
 		t.start();
+		loaderDialog.show();
+	}
+	
+	private void onCreateFleet3() {
+		
+		final Document document = sendShips2();
+
+		final Spinner missionSpinner = (Spinner) findViewById(R.id.mission);
+        final ArrayAdapter<CharSequence> missionAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
+        missionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				missionSpinner.setAdapter(missionAdapter);
+				
+				//add default mission
+				if(MISSION_NONE.equals(mission)) {
+	        		missionAdapter.add("-");
+	        		missions.add(MISSION_NONE);
+				}
+				
+				//add available missions
+		        for(Element li : document.select("#missions > li")) {
+		        	if("on".equals(li.attr("class"))) {
+		        		missionAdapter.add(li.select("span").html());
+		        		missions.add(li.attr("id").substring(6));
+		        		//onclick -> updateHoldingOrExpTime(); updateVariables();
+		        	}
+		        }
+
+		        //check for selected mission
+		        for (int i = 0; i < missions.size(); i++) {
+	        		if(mission.equals(missions.get(i))) {
+	        			missionSpinner.setSelection(i);
+	        		}
+		        }
+			}
+		});
+        missionSpinner.setOnItemSelectedListener(new ListView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int index, long arg3) {
+				mission = missions.get(index);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+		
+        String maxresources = document.select("#maxresources").text();
+        final String target = document.select("#roundup > ul > li").get(0).select("span").text();
+        final String duration = document.select("#duration").text();
+        final String arrivalTime = document.select("#arrivalTime").text();
+        final String returnTime = document.select("#returnTime").text();
+        final String consumption = document.select("#consumption > span").text();
+        
+        /*Log.i("onCreateFleet3", "target=" + target 
+        		+ ", maxresources=" + maxresources
+        		+ ", duration=" + duration
+        		+ ", arrivalTime=" + arrivalTime
+        		+ ", returnTime=" + returnTime
+        		+ ", consumption=" + consumption);*/
+
+        maxresources = maxresources.replace(".", "");
+        final int cargoSpace = Integer.parseInt(maxresources);
+        remainingresources = cargoSpace;
+        
+        final TextView maxresourcesView = (TextView) findViewById(R.id.fleet_maxresources);
+        final TextView remainingresourcesView = (TextView) findViewById(R.id.fleet_remainingresources);
+        final TextView durationView = (TextView) findViewById(R.id.fleet_duration);        
+        final TextView targetView = (TextView) findViewById(R.id.fleet_target);
+        final TextView consumptionView = (TextView) findViewById(R.id.fleet_consumption);
+        final TextView arrivalView = (TextView) findViewById(R.id.fleet_arrival);
+        final TextView returnView = (TextView) findViewById(R.id.fleet_return);
+        
+        final TextView metalView = (TextView) findViewById(R.id.metal_amount);
+        final TextView crystalView = (TextView) findViewById(R.id.crystal_amount);
+        final TextView deuteriumView = (TextView) findViewById(R.id.deuterium_amount);
+        
+        final SeekBar metalSeekbar = (SeekBar) findViewById(R.id.metal_seekbar);
+        final SeekBar crystalSeekbar = (SeekBar) findViewById(R.id.crystal_seekbar);
+        final SeekBar deuteriumSeekbar = (SeekBar) findViewById(R.id.deuterium_seekbar);
+
+        final Planet p = MainTabActivity.game.getCurrentPlanet();
+        
+        metalSeekbar.setMax(Math.min(p.getMetal(), remainingresources));
+        metalSeekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				metal = seekBar.getProgress();
+				remainingresources = remainingresources + progress - metal;
+				remainingresourcesView.setText(String.valueOf(remainingresources));
+				
+		        crystalSeekbar.setMax(Math.max(crystal, Math.min(p.getCrystal(), remainingresources)));
+		        crystalSeekbar.refreshDrawableState();
+		        
+		        deuteriumSeekbar.setMax(Math.max(deuterium, Math.min(p.getDeuterium(), remainingresources)));
+		        deuteriumSeekbar.refreshDrawableState();
+			}
+			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				progress = seekBar.getProgress();
+				Log.i("start", "progress:" + String.valueOf(progress));
+			}
+			
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				metalView.setText(String.valueOf(progress));
+			}
+		});        
+
+        crystalSeekbar.setMax(Math.min(p.getCrystal(), remainingresources));
+        crystalSeekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				crystal = seekBar.getProgress();
+				remainingresources = remainingresources + progress - crystal;
+				remainingresourcesView.setText(String.valueOf(remainingresources));
+				
+		        metalSeekbar.setMax(Math.max(metal, Math.min(p.getMetal(), remainingresources)));
+		        metalSeekbar.refreshDrawableState();
+		        
+		        deuteriumSeekbar.setMax(Math.max(deuterium, Math.min(p.getDeuterium(), remainingresources)));
+		        deuteriumSeekbar.refreshDrawableState();
+			}
+			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				progress = seekBar.getProgress();
+			}
+			
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				crystalView.setText(String.valueOf(progress));
+			}
+		});
+
+        deuteriumSeekbar.setMax(Math.min(p.getDeuterium(), remainingresources));
+        deuteriumSeekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				deuterium = seekBar.getProgress();
+				remainingresources = remainingresources + progress - deuterium;
+				remainingresourcesView.setText(String.valueOf(remainingresources));
+				
+		        metalSeekbar.setMax(Math.max(metal, Math.min(p.getMetal(), remainingresources)));
+		        metalSeekbar.refreshDrawableState();
+		        
+		        crystalSeekbar.setMax(Math.max(crystal, Math.min(p.getCrystal(), remainingresources)));
+		        crystalSeekbar.refreshDrawableState();
+			}
+			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				progress = seekBar.getProgress();
+			}
+			
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				deuteriumView.setText(String.valueOf(progress));
+			}
+		});
+        
+        runOnUiThread(new Runnable() {			
+			@Override
+			public void run() {
+				maxresourcesView.setText(String.valueOf(cargoSpace));
+				remainingresourcesView.setText(String.valueOf(cargoSpace));
+				durationView.setText(duration);
+				arrivalView.setText(arrivalTime);
+				returnView.setText(returnTime);
+				consumptionView.setText(consumption);
+				targetView.setText(target);
+			}
+		});
+		
+		final Button next = (Button) this.findViewById(R.id.fleet3_send);
+		next.setOnClickListener(new Button.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				sendShips3();
+			}
+		});
 	}
 	
 	private void onCreateFleet2() {
 		
-		final Document document = sendShips();
+		final Document document = sendShips1();
 		updateWidgetsFromVariables();
         
 		String script = document.select("script").not("script[src]").html();		
 		maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
 		speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
 		storageCapacity = Integer.parseInt(Tools.between(script, "storageCapacity = ", ";"));
-		
-		//Log.i("fleet2", "maxSpeed="+maxSpeed+", speedFactor="+speedFactor+", storageCapacity="+storageCapacity);
 		
 		for(int i = 0; i < 13; i++) {
 			if(script.indexOf("shipIDs[" + i + "]") > -1) {
@@ -160,7 +361,6 @@ public class FleetView extends ListActivity {
 				break;
 			}
 		}
-		//Log.i("fleet2", "shipIDs="+shipIDs+", completeConsumptions="+completeConsumptions+", speeds="+speeds);
 
 		final Spinner shortcutsSpinner = (Spinner) findViewById(R.id.shortcuts);
         final ArrayAdapter<CharSequence> shortcutsAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item);
@@ -168,7 +368,7 @@ public class FleetView extends ListActivity {
         runOnUiThread(new Runnable() {			
 			@Override
 			public void run() {
-		        shortcutsSpinner.setAdapter(shortcutsAdapter);				
+		        shortcutsSpinner.setAdapter(shortcutsAdapter);
 		        for(Element option : document.select("#slbox > option")) {
 		        	shortcutsAdapter.add(option.html());
 		        	shortcuts.add(option.attr("value"));
@@ -336,7 +536,7 @@ public class FleetView extends ListActivity {
 	//index.php?page=fleet2&session=912bb66e8f11 POST	
 	//$('form[name=shipsChosen]').serialize()
 	//"galaxy=3&system=293&position=7&type=1&mission=0&speed=10&am202=2"
-	private Document sendShips() {
+	private Document sendShips1() {
 
 		List<NameValuePair> postData = new ArrayList<NameValuePair>();
         postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
@@ -355,6 +555,76 @@ public class FleetView extends ListActivity {
 		
         return  Jsoup.parse(html);
 	}	
+
+
+	// 2 -> 3
+	//index.php?page=fleet3&session=912bb66e8f11 POST	
+	//$('form[name=details]').serialize()
+	//"type=1&mission=0&union=0&am202=2&galaxy=3&system=293&position=8&speed=10"
+	private Document sendShips2() {
+
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
+        postData.add(new BasicNameValuePair("system", targetSystem));
+        postData.add(new BasicNameValuePair("position", targetPosition));
+        postData.add(new BasicNameValuePair("type", planetType));
+		postData.add(new BasicNameValuePair("mission", mission));
+
+		String union = (String) getIntent().getExtras().getSerializable("union");
+        postData.add(new BasicNameValuePair("union", union));
+
+		String speed = (String) getIntent().getExtras().getSerializable("speed");
+        postData.add(new BasicNameValuePair("speed", speed));
+        
+        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        for (String name : ships.keySet()) {
+        	String value = ships.get(name);
+        	if(!"".equals(value)) {
+        		postData.add(new BasicNameValuePair(name, value));
+        	}
+		}
+        String html = MainTabActivity.game.execute("page=fleet3", postData);
+		
+        return  Jsoup.parse(html);
+	}	
+
+
+	// 3 -> 4
+	//index.php?page=movement&session=912bb66e8f11
+	//$('form[name=sendForm]').serialize()
+	//"holdingtime=1&expeditiontime=1&galaxy=3&system=293&position=8&type=1&mission=4&union2=0&holdingOrExpTime=0&speed=10&am202=2&metal=0&crystal=0&deuterium=0"
+	private void sendShips3() {
+
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
+        postData.add(new BasicNameValuePair("system", targetSystem));
+        postData.add(new BasicNameValuePair("position", targetPosition));
+        postData.add(new BasicNameValuePair("type", planetType));
+		postData.add(new BasicNameValuePair("mission", mission));
+		postData.add(new BasicNameValuePair("holdingtime", "1")); //TODO
+		postData.add(new BasicNameValuePair("expeditiontime", "1")); //TODO
+		postData.add(new BasicNameValuePair("holdingOrExpTime", "0")); //TODO
+		postData.add(new BasicNameValuePair("metal", String.valueOf(metal)));
+		postData.add(new BasicNameValuePair("crystal", String.valueOf(crystal)));
+		postData.add(new BasicNameValuePair("deuterium", String.valueOf(deuterium)));
+
+		String union = (String) getIntent().getExtras().getSerializable("union");
+        postData.add(new BasicNameValuePair("union2", union));
+
+		String speed = (String) getIntent().getExtras().getSerializable("speed");
+        postData.add(new BasicNameValuePair("speed", speed));
+        
+        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        for (String name : ships.keySet()) {
+        	String value = ships.get(name);
+        	if(!"".equals(value)) {
+        		postData.add(new BasicNameValuePair(name, value));
+        	}
+		}
+        String html = MainTabActivity.game.execute("page=movement", postData);
+		
+        startActivity(new Intent(this, MovementView.class));
+	}
 	
 	
 	private void displayError(String errorCode) {
@@ -489,7 +759,7 @@ public class FleetView extends ListActivity {
 		        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
 		        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
 		        speed = speed / 10; //option values are 10,9,8... descriptions are 100,90,80...
-						
+		        						
 				double distance = getDistance(targetGalaxy, targetSystem, targetPosition);
 				long duration = getDuration(speed, distance);
 				long consumption = getConsumption(duration, distance);
@@ -573,7 +843,7 @@ public class FleetView extends ListActivity {
         	return;
         }
 
-        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        final HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         String amount = ships.get("am"+COLONIZATION_ID);
     	if(!"".equals(amount)) {
 	        postData.add(new BasicNameValuePair("cs", "1"));
@@ -586,10 +856,23 @@ public class FleetView extends ListActivity {
 			public void run() {
 				if (!"0".equals(errorCode)) {
 					displayError(errorCode);
-				} else {
-					//TODO: go to fleet3
-					String msg = targetGalaxy + ":" + targetSystem + ":" + targetPosition + ":" + planetType + ", mission:" + mission;
-					Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+				} else {					
+			        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
+			        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
+			        speed = speed / 10; //option values are 10,9,8... descriptions are 100,90,80...
+					
+					Intent fleet3 = new Intent(FleetView.this, FleetView.class)
+						.putExtra("tab", "fleet3")
+						.putExtra("galaxy", targetGalaxy)
+						.putExtra("system", targetSystem)
+						.putExtra("position", targetPosition)
+						.putExtra("planetType", planetType)
+						.putExtra("mission", mission)
+						.putExtra("union", union)
+						.putExtra("speed", String.valueOf(speed))
+						.putExtra("ships", ships);
+					
+		            startActivity(fleet3);  
 				}
 			}
 		});
