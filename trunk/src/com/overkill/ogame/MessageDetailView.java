@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -67,7 +68,8 @@ public class MessageDetailView extends Activity {
 				msg.setDate(tr.get(3).select("td").text());
 				
 				String content = html.select("div.note").html();
-				content = content.replaceAll("javascript:showGalaxy\\((.+),(.+),(.+)\\)", "ogame://galaxy/show?galaxy=$1&system=$2");
+								
+				content = content.replaceAll("javascript:showGalaxy\\((.+?),(.+?),(.+?)\\)", "ogame://galaxy/show?galaxy=$1&system=$2&position=$3");
 				
 				msg.setContent(content);
 								

@@ -49,6 +49,7 @@ public class GalaxyView extends ListActivity {
 	
 	private int galaxy;
 	private int system;
+	private int position = 0;
 	
 	private String probeCount = "0";
 	private int recyclerCount;
@@ -84,14 +85,13 @@ public class GalaxyView extends ListActivity {
 		
 		Uri uri = getIntent().getData();
         if(uri != null){
-	        Log.i("scheme", uri.getScheme());
-	        Log.i("host", uri.getHost());
-	        Log.i("data", uri.getQuery());
 	        galaxy = Integer.valueOf(uri.getQueryParameter("galaxy"));
 	        system = Integer.valueOf(uri.getQueryParameter("system"));
+	        position = Integer.valueOf(uri.getQueryParameter("position"));
 	    }else{
 			galaxy = origin.getGalaxy();
 			system = origin.getSystem();
+			position = 0;
 	    }
         
 		//initialize spinner with galaxies
@@ -200,6 +200,10 @@ public class GalaxyView extends ListActivity {
 						getListView().setVisibility(View.VISIBLE);	
 						((TextView)findViewById(R.id.txt_info)).setText(getInfo());	
 						((EditText) findViewById(R.id.system)).setText(String.valueOf(system));
+						if(position > 0){
+							getListView().setSelection(position);
+							getListView().setSelected(true);
+						}
 					}
 				});
 			}

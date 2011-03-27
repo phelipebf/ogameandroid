@@ -97,6 +97,8 @@ public class NotificationSystem {
 	}
 	
 	public void update(){
+		if(mRun==false)
+			return;
 		try {
 			String j = mGame.get("page=fetchEventbox&ajax=1");
 			Log.i("Eventbox", j);
@@ -113,6 +115,7 @@ public class NotificationSystem {
 	
 	public void destroy(){
 		mHandler.removeCallbacks(mWorker);
+		mRun = false;
 		close();
 	}
 	
@@ -124,7 +127,7 @@ public class NotificationSystem {
 	  		 public void run() {
 	  			 mRun = true;
 	  			 update();
-	  			 mHandler.postDelayed(this, mDealy);						
+	  			 mHandler.postDelayed(mWorker, mDealy);						
 	  		 }
 		};
 		mWorker.run();

@@ -132,7 +132,7 @@
 	android:layout_width="wrap_content"
 	android:layout_alignParentLeft="true"
 	android:text="@string/fleet2_back"
-	android:enabled="false" />
+	android:onClick="goBack" />
 	
   <Button android:id="@+id/fleet1_next"
 	android:layout_height="wrap_content"

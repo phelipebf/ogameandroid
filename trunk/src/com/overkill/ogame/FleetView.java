@@ -17,6 +17,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -42,17 +43,21 @@ import com.overkill.ogame.game.Tools;
  * Different states are set by and extra named tab. 
  * @author Paolo
  */
-public class FleetView extends ListActivity {
-	String task = "movement";
-	@SuppressWarnings("rawtypes")
-	ArrayAdapter adapter;
 
-	String[] ulKey;
+/*
+ * We need to 
+ */
+public class FleetView extends ListActivity {
+	String task;
+
+	FleetAdapter adapter;
+
+	String[] ulKey = new String[]{"military", "civil"};
 	
 	public int selectedShips = 0;	
 	
 	private final String COLONIZATION_ID = "208";
-	
+		
 	private final String MISSION_NONE = "0";
 	private final String MISSION_ATTACK = "1"; 
 	private final String MISSION_UNION_ATTACK = "2"; 
@@ -71,6 +76,8 @@ public class FleetView extends ListActivity {
 	private String mission = MISSION_NONE;
 	private String planetType = "1";
 	private String union = "0";
+	private HashMap<String, String> ships;
+	private int speed;
 	
 	private int metal = 0;
 	private int crystal = 0;
@@ -90,7 +97,57 @@ public class FleetView extends ListActivity {
 
 	private ArrayList<String> missions = new ArrayList<String>();
 
+	/**
+	 * Starts the Activity with the give Tab string and closes the current one
+	 * @param tab
+	 */
+	private void startTab(String tab){
+		Intent fleet = new Intent(FleetView.this, FleetView.class)
+		.putExtra("tab", tab)
+		.putExtra("galaxy", targetGalaxy)
+		.putExtra("system", targetSystem)
+		.putExtra("position", targetPosition)
+		.putExtra("planetType", planetType)
+		.putExtra("mission", mission)
+		.putExtra("union", union)
+		.putExtra("speed", String.valueOf(speed))
+		.putExtra("ships", ships);
+	
+		startActivity(fleet);  
+		finish();
+	}
 		
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	        goBack();
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
+	/**
+	 * Function with View parameter is needed for onClick button
+	 * @param view
+	 */
+	public void goBack(View view){
+		goBack();
+	}
+	
+	/**
+	 * Sends the user back one step
+	 */
+	public void goBack(){
+		if("fleet1".equals(task)) {
+			finish();
+		} else if("fleet2".equals(task)) {
+			startTab("fleet1");
+		} else if("fleet3".equals(task)) {
+			startTab("fleet2");
+		}
+	}	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,7 +160,7 @@ public class FleetView extends ListActivity {
 		}
 		
 		if("fleet1".equals(task)) {
-			setContentView(R.layout.activity_tab_fleet1);			
+			setContentView(R.layout.activity_tab_fleet1);
 		} else if("fleet2".equals(task)) {
 			setContentView(R.layout.activity_tab_fleet2);			
 		} else if("fleet3".equals(task)) {
@@ -150,10 +207,9 @@ public class FleetView extends ListActivity {
 					public void run() {
 						setListAdapter(adapter);	
 						setProgressBarIndeterminateVisibility(false);
+						loaderDialog.cancel();
 					}
-				});
-				
-				loaderDialog.cancel();
+				});			
 			}
 		});
 		setProgressBarIndeterminateVisibility(true);
@@ -463,26 +519,45 @@ public class FleetView extends ListActivity {
 	}
 	
 	private void onCreateFleet1() {
-		ulKey = getIntent().getExtras().getStringArray("ulKey"); 
+		final Button next = (Button) this.findViewById(R.id.fleet1_next);
 		
 		String body = MainTabActivity.game.get("page=fleet1");
 		final Document document = Jsoup.parse(body);
 		
-		ArrayList<Ship> ships = new ArrayList<Ship>();
+		ArrayList<Ship> shiplist = new ArrayList<Ship>();
 		for(int i = 0; i < ulKey.length; i++){
 			ArrayList<Ship> o = Tools.parseFleet(document, ulKey[i], FleetView.this);
-			ships.addAll(o);
+			shiplist.addAll(o);
 		}
-		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, ships);
+		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, shiplist);
 		
-		final Button next = (Button) this.findViewById(R.id.fleet1_next);
+		//We have ships form a previous call
+		if(getIntent().getExtras().containsKey("ships")){
+			ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+			for(int i = 0; i < adapter.getCount(); i++){
+				if(ships.containsKey("am" + adapter.getItem(i).getId())){
+					try{
+						adapter.getItem(i).setUsed(Integer.valueOf(ships.get("am" + adapter.getItem(i).getId())));
+					}catch(Exception e){
+						adapter.getItem(i).setUsed(0);
+					}
+				}
+			}
+			runOnUiThread(new Runnable() {					
+				@Override
+				public void run() {
+					next.setEnabled(true);
+				}
+			});
+		}		
+		
 		next.setOnClickListener(new Button.OnClickListener() {				
 			@Override
 			public void onClick(View v) {
 				Intent fleet2 = new Intent(FleetView.this, FleetView.class)
 					.putExtra("tab", "fleet2");
 
-				HashMap<String, String> ships = new HashMap<String, String>();
+				/*HashMap<String, String>*/ ships = new HashMap<String, String>();
 				for(int i = 0; i < adapter.getCount(); i++) {
 					Ship ship = (Ship) adapter.getItem(i);
 					if(ship.getUsed() > 0) {
@@ -500,7 +575,8 @@ public class FleetView extends ListActivity {
 					fleet2.putExtra("mission", mission);
 					fleet2.putExtra("planetType", planetType);
 				}
-	            startActivity(fleet2);   
+				//startActivity(fleet2);   
+				startTab("fleet2");
 			}
 		});
 		
@@ -546,7 +622,8 @@ public class FleetView extends ListActivity {
 		postData.add(new BasicNameValuePair("mission", mission));
         postData.add(new BasicNameValuePair("speed", "10"));
         
-        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        //HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         for (String name : ships.keySet()) {
         	String value = ships.get(name);
 	        postData.add(new BasicNameValuePair(name, value));
@@ -573,10 +650,11 @@ public class FleetView extends ListActivity {
 		String union = (String) getIntent().getExtras().getSerializable("union");
         postData.add(new BasicNameValuePair("union", union));
 
-		String speed = (String) getIntent().getExtras().getSerializable("speed");
-        postData.add(new BasicNameValuePair("speed", speed));
+		/*String*/ speed = Integer.valueOf((String) getIntent().getExtras().getSerializable("speed"));
+        postData.add(new BasicNameValuePair("speed", String.valueOf(speed)));
         
-        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        //HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         for (String name : ships.keySet()) {
         	String value = ships.get(name);
         	if(!"".equals(value)) {
@@ -614,7 +692,8 @@ public class FleetView extends ListActivity {
 		String speed = (String) getIntent().getExtras().getSerializable("speed");
         postData.add(new BasicNameValuePair("speed", speed));
         
-        HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        //HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         for (String name : ships.keySet()) {
         	String value = ships.get(name);
         	if(!"".equals(value)) {
@@ -624,6 +703,8 @@ public class FleetView extends ListActivity {
         String html = MainTabActivity.game.execute("page=movement", postData);
 		
         startActivity(new Intent(this, MovementView.class));
+        finish();
+        // TODO close all fleet activities
 	}
 	
 	
@@ -757,7 +838,7 @@ public class FleetView extends ListActivity {
 			@Override
 			public void run() {
 		        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
-		        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
+		        /*int*/ speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
 		        speed = speed / 10; //option values are 10,9,8... descriptions are 100,90,80...
 		        						
 				double distance = getDistance(targetGalaxy, targetSystem, targetPosition);
@@ -843,7 +924,8 @@ public class FleetView extends ListActivity {
         	return;
         }
 
-        final HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        //final HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
+        ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         String amount = ships.get("am"+COLONIZATION_ID);
     	if(!"".equals(amount)) {
 	        postData.add(new BasicNameValuePair("cs", "1"));
@@ -858,21 +940,22 @@ public class FleetView extends ListActivity {
 					displayError(errorCode);
 				} else {					
 			        Spinner speedSpinner = (Spinner) findViewById(R.id.speed);
-			        int speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
+			        /*int*/ speed = Integer.parseInt(getResources().getStringArray(R.array.speed)[speedSpinner.getSelectedItemPosition()]);
 			        speed = speed / 10; //option values are 10,9,8... descriptions are 100,90,80...
 					
-					Intent fleet3 = new Intent(FleetView.this, FleetView.class)
-						.putExtra("tab", "fleet3")
-						.putExtra("galaxy", targetGalaxy)
-						.putExtra("system", targetSystem)
-						.putExtra("position", targetPosition)
-						.putExtra("planetType", planetType)
-						.putExtra("mission", mission)
-						.putExtra("union", union)
-						.putExtra("speed", String.valueOf(speed))
-						.putExtra("ships", ships);
-					
-		            startActivity(fleet3);  
+//					Intent fleet3 = new Intent(FleetView.this, FleetView.class)
+//						.putExtra("tab", "fleet3")
+//						.putExtra("galaxy", targetGalaxy)
+//						.putExtra("system", targetSystem)
+//						.putExtra("position", targetPosition)
+//						.putExtra("planetType", planetType)
+//						.putExtra("mission", mission)
+//						.putExtra("union", union)
+//						.putExtra("speed", String.valueOf(speed))
+//						.putExtra("ships", ships);
+//					
+//		            startActivity(fleet3);  
+			        startTab("fleet3");
 				}
 			}
 		});
