@@ -41,9 +41,9 @@ public class FleetEventAdapter extends ArrayAdapter<FleetEvent> {
 		FleetEvent b = this.getItem(position);
 		if (b != null) {			
 			((TextView) v.findViewById(R.id.originName)).setText(b.getOriginName());
-			((TextView) v.findViewById(R.id.originCoords)).setText(String.valueOf(b.getOriginCoord()));
+			((TextView) v.findViewById(R.id.originCoords)).setText(String.valueOf(b.getOriginCoords()));
 			((TextView) v.findViewById(R.id.destName)).setText(String.valueOf(b.getDestName()));
-			((TextView) v.findViewById(R.id.destCoords)).setText(String.valueOf(b.getDestCoord()));
+			((TextView) v.findViewById(R.id.destCoords)).setText(String.valueOf(b.getDestCoords()));
 			((TextView) v.findViewById(R.id.mission)).setText(String.valueOf(b.getMission()));
 			((TextView) v.findViewById(R.id.info)).setText(String.valueOf(b.getArrivalTime()));			
 		}

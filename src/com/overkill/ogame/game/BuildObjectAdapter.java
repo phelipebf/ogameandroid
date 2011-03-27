@@ -89,7 +89,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				((ImageView) v.findViewById(R.id.wrench)).setVisibility(View.GONE);
 			}	
 			
-			if(b.getMetall() == 0 && b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
+			if(b.getMetall() == 0){
 				metall.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_metall)).setVisibility(View.GONE);				
 			}else{
@@ -102,7 +102,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					metall.setTextColor(Color.RED);	
 			}	
 			
-			if(b.getCrystal() == 0&& b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
+			if(b.getCrystal() == 0){
 				kristal.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_kristal)).setVisibility(View.GONE);				
 			}else{
@@ -115,7 +115,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 					kristal.setTextColor(Color.RED);	
 			}	
 			
-			if(b.getDeuterium() == 0&& b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
+			if(b.getDeuterium() == 0){
 				deuterium.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_deuterium)).setVisibility(View.GONE);				
 			}else{

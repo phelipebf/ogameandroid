@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.overkill.ogame.game.FleetEvent;
@@ -36,12 +37,12 @@ public class MovementView extends ListActivity {
 		registerForContextMenu(getListView());
 		
 		Thread t = new Thread(new Runnable() {			
-			@Override
+		 			@Override
 			public void run() {			
 
 				//Read the current eventList data
 				String body = MainTabActivity.game.get("page=eventList&ajax=1");
-				//if the date contains at least on event
+				//if the data contains at least on event
 				if(body.contains("<div class=\"eventFleet\"")){
 					body = Tools.between(body, "<div id=\"eventContent\" style=\"text-align:center\">", "<div id=\"eventFooter\">");
 					//Split the events and put them into the adapter
@@ -62,6 +63,28 @@ public class MovementView extends ListActivity {
 					}
 				});
 			}
+
+		
+/*		Thread t = new Thread(new Runnable() {			
+			@Override
+			public void run() {			
+
+				//Read the current eventList data
+				Document html = Jsoup.parse(MainTabActivity.game.get("movement&ajax=1"));
+				Elements fleets = html.select("div#fleet*");
+				//if the data contains at least on event
+				for(Element fleet : fleets){
+					int id = Integer.valueOf(fleet.id().replace("fleet", ""));
+				}
+				
+				runOnUiThread(new Runnable() {					
+					@Override
+					public void run() {
+						setListAdapter(adapter);	
+						setProgressBarIndeterminateVisibility(false);												
+					}
+				});
+			}*/
 		});
 		setProgressBarIndeterminateVisibility(true);
 		t.start();
@@ -82,7 +105,7 @@ public class MovementView extends ListActivity {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	alert.setTitle(R.string.fleet_info_title);
     	String info = "";
-    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getEventId())));
+    	Document table = Jsoup.parse(MainTabActivity.game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(tmp.getID())));
     	Elements tr = table.select("tr");
     	for(int i = 0; i < tr.size(); i++){
     		info += tr.get(i).text() + "\n";
@@ -98,8 +121,8 @@ public class MovementView extends ListActivity {
 
 	public void onNewMissionClick(View view){
 		Intent i = new Intent(this, FleetView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-		.putExtra("tab", "fleet1")
-		.putExtra("ulKey", new String[]{"military", "civil"});
+			.putExtra("tab", "fleet1");
 		startActivity(i);
+		finish();
 	}
 }

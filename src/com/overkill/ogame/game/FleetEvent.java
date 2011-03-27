@@ -3,64 +3,110 @@ package com.overkill.ogame.game;
 import android.util.Log;
 
 public class FleetEvent {
-	private int mEventID;
-	private String mFleet;
-	private String mArrivalTime;
-	private String mDesc;
-	private String mMission;
-	private String mOriginName;
-	private String mOriginCoords;
-	private String mDestName;
-	private String mDestCoords;
+	private int ID;
+	private String ships;
+	private String arrivalTime;
+	private String desc;
+	private String mission;
+	private String originName;
+	private String originCoords;
+	private String destName;
+	private String destCoords;
 	
 	public FleetEvent(String body, GameClient game){
-		mEventID = Integer.valueOf(Tools.between(body, "id=\"eventRow-", "\""));
+		ID = Integer.valueOf(Tools.between(body, "id=\"eventRow-", "\""));
 		String detailsFleet = getLi(body, "detailsFleet").trim();
 		detailsFleet = detailsFleet.substring(0, detailsFleet.indexOf(" "));
-		mArrivalTime = getLi(body, "arrivalTime");
-		mDesc = getLi(body, "descFleet");
-		mMission = Tools.between(getLi(body, "missionFleet"), "<span>", "</span>");
+		arrivalTime = getLi(body, "arrivalTime");
+		desc = getLi(body, "descFleet");
+		mission = Tools.between(getLi(body, "missionFleet"), "<span>", "</span>");
 		
-		mOriginName = getLi(body, "originFleet");
-		mOriginCoords = Tools.between(getLi(body, "coordsOrigin"), ">", "</");
+		originName = getLi(body, "originFleet");
+		originCoords = Tools.between(getLi(body, "coordsOrigin"), ">", "</");
 		
-		mDestName = getLi(body, "destFleet");
-		mDestCoords = Tools.between(getLi(body, "destCoords"), ">", "</");
+		destName = getLi(body, "destFleet");
+		destCoords = Tools.between(getLi(body, "destCoords"), ">", "</");
 		
 		//mFleet = game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(mEventID));
 		
-		Log.i("FleetEvent", detailsFleet + " ships (" + mMission + ") from " + mOriginName + mOriginCoords + " to " + mDestName + mDestCoords + " arrival " + mArrivalTime);
+		Log.i("FleetEvent", detailsFleet + " ships (" + mission + ") from " + originName + originCoords + " to " + destName + destCoords + " arrival " + arrivalTime);
 	}
 	
 	private String getLi(String body, String key){
 		return Tools.between(body, "<li class=\"" + key + "\">", "</li>");
 	}
-	
-	public int getEventId(){
-		return mEventID;
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public String getShips() {
+		return ships;
+	}
+
+	public void setShips(String ships) {
+		this.ships = ships;
+	}
+
+	public String getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getMission() {
+		return mission;
+	}
+
+	public void setMission(String mission) {
+		this.mission = mission;
+	}
+
+	public String getOriginName() {
+		return originName;
+	}
+
+	public void setOriginName(String originName) {
+		this.originName = originName;
+	}
+
+	public String getOriginCoords() {
+		return originCoords;
+	}
+
+	public void setOriginCoords(String originCoords) {
+		this.originCoords = originCoords;
+	}
+
+	public String getDestName() {
+		return destName;
+	}
+
+	public void setDestName(String destName) {
+		this.destName = destName;
+	}
+
+	public String getDestCoords() {
+		return destCoords;
+	}
+
+	public void setDestCoords(String destCoords) {
+		this.destCoords = destCoords;
 	}
 	
-	public String getOriginName(){
-		return mOriginName;
-	}
 	
-	public String getOriginCoord(){
-		return mOriginCoords;
-	}
-	
-	public String getDestName(){
-		return mDestName;
-	}
-	
-	public String getDestCoord(){
-		return mDestCoords;
-	}
-	
-	public String getMission(){
-		return mMission;
-	}
-	
-	public String getArrivalTime(){
-		return mArrivalTime;
-	}
 }
