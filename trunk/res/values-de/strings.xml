@@ -69,6 +69,7 @@
 	<string name="settings_fleet_hostile">Feindlich</string>
 	<string name="settings_fleet_hostile_summary">Alarm bei feindlichen Flotten</string>
 	
+	<string name="message_send">Senden</string>
 	<string name="message_reply">Antworten</string>
 	<string name="message_report">Melden</string>
 	<string name="message_delete">Löschen</string>
@@ -102,4 +103,11 @@
 	<string name="fleet2_arrival">Ankunft:</string>
 	<string name="fleet2_return">Rückkehr:</string>
 	<string name="fleet2_cargobays">Freier Laderaum:</string>
+	
+	<string name="fleet3_metal">Metal:</string>
+	<string name="fleet3_crystal">Kristal:</string>
+	<string name="fleet3_deuterium">Deuterium:</string>
+	<string name="fleet3_target">Ziel:</string>
+	<string name="fleet3_send">Flotte senden</string>
+	<string name="fleet3_cargobays">Laderaum:</string>
 </resources>
