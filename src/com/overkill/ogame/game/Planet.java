@@ -3,7 +3,6 @@ package com.overkill.ogame.game;
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 
-import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 
 public class Planet {
@@ -62,19 +61,19 @@ public class Planet {
 	    	JSONObject object = json.getJSONObject("metal");
 	    	JSONObject resources = object.getJSONObject("resources");			
 			this.metal = resources.getInt("actual");
-			this.metalMax = resources.getInt("max");
+			this.setMetalMax(resources.getInt("max"));
 			this.metalProduction = resources.getDouble("production");
 	    	
 			object = json.getJSONObject("crystal");
 	    	resources = object.getJSONObject("resources");			
 			this.crystal = resources.getInt("actual");
-			this.crystalMax = resources.getInt("max");
+			this.setCrystalMax(resources.getInt("max"));
 			this.crystalProduction = resources.getDouble("production");
 	    	
 			object = json.getJSONObject("deuterium");
 	    	resources = object.getJSONObject("resources");			
 			this.deuterium = resources.getInt("actual");
-			this.deuteriumMax = resources.getInt("max");
+			this.setDeuteriumMax(resources.getInt("max"));
 			this.deuteriumProduction = resources.getDouble("production");
 
 	    	object = json.getJSONObject("energy");
@@ -104,7 +103,7 @@ public class Planet {
 	}
 	
 	public String getResources(){
-		return "M: " + getMetal() + " K: " + getCrystal() + " D: " + getDeuterium() + " E: " + this.energy;
+		return "M: " + getMetal() + " K: " + getCrystal() + " D: " + getDeuterium() + " E: " + this.getEnergy();
 	}
 	
 	public int getId(){
@@ -198,5 +197,29 @@ public class Planet {
 	public int getPosition(){
 		String parts[] = coordinates.substring(1, coordinates.length()-1).split(":"); //cut brackets 
 		return Integer.valueOf(parts[2]);
+	}
+
+	public void setMetalMax(int metalMax) {
+		this.metalMax = metalMax;
+	}
+
+	public int getMetalMax() {
+		return metalMax;
+	}
+
+	public void setCrystalMax(int crystalMax) {
+		this.crystalMax = crystalMax;
+	}
+
+	public int getCrystalMax() {
+		return crystalMax;
+	}
+
+	public void setDeuteriumMax(int deuteriumMax) {
+		this.deuteriumMax = deuteriumMax;
+	}
+
+	public int getDeuteriumMax() {
+		return deuteriumMax;
 	}
 }

@@ -18,7 +18,6 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -96,7 +95,7 @@ public class GalaxyView extends ListActivity {
         
 		//initialize spinner with galaxies
         final Spinner galaxySpinner = (Spinner) findViewById(R.id.galaxy_spinner);
-        ArrayAdapter galaxiesAdapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> galaxiesAdapter = ArrayAdapter.createFromResource(
                 this, R.array.galaxies, android.R.layout.simple_spinner_item);
         galaxiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         galaxySpinner.setAdapter(galaxiesAdapter);
