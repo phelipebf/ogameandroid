@@ -10,8 +10,9 @@
   * New mission
    * ~~Display current ships on planet~~
    * ~~Select Ships~~
-   * ~~Set target~~ and mission type
-   * Set speed and cargo
+   * ~~Set target and mission type~~
+   * ~~Set speed and cargo~~
+   * Mission specific settings (eg. duration on expedition)
   * Cancel current fleet event
  * Messages
   * ~~List messages~~
@@ -23,10 +24,10 @@
     * Battle Report
     * Hostile Espionage
     * Espionage Report
-  * Reply to message
+  * ~~Reply to message~~
   * ~~Delete message~~
   * Report message
-  * Create new message
+  * ~~Create new message~~
  * Alliance
   * View Info
   * Join/Quit an alliance
