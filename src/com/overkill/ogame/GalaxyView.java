@@ -63,10 +63,7 @@ public class GalaxyView extends ListActivity {
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);  
 		setContentView(R.layout.activity_tab_listview);	
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_galaxy);   
-		
-        
-        
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_galaxy);
         
         gestureDetector = new GestureDetector(new MyGestureDetector());
         gestureListener = new View.OnTouchListener() {
@@ -146,9 +143,9 @@ public class GalaxyView extends ListActivity {
                     return false;
                 // right to left swipe
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                	return prevSystem();
-                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 	return nextSystem();
+                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                	return prevSystem();
                 }
             } catch (Exception e) {
                 // nothing
@@ -231,6 +228,22 @@ public class GalaxyView extends ListActivity {
 				}
 			});
 		}  else {
+			
+			
+			
+			//**********************************************************************
+			/*final CharSequence[] items = {"Espionage", "Missile attack", "Attack", "Transport"};
+			dialog.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+			    }
+			});
+			AlertDialog alert = dialog.create();*/
+			//**********************************************************************
+			
+			
+			
+			
 			dialog.setMessage(getApplicationContext().getString(R.string.galaxy_probes));
 			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
 			dialog.setPositiveButton(android.R.string.ok,  new DialogInterface.OnClickListener() {

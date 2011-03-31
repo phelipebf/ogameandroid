@@ -111,5 +111,7 @@
 	<string name="fleet3_target">Obiettivo:</string>
 	<string name="fleet3_send">Invia</string>
 	<string name="fleet3_cargobays">Portata:</string>
+	<string name="fleet3_noMission">Seleziona una missione</string>
+	<string name="fleet3_expedition">Durata della spedizione (h):</string>
 
 </resources>
