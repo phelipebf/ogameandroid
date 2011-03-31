@@ -40,12 +40,34 @@
     android:paddingRight="1dp" 
     android:paddingLeft="1dp"  
     android:textStyle="bold" />  
+  <TextView
+ 	android:id="@+id/slash1"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/metal_amount"
+    android:layout_alignTop="@id/metal_amount" /> 
+  <TextView
+    android:id="@+id/metalOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash1"
+    android:layout_alignTop="@+id/slash1" />
   <SeekBar 
     android:id="@+id/metal_seekbar"
   	android:layout_width="fill_parent" 
   	android:layout_height="wrap_content" 
-  	android:layout_marginLeft="7dp"
-  	android:layout_marginRight="7dp"
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
   	android:layout_below="@+id/textView1" />
   	
   	      
@@ -69,12 +91,34 @@
     android:paddingRight="1dp" 
     android:paddingLeft="1dp"  
     android:textStyle="bold" />  
+  <TextView
+ 	android:id="@+id/slash2"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/crystal_amount"
+    android:layout_alignTop="@id/crystal_amount" /> 
+  <TextView
+    android:id="@+id/crystalOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash2"
+    android:layout_alignTop="@+id/slash2" />
   <SeekBar 
     android:id="@+id/crystal_seekbar"
   	android:layout_width="fill_parent" 
   	android:layout_height="wrap_content" 
-  	android:layout_marginLeft="7dp"
-  	android:layout_marginRight="7dp"
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
   	android:layout_below="@+id/textView2" />
   	
   	      
@@ -97,13 +141,35 @@
     android:layout_height="wrap_content"
     android:paddingRight="1dp" 
     android:paddingLeft="1dp"  
-    android:textStyle="bold" />  
+    android:textStyle="bold" />
+  <TextView
+ 	android:id="@+id/slash3"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/deuterium_amount"
+    android:layout_alignTop="@id/deuterium_amount" /> 
+  <TextView
+    android:id="@+id/deuteriumOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash3"
+    android:layout_alignTop="@+id/slash3" />  
   <SeekBar 
     android:id="@+id/deuterium_seekbar"
   	android:layout_width="fill_parent" 
   	android:layout_height="wrap_content" 
-  	android:layout_marginLeft="7dp"
-  	android:layout_marginRight="7dp"
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
   	android:layout_below="@+id/textView3" />
   
 
@@ -113,6 +179,7 @@
     <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView7" android:layout_width="wrap_content" android:text="@string/fleet2_arrival" android:layout_height="wrap_content" android:layout_below="@+id/textView6" android:paddingRight="5dp" />
     <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView8" android:layout_width="wrap_content" android:text="@string/fleet2_return" android:layout_height="wrap_content" android:layout_below="@+id/textView7" android:paddingRight="5dp" />
     <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView9" android:layout_width="wrap_content" android:text="@string/fleet3_cargobays" android:layout_height="wrap_content" android:layout_below="@+id/textView8" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/expeditionText" android:layout_width="wrap_content" android:text="@string/fleet3_expedition" android:layout_height="wrap_content" android:layout_below="@+id/textView9" android:paddingRight="5dp" android:visibility="gone" />
     
     <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_target" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView4" android:text="[1:100:6] Planet" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView4" ></TextView>
     <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_consumption" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView5" android:text="112" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView5" ></TextView>
@@ -123,7 +190,7 @@
     
       
      <TextView
-     	android:id="@+id/slash"
+     	android:id="@+id/slash4"
         android:textColor="#FF6F9FC8"
         android:text="/"
         android:layout_width="wrap_content"
@@ -135,7 +202,7 @@
         android:layout_alignTop="@id/fleet_remainingresources" /> 
         
 	<TextView
-        android:id="@+id/fleet_maxresources"
+        android:id="@+id/fleet_cargobays"
         android:text="25.000"
         android:textColor="#FF6F9FC8"
         android:layout_width="wrap_content"
@@ -143,8 +210,15 @@
         android:paddingRight="1dp" 
         android:paddingLeft="1dp" 
         android:textStyle="bold"
-        android:layout_toRightOf="@id/slash"
-        android:layout_alignTop="@+id/slash" />
+        android:layout_toRightOf="@id/slash4"
+        android:layout_alignTop="@+id/slash4" />
+       
+    <Spinner 
+    	android:id="@+id/expeditionTime"
+    	android:visibility="gone"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/expeditionText" />  	
   
   
   <Button android:id="@+id/fleet1_back"
