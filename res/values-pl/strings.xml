@@ -1,114 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OGame</string>
-    <string name="select_planet">Select Planet</string>
-    <string name="moon">Moon</string>
+    <string name="select_planet">Wybierz Planet</string>
+    <string name="moon">Ksi�yc</string>
     
     <string name="tos_version">1</string>
-    <string name="tos">This application has not been approved by Gameforge so I\'m not resposible if your account gets banned.\nThis app is highly experimaental so I\'m not responsibel for any demage it may do to your account.</string>
+    <string name="tos">Ta plikacja nie zosta�a wydana przez Gameforge. Nie odpowiadam za zbanowanie twojego konta\nJest to do�wiadczalna aplikacja i nie odpowiadam za straty je�li z niej korzystasz.</string>
 
-	<string name="menu_settings">Settings</string>
-	<string name="menu_reload_serverlist">Reload Serverlist</string>
-	<string name="menu_messages">Messages</string>
-	<string name="menu_fleet">Fleet</string>
-	<string name="menu_galaxy">Galaxy</string>
-	<string name="menu_resources">Resource Settings</string>
+	<string name="menu_settings">Ustawienia</string>
+	<string name="menu_reload_serverlist">Od�wie� list� serwer�w</string>
+	<string name="menu_messages">Wiadomo�ci</string>
+	<string name="menu_fleet">Flota</string>
+	<string name="menu_galaxy">Galaktyka</string>
+	<string name="menu_resources">Surowce</string>
 	
-	<string name="tab_overview">Overview</string>
-	<string name="tab_resources">Resources</string>
-	<string name="tab_station">Station</string>
-	<string name="tab_research">Research</string>
-	<string name="tab_shipyard">Shipyard</string>
-	<string name="tab_defense">Defense</string>
-	<string name="tab_fleet">Fleet</string>
+	<string name="tab_overview">Podgl�d</string>
+	<string name="tab_resources">Surowce</string>
+	<string name="tab_station">Stacja</string>
+	<string name="tab_research">Badania</string>
+	<string name="tab_shipyard">Stocznia</string>
+	<string name="tab_defense">Obrona</string>
+	<string name="tab_fleet">Flota</string>
 	
-	<string name="save_login">Save login</string>    
-	<string name="username">Username</string>   
-	<string name="password">Password</string>   
+	<string name="save_login">Zapisz login</string>    
+	<string name="username">Nazwa u�ytkownika</string>   
+	<string name="password">Has�o</string>   
 	<string name="login_button">Login</string>
 	
-	<string name="more">More</string>
+	<string name="more">Wi�cej</string>
 	<string name="requirements">Requirements</string>
-	<string name="not_available">Not available</string>
+	<string name="not_available">Niedost�pne</string>
 	
-	<string name="fleet_info_title">Fleet Information</string>
-	<string name="new_mission">New Mission</string>
+	<string name="fleet_info_title">Informacja o flocie</string>
+	<string name="new_mission">Nowa misja</string>
 	
-	<string name="error_login">Wrong login</string>
-	<string name="error_load">Unable to access server</string>
-	<string name="error_send_command">Unable to send command</string>
+	<string name="error_login">Z�y login</string>
+	<string name="error_load">B��d serwera</string>
+	<string name="error_send_command">Nie mo�na wys�a� polecenia</string>
 	
-	<string name="new_command">New Command</string>
-	<string name="enter_amount">Enter amount</string>
-	<string name="send_command">Sending command...</string>
-	<string name="ask_with_count" formatted="false">Send command for %d %s?</string>
-	<string name="ask_no_count">Send command for %s?</string>
-	<string name="now_building">%s is now being built.</string>
-	<string name="building_time">Building time: %s</string>
-	<string name="buildable_in">Not enough resources\nBuildable in: %s</string>
-	<string name="loading">Loading...</string>
-	<string name="change_planet">Switching to \"%s\"</string>
-	<string name="in_queue">In queue</string>
-	<string name="time_to_complete">Time to complete: %s</string>
-	<string name="cancel_upgrade">Cancel upgrade?</string>
-	<string name="expansion_cancelled">Expansion cancelled</string>
+	<string name="new_command">Nowe polecenie</string>
+	<string name="enter_amount">Wprowad� ilo��</string>
+	<string name="send_command">Wysy�anie polecenia...</string>
+	<string name="ask_with_count" formatted="false">Wysy�anie polecenia do %d %s?</string>
+	<string name="ask_no_count">Wy�lij polecenie do %s?</string>
+	<string name="now_building">%s w trakcie budowy</string>
+	<string name="building_time">Czas budowy: %s</string>
+	<string name="buildable_in">Nie wystarczaj�ca ilo�� surowc�w\npozosta�y czas do budowy: %s</string>
+	<string name="loading">�aduj�...</string>
+	<string name="change_planet">Przechodzenie na \"%s\"</string>
+	<string name="in_queue">W kolejce</string>
+	<string name="time_to_complete">Czas do uko�czenia: %s</string>
+	<string name="cancel_upgrade">Przerwa� ulepszenie?</string>
+	<string name="expansion_cancelled">Rozw�j przerwany</string>
 	
-	<string name="settings_display">Display Settings</string>
-	<string name="settings_disabled">Hide inactive</string>
-	<string name="settings_disabled_summary">Hide Objects you can\'t build</string>
+	<string name="settings_display">Poka� ustawienia</string>
+	<string name="settings_disabled">Ukryj nieaktywne</string>
+	<string name="settings_disabled_summary">Ukryj obiekty kt�rych nie mo�esz zbudowa�</string>
 	
-	<string name="settings_fleet">Fleetalarm Settings</string>
-	<string name="settings_fleet_global">Activate Fleetalarm</string>
-	<string name="settings_fleet_global_summary">Globally activate Fleetalarms</string>
-	<string name="settings_fleet_sound">Notification Sound</string>
-	<string name="settings_fleet_sound_summary">Select the notification sound</string>
-	<string name="settings_fleet_neutral">Neutral</string>
-	<string name="settings_fleet_neutral_summary">Notify on neutral events</string>
-	<string name="settings_fleet_friendly">Friendly</string>
-	<string name="settings_fleet_friendly_summary">Notify on friendly events</string>
-	<string name="settings_fleet_hostile">Hostile</string>
-	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
+	<string name="settings_fleet">Ustawienia powiadomie�</string>
+	<string name="settings_fleet_global">Uruchom powiadomienia</string>
+	<string name="settings_fleet_global_summary">Uruchom wszystkie powiadomienia</string>
+	<string name="settings_fleet_sound">D�wi�k powiadomie�</string>
+	<string name="settings_fleet_sound_summary">Wybierz d�wi�k powiadomienia</string>
+	<string name="settings_fleet_neutral">Neutralne</string>
+	<string name="settings_fleet_neutral_summary">Powiadom o neutralnych zdarzeniach</string>
+	<string name="settings_fleet_friendly">Przyjazne</string>
+	<string name="settings_fleet_friendly_summary">Powiadom o przyjaznych zdarzeniach</string>
+	<string name="settings_fleet_hostile">Wrogie</string>
+	<string name="settings_fleet_hostile_summary">Powiadom o wrogich zdarzeniach</string>
 	
-	<string name="message_send">Send</string>
-	<string name="message_reply">Reply</string>
-	<string name="message_report">Report</string>
-	<string name="message_delete">Delete</string>
-	<string name="message_delete_all">Delete All</string>
-	<string name="message_from">From:</string>
-	<string name="message_to">To:</string>
-	<string name="message_date">Date:</string>
-	<string name="message_subject">Subject:</string>
+	<string name="message_send">Wy�lij</string>
+	<string name="message_reply">Odpowiedz</string>
+	<string name="message_report">Raport</string>
+	<string name="message_delete">Usu�</string>
+	<string name="message_delete_all">Usu� wszystkie</string>
+	<string name="message_from">Od:</string>
+	<string name="message_to">Do:</string>
+	<string name="message_date">Data:</string>
+	<string name="message_subject">Temat:</string>
 	
-	<string name="object_amount">Amount</string>
-	<string name="object_level">Level</string>
+	<string name="object_amount">Ilo��</string>
+	<string name="object_level">Poziom</string>
 	
-	<string name="galaxy_colonize">Colonize position %s?</string>
-	<string name="galaxy_probes">Send esp. probe?</string>
-	<string name="galaxy_activity">Activity: %s</string>
-	<string name="galaxy_activity_now">now</string>
-	<string name="galaxy_empty_slot">Empty slot</string>
+	<string name="galaxy_colonize">Skolonizuj %s?</string>
+	<string name="galaxy_probes">Wys�a� sond�?</string>
+	<string name="galaxy_activity">Aktywno��: %s</string>
+	<string name="galaxy_activity_now">Teraz</string>
+	<string name="galaxy_empty_slot">Wolne miesce</string>
 	
 	<string name="fleet1_reset">Reset</string>
-	<string name="fleet1_all">All</string>
-	<string name="fleet1_next">Next</string>
+	<string name="fleet1_all">Wszystko</string>
+	<string name="fleet1_next">Nast�pny</string>
 	
-	<string name="fleet2_acs">Combat forces</string>
-	<string name="fleet2_shortcuts">Shortcuts</string>
-	<string name="fleet2_speed">Speed</string>
-	<string name="fleet2_refresh">Refresh</string>
-	<string name="fleet2_back">Back</string>
-	<string name="fleet2_planet">Planet</string>
-	<string name="fleet2_debris">Debris</string>
-	<string name="fleet2_consumption">Deuterium consumption:</string>
-	<string name="fleet2_duration">Duration of flight:</string>
-	<string name="fleet2_arrival">Arrival:</string>
-	<string name="fleet2_return">Return:</string>
-	<string name="fleet2_cargobays">Empty cargobays:</string>
+	<string name="fleet2_acs">Jednostki</string>
+	<string name="fleet2_shortcuts">Skr�ty</string>
+	<string name="fleet2_speed">Pr�dko��</string>
+	<string name="fleet2_refresh">Od�wie�</string>
+	<string name="fleet2_back">Cofnij</string>
+	<string name="fleet2_planet">Planeta</string>
+	<string name="fleet2_debris">Szcz�tki</string>
+	<string name="fleet2_consumption">U�ycie deuteru:</string>
+	<string name="fleet2_duration">Czas lotu:</string>
+	<string name="fleet2_arrival">Przylot:</string>
+	<string name="fleet2_return">Powr�t:</string>
+	<string name="fleet2_cargobays">Pusta �adownia:</string>
 	
 	<string name="fleet3_metal">Metal:</string>
-	<string name="fleet3_crystal">Crystal:</string>
-	<string name="fleet3_deuterium">Deuterium:</string>
-	<string name="fleet3_target">Target:</string>
-	<string name="fleet3_send">Send fleet</string>
-	<string name="fleet3_cargobays">Cargo bay:</string>
+	<string name="fleet3_crystal">Kryszta�:</string>
+	<string name="fleet3_deuterium">Deuter:</string>
+	<string name="fleet3_target">Cel:</string>
+	<string name="fleet3_send">Wy�lij flot�</string>
+	<string name="fleet3_cargobays">�adownia:</string>
 </resources>

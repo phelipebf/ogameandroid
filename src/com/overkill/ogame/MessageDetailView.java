@@ -1,5 +1,8 @@
 package com.overkill.ogame;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -67,9 +71,13 @@ public class MessageDetailView extends Activity {
 				msg.setDate(tr.get(3).select("td").text());
 				
 				String content = html.select("div.note").html();
+					
+				content = content.replaceAll("index.php\\?page=fleet1([^/]*)&amp;galaxy=([^/]*)&amp;system=([^/]*)&amp;position=([^/]*)&amp;type=([^/]*)&amp;mission=([^/]*)\"",
+						"ogame://fleet/show?galaxy=$2&system=$3&position=$4&type=$5&mission=$6\"");
+
+				content = content.replaceAll("javascript:showGalaxy\\(([^/]*),([^/]*),([^/]*)\\)", 
+						"ogame://galaxy/show?galaxy=$1&system=$2&position=$3");
 								
-				content = content.replaceAll("javascript:showGalaxy\\((.+?),(.+?),(.+?)\\)", "ogame://galaxy/show?galaxy=$1&system=$2&position=$3");
-				
 				msg.setContent(content);
 								
 				//Get subject and messageID

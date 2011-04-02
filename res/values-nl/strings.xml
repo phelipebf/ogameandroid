@@ -1,73 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">OGame</string>
-<string name="select_planet">Selecteer Planeet</string>
-<string name="moon">Maan</string>
-
-<string name="tos_version">1</string>
-<string name="tos">Deze toepassing is niet officieel goedgekeurd door Gameforge.  Deze app is experimenteel. Eventuele schade aan uw account, c.q. een ban is voor eigen risico.</string>
-
-<string name="menu_settings">Instellingen</string>
-<string name="menu_reload_serverlist">Serverlijst herladen</string>
-<string name="menu_messages">Berichten</string>
-<string name="menu_fleet">Vloot</string>
-<string name="menu_galaxy">Melkweg</string>
-<string name="menu_resources">Productie instellingen</string>
-
-<string name="tab_overview">Overzicht</string>
-<string name="tab_resources">Grondstoffen</string>
-<string name="tab_station">Faciliteiten</string>
-<string name="tab_research">Onderzoek</string>
-<string name="tab_shipyard">Werf</string>
-<string name="tab_defense">Verdediging</string>
-
-<string name="save_login">login onthouden</string>
-<string name="username">Gebruikersnaam</string>
-<string name="password">Wachtwoord</string>
-<string name="login_button">Login</string>
-
-<string name="fleet_info_title">Vloot Info</string>
-<string name="new_mission">Nieuwe missie</string>
-
-<string name="error_login">Verkeerd ingelogd</string>
-<string name="error_load">Geen toegang tot server</string>
-<string name="error_send_command">Kan opdracht niet verzenden</string>
-
-<string name="new_command">Nieuwe opdracht</string>
-<string name="enter_amount">Hoeveelheid</string>
-<string name="send_command">Opdracht versturen...</string>
-<string name="ask_with_count" formatted="false">Opdracht voor %d %s versturen?</string>
-<string name="ask_no_count">Opdracht voor %s versturen?</string>
-<string name="now_building">%s wordt nu gebouwd.</string>
-<string name="loading">Laden...</string>
-<string name="change_planet">Overschakelen naar \"%s\"</string>
-
-<string name="settings_display">Weergave Instellingen</string>
-<string name="settings_disabled">Verberg inactief</string>
-<string name="settings_disabled_summary">Verberg objecten die je niet kan bouwen</string>
-
-<string name="settings_fleet">Instellen vlootalarm</string>
-<string name="settings_fleet_global">Vlootalarm actief</string>
-<string name="settings_fleet_global_summary">Activeer vlootalarmen algemeen</string>
-<string name="settings_fleet_sound">Waarschuwing geluid</string>
-<string name="settings_fleet_sound_summary">Seleteer geluid</string>
-<string name="settings_fleet_neutral">Neutraal</string>
-<string name="settings_fleet_neutral_summary">Waarschuwen bij neutrale activiteit</string>
-<string name="settings_fleet_friendly">Vriendelijk</string>
-<string name="settings_fleet_friendly_summary">Waarschuwen bij vriendelijke activiteit</string>
-<string name="settings_fleet_hostile">Vijandelijk</string>
-<string name="settings_fleet_hostile_summary">Waarschuwen bij vijandelijke activiteit</string>
-
-<string name="message_reply">Antwoord</string>
-<string name="message_report">Raport</string>
-<string name="message_delete">Verwijder</string>
-<string name="message_delete_all">Alles verwijderen</string>
-<string name="message_from">Van:</string>
-<string name="message_to">Aan:</string>
-<string name="message_date">Datum:</string>
-<string name="message_subject">Onderwerp:</string>
-
-<string name="object_amount">Hoeveelheid</string>
-<string name="object_level">Level</string>
+	<string name="app_name">OGame</string>
+	<string name="select_planet">Selecteer Planeet</string>
+	<string name="moon">Maan</string>
+	<!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+	<!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+	<string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Zu ([^/]*) wechseln&lt;\\/B&gt;</string>
+	
+	<string name="tos_version">1</string>
+	<string name="tos">Deze toepassing is niet officieel goedgekeurd door Gameforge.  Deze app is experimenteel. Eventuele schade aan uw account, c.q. een ban is voor eigen risico.</string>
+	
+	<string name="menu_settings">Instellingen</string>
+	<string name="menu_reload_serverlist">Serverlijst herladen</string>
+	<string name="menu_messages">Berichten</string>
+	<string name="menu_fleet">Vloot</string>
+	<string name="menu_galaxy">Melkweg</string>
+	<string name="menu_resources">Productie instellingen</string>
+	
+	<string name="tab_overview">Overzicht</string>
+	<string name="tab_resources">Grondstoffen</string>
+	<string name="tab_station">Faciliteiten</string>
+	<string name="tab_research">Onderzoek</string>
+	<string name="tab_shipyard">Werf</string>
+	<string name="tab_defense">Verdediging</string>
+	
+	<string name="save_login">login onthouden</string>
+	<string name="username">Gebruikersnaam</string>
+	<string name="password">Wachtwoord</string>
+	<string name="login_button">Login</string>
+	
+	<string name="fleet_info_title">Vloot Info</string>
+	<string name="new_mission">Nieuwe missie</string>
+	
+	<string name="error_login">Verkeerd ingelogd</string>
+	<string name="error_load">Geen toegang tot server</string>
+	<string name="error_send_command">Kan opdracht niet verzenden</string>
+	
+	<string name="new_command">Nieuwe opdracht</string>
+	<string name="enter_amount">Hoeveelheid</string>
+	<string name="send_command">Opdracht versturen...</string>
+	<string name="ask_with_count" formatted="false">Opdracht voor %d %s versturen?</string>
+	<string name="ask_no_count">Opdracht voor %s versturen?</string>
+	<string name="now_building">%s wordt nu gebouwd.</string>
+	<string name="loading">Laden...</string>
+	<string name="change_planet">Overschakelen naar \"%s\"</string>
+	
+	<string name="settings_display">Weergave Instellingen</string>
+	<string name="settings_disabled">Verberg inactief</string>
+	<string name="settings_disabled_summary">Verberg objecten die je niet kan bouwen</string>
+	
+	<string name="settings_fleet">Instellen vlootalarm</string>
+	<string name="settings_fleet_global">Vlootalarm actief</string>
+	<string name="settings_fleet_global_summary">Activeer vlootalarmen algemeen</string>
+	<string name="settings_fleet_sound">Waarschuwing geluid</string>
+	<string name="settings_fleet_sound_summary">Seleteer geluid</string>
+	<string name="settings_fleet_neutral">Neutraal</string>
+	<string name="settings_fleet_neutral_summary">Waarschuwen bij neutrale activiteit</string>
+	<string name="settings_fleet_friendly">Vriendelijk</string>
+	<string name="settings_fleet_friendly_summary">Waarschuwen bij vriendelijke activiteit</string>
+	<string name="settings_fleet_hostile">Vijandelijk</string>
+	<string name="settings_fleet_hostile_summary">Waarschuwen bij vijandelijke activiteit</string>
+	
+	<string name="message_reply">Antwoord</string>
+	<string name="message_report">Raport</string>
+	<string name="message_delete">Verwijder</string>
+	<string name="message_delete_all">Alles verwijderen</string>
+	<string name="message_from">Van:</string>
+	<string name="message_to">Aan:</string>
+	<string name="message_date">Datum:</string>
+	<string name="message_subject">Onderwerp:</string>
+	
+	<string name="object_amount">Hoeveelheid</string>
+	<string name="object_level">Level</string>
 
 </resources>

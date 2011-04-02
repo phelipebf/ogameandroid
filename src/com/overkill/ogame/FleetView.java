@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
@@ -180,20 +181,31 @@ public class FleetView extends ListActivity {
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {
-
-				if(getIntent().hasExtra("galaxy")) {
+				Planet p = MainTabActivity.game.getCurrentPlanet();
+				
+				Uri uri = getIntent().getData();
+				if(uri != null){
+					targetGalaxy = uri.getQueryParameter("galaxy");
+					targetSystem = uri.getQueryParameter("system");
+					targetPosition = uri.getQueryParameter("position");
+					planetType = uri.getQueryParameter("type");
+				}
+				else if(getIntent().hasExtra("galaxy")) {
 					targetGalaxy = getIntent().getExtras().getString("galaxy");
 					targetSystem = getIntent().getExtras().getString("system");
 					targetPosition = getIntent().getExtras().getString("position");
 					planetType = getIntent().getExtras().getString("planetType");
 				} else {
-					Planet p = MainTabActivity.game.getCurrentPlanet();
 					targetGalaxy = String.valueOf(p.getGalaxy());
 					targetSystem = String.valueOf(p.getSystem());
 					targetPosition = String.valueOf(p.getPosition());
 					planetType = "1";
 				}
-				if(getIntent().hasExtra("mission")) {
+				
+				if(uri != null){
+					mission = uri.getQueryParameter("mission");					
+				}
+				else if(getIntent().hasExtra("mission")) {
 					mission = getIntent().getExtras().getString("mission");
 				} else {
 					mission = MISSION_NONE;
