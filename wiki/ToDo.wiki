@@ -12,7 +12,7 @@
    * ~~Select Ships~~
    * ~~Set target and mission type~~
    * ~~Set speed and cargo~~
-   * Mission specific settings (eg. duration on expedition)
+   * ~~Mission specific settings (eg. duration on expedition)~~
   * Cancel current fleet event
  * Messages
   * ~~List messages~~
