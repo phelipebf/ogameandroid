@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,8 +22,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.R;
 import android.content.Context;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 
 /**
  * Controller für interaktion mit ogame server
@@ -185,7 +189,14 @@ public class GameClient{
 				String moon_img_nr = Tools.between(moon_img, "_", "_");
 				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
 				String moon_name = moon_div.attr("title");
-				moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
+				
+				Pattern pattern = Pattern.compile(this.context.getString(com.overkill.ogame.R.string.moon_name_regex));				
+				Matcher matcher = pattern.matcher(moon_name);
+				if(matcher.matches()){
+					moon_name = matcher.group(1);
+				}else{
+					moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
+				}
 				
 				Planet m = new Planet(moon_id, moon_name, moon_img_id);		
 				m.setShortInfo(info);

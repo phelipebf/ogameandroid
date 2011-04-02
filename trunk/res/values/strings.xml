@@ -3,9 +3,12 @@
     <string name="app_name">OGame</string>
     <string name="select_planet">Select Planet</string>
     <string name="moon">Moon</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Switch to ([^/]*)&lt;\\/B&gt;</string>
     
     <string name="tos_version">1</string>
-    <string name="tos">This application has not been approved by Gameforge so I\'m not resposible if your account gets banned.\nThis app is highly experimaental so I\'m not responsibel for any demage it may do to your account.</string>
+    <string name="tos">This application has not been approved by Gameforge so I\'m not responsible if your account gets banned.\nThis app is highly experimental so I\'m not responsible for any damage it may do to your account.</string>
 
 	<string name="menu_settings">Settings</string>
 	<string name="menu_reload_serverlist">Reload Serverlist</string>
@@ -51,7 +54,7 @@
 	<string name="in_queue">In queue</string>
 	<string name="time_to_complete">Time to complete: %s</string>
 	<string name="cancel_upgrade">Cancel upgrade?</string>
-	<string name="expansion_cancelled">Expansion cancelled</string>
+	<string name="expansion_cancelled">Expansion canceled</string>
 	
 	<string name="settings_display">Display Settings</string>
 	<string name="settings_disabled">Hide inactive</string>
@@ -103,7 +106,7 @@
 	<string name="fleet2_duration">Duration of flight:</string>
 	<string name="fleet2_arrival">Arrival:</string>
 	<string name="fleet2_return">Return:</string>
-	<string name="fleet2_cargobays">Empty cargobays:</string>
+	<string name="fleet2_cargobays">Empty cargo bay:</string>
 	
 	<string name="fleet3_metal">Metal:</string>
 	<string name="fleet3_crystal">Crystal:</string>
