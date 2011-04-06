@@ -82,9 +82,9 @@ public class Item {
 	public static final int DEFENSE_ANTI_ROCKET = 502;
 	public static final int DEFENSE_INTERPLANET = 503;
 	
-	public static final int QUETYPE_BUILDING = 1;	
-	public static final int QUETYPE_RESEARCH = 2;	
-	public static final int QUETYPE_MULTIPLE = 3;
+	public static final int CUETYPE_BUILDING = 1;	
+	public static final int CUETYPE_RESEARCH = 2;	
+	public static final int CUETYPE_MULTIPLE = 3;
 	
 	public static final int[] NEEDS_VALUE = {
 			SHIP_LIGHT,

@@ -109,17 +109,17 @@ public class Overview extends Activity {
 				TextView txt = null;
 				
 				switch(i + 1){
-					case Item.QUETYPE_BUILDING:
+					case Item.CUETYPE_BUILDING:
 						img = (ImageView)findViewById(R.id.img_building);
 						txt = (TextView)findViewById(R.id.txt_building);
 						id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
 						break;
-					case Item.QUETYPE_RESEARCH:
+					case Item.CUETYPE_RESEARCH:
 						img = (ImageView)findViewById(R.id.img_reseach);
 						txt = (TextView)findViewById(R.id.txt_research);
 						id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
 						break;									
-					case Item.QUETYPE_MULTIPLE:
+					case Item.CUETYPE_MULTIPLE:
 						img = (ImageView)findViewById(R.id.img_ships);
 						txt = (TextView)findViewById(R.id.txt_ships);
 						id = src.substring(src.lastIndexOf("/") + 1, src.indexOf("_"));

@@ -310,7 +310,7 @@ public class GameClient{
         postData.add(new BasicNameValuePair("type", String.valueOf(objectID)));
         postData.add(new BasicNameValuePair("menge", String.valueOf(menge)));
         String body = this.execute("page=" + pageKey, postData, token);
-        int c = Tools.getCountdown(body, Tools.getQuetypeById(objectID));
+        int c = Tools.getCountdown(body, Tools.getCuetypeById(objectID));
 		return c;//
 	}
 	

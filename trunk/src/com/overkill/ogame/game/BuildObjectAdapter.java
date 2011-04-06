@@ -61,7 +61,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 			if (b.getLevel() >= 0){
 				((TextView) v.findViewById(R.id.name)).setText(b.getName() + " (");
 				
-				if(Tools.getQuetypeById(b.getId()) == Item.QUETYPE_MULTIPLE)
+				if(Tools.getCuetypeById(b.getId()) == Item.CUETYPE_MULTIPLE)
 					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_amount));
 				else
 					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_level));
