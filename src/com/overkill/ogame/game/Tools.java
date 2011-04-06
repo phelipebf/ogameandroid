@@ -160,7 +160,7 @@ public class Tools {
 			if(item.select("div").get(0).classNames().size() > 1){ //with countdown
 				String script = document.select("script").not("script[src]").html();
 				name = item.select("div").get(0).attr("title").substring(1); // cut off leading |
-				timeleft = getCountdown(script, getQuetypeById(Integer.valueOf(id)));
+				timeleft = getCountdown(script, getCuetypeById(Integer.valueOf(id)));
 			}else{
 				name = item.select("span.textlabel").text();
 			}
@@ -168,11 +168,11 @@ public class Tools {
 			if(name.contains("("))
 				name = name.substring(0, name.indexOf("(")).trim();
 			
-			// Fix '.' if value >= 1000
-			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "");
+			// Fix '.' if value >= 1000 / ',' will be removed for the same reason
+			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "").replace(",", "");
 						
-			//Sets status to "on" so we can add the same defense/ship to que again. 
-			if(getQuetypeById(Integer.valueOf(id)) == Item.QUETYPE_MULTIPLE && timeleft > 0 && status.equals("off"))
+			//Sets status to "on" so we can add the same defense/ship to cue again. 
+			if(getCuetypeById(Integer.valueOf(id)) == Item.CUETYPE_MULTIPLE && timeleft > 0 && status.equals("off"))
 				status = "on";
 			
 			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
@@ -228,22 +228,22 @@ public class Tools {
 		return objectlist;
 	}
 		
-	public static int getQuetypeById(int id){
-		int i = Item.QUETYPE_BUILDING;
+	public static int getCuetypeById(int id){
+		int i = Item.CUETYPE_BUILDING;
 		if(id > 100)
-			i = Item.QUETYPE_RESEARCH;
+			i = Item.CUETYPE_RESEARCH;
 		if(id > 200)
-			i = Item.QUETYPE_MULTIPLE;
+			i = Item.CUETYPE_MULTIPLE;
 		return i;
 	}
 	
 	public static int getCountdown(String body, int quetype){
 		switch(quetype){
-			case Item.QUETYPE_BUILDING: 
+			case Item.CUETYPE_BUILDING: 
 				if(body.contains("new baulisteCountdown(getElementByIdWithCache(\"Countdown\"), ") == false)
 					return 0;
 				return Integer.valueOf(Tools.between(body, "new baulisteCountdown(getElementByIdWithCache(\"Countdown\"), ", ","));	
-			case Item.QUETYPE_RESEARCH: 
+			case Item.CUETYPE_RESEARCH: 
 				if(body.contains("new bauCountdown(" ) == false && body.contains("new baulisteCountdown(getElementByIdWithCache('researchCountdown'),") == false)
 					return 0;
 				if(body.contains("new baulisteCountdown(getElementByIdWithCache('researchCountdown'),")){
@@ -254,7 +254,7 @@ public class Tools {
 					String[] param = s.split(","); 
 					return Integer.valueOf(param[1].trim());	
 				}
-			case Item.QUETYPE_MULTIPLE: 
+			case Item.CUETYPE_MULTIPLE: 
 				if(body.contains("new shipCountdown(" ) == false)
 					return 0;
 				String s2 = Tools.between(body, "new shipCountdown(" , ");");
