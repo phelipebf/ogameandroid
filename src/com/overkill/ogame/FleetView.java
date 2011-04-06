@@ -17,7 +17,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +26,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DigitalClock;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -655,8 +653,7 @@ public class FleetView extends ListActivity {
 					} else {
 						ships.put("am" + ship.getId(), "");
 					}
-				}
-				
+				}				
 				startTab("fleet2");
 			}
 		});
@@ -796,7 +793,6 @@ public class FleetView extends ListActivity {
 					startActivity(new Intent(FleetView.this, MovementView.class));
 				}
 				finish();
-				// TODO close all fleet activities
 			}
 		});
 	}
