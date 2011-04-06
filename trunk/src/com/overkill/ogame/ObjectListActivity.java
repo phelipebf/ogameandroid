@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.overkill.ogame.game.BuildObject;
 import com.overkill.ogame.game.BuildObjectAdapter;
+import com.overkill.ogame.game.Item;
 import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Tools;
 
@@ -67,6 +68,10 @@ public class ObjectListActivity extends ListActivity {
 		if("disabled".equals(b.getStatus())){ //not enough resources
 		    dialog.setTitle(R.string.not_available);
 		    dialog.setMessage(getString(R.string.buildable_in, Tools.sec2str(b.getBuildableIn(MainTabActivity.game.getCurrentPlanet()))));
+		    //Showing correct message if user tries to build shield dome more than once (Issue 35)
+		    if((b.getId() == Item.DEFENSE_LARGE_SHILD && b.getLevel() == 1) || (b.getId() == Item.DEFENSE_SMALL_SHILD && b.getLevel() == 1))
+		    	dialog.setMessage(getString(R.string.buildable_once, b.getName()));
+		    
 		    dialog.setPositiveButton(android.R.string.ok, cancelDialog());
 		    dialog.show();
 		} else if("off".equals(b.getStatus())){
