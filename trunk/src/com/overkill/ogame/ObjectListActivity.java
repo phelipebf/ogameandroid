@@ -164,7 +164,9 @@ public class ObjectListActivity extends ListActivity {
 	    	
 	    	dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 		    	public void onClick(DialogInterface dialog, int whichButton) {
-		    		String value = input.getText().toString();	    	
+		    		String value = input.getText().toString();	   
+		    		if(value.length() == 0)
+		    			return; //Do nothing if no input
 		    		askBuildWithTime(b, Integer.valueOf(value));
 		    	}
 		    });
