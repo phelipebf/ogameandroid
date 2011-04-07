@@ -1,8 +1,5 @@
 package com.overkill.ogame;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -59,9 +55,12 @@ public class MessageDetailView extends Activity {
 				Elements tr = info.select("tr");
 				
 				msg = new Message(msg_id);
-				String playerName = html.select("span.playerName").html();
-				String playerID = Tools.between(html.select("form").attr("action"), "&to=", "&");
 
+				String playerID = html.select("form").attr("action"); //
+				if(playerID.contains("&to="))
+					playerID = Tools.between(playerID, "&to=", "&");
+
+				String playerName = html.select("span.playerName").html();
 				if(playerName.contains("<")) //Not from system (no link after name)
 					playerName = playerName.substring(0, playerName.indexOf("<")).trim();
 				
