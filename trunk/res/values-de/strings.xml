@@ -115,4 +115,6 @@
 	<string name="fleet3_target">Ziel:</string>
 	<string name="fleet3_send">Flotte senden</string>
 	<string name="fleet3_cargobays">Laderaum:</string>
+	<string name="fleet3_noMission">Mission auswählen</string>
+	<string name="fleet3_expedition">Dauer der Expedition:</string>
 </resources>
