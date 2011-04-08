@@ -791,8 +791,8 @@ public class FleetView extends ListActivity {
 					
 					loaderDialog.cancel();
 					startActivity(new Intent(FleetView.this, MovementView.class));
+					finish();
 				}
-				finish();
 			}
 		});
 	}
