@@ -13,7 +13,7 @@
    * ~~Set target and mission type~~
    * ~~Set speed and cargo~~
    * ~~Mission specific settings (eg. duration on expedition)~~
-  * Cancel current fleet event
+  * ~~Cancel current fleet event~~
  * Messages
   * ~~List messages~~
    * ~~Delete all messages~~
