@@ -74,6 +74,7 @@
 	<string name="settings_fleet_hostile">Feindlich</string>
 	<string name="settings_fleet_hostile_summary">Alarm bei feindlichen Flotten</string>
 	
+	<string name="message_no_message">Keine Nachrichten vorhaden</string>
 	<string name="message_send">Senden</string>
 	<string name="message_reply">Antworten</string>
 	<string name="message_report">Melden</string>
@@ -97,6 +98,7 @@
 	<string name="fleet1_all">Alle</string>
 	<string name="fleet1_next">Weiter</string>
 		
+	<string name="fleet2_acs">Kampfverbände</string>
 	<string name="fleet2_shortcuts">Shortlinks</string>
 	<string name="fleet2_speed">Geschwindigkeit</string>
 	<string name="fleet2_refresh">Aktualisieren</string>

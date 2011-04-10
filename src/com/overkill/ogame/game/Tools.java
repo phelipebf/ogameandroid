@@ -280,4 +280,27 @@ public class Tools {
 		else
 			return Integer.valueOf(param2[3].trim());	
 	}
+	
+	public static int[] getMovementImageCountdownParameters(String script, int id){
+		int data[] = new int[4];
+		
+		int offset = 0;
+		
+		int positon = script.indexOf("movementImageCountdown(");
+		
+		while(positon > 0){
+			String function = script.substring(positon + "movementImageCountdown(".length(), script.indexOf(");", positon));
+			String param[] = function.split(",");
+			if(param[0].trim().contains("route_" + String.valueOf(id))){
+				data[0] = Integer.valueOf(param[1].trim());
+				data[1] = Integer.valueOf(param[2].trim());
+				data[2] = Integer.valueOf(param[3].trim());
+				data[3] = Integer.valueOf(param[4].trim());
+				return data;
+			}
+			offset = positon + "movementImageCountdown(".length();
+			positon = script.indexOf("movementImageCountdown(", offset);
+		}			
+		return null;
+	}
 }

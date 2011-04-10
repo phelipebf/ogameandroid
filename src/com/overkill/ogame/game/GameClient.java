@@ -22,6 +22,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.overkill.ogame.MainTabActivity;
+import com.overkill.ogame.MovementView;
+
 import android.R;
 import android.content.Context;
 import android.util.Log;
@@ -484,7 +487,67 @@ public class GameClient{
         	return json.getBoolean("status");
         }catch(Exception e){
         	return false;
-        }
-        
+        }        
+	}
+	
+	public FleetEvent[] getFleetEvents(){
+		Document html = Jsoup.parse(get("page=movement"));	    	
+    	String script = html.select("script").not("script[src]").html();
+		
+		Elements events = html.select("div[id^=fleet]");
+		
+		FleetEvent fes[] = new FleetEvent[events.size()];
+		
+		Log.i("getFleetEvents", "count: " + fes.length);
+		
+		int count = 0;
+		
+		for(Element event : events){
+			String id = event.id().replace("fleet", "");
+			FleetEvent fe = new FleetEvent(Integer.valueOf(id));
+			fe.setArrivalTime(event.select("span.absTime").text());
+			fe.setMission(event.select("span.mission").text());
+			
+			fe.setOriginName(event.select("span.originPlanet").text());
+			fe.setOriginCoords(event.select("span.originCoords").text());
+
+			fe.setDestinationName(event.select("span.destinationPlanet").text());
+			fe.setDestinationCoords(event.select("span.destinationCoords").text());
+			
+			fe.setCanCancel(event.select("span.reversal").size() > 0);
+			
+			if(fe.getDestinationName().length() == 0)
+				fe.setDestinationName(fe.getMission());
+			
+			Element table = event.select("div#bl"+id + " > table").first();
+			String info = "";
+			
+			Elements tr = table.select("tr");
+	    	for(int i = 0; i < tr.size(); i++){
+	    		info += tr.get(i).text() + "\n";
+	    	}
+			
+	    	fe.setInfo(info);		
+	    	
+	    	int param[] = Tools.getMovementImageCountdownParameters(script, fe.getID());
+	    	fe.setReturn(param[2] == 1);
+	    	
+	    	/*
+	    	 new movementImageCountdown(
+		        getElementByIdWithCache("route_12818421"),  // ID
+		    0    3663,										// leftoverTime
+		    1    11582,										// duration
+		    2    1,											// isReturn
+		    3    0    );										// isRTL
+	    	 */
+	    	
+	    	fes[count] = fe;
+	    	count++;			
+		}		
+		return fes;
+	}
+	
+	public void cancelFleetEvent(int id){
+		get("page=movement&return=" + String.valueOf(id));
 	}
 }

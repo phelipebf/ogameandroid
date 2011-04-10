@@ -74,6 +74,7 @@
 	<string name="settings_fleet_hostile">Hostile</string>
 	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
 	
+	<string name="message_no_message">No message to display</string>
 	<string name="message_send">Send</string>
 	<string name="message_reply">Reply</string>
 	<string name="message_report">Report</string>

@@ -6,14 +6,16 @@ public class FleetEvent {
 	private int ID;
 	private String ships;
 	private String arrivalTime;
-	private String desc;
+	private String info;
 	private String mission;
 	private String originName;
 	private String originCoords;
-	private String destName;
-	private String destCoords;
+	private String destinationName;
+	private String destinationCoords;
+	private boolean canCancel;
+	private boolean isReturn;
 	
-	public FleetEvent(String body, GameClient game){
+	/*public FleetEvent(String body, GameClient game){
 		ID = Integer.valueOf(Tools.between(body, "id=\"eventRow-", "\""));
 		String detailsFleet = getLi(body, "detailsFleet").trim();
 		detailsFleet = detailsFleet.substring(0, detailsFleet.indexOf(" "));
@@ -24,12 +26,22 @@ public class FleetEvent {
 		originName = getLi(body, "originFleet");
 		originCoords = Tools.between(getLi(body, "coordsOrigin"), ">", "</");
 		
-		destName = getLi(body, "destFleet");
-		destCoords = Tools.between(getLi(body, "destCoords"), ">", "</");
+		destinationName = getLi(body, "destFleet");
+		destinationCoords = Tools.between(getLi(body, "destCoords"), ">", "</");
 		
 		//mFleet = game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(mEventID));
 		
 		Log.i("FleetEvent", detailsFleet + " ships (" + mission + ") from " + originName + originCoords + " to " + destName + destCoords + " arrival " + arrivalTime);
+	}*/
+	
+	
+	
+	public FleetEvent(){
+		
+	}
+	
+	public FleetEvent(int ID){
+		this.ID = ID;
 	}
 	
 	private String getLi(String body, String key){
@@ -60,12 +72,12 @@ public class FleetEvent {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getInfo() {
+		return info;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 	public String getMission() {
@@ -92,21 +104,35 @@ public class FleetEvent {
 		this.originCoords = originCoords;
 	}
 
-	public String getDestName() {
-		return destName;
+	public String getDestinationName() {
+		return destinationName;
 	}
 
-	public void setDestName(String destName) {
-		this.destName = destName;
+	public void setDestinationName(String destinationName) {
+		this.destinationName = destinationName;
 	}
 
-	public String getDestCoords() {
-		return destCoords;
+	public String getDestinationCoords() {
+		return destinationCoords;
 	}
 
-	public void setDestCoords(String destCoords) {
-		this.destCoords = destCoords;
+	public void setDestinationCoords(String destinationCoords) {
+		this.destinationCoords = destinationCoords;
 	}
-	
-	
+
+	public boolean canCancel() {
+		return canCancel;
+	}
+
+	public void setCanCancel(boolean canCancel) {
+		this.canCancel = canCancel;
+	}
+
+	public boolean isReturn() {
+		return isReturn;
+	}
+
+	public void setReturn(boolean isReturn) {
+		this.isReturn = isReturn;
+	}	
 }
