@@ -5,7 +5,7 @@
 	<string name="moon">Maan</string>
 	<!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
 	<!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
-	<string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Zu ([^/]*) wechseln&lt;\\/B&gt;</string>
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Spring naar ([^/]*)&lt;\\/B&gt;</string>
 	
 	<string name="tos_version">1</string>
 	<string name="tos">Deze toepassing is niet officieel goedgekeurd door Gameforge.  Deze app is experimenteel. Eventuele schade aan uw account, c.q. een ban is voor eigen risico.</string>
