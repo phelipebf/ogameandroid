@@ -2,6 +2,14 @@
 
 =Changelog=
 
+== 0.5 ==
+ * Added new feature to send fleet (Menu -> Fleet -> New Mission)
+ * Added clickable links in messages (Planet coordinates, attack link) (Issue 28)
+ * Added planet index in galaxy view (Issue 27)
+ * Added possibility to rename planet (longpress on planet icon)
+ * Fixed message when trying to build shield dome more than once (Issue 35)
+ * Fixed error preventing user from add defense or ship to cue more than once (Issue 26)
+
 ==0.4.5==
  * Added Galaxy View (see [Screenshots])
  * Fixed crash when selecting last planet while having at least one moon (Issue 24)
