@@ -8,6 +8,8 @@
  * ~~Resources Settings~~
   * ~~See current production~~
   * ~~Resources percent~~
+ * Galaxy View
+  * Colonize
  * Fleet
   * New mission
    * ~~Display current ships on planet~~
