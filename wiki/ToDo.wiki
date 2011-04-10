@@ -1,5 +1,7 @@
 #summary ToDo list
 
+*The state of the items in this list is most likely not the state of the current release. If you want to have the newest version you'll have to build it from svn or wait for a release.*
+
 = Basic =
  * Overview
   * ~~Add (up to 3) countdowns~~
