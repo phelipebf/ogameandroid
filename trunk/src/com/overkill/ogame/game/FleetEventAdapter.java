@@ -24,12 +24,14 @@ public class FleetEventAdapter extends ArrayAdapter<FleetEvent> {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
-//		this.sort(new Comparator<BuildObject>() {
-//			public int compare(BuildObject object1, BuildObject object2) {
-//				return object1.getName().compareTo(object2.getName());		
-//			}});
 	}
  	
+	public FleetEventAdapter(Context context, int textViewResourceId) {
+		super(context, textViewResourceId);
+		this.context = context;
+		this.textViewResourceId = textViewResourceId;
+	}
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
@@ -40,12 +42,19 @@ public class FleetEventAdapter extends ArrayAdapter<FleetEvent> {
 		}
 		FleetEvent b = this.getItem(position);
 		if (b != null) {			
-			((TextView) v.findViewById(R.id.originName)).setText(b.getOriginName());
-			((TextView) v.findViewById(R.id.originCoords)).setText(String.valueOf(b.getOriginCoords()));
-			((TextView) v.findViewById(R.id.destName)).setText(String.valueOf(b.getDestName()));
-			((TextView) v.findViewById(R.id.destCoords)).setText(String.valueOf(b.getDestCoords()));
 			((TextView) v.findViewById(R.id.mission)).setText(String.valueOf(b.getMission()));
-			((TextView) v.findViewById(R.id.info)).setText(String.valueOf(b.getArrivalTime()));			
+			((TextView) v.findViewById(R.id.info)).setText(String.valueOf(b.getArrivalTime()));		
+			if(b.isReturn()){
+				((TextView) v.findViewById(R.id.originName)).setText(b.getDestinationName());
+				((TextView) v.findViewById(R.id.originCoords)).setText(b.getDestinationCoords());	
+				((TextView) v.findViewById(R.id.destName)).setText(b.getOriginName());
+				((TextView) v.findViewById(R.id.destCoords)).setText(b.getOriginCoords());
+			}else{
+				((TextView) v.findViewById(R.id.originName)).setText(b.getOriginName());
+				((TextView) v.findViewById(R.id.originCoords)).setText(b.getOriginCoords());
+				((TextView) v.findViewById(R.id.destName)).setText(b.getDestinationName());
+				((TextView) v.findViewById(R.id.destCoords)).setText(b.getDestinationCoords());	
+			}
 		}
 		return v;
 	}

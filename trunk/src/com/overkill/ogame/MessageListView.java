@@ -43,7 +43,7 @@ public class MessageListView extends ListActivity {
 						setListAdapter(adapter);
 						setProgressBarIndeterminateVisibility(false);
 						if(adapter.isEmpty())
-							Toast.makeText(MessageListView.this, "No message to display", Toast.LENGTH_SHORT).show();
+							Toast.makeText(MessageListView.this, R.string.message_no_message, Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
