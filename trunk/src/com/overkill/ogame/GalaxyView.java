@@ -433,6 +433,14 @@ public class GalaxyView extends ListActivity {
 				
 				Element allytag = tr.select("td.allytag").get(0);
 				if(allytag.children().size() > 0) {	//no ally
+					String allyID = allytag.select("ul.ListLinks").select("a").first().attr("href");
+					if(allyID.contains("page=alliance")){ // our ally
+						planet.setAllyID(0);
+					}else{
+						//ainfo.php?allyid=??
+						allyID = allyID.substring(allyID.indexOf("ainfo.php?allyid=") + "ainfo.php?allyid=".length());
+						planet.setAllyID(Integer.valueOf(allyID));						
+					}
 					String allyName = allytag.select("h4 > span").text();
 					allyName = allyName.substring(allyName.indexOf("Alliance ") + 9);
 					planet.setAllyName(allyName);

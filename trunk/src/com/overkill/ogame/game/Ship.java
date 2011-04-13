@@ -57,6 +57,5 @@ public class Ship {
 
 	public void setTotal(int total) {
 		this.total = total;
-	}	
-	
+	}		
 }

@@ -59,6 +59,9 @@ public class GameClient{
 	private ArrayList<Planet> planets;	
 	private Planet current_planet;
 	
+	//Server Specific Data
+	private String moon_regex = "";
+	
 	/**
 	 * Creates a new Game object
 	 * @param http The {DefaultHttpClient} containing cookies from login
@@ -125,6 +128,7 @@ public class GameClient{
        		this.universe = universe;
     		this.imagebase = "http://"  + this.universe + "/game/";
     		this.indexbase = this.imagebase + "index.php?";
+    		this.moon_regex = Tools.getServerSpecificData(this.context, this.universe.substring(this.universe.indexOf(".") + 1), "moon_regex");    		
     		loadPlanets();
     		return true;
        	}       		
@@ -193,12 +197,16 @@ public class GameClient{
 				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
 				String moon_name = moon_div.attr("title");
 				
-				Pattern pattern = Pattern.compile(this.context.getString(com.overkill.ogame.R.string.moon_name_regex));				
-				Matcher matcher = pattern.matcher(moon_name);
-				if(matcher.matches()){
-					moon_name = matcher.group(1);
-				}else{
+				if(this.moon_regex.equals("")){
 					moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
+				}else{
+					Pattern pattern = Pattern.compile(this.moon_regex);				
+					Matcher matcher = pattern.matcher(moon_name);
+					if(matcher.matches()){
+						moon_name = matcher.group(1);
+					}else{
+						moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
+					}
 				}
 				
 				Planet m = new Planet(moon_id, moon_name, moon_img_id);		
@@ -549,5 +557,13 @@ public class GameClient{
 	
 	public void cancelFleetEvent(int id){
 		get("page=movement&return=" + String.valueOf(id));
+	}
+	
+	public String getBaseUrl(){
+		return this.imagebase;
+	}
+	
+	public String getIndexUrl(){
+		return this.indexbase;
 	}
 }

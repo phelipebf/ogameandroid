@@ -1,6 +1,7 @@
 package com.overkill.ogame.game;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,13 +10,16 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.flurry.android.FlurryAgent;
+import com.overkill.ogame.R;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -302,5 +306,34 @@ public class Tools {
 			positon = script.indexOf("movementImageCountdown(", offset);
 		}			
 		return null;
+	}
+	
+	public static String getServerSpecificData(Context ctx, String server, String key){
+		Document xml = Jsoup.parse(Tools.readRawTextFile(ctx, R.raw.languagedata));
+		Elements data = xml.select("data[server=" + server + "]");
+		if(data.size() > 0){
+			Elements item = data.first().select("string[name=" + key + "]");
+			if(item.size() > 0){
+				return item.first().text();			
+			}
+		}
+		return "";
+	}
+	
+	public static String readRawTextFile(Context ctx, int resId) {
+		InputStream inputStream = ctx.getResources().openRawResource(resId);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		int i;
+		try {
+			i = inputStream.read();
+			while (i != -1) {
+				byteArrayOutputStream.write(i);
+				i = inputStream.read();
+			}
+			inputStream.close();
+		} catch (IOException e) {
+			return null;
+		}
+		return byteArrayOutputStream.toString();
 	}
 }
