@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<data server="ogame.us">
+		<string name="moon_regex">\\|&lt;B&gt;Switch to ([^/]*)&lt;\\/B&gt;</string>
+	</data>
+	<data server="ogame.org">
+		<string name="moon_regex">\\|&lt;B&gt;Switch to ([^/]*)&lt;\\/B&gt;</string>
+	</data> 
+	<data server="ogame.de">
+		<string name="moon_regex">\\|&lt;B&gt;Zu ([^/]*) wechseln&lt;\\/B&gt;</string>
+	</data> 
+	<data server="ogame.de">
+		<string name="moon_regex">\\|&lt;B&gt;Spring naar ([^/]*)&lt;\\/B&gt;</string>
+	</data> 
+</resources>

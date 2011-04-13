@@ -3,6 +3,8 @@ package com.overkill.ogame.game;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +74,9 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			
 			if(p.getAllyName() != null) {
 				txtAlly.setVisibility(View.VISIBLE);
-				txtAlly.setText("[" + p.getAllyName() + "]");
+				txtAlly.setText(Html.fromHtml("<a href=\"ogame://alliance/?allyid=" + String.valueOf(p.getAllyID()) + "\">[" + p.getAllyName() + "]</a>"));
+				txtAlly.setMovementMethod(LinkMovementMethod.getInstance());
+				
 			}
 			
 			txtPlayer.setVisibility(View.VISIBLE);

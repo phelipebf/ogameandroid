@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,15 +41,6 @@ import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Ship;
 import com.overkill.ogame.game.Tools;
 
-/**
- * Handles fleet control
- * Different states are set by and extra named tab. 
- * @author Paolo
- */
-
-/*
- * We need to 
- */
 public class FleetView extends ListActivity {
 	String task;
 
@@ -105,7 +97,7 @@ public class FleetView extends ListActivity {
 	 * Starts the Activity with the give Tab string and closes the current one
 	 * @param tab
 	 */
-	private void startTab(String tab){
+	private void startTab(String tab){		
 		Intent fleet = new Intent(FleetView.this, FleetView.class)
 		.putExtra("tab", tab)
 		.putExtra("galaxy", targetGalaxy)

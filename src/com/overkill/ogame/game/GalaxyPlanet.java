@@ -24,6 +24,7 @@ public class GalaxyPlanet {
 	private String playerRank;
 	private PlayerStatus playerStatus = PlayerStatus.ACTIVE;
 	
+	private int allyID;
 	private String allyName;
 	private String allyRank;
 	private String allyMembers;
@@ -129,6 +130,12 @@ public class GalaxyPlanet {
 	      default: 
 		        return Color.parseColor("#FFFFFF");        
 	    }
+	}
+	public int getAllyID() {
+		return allyID;
+	}
+	public void setAllyID(int allyID) {
+		this.allyID = allyID;
 	}
 	public String getAllyName() {
 		return allyName;
