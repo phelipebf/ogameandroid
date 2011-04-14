@@ -55,7 +55,10 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 		
 		final GalaxyPlanet p = this.getItem(position);
 		
-		txtPlanetIndex.setText(String.valueOf(position + 1));
+		if(position + 1 < 10)
+			txtPlanetIndex.setText("0" + String.valueOf(position + 1));
+		else
+			txtPlanetIndex.setText(String.valueOf(position + 1));
 		
 		if(p.isEmptySlot()) {
 			txtPlanetName.setText(context.getString(R.string.galaxy_empty_slot));
@@ -76,6 +79,7 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 				txtAlly.setVisibility(View.VISIBLE);
 				txtAlly.setText(Html.fromHtml("<a href=\"ogame://alliance/?allyid=" + String.valueOf(p.getAllyID()) + "\">[" + p.getAllyName() + "]</a>"));
 				txtAlly.setMovementMethod(LinkMovementMethod.getInstance());
+				txtAlly.setFocusable(false);
 				
 			}
 			
@@ -107,5 +111,10 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 	public int getCount() {
 		//we always have 15 planets 
 		return 15;
+	}
+	
+	@Override
+	public boolean isEnabled(int position) {
+		return true;
 	}
 }

@@ -538,7 +538,8 @@ public class GameClient{
 	    	fe.setInfo(info);		
 	    	
 	    	int param[] = Tools.getMovementImageCountdownParameters(script, fe.getID());
-	    	fe.setReturn(param[2] == 1);
+	    	if(param != null)
+	    		fe.setReturn(param[2] == 1);
 	    	
 	    	/*
 	    	 new movementImageCountdown(
