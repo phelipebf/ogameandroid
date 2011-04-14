@@ -72,10 +72,10 @@ public class MessageDetailView extends Activity {
 				String content = html.select("div.note").html();
 					
 				content = content.replaceAll("index.php\\?page=fleet1([^/]*)&amp;galaxy=([^/]*)&amp;system=([^/]*)&amp;position=([^/]*)&amp;type=([^/]*)&amp;mission=([^/]*)\"",
-						"ogame://fleet/show?galaxy=$2&system=$3&position=$4&type=$5&mission=$6\"");
+						"ogame://fleet?galaxy=$2&system=$3&position=$4&type=$5&mission=$6\"");
 
 				content = content.replaceAll("javascript:showGalaxy\\(([^/]*),([^/]*),([^/]*)\\)", 
-						"ogame://galaxy/show?galaxy=$1&system=$2&position=$3");
+						"ogame://galaxy?galaxy=$1&system=$2&position=$3");
 								
 				msg.setContent(content);
 								

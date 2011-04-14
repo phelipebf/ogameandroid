@@ -16,8 +16,10 @@ import org.jsoup.select.Elements;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -32,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.GalaxyPlanet;
 import com.overkill.ogame.game.GalaxyPlanetAdapter;
 import com.overkill.ogame.game.GameClient;
@@ -57,6 +60,8 @@ public class GalaxyView extends ListActivity {
 	private String slotsTotal = "0";
 	
 	HashMap<String, ArrayList<GalaxyPlanet>> solarSystems = new HashMap<String, ArrayList<GalaxyPlanet>>();//cache
+	
+	String sendResult;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -224,34 +229,89 @@ public class GalaxyView extends ListActivity {
 			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
 			dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					Toast.makeText(getApplicationContext(), "missing functionality", Toast.LENGTH_SHORT).show();
+					startActivity(new Intent(Intent.ACTION_VIEW,
+							Uri.parse("ogame://fleet?galaxy=" + String.valueOf(galaxy) + 
+									  "&system=" + String.valueOf(system) + 
+									  "&position=" + String.valueOf(p.getPosition()) + 
+									  "&type=1&mission=" + FleetEvent.MISSION_COLONIZATION))
+		    		);
 				}
 			});
 		}  else {
+			final ArrayList<String> mission_text = new ArrayList<String>();
+			final ArrayList<Integer> mission_id = new ArrayList<Integer>();
 			
+			if(probeCount.endsWith("0") == false){
+				mission_text.add("Espionage");		
+				mission_id.add(FleetEvent.MISSION_ESPIONAGE);
+			}
 			
+			if(missileCount.endsWith("0") == false){
+				mission_text.add("Missile attack");
+				mission_id.add(Integer.valueOf(FleetEvent.MISSION_MISSILE));
+			}
 			
-			//**********************************************************************
-			/*final CharSequence[] items = {"Espionage", "Missile attack", "Attack", "Transport"};
+			mission_text.add("Attack");
+			mission_id.add(FleetEvent.MISSION_ATTACK);
+			
+			mission_text.add("Transport");
+			mission_id.add(FleetEvent.MISSION_TRANSPORT);
+			
+			if(p.getDebrisRecyclersNeeded() > 0){
+				mission_text.add("Harvest");
+				mission_id.add(FleetEvent.MISSION_HARVEST);
+			}
+		
+			final String[] items = new String[mission_text.size()];
+			for(int i = 0; i < items.length; i++){
+				items[i] = mission_text.get(i);
+			}
+
+			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());			
 			dialog.setItems(items, new DialogInterface.OnClickListener() {
-			    public void onClick(DialogInterface dialog, int item) {
-			        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-			    }
-			});
-			AlertDialog alert = dialog.create();*/
-			//**********************************************************************
-			
-			
-			
-			
-			dialog.setMessage(getApplicationContext().getString(R.string.galaxy_probes));
-			dialog.setNegativeButton(android.R.string.cancel, cancelDialog());
-			dialog.setPositiveButton(android.R.string.ok,  new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {					
-					Thread t = new Thread(new Runnable() {			
+			    public void onClick(DialogInterface dialog, final int item) {
+			    	Thread t = new Thread(new Runnable() {			
 						@Override
 						public void run() {
-							final String sendResult = sendProbe(MainTabActivity.game, galaxy, system, p.getPosition(), 1);
+							switch(mission_id.get(item)){
+						    	case FleetEvent.MISSION_ESPIONAGE: 
+						    		sendResult = sendProbe(MainTabActivity.game, galaxy, system, p.getPosition(), 1);
+						    		break;
+						    	case FleetEvent.MISSION_MISSILE: 
+						    		sendResult = "NOT YET"; //sendProbe(MainTabActivity.game, galaxy, system, p.getPosition(), 1); 
+						    		break;						    		
+						    	case FleetEvent.MISSION_ATTACK:
+						    		runOnUiThread(new Runnable() {					
+										@Override
+										public void run() {
+								    		String coords[] = p.getPlanetCoords().replace("[", "").replace("]", "").split(":");
+								    		startActivity(new Intent(Intent.ACTION_VIEW,
+													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
+															  "&system=" + coords[1] + 
+															  "&position=" + coords[2] + 
+															  "&type=1&mission=" + FleetEvent.MISSION_ATTACK))
+								    		);
+								    		finish(); 
+										}
+						    		});
+						    		break;	
+						    	case FleetEvent.MISSION_TRANSPORT:
+						    		runOnUiThread(new Runnable() {					
+										@Override
+										public void run() {
+								    		String coords[] = p.getPlanetCoords().replace("[", "").replace("]", "").split(":");
+								    		startActivity(new Intent(Intent.ACTION_VIEW,
+													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
+															  "&system=" + coords[1] + 
+															  "&position=" + coords[2] + 
+															  "&type=1&mission=" + FleetEvent.MISSION_TRANSPORT))
+								    		);
+								    		finish(); 
+										}
+						    		});
+						    		break;	
+						    	case FleetEvent.MISSION_HARVEST: sendResult = sendRecycler(MainTabActivity.game, galaxy, system, p.getPosition(), p.getDebrisRecyclersNeeded()); break;
+					    	}							
 							runOnUiThread(new Runnable() {					
 								@Override
 								public void run() {
@@ -259,11 +319,12 @@ public class GalaxyView extends ListActivity {
 								}
 							});
 						}
-					});		
-					t.start();					
-				}
-			});
-		}
+					});
+			    	t.start();
+			        //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+			    }
+			}); // DialogInterface.OnClickListener
+		} // if slot empty
     	dialog.show();
 	}
 	

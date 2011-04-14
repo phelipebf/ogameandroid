@@ -16,7 +16,6 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.overkill.ogame.game.FleetAdapter;
+import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.Planet;
 import com.overkill.ogame.game.Ship;
 import com.overkill.ogame.game.Tools;
@@ -51,16 +51,11 @@ public class FleetView extends ListActivity {
 	public int selectedShips = 0;	
 	
 	private final String COLONIZATION_ID = "208";
-		
-	private final String MISSION_NONE = "0";
-	private final String MISSION_UNION_ATTACK = "2"; 
-	private final String MISSION_HOLD = "5"; 
-	private final String MISSION_EXPEDITION = "15"; 
 	
 	private String targetGalaxy = null;
 	private String targetSystem = null;
 	private String targetPosition = null;
-	private String mission = MISSION_NONE;
+	private int mission = FleetEvent.MISSION_NONE;
 	private String planetType = "1";
 	private String union = "0";
 	private HashMap<String, String> ships;
@@ -83,7 +78,7 @@ public class FleetView extends ListActivity {
 	private ArrayList<String> combatForces = new ArrayList<String>();
 
 	//fleet3
-	private ArrayList<String> missions = new ArrayList<String>();
+	private ArrayList<Integer> missions = new ArrayList<Integer>();
 	private ArrayList<String> expeditionTimeList = new ArrayList<String>();
 	private String expeditionTime = "1";
 	private int holdingTimeInt = 0;	
@@ -193,12 +188,12 @@ public class FleetView extends ListActivity {
 				}
 				
 				if(uri != null){
-					mission = uri.getQueryParameter("mission");					
+					mission = Integer.valueOf(uri.getQueryParameter("mission"));					
 				}
 				else if(getIntent().hasExtra("mission")) {
-					mission = getIntent().getExtras().getString("mission");
+					mission = Integer.valueOf(getIntent().getExtras().getString("mission"));
 				} else {
-					mission = MISSION_NONE;
+					mission = FleetEvent.MISSION_NONE;
 				}
 				
 				if("fleet1".equals(task)) {
@@ -249,7 +244,7 @@ public class FleetView extends ListActivity {
 		        for(Element li : document.select("#missions > li")) {
 		        	if("on".equals(li.attr("class"))) {
 		        		missionAdapter.add(li.select("span").html());
-		        		missions.add(li.attr("id").substring(6));
+		        		missions.add(Integer.valueOf(li.attr("id").substring(6)));
 		        		
 		        		//onclick -> updateHoldingOrExpTime(); updateVariables();
 		        		updateHoldingOrExpTime();
@@ -257,27 +252,27 @@ public class FleetView extends ListActivity {
 		        	}
 		        }
 
-		        if(MISSION_NONE.equals(mission)) {
+		        if(FleetEvent.MISSION_NONE == mission) {
 		        	if(missions.size() == 1) {
 		        		//only one mission possible
 		        		missionSpinner.setSelection(0);
-						mission = missions.get(0);
+						mission = Integer.valueOf(missions.get(0));
 		        	} else {
 		        		//add default mission on top
 		        		missionAdapter.insert("-", 0);
-		        		missions.add(0, MISSION_NONE);		        	
+		        		missions.add(0, FleetEvent.MISSION_NONE);		        	
 		        	}
 		        } else {
 		        	//check for selected mission
 		        	for (int i = 0; i < missions.size(); i++) {
-		        		if(mission.equals(missions.get(i))) {
+		        		if(mission == missions.get(i)) {
 		        			missionSpinner.setSelection(i);
 		    				mission = missions.get(i);
 		        		}
 		        	}		        	
 		        }
 
-		        if(MISSION_EXPEDITION.equals(mission)) {
+		        if(FleetEvent.MISSION_EXPEDITION == mission) {
 		        	setUpExpeditions(document);
 		        }
 			}
@@ -615,7 +610,7 @@ public class FleetView extends ListActivity {
 		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, shiplist);
 		
 		//We have ships form a previous call
-		if(getIntent().getExtras().containsKey("ships")){
+		if(getIntent().hasExtra("ships")){
 			ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
 			for(int i = 0; i < adapter.getCount(); i++){
 				if(ships.containsKey("am" + adapter.getItem(i).getId())){
@@ -689,7 +684,7 @@ public class FleetView extends ListActivity {
         postData.add(new BasicNameValuePair("system", targetSystem));
         postData.add(new BasicNameValuePair("position", targetPosition));
         postData.add(new BasicNameValuePair("type", planetType));
-		postData.add(new BasicNameValuePair("mission", mission));
+		postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
         postData.add(new BasicNameValuePair("speed", "10"));
         
         ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
@@ -714,7 +709,7 @@ public class FleetView extends ListActivity {
         postData.add(new BasicNameValuePair("system", targetSystem));
         postData.add(new BasicNameValuePair("position", targetPosition));
         postData.add(new BasicNameValuePair("type", planetType));
-		postData.add(new BasicNameValuePair("mission", mission));
+		postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
 
 		String union = (String) getIntent().getExtras().getSerializable("union");
         postData.add(new BasicNameValuePair("union", union));
@@ -746,7 +741,7 @@ public class FleetView extends ListActivity {
 			@Override
 			public void run() {
 				
-				if(MISSION_NONE.equals(mission)) {
+				if(FleetEvent.MISSION_NONE == mission) {
 					Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.fleet3_noMission), Toast.LENGTH_LONG).show();
 				} else {
 					final ProgressDialog loaderDialog = new ProgressDialog(FleetView.this);					
@@ -758,7 +753,7 @@ public class FleetView extends ListActivity {
 					postData.add(new BasicNameValuePair("system", targetSystem));
 					postData.add(new BasicNameValuePair("position", targetPosition));
 					postData.add(new BasicNameValuePair("type", planetType));
-					postData.add(new BasicNameValuePair("mission", mission));
+					postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
 					postData.add(new BasicNameValuePair("holdingtime", "1")); //TODO: ACS defend?
 					postData.add(new BasicNameValuePair("holdingOrExpTime", holdingOrExpTime));
 					postData.add(new BasicNameValuePair("expeditiontime", expeditionTime));
@@ -975,11 +970,11 @@ public class FleetView extends ListActivity {
 
 	    if("-".equals(value)) {
 	        union = "0";
-	        mission = MISSION_NONE;
+	        mission = FleetEvent.MISSION_NONE;
 	    } else {
 	        String[] parts = value.split("#");
 	        union = parts[5];
-	        mission = MISSION_UNION_ATTACK;
+	        mission = FleetEvent.MISSION_UNION_ATTACK;
 	    }
 	}
 
@@ -1032,10 +1027,10 @@ public class FleetView extends ListActivity {
 	/********** fleet3.js **********************/	
 	private void updateHoldingOrExpTime() {
 		
-	    if(MISSION_HOLD.equals(mission)) {
+	    if(FleetEvent.MISSION_HOLD == mission) {
 	        holdingOrExpTime = holdingTime;
 	        holdingTimeInt = Integer.parseInt(holdingTime);
-	    } else if(MISSION_EXPEDITION.equals(mission)) {
+	    } else if(FleetEvent.MISSION_EXPEDITION == mission) {
 	        holdingOrExpTime = expeditionTime;
 	        holdingTimeInt = Integer.parseInt(expeditionTime);
 	    } else {

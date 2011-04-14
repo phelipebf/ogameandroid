@@ -2,7 +2,20 @@ package com.overkill.ogame.game;
 
 import android.util.Log;
 
-public class FleetEvent {
+public class FleetEvent {	
+	public static final int MISSION_NONE = 0;
+	public static final int MISSION_ATTACK = 1;
+	public static final int MISSION_UNION_ATTACK = 2;
+	public static final int MISSION_TRANSPORT = 3;
+	public static final int MISSION_DEPLOYMENT = 4;
+	public static final int MISSION_HOLD = 5;
+	public static final int MISSION_ESPIONAGE = 6;
+	public static final int MISSION_COLONIZATION = 7;
+	public static final int MISSION_HARVEST = 8;
+	public static final int MISSION_DESTROY = 9;
+	public static final int MISSION_EXPEDITION = 15;
+	public static final int MISSION_MISSILE = 16;
+	
 	private int ID;
 	private String ships;
 	private String arrivalTime;

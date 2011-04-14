@@ -41,35 +41,40 @@ public class Overview extends Activity {
 				info =  MainTabActivity.game.get("page=overview");	
 				runOnUiThread(new Runnable() {					
 					@Override
-					public void run() {						
-						txt_info.setText("");
-						
-						txt_info.append(Tools.between(info, "textContent[0] = \"", "\"") + " ");
-						txt_info.append(Tools.between(info, "textContent[1] = \"", "\"").replace("<span>", "").replace("</span>", "") + "\n");
-						
-						txt_info.append(Tools.between(info, "textContent[2] = \"", "\"") + " ");
-						txt_info.append(Tools.between(info, "textContent[3] = \"", "\"") + "\n");
-						
-						txt_info.append(Tools.between(info, "textContent[4] = \"", "\"") + " ");
-						txt_info.append(MainTabActivity.game.getCurrentPlanet().getCoordinates() + "\n");
-						
-						txt_info.append(Tools.between(info, "textContent[6] = \"", "\"") + " ");
-						int start = info.indexOf("textContent[7] = \"") + "textContent[7] = \"".length();
-						start = info.indexOf(">", start) + 1;
-						int end = info.indexOf("<", start);
-						txt_info.append(info.substring(start, end));
-						
-						
-						timeLastAjaxCall = SystemClock.elapsedRealtime();						
-						
-						h_countdown.removeCallbacks(t_countdown);
-						t_countdown = new Runnable() {
-					   		 public void run() {
-					   			 		loadCountdown();			 	
-						   			 	h_countdown.postDelayed(this, 1000);
-									}
-						};   		   					
-						t_countdown.run();
+					public void run() {			
+						try{
+							txt_info.setText("");
+							
+							txt_info.append(Tools.between(info, "textContent[0] = \"", "\"") + " ");
+							txt_info.append(Tools.between(info, "textContent[1] = \"", "\"").replace("<span>", "").replace("</span>", "") + "\n");
+							
+							txt_info.append(Tools.between(info, "textContent[2] = \"", "\"") + " ");
+							txt_info.append(Tools.between(info, "textContent[3] = \"", "\"") + "\n");
+							
+							txt_info.append(Tools.between(info, "textContent[4] = \"", "\"") + " ");
+							txt_info.append(MainTabActivity.game.getCurrentPlanet().getCoordinates() + "\n");
+							
+							txt_info.append(Tools.between(info, "textContent[6] = \"", "\"") + " ");
+							int start = info.indexOf("textContent[7] = \"") + "textContent[7] = \"".length();
+							start = info.indexOf(">", start) + 1;
+							int end = info.indexOf("<", start);
+							txt_info.append(info.substring(start, end));
+							
+							
+							timeLastAjaxCall = SystemClock.elapsedRealtime();						
+							
+							h_countdown.removeCallbacks(t_countdown);
+							t_countdown = new Runnable() {
+						   		 public void run() {
+						   			 		loadCountdown();			 	
+							   			 	h_countdown.postDelayed(this, 1000);
+										}
+							};   		   					
+							t_countdown.run();
+						}catch(Exception ex){
+							ex.printStackTrace();
+							txt_info.setText(ex.getLocalizedMessage());
+						}
 						
 						/*txt_info.append("\n\n" + Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_BUILDING)) + "\n");
 						txt_info.append(Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_RESEARCH)) + "\n");
@@ -93,56 +98,61 @@ public class Overview extends Activity {
 		
 		long diff = (SystemClock.elapsedRealtime() - timeLastAjaxCall) / 1000;
 		
-		Document html = Jsoup.parse(info);
-		Elements boxes = html.select("table.construction");
-		// 0 -> building | 1 -> research | 2 -> ships/defense
+		try{
 		
-		for(int i = 0; i < boxes.size(); i++){
-			Element box = boxes.get(i);
-			if(box.select("tr.data").size() > 0){							
-				String name = box.select("tr").get(0).text();
-				String src = box.select("img").attr("src");
-				String id = "";
-				long time = Tools.getCountdown(info, i + 1) - diff;
-								
-				ImageView img = null;
-				TextView txt = null;
-				
-				switch(i + 1){
-					case Item.CUETYPE_BUILDING:
-						img = (ImageView)findViewById(R.id.img_building);
-						txt = (TextView)findViewById(R.id.txt_building);
-						id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
-						break;
-					case Item.CUETYPE_RESEARCH:
-						img = (ImageView)findViewById(R.id.img_reseach);
-						txt = (TextView)findViewById(R.id.txt_research);
-						id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
-						break;									
-					case Item.CUETYPE_MULTIPLE:
-						img = (ImageView)findViewById(R.id.img_ships);
-						txt = (TextView)findViewById(R.id.txt_ships);
-						id = src.substring(src.lastIndexOf("/") + 1, src.indexOf("_"));
-						String s2 = Tools.between(info, "new shipCountdown(" , ");");
-						String[] param2 = s2.split(","); 
-						int count = Integer.valueOf(param2[6].trim());
-						count -= diff / Integer.valueOf(param2[3].trim());
-						name += " (" + count + ")";
-						break;									
+			Document html = Jsoup.parse(info);
+			Elements boxes = html.select("table.construction");
+			// 0 -> building | 1 -> research | 2 -> ships/defense
+			
+			for(int i = 0; i < boxes.size(); i++){
+				Element box = boxes.get(i);
+				if(box.select("tr.data").size() > 0){							
+					String name = box.select("tr").get(0).text();
+					String src = box.select("img").attr("src");
+					String id = "";
+					long time = Tools.getCountdown(info, i + 1) - diff;
+									
+					ImageView img = null;
+					TextView txt = null;
+					
+					switch(i + 1){
+						case Item.CUETYPE_BUILDING:
+							img = (ImageView)findViewById(R.id.img_building);
+							txt = (TextView)findViewById(R.id.txt_building);
+							id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
+							break;
+						case Item.CUETYPE_RESEARCH:
+							img = (ImageView)findViewById(R.id.img_reseach);
+							txt = (TextView)findViewById(R.id.txt_research);
+							id = src.substring(src.lastIndexOf("_") + 1, src.indexOf("."));
+							break;									
+						case Item.CUETYPE_MULTIPLE:
+							img = (ImageView)findViewById(R.id.img_ships);
+							txt = (TextView)findViewById(R.id.txt_ships);
+							id = src.substring(src.lastIndexOf("/") + 1, src.indexOf("_"));
+							String s2 = Tools.between(info, "new shipCountdown(" , ");");
+							String[] param2 = s2.split(","); 
+							int count = Integer.valueOf(param2[6].trim());
+							count -= diff / Integer.valueOf(param2[3].trim());
+							name += " (" + count + ")";
+							break;									
+					}
+					
+					if(time <= 0){
+						img.setVisibility(View.INVISIBLE);
+						txt.setVisibility(View.INVISIBLE);
+						continue;
+					}					
+					
+					img.setVisibility(View.VISIBLE);
+					txt.setVisibility(View.VISIBLE);
+					
+					img.setImageResource(getResources().getIdentifier("drawable/supply" + id, null, getPackageName()));
+					txt.setText(name + "\n" + Tools.sec2str(time));
 				}
-				
-				if(time <= 0){
-					img.setVisibility(View.INVISIBLE);
-					txt.setVisibility(View.INVISIBLE);
-					continue;
-				}					
-				
-				img.setVisibility(View.VISIBLE);
-				txt.setVisibility(View.VISIBLE);
-				
-				img.setImageResource(getResources().getIdentifier("drawable/supply" + id, null, getPackageName()));
-				txt.setText(name + "\n" + Tools.sec2str(time));
 			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}	
 	
