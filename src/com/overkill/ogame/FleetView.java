@@ -191,7 +191,7 @@ public class FleetView extends ListActivity {
 					mission = Integer.valueOf(uri.getQueryParameter("mission"));					
 				}
 				else if(getIntent().hasExtra("mission")) {
-					mission = Integer.valueOf(getIntent().getExtras().getString("mission"));
+					mission = getIntent().getExtras().getInt("mission", 0);
 				} else {
 					mission = FleetEvent.MISSION_NONE;
 				}
