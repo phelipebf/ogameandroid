@@ -1,7 +1,5 @@
 package com.overkill.ogame.game;
 
-import android.util.Log;
-
 public class FleetEvent {	
 	public static final int MISSION_NONE = 0;
 	public static final int MISSION_ATTACK = 1;
@@ -16,6 +14,10 @@ public class FleetEvent {
 	public static final int MISSION_EXPEDITION = 15;
 	public static final int MISSION_MISSILE = 16;
 	
+	public static final int PLANETTYPE_PLANET = 1;
+	public static final int PLANETTYPE_DEBRIS = 2;
+	public static final int PLANETTYPE_MOON = 3;
+	
 	private int ID;
 	private String ships;
 	private String arrivalTime;
@@ -28,37 +30,12 @@ public class FleetEvent {
 	private boolean canCancel;
 	private boolean isReturn;
 	
-	/*public FleetEvent(String body, GameClient game){
-		ID = Integer.valueOf(Tools.between(body, "id=\"eventRow-", "\""));
-		String detailsFleet = getLi(body, "detailsFleet").trim();
-		detailsFleet = detailsFleet.substring(0, detailsFleet.indexOf(" "));
-		arrivalTime = getLi(body, "arrivalTime");
-		desc = getLi(body, "descFleet");
-		mission = Tools.between(getLi(body, "missionFleet"), "<span>", "</span>");
-		
-		originName = getLi(body, "originFleet");
-		originCoords = Tools.between(getLi(body, "coordsOrigin"), ">", "</");
-		
-		destinationName = getLi(body, "destFleet");
-		destinationCoords = Tools.between(getLi(body, "destCoords"), ">", "</");
-		
-		//mFleet = game.get("page=eventListTooltip&ajax=1&eventID=" + String.valueOf(mEventID));
-		
-		Log.i("FleetEvent", detailsFleet + " ships (" + mission + ") from " + originName + originCoords + " to " + destName + destCoords + " arrival " + arrivalTime);
-	}*/
-	
-	
-	
 	public FleetEvent(){
 		
 	}
 	
 	public FleetEvent(int ID){
 		this.ID = ID;
-	}
-	
-	private String getLi(String body, String key){
-		return Tools.between(body, "<li class=\"" + key + "\">", "</li>");
 	}
 
 	public int getID() {

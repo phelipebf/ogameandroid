@@ -19,7 +19,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -242,23 +241,23 @@ public class GalaxyView extends ListActivity {
 			final ArrayList<Integer> mission_id = new ArrayList<Integer>();
 			
 			if(probeCount.endsWith("0") == false){
-				mission_text.add("Espionage");		
+				mission_text.add(getString(R.string.mission_espionage));		
 				mission_id.add(FleetEvent.MISSION_ESPIONAGE);
 			}
 			
 			if(missileCount.endsWith("0") == false){
-				mission_text.add("Missile attack");
+				mission_text.add(getString(R.string.mission_missile));
 				mission_id.add(Integer.valueOf(FleetEvent.MISSION_MISSILE));
 			}
 			
-			mission_text.add("Attack");
+			mission_text.add(getString(R.string.mission_attack));
 			mission_id.add(FleetEvent.MISSION_ATTACK);
 			
-			mission_text.add("Transport");
+			mission_text.add(getString(R.string.mission_transport));
 			mission_id.add(FleetEvent.MISSION_TRANSPORT);
 			
 			if(p.getDebrisRecyclersNeeded() > 0){
-				mission_text.add("Harvest");
+				mission_text.add(getString(R.string.mission_harvest));
 				mission_id.add(FleetEvent.MISSION_HARVEST);
 			}
 		
@@ -289,7 +288,8 @@ public class GalaxyView extends ListActivity {
 													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
 															  "&system=" + coords[1] + 
 															  "&position=" + coords[2] + 
-															  "&type=1&mission=" + FleetEvent.MISSION_ATTACK))
+															  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
+															  "&mission=" + String.valueOf(FleetEvent.MISSION_ATTACK)))
 								    		);
 								    		finish(); 
 										}
@@ -304,7 +304,8 @@ public class GalaxyView extends ListActivity {
 													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
 															  "&system=" + coords[1] + 
 															  "&position=" + coords[2] + 
-															  "&type=1&mission=" + FleetEvent.MISSION_TRANSPORT))
+															  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
+															  "&mission=" + String.valueOf(FleetEvent.MISSION_TRANSPORT)))
 								    		);
 								    		finish(); 
 										}
@@ -321,7 +322,6 @@ public class GalaxyView extends ListActivity {
 						}
 					});
 			    	t.start();
-			        //Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
 			    }
 			}); // DialogInterface.OnClickListener
 		} // if slot empty
@@ -381,11 +381,11 @@ public class GalaxyView extends ListActivity {
 	}
 	
 	private String sendProbe(GameClient game, int galaxy, int system, int planetPosition, int shipCount) {
-		return sendShips(game, 6, galaxy, system, planetPosition, 1, shipCount);
+		return sendShips(game, FleetEvent.MISSION_ESPIONAGE, galaxy, system, planetPosition, FleetEvent.PLANETTYPE_PLANET, shipCount);
 	}
 	
 	private String sendRecycler(GameClient game, int galaxy, int system, int planetPosition, int shipCount) {
-		return sendShips(game, 8, galaxy, system, planetPosition, 2, shipCount);
+		return sendShips(game, FleetEvent.MISSION_HARVEST, galaxy, system, planetPosition, FleetEvent.PLANETTYPE_DEBRIS, shipCount);
 	}
 	
 	/**
@@ -540,10 +540,10 @@ public class GalaxyView extends ListActivity {
 				result = "Success";
 				switch(Integer.parseInt(retVals[6])) {
 					case 1: 
-						result += ", send espionage probe to: " + retVals[7];
+						result += ", sent espionage probe to: " + retVals[7];
 					break;
 					case 2: 
-						result += ", send recycler to: " + retVals[7];
+						result += ", sent recycler to: " + retVals[7];
 					break;
 				}
 				result += " (" + retVals[5] + ")";

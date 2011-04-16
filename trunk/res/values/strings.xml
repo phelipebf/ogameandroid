@@ -119,4 +119,10 @@
 	<string name="fleet3_cargobays">Cargo bay:</string>
 	<string name="fleet3_noMission">Select a mission</string>
 	<string name="fleet3_expedition">Duration of expedition (h):</string>
+		
+	<string name="mission_attack">Attack</string>
+	<string name="mission_transport">Transport</string>
+	<string name="mission_espionage">Espionage</string>
+	<string name="mission_missile">Missile Attack</string>
+	<string name="mission_harvest">Harvest</string>
 </resources>

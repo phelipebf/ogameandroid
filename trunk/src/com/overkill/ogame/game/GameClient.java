@@ -22,13 +22,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.overkill.ogame.MainTabActivity;
-import com.overkill.ogame.MovementView;
-
-import android.R;
 import android.content.Context;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
 
 /**
  * Controller für interaktion mit ogame server
