@@ -119,4 +119,10 @@
 	<string name="fleet3_cargobays">Laderaum:</string>
 	<string name="fleet3_noMission">Mission auswählen</string>
 	<string name="fleet3_expedition">Dauer der Expedition:</string>
+	
+	<string name="mission_attack">Angreifen</string>
+	<string name="mission_transport">Transportieren</string>
+	<string name="mission_espionage">Spionage</string>
+	<string name="mission_missile">Racketen Angriff</string>
+	<string name="mission_harvest">Abbauen</string>
 </resources>
