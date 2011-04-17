@@ -34,6 +34,9 @@ import android.widget.Toast;
 
 public class MainTabActivity extends ScrollableTabActivity{
     private static final String TAG = "ogame";
+    
+    private static final int tab_shade_off = RadioStateDrawable.SHADE_GRAY; 
+    private static final int tab_shade_on = RadioStateDrawable.SHADE_BLUE; 
     //print debug
     //private final boolean D = true;
     //httpclient for login and game contructor
@@ -172,38 +175,38 @@ public class MainTabActivity extends ScrollableTabActivity{
         setInfo(p1.getResources());
         setIcon(p1.getIcon());
                 
-        this.addTab(getString(R.string.tab_overview), R.drawable.navi_ikon_overview_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW,
+        this.addTab(getString(R.string.tab_overview), R.drawable.navi_ikon_overview_a, tab_shade_off, tab_shade_on,
         		new Intent(this, Overview.class));
         
-        this.addTab(getString(R.string.tab_resources), R.drawable.navi_ikon_resources_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW,
+        this.addTab(getString(R.string.tab_resources), R.drawable.navi_ikon_resources_a, tab_shade_off, tab_shade_on,
         		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         			.putExtra("pageKey", "resources")
         			.putExtra("ulKey", new String[]{"building","storage"})
         			.putExtra("liKey", new String[]{"supply","supply"})
         		);
         
-        this.addTab(getString(R.string.tab_station), R.drawable.navi_ikon_station_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW,
+        this.addTab(getString(R.string.tab_station), R.drawable.navi_ikon_station_a, tab_shade_off, tab_shade_on,
         		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         			.putExtra("pageKey", "station")
         			.putExtra("ulKey", new String[]{"stationbuilding"})
         			.putExtra("liKey", new String[]{"station"})
         		);
         
-        this.addTab(getString(R.string.tab_research), R.drawable.navi_ikon_research_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW,
+        this.addTab(getString(R.string.tab_research), R.drawable.navi_ikon_research_a, tab_shade_off, tab_shade_on,
         		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         			.putExtra("pageKey", "research")
         			.putExtra("ulKey", new String[]{"base", "base2", "base3", "base4"})
         			.putExtra("liKey", new String[]{"research", "research", "research", "research"})
         		);
         
-        this.addTab(getString(R.string.tab_shipyard), R.drawable.navi_ikon_shipyard_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW,
+        this.addTab(getString(R.string.tab_shipyard), R.drawable.navi_ikon_shipyard_a, tab_shade_off, tab_shade_on,
         		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         			.putExtra("pageKey", "shipyard")
         			.putExtra("ulKey", new String[]{"military", "civil"})
         			.putExtra("liKey", new String[]{"military", "civil"})
         		); 
         
-        this.addTab(getString(R.string.tab_defense), R.drawable.navi_ikon_defense_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW, 
+        this.addTab(getString(R.string.tab_defense), R.drawable.navi_ikon_defense_a, tab_shade_off, tab_shade_on, 
         		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         			.putExtra("pageKey", "defense")
         			.putExtra("ulKey", new String[]{"defensebuilding"})

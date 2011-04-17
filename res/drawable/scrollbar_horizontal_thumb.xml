@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--  blue -->
-    <!-- 
+    <!--  cyan > blue -->
     <gradient 
-    	android:startColor="#3333FF" 
-    	android:endColor="#8080FF" 
+    	android:startColor="#0000ff" 
+    	android:endColor="#00ffff" 
     	android:angle="0"/>
-   	 -->
    	 
    	<!--  green -->
    	<!-- 
@@ -17,11 +15,11 @@
      -->
      
     <!--  yellow -->
-    <gradient 
+    <!--<gradient 
     	android:startColor="#000" 
     	android:endColor="#FFFF00" 
     	android:angle="0"/>
-     
+     -->
     <!--  gray -->
     <!--  
     <gradient 

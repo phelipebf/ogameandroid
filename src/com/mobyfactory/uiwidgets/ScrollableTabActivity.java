@@ -35,6 +35,8 @@ package com.mobyfactory.uiwidgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.overkill.ogame.R;
+
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.BroadcastReceiver;
@@ -42,6 +44,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -60,9 +63,9 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
 	private RadioGroup.LayoutParams buttonLayoutParams;
 	private RadioGroup bottomRadioGroup;
 	private Context context;
-	private List<Intent> intentList;
-	private List<String> titleList;
-	private List<int[]> states;
+	private List intentList;
+	private List titleList;
+	private List states;
 	private SliderBarActivityDelegate delegate;
 	private int defaultOffShade;
 	private int defaultOnShade;
@@ -78,21 +81,55 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
         context = this;
         
         activityManager = getLocalActivityManager();
-        setContentView(com.overkill.ogame.R.layout.tabmenu_customslidingtabhost);
-        contentViewLayout = (LinearLayout)findViewById(com.overkill.ogame.R.id.contentViewLayout);
-        bottomBar = (HorizontalScrollView)findViewById(com.overkill.ogame.R.id.bottomBar);
-        bottomRadioGroup = (RadioGroup)findViewById(com.overkill.ogame.R.id.bottomMenu);
+        setContentView(R.layout.tabmenu_customslidingtabhost);
+        contentViewLayout = (LinearLayout)findViewById(R.id.contentViewLayout);
+        bottomBar = (HorizontalScrollView)findViewById(R.id.bottomBar);
+        
+        bottomRadioGroup = (RadioGroup)findViewById(R.id.bottomMenu);
         contentViewLayoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); 
         
         defaultOffShade = RadioStateDrawable.SHADE_GRAY;
         defaultOnShade = RadioStateDrawable.SHADE_YELLOW;
+        /*
+         *  alternative method to using XML for layout, not used
+         */
+        /*
+        if (inflateXMLForContentView())
+        {
+        	contentViewLayoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); 
+        }
+        else
+        {
+        	RelativeLayout mainLayout = new RelativeLayout(this);
+            RelativeLayout.LayoutParams mainLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            mainLayout.setLayoutParams(mainLayoutParams);
+            contentViewLayout = new LinearLayout(this);
+            contentViewLayout.setOrientation(LinearLayout.VERTICAL);
+            contentViewLayout.setBackgroundColor(Color.WHITE);
+            contentViewLayoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            contentViewLayoutParams.bottomMargin = 55;
+            mainLayout.addView(contentViewLayout, contentViewLayoutParams);
+            bottomBar = new HorizontalScrollView(this);
+            //bottomBar.setHorizontalFadingEdgeEnabled(false);
+            RelativeLayout.LayoutParams bottomBarLayout = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, 55);
+            bottomBarLayout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            mainLayout.addView(bottomBar, bottomBarLayout);
+            bottomRadioGroup = new RadioGroup(this);
+            bottomRadioGroup.setOrientation(RadioGroup.HORIZONTAL);
+            LayoutParams bottomRadioGroupLayoutParam = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            bottomRadioGroup.setLayoutParams(bottomRadioGroupLayoutParam);
+            bottomBar.addView(bottomRadioGroup);
+            if (bottomBar()!=-1) bottomBar.setBackgroundResource(bottomBar());
+            //bottomBar.setBackgroundResource(R.drawable.bottom_bar);
+            setContentView(mainLayout);
+        }*/
          
         bottomRadioGroup.setOnCheckedChangeListener(this);
-        intentList  = new ArrayList<Intent>();
-        titleList	= new ArrayList<String>();
-        states 		= new ArrayList<int[]>();
+        intentList  = new ArrayList();
+        titleList	= new ArrayList();
+        states 		= new ArrayList();
         
-        buttonLayoutParams = new RadioGroup.LayoutParams(480/5, RadioGroup.LayoutParams.WRAP_CONTENT);
+        buttonLayoutParams = new RadioGroup.LayoutParams(320/5, RadioGroup.LayoutParams.WRAP_CONTENT);
     }
     
     public void onResume()
@@ -111,6 +148,7 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
 
     public void commit()
     {
+    	float scale = this.context.getResources().getDisplayMetrics().density; 
     	bottomRadioGroup.removeAllViews();
     	
     	int optimum_visible_items_in_portrait_mode = 5;
@@ -120,23 +158,25 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
         	Display display = window.getDefaultDisplay();
         	int window_width = display.getWidth();
         	
-        	optimum_visible_items_in_portrait_mode = (int) (window_width/64.0);
+        	optimum_visible_items_in_portrait_mode = (int) (window_width / (60.0 * scale));
     	}
     	catch (Exception e)
     	{
+    		e.printStackTrace();
     		optimum_visible_items_in_portrait_mode = 5;
     	}
     	
     	int screen_width = getWindowManager().getDefaultDisplay().getWidth();
     	int width;
+    	Log.i("ScrollTab", "optimum_visible_items_in_portrait_mode = " + optimum_visible_items_in_portrait_mode);
     	if (intentList.size()<=optimum_visible_items_in_portrait_mode)
     	{
-    		width = screen_width/intentList.size();
+    		width = screen_width / intentList.size();
     	}
     	else
     	{
     		//width = screen_width/5;
-    		width = 320/5; 
+    		width = screen_width / optimum_visible_items_in_portrait_mode; 
     	}
     	RadioStateDrawable.width = width;
 		RadioStateDrawable.screen_width = screen_width;
@@ -169,7 +209,7 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
     {
     	int[] iconStates = {onIconStateId, offIconStateId};
     	states.add(iconStates);
-    	intentList.add(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    	intentList.add(intent);
     	titleList.add(title);
     	//commit();
     }
@@ -249,12 +289,6 @@ public class ScrollableTabActivity extends ActivityGroup  implements RadioGroup.
     public int getCurrentTab()
     {
     	return bottomRadioGroup.getCheckedRadioButtonId();
-    }
-    
-    public void reloadTab()
-    {
-    	activityManager.destroyActivity(titleList.get(getCurrentTab()).toString(), true);
-    	setCurrentTab(getCurrentTab());
     }
     
     /*
