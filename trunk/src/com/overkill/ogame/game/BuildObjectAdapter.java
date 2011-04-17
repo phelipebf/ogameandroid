@@ -59,14 +59,18 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				((RelativeLayout)v.findViewById(R.id.root)).setBackgroundColor(Color.argb(100, 0, 0, 0));
 			
 			if (b.getLevel() >= 0){
-				((TextView) v.findViewById(R.id.name)).setText(b.getName() + " (");
+				((TextView) v.findViewById(R.id.name)).setText(b.getName());
 				
-				if(Tools.getCuetypeById(b.getId()) == Item.CUETYPE_MULTIPLE)
-					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_amount));
-				else
-					((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_level));
-			
-				((TextView) v.findViewById(R.id.name)).append(" " + b.getLevel() + ")");
+				if(b.getDisplayType() != BuildObject.DISPLAY_TYPE_HIDE_LEVEL){
+					((TextView) v.findViewById(R.id.name)).append(" (");
+					
+					if(Tools.getCuetypeById(b.getId()) == Item.CUETYPE_MULTIPLE)
+						((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_amount));
+					else
+						((TextView) v.findViewById(R.id.name)).append(this.context.getString(R.string.object_level));
+				
+					((TextView) v.findViewById(R.id.name)).append(" " + b.getLevel() + ")");
+				}
 			}else{
 				((TextView) v.findViewById(R.id.name)).setText(b.getName());
 			}
@@ -144,7 +148,7 @@ public class BuildObjectAdapter extends ArrayAdapter<BuildObject> {
 				energy.append("/" + String.valueOf(b.getEnergyMax()));
 			}
 			
-			if(b.getPercent() == 0 && b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE){
+			if(b.getPercent() == 0 && (b.getDisplayType() == BuildObject.DISPLAY_TYPE_VALUE || b.getDisplayType() == BuildObject.DISPLAY_TYPE_HIDE_LEVEL)){
 				percent.setVisibility(View.GONE);
 				((ImageView) v.findViewById(R.id.image_percent)).setVisibility(View.GONE);				
 			}else{
