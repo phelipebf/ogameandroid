@@ -73,6 +73,8 @@
 	<string name="settings_fleet_friendly_summary">Alarm bei eigenen Flotten</string>
 	<string name="settings_fleet_hostile">Feindlich</string>
 	<string name="settings_fleet_hostile_summary">Alarm bei feindlichen Flotten</string>
+	<string name="settings_messages">Nachrichten</string>
+	<string name="settings_messages_summary">Alarm bei ungelesenen Nachrichten</string>
 	
 	<string name="message_no_message">Keine Nachrichten vorhaden</string>
 	<string name="message_send">Senden</string>

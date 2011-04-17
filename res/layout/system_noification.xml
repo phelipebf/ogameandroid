@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content">
-<ImageView android:layout_width="wrap_content" android:layout_alignParentLeft="true" android:src="@drawable/warning_off" android:layout_alignParentTop="true" android:id="@+id/img_warning" android:layout_height="wrap_content"/>
-<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/TextView01" android:text="OGame Fleet" android:layout_alignTop="@id/img_warning" android:layout_toRightOf="@+id/img_warning" android:textStyle="bold" android:textColor="?android:attr/textColorPrimaryInverse"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content">
+	
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/txt_title"
+		android:textStyle="bold" android:textColor="?android:attr/textColorPrimaryInverse"
+		android:text="@string/app_name" />
+		
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/img_warning"
+		android:src="@drawable/warning_off" android:layout_below="@+id/txt_title"
+		android:layout_alignLeft="@+id/txt_title" android:layout_alignBottom="@+id/txt_event_text"
+		android:scaleType="centerInside"></ImageView>
+		
+	<ImageView android:layout_height="wrap_content" android:layout_below="@+id/img_warning"
+		android:layout_alignLeft="@+id/img_warning" android:id="@+id/img_message"
+		android:src="@drawable/post_read" android:layout_width="wrap_content" android:scaleType="fitCenter"></ImageView>
+		
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@+id/img_warning"
+		android:layout_alignLeft="@+id/img_warning" 
+		android:layout_alignRight="@+id/txt_messages" 
+		android:id="@+id/img_message"></ImageView>
 
-<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="H F N" android:id="@+id/txt_info" android:layout_below="@id/TextView01" android:layout_toRightOf="@+id/img_warning" android:textSize="12dp" android:textColor="?android:attr/textColorPrimaryInverse"/>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="H F N" android:id="@+id/txt_info"
+		android:layout_below="@id/txt_title" android:layout_toRightOf="@+id/img_warning"
+		android:textSize="12dp" android:textColor="?android:attr/textColorPrimaryInverse" />
 
-
-<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/txt_info" android:layout_alignLeft="@+id/txt_info" android:text="Event Text" android:textSize="12dp" android:id="@+id/txt_event_text" android:textColor="?android:attr/textColorPrimaryInverse"></TextView>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_toRightOf="@+id/txt_info" android:layout_below="@id/txt_title" 
+		android:text="Event Text"
+		android:textSize="12dp" android:id="@+id/txt_event_text"
+		android:textColor="?android:attr/textColorPrimaryInverse" android:gravity="center" android:layout_marginLeft="5dip"></TextView>
+		
+	<TextView android:layout_width="wrap_content"
+		android:layout_below="@+id/txt_event_text" android:layout_height="wrap_content"
+		android:id="@+id/txt_messages" android:text="No unread Messages"
+		android:layout_alignLeft="@+id/txt_info"
+		android:textColor="?android:attr/textColorPrimaryInverse"
+		android:textSize="12dp" ></TextView>
 </RelativeLayout>

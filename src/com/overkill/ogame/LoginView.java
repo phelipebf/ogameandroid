@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.flurry.android.FlurryAgent;
 import com.overkill.gui.HtmlSelect;
+import com.overkill.ogame.game.NotificationSystem;
 import com.overkill.ogame.game.Tools;
 
 import android.app.Activity;
@@ -49,7 +50,9 @@ public class LoginView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-							
+		
+		NotificationSystem.remove(this);
+		
 		try {
 			PackageInfo pinfo = getPackageManager().getPackageInfo(this.getClass().getPackage().getName(),0);
 			TextView info = (TextView)findViewById(R.id.txt_info);

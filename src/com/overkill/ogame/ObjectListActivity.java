@@ -317,7 +317,9 @@ public class ObjectListActivity extends ListActivity {
 						Elements alertBox = document.select("#message_alert_box");
 						if(alertBox.size() == 1) {
 							String unreadMessages = alertBox.select("span").text().trim();
-							Toast.makeText(getApplicationContext(), "Unread messages: " + unreadMessages, Toast.LENGTH_SHORT).show();
+							MainTabActivity.notify.setMessages(Integer.valueOf(unreadMessages));
+						}else{
+							MainTabActivity.notify.setMessages(0);
 						}
 					}
 				});
