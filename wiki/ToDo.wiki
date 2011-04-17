@@ -3,39 +3,23 @@
 *The state of the items in this list is most likely not the state of the current release. If you want to have the newest version you'll have to build it from svn or wait for a release.*
 
 = Basic =
- * Overview
-  * ~~Add (up to 3) countdowns~~
- * ~~Resources Settings~~
-  * ~~See current production~~
-  * ~~Resources percent~~
  * Galaxy View
   * Colonize
- * Fleet
-  * New mission
-   * ~~Display current ships on planet~~
-   * ~~Select Ships~~
-   * ~~Set target and mission type~~
-   * ~~Set speed and cargo~~
-   * ~~Mission specific settings (eg. duration on expedition)~~
-  * ~~Cancel current fleet event~~
  * Messages
-  * ~~List messages~~
-   * ~~Delete all messages~~
-  * ~~View message~~
+  * View message
    * Parse and show Message depending on its type
     * Pure Text Message
     * Player to Player Message
     * Battle Report
     * Hostile Espionage
     * Espionage Report
-  * ~~Reply to message~~
-  * ~~Delete message~~
   * Report message
-  * ~~Create new message~~
  * Alliance
   * View Info
   * Join/Quit an alliance
-
+ * Notification
+  * Fleet Events
+  * Building/Research Complete
 = Extra =
 
 
