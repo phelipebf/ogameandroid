@@ -18,26 +18,26 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
+    <!-- <PreferenceCategory
             android:title="@string/settings_display">
             
-        <!-- <CheckBoxPreference
+       	<CheckBoxPreference
                 android:key="hide_ads"
-                android:title="Hide Ads" /> -->        
+                android:title="Hide Ads" />      
             
         <CheckBoxPreference
                 android:key="show_disabled"
                 android:title="@string/settings_disabled"
                 android:summary="@string/settings_disabled_summary" />              
-        <!--
+
        	<ListPreference
                 android:key="show_sort"
                 android:title="Sortierung"
                 android:summary="In welcher Reihenfolge sollen die Objekte angezeigt werden"
                 android:entries="@array/select_sort_key"
                 android:entryValues="@array/select_sort_key"
-                android:dialogTitle="Wähle" />--> 
-    </PreferenceCategory>
+                android:dialogTitle="Wähle" />
+    </PreferenceCategory> -->
                 
     <PreferenceCategory
             android:title="@string/settings_fleet">
@@ -56,7 +56,16 @@
                 android:dialogTitle="Wähle"
                 android:dependency="fleetsystem_global"
                 android:layout="?android:attr/preferenceLayoutChild" />
-              -->   
+              -->  
+		<RingtonePreference
+			android:key="fleetsystem_sound"
+            android:title="@string/settings_fleet_sound"
+            android:summary="@string/settings_fleet_sound_summary"
+            android:dialogTitle="Select"
+            android:showDefault="true"
+			android:showSilent="true"
+            android:ringtoneType="notification" />
+   <!-- 
         <ListPreference
                 android:key="fleetsystem_sound"
                 android:title="@string/settings_fleet_sound"
@@ -64,7 +73,7 @@
                 android:dialogTitle="Select"
                 android:dependency="fleetsystem_global"
                 android:layout="?android:attr/preferenceLayoutChild" />
-
+--> 
 		<CheckBoxPreference
                 android:key="fleetsystem_alarm_neutral"
                 android:title="@string/settings_fleet_neutral"
@@ -81,6 +90,12 @@
                 android:key="fleetsystem_alarm_hostile"
                 android:title="@string/settings_fleet_hostile"
                 android:summary="@string/settings_fleet_hostile_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+        <CheckBoxPreference
+                android:key="fleetsystem_alarm_messages"
+                android:title="@string/settings_messages"
+                android:summary="@string/settings_messages_summary"
                 android:dependency="fleetsystem_global"
                 android:layout="?android:attr/preferenceLayoutChild" />
     </PreferenceCategory>

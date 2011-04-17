@@ -73,6 +73,8 @@
 	<string name="settings_fleet_friendly_summary">Notify on friendly events</string>
 	<string name="settings_fleet_hostile">Hostile</string>
 	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
+	<string name="settings_messages">Messages</string>
+	<string name="settings_messages_summary">Notify on unread messages</string>
 	
 	<string name="message_no_message">No message to display</string>
 	<string name="message_send">Send</string>

@@ -1,7 +1,9 @@
 package com.overkill.ogame;
 
 import java.io.File;
+import java.net.ContentHandler;
 import java.util.HashMap;
+import java.util.prefs.Preferences;
 
 import com.flurry.android.FlurryAgent;
 import com.mobyfactory.uiwidgets.RadioStateDrawable;
@@ -14,6 +16,7 @@ import com.overkill.ogame.game.Tools;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +24,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -70,104 +75,108 @@ public class MainTabActivity extends ScrollableTabActivity{
                         
         final SharedPreferences settings = getSharedPreferences(TAG, 0);
         
-        final String username = getIntent().getExtras().getString("username");    
-		
-		final String password = getIntent().getExtras().getString("password");    		
-		
-		final int domain_i = getIntent().getExtras().getInt("country");
-		final String domain =  getResources().getStringArray(R.array.countries)[domain_i];
-		
-		final int uni_i = getIntent().getExtras().getInt("universe");
-		HtmlSelect select = new HtmlSelect(new File(getFilesDir().getAbsolutePath() + "/" + domain));
-		final String universe = select.getValue(uni_i);
-		
-		final boolean save = getIntent().getExtras().getBoolean("save");
+        if(getIntent().hasExtra("username")){
         
-		final ProgressDialog loader = new ProgressDialog(MainTabActivity.this);				
-		loader.setMessage("Logging in...");
-		loader.setCancelable(false);
-    	Thread t_login = new Thread(new Runnable() {					
-			@Override
-			public void run() {	
-				try{
-					HashMap<String, String> parameters = new HashMap<String, String>();
-					parameters.put("country", domain);
-					parameters.put("universe", universe);
-					FlurryAgent.onEvent("Login", parameters);
-					game = new GameClient(MainTabActivity.this);
-					boolean state = game.login(universe, username, password);
-			       	//?error querystring indicates login error
-			       	if(state == false){
-			       		//hide loader and tell user
-			       		loader.cancel();
-			       		runOnUiThread(new Runnable() {									
-							@Override
-							public void run() {
-								Toast.makeText(MainTabActivity.this, R.string.error_login, Toast.LENGTH_SHORT).show();
-								Intent intent = new Intent(MainTabActivity.this, LoginView.class);
-								startActivity(intent);								
-								finish();
+	        final String username = getIntent().getExtras().getString("username");    
+			
+			final String password = getIntent().getExtras().getString("password");    		
+			
+			final int domain_i = getIntent().getExtras().getInt("country");
+			final String domain =  getResources().getStringArray(R.array.countries)[domain_i];
+			
+			final int uni_i = getIntent().getExtras().getInt("universe");
+			HtmlSelect select = new HtmlSelect(new File(getFilesDir().getAbsolutePath() + "/" + domain));
+			final String universe = select.getValue(uni_i);
+			
+			final boolean save = getIntent().getExtras().getBoolean("save");
+	        
+			final ProgressDialog loader = new ProgressDialog(MainTabActivity.this);				
+			loader.setMessage("Logging in...");
+			loader.setCancelable(false);
+	    	Thread t_login = new Thread(new Runnable() {					
+				@Override
+				public void run() {	
+					try{
+						HashMap<String, String> parameters = new HashMap<String, String>();
+						parameters.put("country", domain);
+						parameters.put("universe", universe);
+						FlurryAgent.onEvent("Login", parameters);
+						game = new GameClient(MainTabActivity.this);
+						boolean state = game.login(universe, username, password);
+				       	//?error querystring indicates login error
+				       	if(state == false){
+				       		//hide loader and tell user
+				       		loader.cancel();
+				       		runOnUiThread(new Runnable() {									
+								@Override
+								public void run() {
+									Toast.makeText(MainTabActivity.this, R.string.error_login, Toast.LENGTH_SHORT).show();
+									Intent intent = new Intent(MainTabActivity.this, LoginView.class);
+									startActivity(intent);								
+									finish();
+								}
+							});
+				       		
+				       	}else{ //LOGIN OK
+					       	//should we save the login data
+					       	if(save){
+								SharedPreferences.Editor editor = settings.edit();
+								editor.putString("username", username);
+								editor.putString("password", password);
+								editor.putInt("universum", uni_i);
+								editor.putInt("domain", domain_i);
+								editor.commit();
+							}else{
+								//clean login preferences
+								SharedPreferences.Editor editor = settings.edit();
+								editor.putString("username", "");
+								editor.putString("password", "");
+								editor.putInt("universum", 0);
+								editor.putInt("domain", 0);
+								editor.commit();
 							}
-						});
-			       		
-			       	}else{ //LOGIN OK
-				       	//should we save the login data
-				       	if(save){
-							SharedPreferences.Editor editor = settings.edit();
-							editor.putString("username", username);
-							editor.putString("password", password);
-							editor.putInt("universum", uni_i);
-							editor.putInt("domain", domain_i);
-							editor.commit();
-						}else{
-							//clean login preferences
-							SharedPreferences.Editor editor = settings.edit();
-							editor.putString("username", "");
-							editor.putString("password", "");
-							editor.putInt("universum", 0);
-							editor.putInt("domain", 0);
-							editor.commit();
-						}
-				       	//run init function to build gui
-				       	runOnUiThread(new Runnable() {							
-							@Override
-							public void run() {
-								ready = true;
-								init();								
-							}
-						});
-				       	//hide loader
-						loader.cancel();
-			       	}
-		            
-				}catch(Exception ex){
-		        	ex.printStackTrace();
-		        }
-			}
-		});
-		t_login.start();
-		loader.show();
+					       	//run init function to build gui
+					       	runOnUiThread(new Runnable() {							
+								@Override
+								public void run() {
+									ready = true;
+									init();								
+								}
+							});
+					       	//hide loader
+							loader.cancel();
+				       	}
+			            
+					}catch(Exception ex){
+			        	ex.printStackTrace();
+			        }
+				}
+			});
+			t_login.start();
+			loader.show();
+        }else{ //no login data as extra, only possible when opened from notification
+        	ready = true;
+			init();		
+        }
     	
     }
     
     public void init(){    
     	//create NotificationSystem and show it
-    	SharedPreferences preferences = getSharedPreferences("ogame", 0);
-    	if(preferences.getBoolean("fleetsystem_global", false)){
-	       	notify = new NotificationSystem(getApplicationContext(), game,
-	       			preferences.getString("fleetsystem_sound", null) == null ? null : Uri.parse(preferences.getString("fleetsystem_sound", null)));
-	       			// Fix: Not trying to parse null as URI if nothing is set
-	       	notify.setDelay(600); // TODO int array?
+    	SharedPreferences preferences = getSharedPreferences("ogame", Context.MODE_PRIVATE);
+    	if(preferences.getBoolean("fleetsystem_global", true)){
+	       	notify = new NotificationSystem(MainTabActivity.this, MainTabActivity.game, preferences.getString("fleetsystem_sound", null));
+
+	       	notify.setDelay(60); // TODO int array?
 	       	notify.config(
 	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
 	       			preferences.getBoolean("fleetsystem_alarm_neutral", false),
-	       			preferences.getBoolean("fleetsystem_alarm_friendly", false)
+	       			preferences.getBoolean("fleetsystem_alarm_friendly", false),
+	       			preferences.getBoolean("fleetsystem_alarm_messages", false)
 	       				);
 	       	notify.init();
     	}
-    	
-    	//notify.show(false);
-    	
+    	    	
     	//get current planet
         Planet p1 = game.getCurrentPlanet();
         p1.parse(game.get("page=fetchResources&ajax=1"));
