@@ -14,6 +14,7 @@ import android.content.Context;
 public class BuildObject {
 	public static int DISPLAY_TYPE_VALUE = 0;
 	public static int DISPLAY_TYPE_ALL = 1;
+	public static int DISPLAY_TYPE_HIDE_LEVEL = 2;
 	
 	private String name;
 	private int id;

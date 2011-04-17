@@ -117,48 +117,54 @@ public class ResourceSettingsView extends ListActivity {
 				for(int i = 3; i < tr.size(); i++){
 					Elements td = tr.get(i).select("td");
 					try{
-					//0:	Name (... LEVEL)
-					//1:	Empty
-					//2:	Metal
-					//3:	Crystal
-					//4:	Deuterium
-					//5: 	energyUse/energyMax
-					//6:	HTML-SELECT (name="last[ID]")
-					int id = 0;
-					int offset = 0;
-					
-					if(td.get(1).text().length() != 0)
-						offset = 1;
-					
-					if(td.size() > 6)
-						id = Integer.valueOf(td.get(6).select("select").attr("name").replace("last", ""));
-					String name = td.get(0).text();
-					int level = 0;
-					if(name.contains("(")){
-						level = Integer.valueOf(name.substring(name.lastIndexOf(" "), name.lastIndexOf(")")).trim());
-						name = name.substring(0, name.indexOf("("));
-					}
-					BuildObject object = new BuildObject(ResourceSettingsView.this, id, name, "on", level);
-					object.setResources(
-								Integer.valueOf(td.get(2 - offset).text().replace(".", "").replace("-", "0")),
-								Integer.valueOf(td.get(3 - offset).text().replace(".", "").replace("-", "0")),
-								Integer.valueOf(td.get(4 - offset).text().replace(".", "").replace("-", "0"))
-							);
-					String energy = td.get(5 - offset).text().replace(".", "");
-					if(energy.equals("-"))
-						energy = "0";
-					String e[] = energy.split("/");
-					object.setEnergy(Integer.valueOf(e[0]));
-					if(e.length > 1)
-						object.setEnergyMax(Integer.valueOf(e[1]));
-					
-					if(td.size() > 6){
-						object.setPercent(Integer.valueOf(getSelectedValue(td.get(6).select("select").get(0))));
-						object.setDisplayType(BuildObject.DISPLAY_TYPE_ALL);
-					}else{
-						object.setPercent(0);
-					}
-					objects.add(object);
+						//0:	Name (... LEVEL)
+						//1:	Empty
+						//2:	Metal
+						//3:	Crystal
+						//4:	Deuterium
+						//5: 	energyUse/energyMax
+						//6:	HTML-SELECT (name="last[ID]")
+						int id = 0;
+						int offset = 0;
+						
+						if(td.get(1).text().length() != 0)
+							offset = 1;
+						
+						if(td.size() > 6)
+							id = Integer.valueOf(td.get(6).select("select").attr("name").replace("last", ""));
+						String name = td.get(0).text();
+						int level = 0;
+						if(name.contains("(")){
+							level = Integer.valueOf(name.substring(name.lastIndexOf(" "), name.lastIndexOf(")")).trim());
+							name = name.substring(0, name.indexOf("("));
+						}
+						name = name.replace(":", "").trim();
+						BuildObject object = new BuildObject(ResourceSettingsView.this, id, name, "on", level);
+						object.setResources(
+									Integer.valueOf(td.get(2 - offset).text().replace(".", "").replace("-", "0")),
+									Integer.valueOf(td.get(3 - offset).text().replace(".", "").replace("-", "0")),
+									Integer.valueOf(td.get(4 - offset).text().replace(".", "").replace("-", "0"))
+								);
+						String energy = td.get(5 - offset).text().replace(".", "");
+						if(energy.equals("-"))
+							energy = "0";
+						String e[] = energy.split("/");
+						object.setEnergy(Integer.valueOf(e[0]));
+						if(e.length > 1)
+							object.setEnergyMax(Integer.valueOf(e[1]));
+						
+						if(td.size() > 6){
+							object.setPercent(Integer.valueOf(getSelectedValue(td.get(6).select("select").get(0))));
+							object.setDisplayType(BuildObject.DISPLAY_TYPE_ALL);
+						}else{
+							object.setPercent(0);
+						}
+						
+						if(i > 8){
+							object.setDisplayType(BuildObject.DISPLAY_TYPE_HIDE_LEVEL);
+						}
+						
+						objects.add(object);
 					}catch (Exception e) {
 						e.printStackTrace();
 						Log.e("parsing error", "\n" + td.html());
