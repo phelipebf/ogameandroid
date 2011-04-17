@@ -44,7 +44,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
@@ -62,6 +61,8 @@ public class RadioStateDrawable extends Drawable{
 	private boolean highlight;
 	private String label;
 	
+	private float scale;
+	
 	public static final int SHADE_GRAY = 0;
 	public static final int SHADE_BLUE = 1;
 	public static final int SHADE_MAGENTA = 2;
@@ -76,8 +77,11 @@ public class RadioStateDrawable extends Drawable{
 		this.highlight = highlight;
 		this.context = context;
 		this.label = label;
+		this.scale = this.context.getResources().getDisplayMetrics().density; 
+		//width = (int) (width * scale);
 		InputStream is = context.getResources().openRawResource(imageID);
-		bitmap = BitmapFactory.decodeStream(is).extractAlpha();
+		Bitmap original_bitmap = BitmapFactory.decodeStream(is);// .extractAlpha();
+		bitmap = Bitmap.createScaledBitmap(original_bitmap, (int) (original_bitmap.getWidth() * scale), (int) (original_bitmap.getHeight() * scale), true).extractAlpha();
 		setShade(shade);
 		
 		highlightBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bottom_bar_highlight);
@@ -89,8 +93,11 @@ public class RadioStateDrawable extends Drawable{
 		this.highlight = highlight;
 		this.context = context;
 		this.label = label;
+		this.scale = this.context.getResources().getDisplayMetrics().density;  
+		//width = (int) (width * scale);
 		InputStream is = context.getResources().openRawResource(imageID);
-		bitmap = BitmapFactory.decodeStream(is).extractAlpha();
+		Bitmap original_bitmap = BitmapFactory.decodeStream(is);//.extractAlpha();
+		bitmap = Bitmap.createScaledBitmap(original_bitmap, (int) (original_bitmap.getWidth() * scale), (int) (original_bitmap.getHeight() * scale), true).extractAlpha();
 		int[] shades = new int[] { startGradientColor, endGradientColor};
 		shader = new LinearGradient(0, 0, 0, bitmap.getHeight(), shades, null, Shader.TileMode.MIRROR);
 	}
@@ -139,50 +146,40 @@ public class RadioStateDrawable extends Drawable{
 		
 		shader = new LinearGradient(0, 0, 0, bitmap.getHeight(), shades, null, Shader.TileMode.MIRROR);
 		
-		if (highlight) textShader = new LinearGradient(0, 0, 0, 10, new int[]{Color.WHITE, Color.LTGRAY}, null, Shader.TileMode.MIRROR);
-		else textShader = new LinearGradient(0, 0, 0, 10, new int[]{Color.LTGRAY, Color.DKGRAY}, null, Shader.TileMode.MIRROR);
+		if (highlight) textShader = new LinearGradient(0, 0, 0, 10 * scale, new int[]{Color.WHITE, Color.LTGRAY}, null, Shader.TileMode.MIRROR);
+		else textShader = new LinearGradient(0, 0, 0, 10 * scale, new int[]{Color.LTGRAY, Color.DKGRAY}, null, Shader.TileMode.MIRROR);
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
-		//Converting px to dip to scale up on hdpi devices      
-        final float scale = this.context.getResources().getDisplayMetrics().density;   
 		
-		int bwidth = (int) (bitmap.getWidth() * scale);
-		int bheight = (int) (bitmap.getHeight() * scale);
+		int bwidth = bitmap.getWidth();
+		int bheight = bitmap.getHeight();
 		/*
 		if (width==0)
 		{
 			if (screen_width==0) screen_width = 320;
 			width=screen_width/5;
-		}*/	
-		
-		//Log.i("draw", width * scale + " " + bwidth);
-		
-		int x = (int) ((width - bwidth) / 2);
+		}*/
+		int x = (width-bwidth)/2;
 		int y = (int) (2 * scale);
+		int text_offset = (int) (8 * scale);
 
 		canvas.drawColor(Color.TRANSPARENT);
 		Paint p = new Paint();
 		
 		p.setColor(Color.WHITE);
         p.setStyle(Paint.Style.FILL);
-        
-        
-		p.setTextSize((int) (10 * scale));
+		p.setTextSize(10 * scale);
 		p.setTypeface(Typeface.DEFAULT_BOLD);
 		p.setFakeBoldText(true);
 		p.setTextAlign(Align.CENTER);
 		p.setShader(textShader);
 		p.setAntiAlias(true);
-		canvas.drawText(label, width / 2, y + bheight + (8 * scale), p);
+		canvas.drawText(label, width / 2 ,y + bheight + text_offset, p);
 		
 		p.setShader(shader);
-		//canvas.drawBitmap(bitmap, x, y, p);		
-		canvas.drawBitmap(bitmap,
-							new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
-							new Rect(x, y, bwidth + x, bheight + y),
-							p );	
+		canvas.drawBitmap(bitmap, x, y, p);
 	}
 
 	@Override
