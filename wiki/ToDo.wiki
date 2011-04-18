@@ -18,7 +18,7 @@
   * View Info
   * Join/Quit an alliance
  * Notification
-  * Fleet Events
+  * Fleet Events (Friendly, Neutral, Hostile)
   * Building/Research Complete
 = Extra =
 
