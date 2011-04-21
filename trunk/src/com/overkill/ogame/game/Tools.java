@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +20,6 @@ import com.flurry.android.FlurryAgent;
 import com.overkill.ogame.R;
 
 import android.content.Context;
-import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -335,5 +335,12 @@ public class Tools {
 			return null;
 		}
 		return byteArrayOutputStream.toString();
+	}
+	
+	public static void trackLogin(String domain, String universe){
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("country", domain);
+		parameters.put("universe", universe);
+		FlurryAgent.onEvent("Login", parameters);
 	}
 }

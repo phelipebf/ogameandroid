@@ -1,11 +1,9 @@
 package com.overkill.ogame;
 
 import java.io.File;
-import java.net.ContentHandler;
-import java.util.HashMap;
-import java.util.prefs.Preferences;
 
-import com.flurry.android.FlurryAgent;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.mobyfactory.uiwidgets.RadioStateDrawable;
 import com.mobyfactory.uiwidgets.ScrollableTabActivity;
 import com.overkill.gui.HtmlSelect;
@@ -21,11 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,7 +61,8 @@ public class MainTabActivity extends ScrollableTabActivity{
     }
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {       
+    public void onCreate(Bundle savedInstanceState) {     
+    	    	
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);   
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_planet);     
@@ -97,13 +92,11 @@ public class MainTabActivity extends ScrollableTabActivity{
 				@Override
 				public void run() {	
 					try{
-						HashMap<String, String> parameters = new HashMap<String, String>();
-						parameters.put("country", domain);
-						parameters.put("universe", universe);
-						FlurryAgent.onEvent("Login", parameters);
+						Tools.trackLogin(domain, universe);		
+						
 						game = new GameClient(MainTabActivity.this);
 						boolean state = game.login(universe, username, password);
-				       	//?error querystring indicates login error
+						
 				       	if(state == false){
 				       		//hide loader and tell user
 				       		loader.cancel();
@@ -140,7 +133,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 								@Override
 								public void run() {
 									ready = true;
-									init();								
+									initUI();								
 								}
 							});
 					       	//hide loader
@@ -156,18 +149,27 @@ public class MainTabActivity extends ScrollableTabActivity{
 			loader.show();
         }else{ //no login data as extra, only possible when opened from notification
         	ready = true;
-			init();		
+			initUI();		
         }
     	
     }
     
-    public void init(){    
-    	//create NotificationSystem and show it
+    public void initUI(){    
     	SharedPreferences preferences = getSharedPreferences("ogame", Context.MODE_PRIVATE);
+    	
+    	if(preferences.getBoolean("show_ads", true)){
+	    	//Load Ads
+	    	AdRequest adRequest = new AdRequest();
+	    	AdView adView = (AdView)this.findViewById(R.id.adView);
+	        adView.loadAd(adRequest);
+    	}
+        
+    	//create NotificationSystem and show it
+    	
     	if(preferences.getBoolean("fleetsystem_global", true)){
 	       	notify = new NotificationSystem(MainTabActivity.this, MainTabActivity.game, preferences.getString("fleetsystem_sound", null));
 
-	       	notify.setDelay(60); // TODO int array?
+	       	notify.setDelay(preferences.getInt("fleetsystem_reload_rate", 60)); // TODO int array?
 	       	notify.config(
 	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
 	       			preferences.getBoolean("fleetsystem_alarm_neutral", false),

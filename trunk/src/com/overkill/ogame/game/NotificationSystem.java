@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -130,11 +131,11 @@ public class NotificationSystem {
 	}
 	
 	public boolean doNotify(){
-		if(mHostile > 0 && mNotifyHostile == true && mHostile > mHostileLast) return true;
-		if(mNeutral > 0 && mNotifyNeutral == true && mNeutral > mNeutralLast) return true;
-		if(mFriendly > 0 && mNotifyFriendly == true && mFriendly > mFriendlyLast) return true;
+		if(mHostile > 0 && mNotifyHostile == true && mHostile > mHostileLast){mHostileLast = mHostile; return true;}
+		if(mNeutral > 0 && mNotifyNeutral == true && mNeutral > mNeutralLast){mNeutralLast = mNeutral; return true;}
+		if(mFriendly > 0 && mNotifyFriendly == true && mFriendly > mFriendlyLast){mFriendlyLast = mFriendly; return true;}
 
-		if(mMessages > 0 && mNotifyMessages == true && mMessages > mMessagesLast) return true;		
+		if(mMessages > 0 && mNotifyMessages == true && mMessages > mMessagesLast){mMessagesLast = mMessages; return true;}
 		
 		return false;
 	}

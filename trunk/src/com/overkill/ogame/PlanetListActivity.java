@@ -7,7 +7,6 @@ import com.overkill.ogame.game.PlanetAdapter;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -40,7 +39,6 @@ public class PlanetListActivity extends ListActivity {
 			return;
 		}
 		MainTabActivity.game.switchPlanet(planets.get(position).getId());
-		Log.i("Planet", planets.get(position).getName() + "=" + planets.get(position).getId());
 		Toast.makeText(this, getString(R.string.change_planet, planets.get(position).getName()), Toast.LENGTH_SHORT).show();
 		finish();
 	}

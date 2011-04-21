@@ -33,9 +33,6 @@
 package com.mobyfactory.uiwidgets;
 
 import java.io.InputStream;
-
-import com.overkill.ogame.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,7 +49,6 @@ import android.graphics.drawable.Drawable;
 public class RadioStateDrawable extends Drawable{
 
 	private Bitmap bitmap;
-	private Bitmap highlightBitmap;
     private Shader shader;
     private Shader textShader;
 	Context context;
@@ -78,13 +74,10 @@ public class RadioStateDrawable extends Drawable{
 		this.context = context;
 		this.label = label;
 		this.scale = this.context.getResources().getDisplayMetrics().density; 
-		//width = (int) (width * scale);
 		InputStream is = context.getResources().openRawResource(imageID);
-		Bitmap original_bitmap = BitmapFactory.decodeStream(is);// .extractAlpha();
+		Bitmap original_bitmap = BitmapFactory.decodeStream(is);
 		bitmap = Bitmap.createScaledBitmap(original_bitmap, (int) (original_bitmap.getWidth() * scale), (int) (original_bitmap.getHeight() * scale), true).extractAlpha();
 		setShade(shade);
-		
-		highlightBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bottom_bar_highlight);
 	}
 	
 	public RadioStateDrawable(Context context, int imageID, String label, boolean highlight, int startGradientColor, int endGradientColor)
@@ -94,9 +87,8 @@ public class RadioStateDrawable extends Drawable{
 		this.context = context;
 		this.label = label;
 		this.scale = this.context.getResources().getDisplayMetrics().density;  
-		//width = (int) (width * scale);
 		InputStream is = context.getResources().openRawResource(imageID);
-		Bitmap original_bitmap = BitmapFactory.decodeStream(is);//.extractAlpha();
+		Bitmap original_bitmap = BitmapFactory.decodeStream(is);
 		bitmap = Bitmap.createScaledBitmap(original_bitmap, (int) (original_bitmap.getWidth() * scale), (int) (original_bitmap.getHeight() * scale), true).extractAlpha();
 		int[] shades = new int[] { startGradientColor, endGradientColor};
 		shader = new LinearGradient(0, 0, 0, bitmap.getHeight(), shades, null, Shader.TileMode.MIRROR);
@@ -155,12 +147,7 @@ public class RadioStateDrawable extends Drawable{
 		
 		int bwidth = bitmap.getWidth();
 		int bheight = bitmap.getHeight();
-		/*
-		if (width==0)
-		{
-			if (screen_width==0) screen_width = 320;
-			width=screen_width/5;
-		}*/
+		
 		int x = (width-bwidth)/2;
 		int y = (int) (2 * scale);
 		int text_offset = (int) (8 * scale);
