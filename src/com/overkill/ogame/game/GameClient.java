@@ -187,7 +187,6 @@ public class GameClient{
 					moon_id = Integer.valueOf(moon_href.substring(moon_href.indexOf("&cp=") + "&cp=".length()));
 				}
 				String moon_img = moon_div.select("img").attr("src");
-				Log.i("moon", moon_img);
 				String moon_img_nr = Tools.between(moon_img, "_", "_");
 				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
 				String moon_name = moon_div.attr("title");
@@ -208,7 +207,8 @@ public class GameClient{
 				m.setShortInfo(info);
 				tmp.setMoon(m);
 				
-				if(m.getId() == 0)
+				// if planet is active but has an id then the moon is our current planet
+				if(link.classNames().contains("active") && tmp.getId() != 0)
 					this.current_planet = m;
 				
 			}

@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.jsoup.nodes.Document;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 public class Planet {
 	private int id;
@@ -86,7 +87,7 @@ public class Planet {
 	}	
 	
 	public void setShortInfo(String shortinfo){
-		//Log.i("parse planet info", shortinfo);
+		Log.i("parse planet info for " + this.name, shortinfo);
 		int start = shortinfo.indexOf("[");
 		int end = shortinfo.indexOf("]", start) + 1;
 		this.coordinates = shortinfo.substring(start, end);

@@ -18,14 +18,15 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- <PreferenceCategory
+    <PreferenceCategory
             android:title="@string/settings_display">
             
        	<CheckBoxPreference
-                android:key="hide_ads"
-                android:title="Hide Ads" />      
+                android:key="show_ads"
+                android:title="Show Ads"
+                android:defaultValue="true" />      
             
-        <CheckBoxPreference
+        <!-- <CheckBoxPreference
                 android:key="show_disabled"
                 android:title="@string/settings_disabled"
                 android:summary="@string/settings_disabled_summary" />              
@@ -36,8 +37,8 @@
                 android:summary="In welcher Reihenfolge sollen die Objekte angezeigt werden"
                 android:entries="@array/select_sort_key"
                 android:entryValues="@array/select_sort_key"
-                android:dialogTitle="Wähle" />
-    </PreferenceCategory> -->
+                android:dialogTitle="Wähle" /> -->
+    </PreferenceCategory>
                 
     <PreferenceCategory
             android:title="@string/settings_fleet">

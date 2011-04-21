@@ -30,17 +30,23 @@
  	
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"	
-	xmlns:admobsdk="http://schemas.android.com/apk/res/com.overkill.ogame"	
+	xmlns:ads="http://schemas.android.com/apk/res/com.overkill.ogame"	
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:layout_height="fill_parent">
     	
+   	<com.google.ads.AdView android:id="@+id/adView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		ads:adUnitId="a14cfbe21ab68ae  "
+		ads:adSize="BANNER"
+    	android:layout_alignParentBottom="true" 
+		android:background="#fff" />
 	<HorizontalScrollView
     	android:id="@+id/bottomBar"
+    	android:layout_above="@id/adView"
     	android:scrollbarTrackHorizontal="@drawable/scrollbar_horizontal_track"
     	android:scrollbarThumbHorizontal="@drawable/scrollbar_horizontal_thumb"
     	android:scrollbarSize="2dip"
-    	android:layout_alignParentBottom="true" 
     	android:layout_width="fill_parent"
     	android:background="@drawable/bottom_bar" android:layout_height="wrap_content">
     	<RadioGroup
