@@ -40,15 +40,18 @@
 	    android:id="@+id/btn_report"
 	    android:layout_weight="1" android:text="@string/message_report" android:enabled="false"/>
 </LinearLayout>
+<WebView  
+    android:layout_width="fill_parent" 
+    android:id="@+id/web_msg"
+    android:layout_height="fill_parent"
+    android:visibility="gone" />
 <ScrollView android:layout_width="fill_parent" 
-    android:layout_height="fill_parent" android:background="#AA444444">
+    android:layout_height="fill_parent" android:background="#AA444444" android:alwaysDrawnWithCache="true" android:longClickable="false" android:id="@+id/txt_scroll" android:visibility="gone">
     <TextView  
     android:layout_width="fill_parent" 
     android:id="@+id/txt_msg"
-    android:text="@string/loading"
     android:layout_height="wrap_content"/>
 </ScrollView>
-
 
   
 

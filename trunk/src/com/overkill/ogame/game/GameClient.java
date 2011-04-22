@@ -16,6 +16,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -63,17 +66,26 @@ public class GameClient{
 	 * @param session The session-id passed on in the url
 	 * @param base The base of the url, containing univers and tld
 	 */
-	public GameClient(Context context, DefaultHttpClient http, String session, String universe) {
+	/*public GameClient(Context context, DefaultHttpClient http, String session, String universe) {
 		this.context = context;
 		this.http = http;
 		this.session = session;
 		this.indexbase = "http://"  + universe + "/game/index.php?";
 		this.imagebase = "http://"  + universe + "/game/";
 		this.loadPlanets();
-	}
+	}*/
 	
 	public GameClient(Context context){
 		this.context = context;
+		HttpParams httpParameters = new BasicHttpParams();
+		// Set the timeout in milliseconds until a connection is established.
+		int timeoutConnection = 5000;
+		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		// Set the default socket timeout (SO_TIMEOUT) 
+		// in milliseconds which is the timeout for waiting for data.
+		int timeoutSocket = 5000;
+		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+		this.http.setParams(httpParameters);
 	}
 	
 	/**
@@ -112,6 +124,10 @@ public class GameClient{
         httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         //execute request
         HttpResponse response = http.execute(httppost);		
+        if(response == null){
+        	// Request timed out
+        	return false;
+        }
         //read the target location (HTTP 302)
        	String state = response.getHeaders("Location")[0].getValue();
        	if(state.contains("error")){
@@ -533,9 +549,10 @@ public class GameClient{
 	    	fe.setInfo(info);		
 	    	
 	    	int param[] = Tools.getMovementImageCountdownParameters(script, fe.getID());
-	    	if(param != null)
-	    		fe.setReturn(param[2] == 1);
-	    	
+	    	if(param != null){
+	    		fe.setReturn(param[2] == 1);		    	
+		    	fe.setTimeLeft(param[0]);
+	    	}
 	    	/*
 	    	 new movementImageCountdown(
 		        getElementByIdWithCache("route_12818421"),  // ID

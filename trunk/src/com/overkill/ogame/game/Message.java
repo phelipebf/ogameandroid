@@ -9,6 +9,7 @@ public class Message {
 	private String subject;
 	private String date;
 	private String content;
+	private String html;
 	private boolean read;
 	
 	public Message(int ID) {
@@ -110,6 +111,14 @@ public class Message {
 		this.to = to;
 	}
 	
+	public String getHtml() {
+		return html;
+	}
+
+	public void setHtml(String html) {
+		this.html = html;
+	}
+
 	public String toString(){
 		if(read)
 			return subject + " from " + from + " (" + date + ")";		

@@ -25,6 +25,11 @@
                 android:key="show_ads"
                 android:title="Show Ads"
                 android:defaultValue="true" />      
+       
+       	<CheckBoxPreference
+                android:key="message_html"
+                android:title="Show HTML-Message"
+                android:defaultValue="true" />      
             
         <!-- <CheckBoxPreference
                 android:key="show_disabled"
