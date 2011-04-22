@@ -17,6 +17,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -29,6 +30,9 @@ import android.widget.ListView;
 
 public class MovementView extends ListActivity {
 	FleetEventAdapter adapter;
+	
+	private Handler h_countdown = new Handler();
+	private Runnable t_countdown;
 	
 	int contextMenuPosition = -1;
 
@@ -52,13 +56,27 @@ public class MovementView extends ListActivity {
 					@Override
 					public void run() {
 						setListAdapter(adapter);
-						setProgressBarIndeterminateVisibility(false);												
+						setProgressBarIndeterminateVisibility(false);	
+						h_countdown.removeCallbacks(t_countdown);
+						t_countdown = new Runnable() {
+					   		 public void run() {
+					   			 		for(int i = 0; i < adapter.getCount(); i++){
+					   			 			adapter.getItem(i).setTimeLeft(adapter.getItem(i).getTimeLeft() - 1);
+					   			 		}
+					   			 		adapter.notifyDataSetChanged();
+					   			 		if(adapter.getCount() > 0)
+					   			 			h_countdown.postDelayed(this, 1000);
+									}
+						};   
+						if(adapter.getCount() > 0)
+							t_countdown.run();
 					}
 				});
 			}
 		});
 		setProgressBarIndeterminateVisibility(true);
 		t.start();
+		
 	}
 	
 	@Override
@@ -70,7 +88,6 @@ public class MovementView extends ListActivity {
 		  menu.add(0, android.R.string.cancel, 0, android.R.string.cancel);		
 		  contextMenuPosition = position;
 	  }	  
-	  //menu.add(0, 1, 0, "Spionagesonde senden");
 	}
 	
 	@Override
@@ -102,5 +119,11 @@ public class MovementView extends ListActivity {
 			.putExtra("tab", "fleet1");
 		startActivity(i);
 		finish();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		h_countdown.removeCallbacks(t_countdown);
 	}
 }

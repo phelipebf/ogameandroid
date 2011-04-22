@@ -89,9 +89,18 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>
-		<meta-data android:name="use_ads" android:value="false"></meta-data>
+		<activity android:name="CombatReportView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />	
+				<data android:scheme="ogame" android:host="combat" />
+			</intent-filter>
+		</activity>
 		
+		<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>		
 	</application>
     <uses-sdk android:minSdkVersion="4" />
 

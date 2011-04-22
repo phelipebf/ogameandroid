@@ -29,6 +29,7 @@ public class FleetEvent {
 	private String destinationCoords;
 	private boolean canCancel;
 	private boolean isReturn;
+	private int timeLeft;
 	
 	public FleetEvent(){
 		
@@ -124,5 +125,16 @@ public class FleetEvent {
 
 	public void setReturn(boolean isReturn) {
 		this.isReturn = isReturn;
-	}	
+	}
+
+	public int getTimeLeft() {
+		return timeLeft;
+	}
+
+	public void setTimeLeft(int timeLeft) {
+		if(timeLeft < 0)
+			this.timeLeft = 0;
+		else
+			this.timeLeft = timeLeft;
+	}		
 }

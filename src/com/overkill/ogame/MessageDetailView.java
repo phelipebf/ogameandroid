@@ -14,9 +14,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MessageDetailView extends Activity {
@@ -42,7 +45,7 @@ public class MessageDetailView extends Activity {
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {		
-				Document html = Jsoup.parse(MainTabActivity.game.get("page=showmessage&ajax=1&msg_id=" + msg_id));
+				Document html = Jsoup.parse(MainTabActivity.game.get("page=showmessage&msg_id=" + msg_id));
 				
 				if(html.select("li.reply").size() > 0)
 					canReply = true;
@@ -73,12 +76,20 @@ public class MessageDetailView extends Activity {
 					
 				content = content.replaceAll("index.php\\?page=fleet1([^/]*)&amp;galaxy=([^/]*)&amp;system=([^/]*)&amp;position=([^/]*)&amp;type=([^/]*)&amp;mission=([^/]*)\"",
 						"ogame://fleet?galaxy=$2&system=$3&position=$4&type=$5&mission=$6\"");
+				
+				content = content.replaceAll("index.php\\?page=galaxy&amp;galaxy=([^/]*)&amp;system=([^/]*)&amp;position=([^/]*)&amp;session=([^/]*)\"",
+						"ogame://galaxy?galaxy=$1&system=$2&position=$3\"");
 
 				content = content.replaceAll("javascript:showGalaxy\\(([^/]*),([^/]*),([^/]*)\\)", 
 						"ogame://galaxy?galaxy=$1&system=$2&position=$3");
-								
+						
+				content = content.replaceAll("<a href=\\\"#\\\" onclick=\\\"popupWindow\\('index.php\\?page=combatreport&amp;session=([^/]*)&amp;nID=([^/]*)','CombatReport','auto','no','0','0','no','620','600','yes'\\);\\\">",
+						"<a href=\"ogame://combat?nID=$2\">");
+				
 				msg.setContent(content);
-								
+					
+				msg.setHtml(html.head() + "<body id=\"showmessage\"> <div id=\"messagebox\" class=\"read\"> <div id=\"wrapper\"><div class=\"note\"> " + content + "</div></div></div> </body>");
+				
 				//Get subject and messageID
 				if(canReply){
 					replySubject = html.select("input[name=betreff]").attr("value");
@@ -90,12 +101,21 @@ public class MessageDetailView extends Activity {
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
+						
 						((TextView)findViewById(R.id.txt_from)).append(" " + Tools.htmlconvert(msg.getFrom()));
 						((TextView)findViewById(R.id.txt_to)).append(" " + Tools.htmlconvert(msg.getTo()));
 						((TextView)findViewById(R.id.txt_subject)).append(" " + Tools.htmlconvert(msg.getSubject()));
 						((TextView)findViewById(R.id.txt_date)).append(" " + msg.getDate());
-						((TextView)findViewById(R.id.txt_msg)).setText(Html.fromHtml(Tools.htmlconvert(msg.getContent())));
-						((TextView)findViewById(R.id.txt_msg)).setMovementMethod(LinkMovementMethod.getInstance());
+						if(getSharedPreferences("ogame", 0).getBoolean("message_html", true)){
+							((WebView)findViewById(R.id.web_msg)).setVisibility(View.VISIBLE);
+							((WebView)findViewById(R.id.web_msg)).loadData(msg.getHtml().replace("%", "&#37"), "text/html", "utf-8");
+						}else{
+							((ScrollView)findViewById(R.id.txt_scroll)).setVisibility(View.VISIBLE);
+							((TextView)findViewById(R.id.txt_msg)).setMovementMethod(LinkMovementMethod.getInstance());
+							((TextView)findViewById(R.id.txt_msg)).setText(Html.fromHtml(Tools.htmlconvert(msg.getContent())));
+						}
+						
+						
 						((Button)findViewById(R.id.btn_reply)).setEnabled(canReply);
 						((Button)findViewById(R.id.btn_report)).setEnabled(canReport);
 						setProgressBarIndeterminateVisibility(false);
