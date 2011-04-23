@@ -146,4 +146,24 @@
         <item>15</item>
         <item>16</item>
     </string-array>
+    
+    <string-array name="preferences_shades">
+        <item>Gray</item>
+        <item>Blue</item>
+        <item>Magenta</item>
+        <item>Yellow</item> 
+        <item>Green</item> 
+        <item>Red</item>   
+        <item>Orange</item>  
+    </string-array>
+    
+    <string-array name="preferences_shades_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item> 
+        <item>4</item> 
+        <item>5</item>   
+        <item>6</item>  
+    </string-array>
 </resources>

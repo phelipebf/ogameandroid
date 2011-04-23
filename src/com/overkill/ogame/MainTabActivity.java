@@ -34,8 +34,8 @@ import android.widget.Toast;
 public class MainTabActivity extends ScrollableTabActivity{
     private static final String TAG = "ogame";
     
-    private static final int tab_shade_off = RadioStateDrawable.SHADE_GRAY; 
-    private static final int tab_shade_on = RadioStateDrawable.SHADE_BLUE; 
+    private int tab_shade_off = RadioStateDrawable.SHADE_GRAY; 
+    private int tab_shade_on = RadioStateDrawable.SHADE_BLUE; 
     //print debug
     //private final boolean D = true;
     //httpclient for login and game contructor
@@ -69,6 +69,8 @@ public class MainTabActivity extends ScrollableTabActivity{
         Tools.filesDir = getFilesDir().getAbsolutePath();
                         
         final SharedPreferences settings = getSharedPreferences(TAG, 0);
+        tab_shade_on = Integer.valueOf(settings.getString("tab_shade_on", "1"));
+        tab_shade_off = Integer.valueOf(settings.getString("tab_shade_off", "0"));
         
         if(getIntent().hasExtra("username")){
         
