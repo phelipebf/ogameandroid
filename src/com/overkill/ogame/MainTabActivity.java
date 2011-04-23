@@ -69,8 +69,6 @@ public class MainTabActivity extends ScrollableTabActivity{
         Tools.filesDir = getFilesDir().getAbsolutePath();
                         
         final SharedPreferences settings = getSharedPreferences(TAG, 0);
-        tab_shade_on = Integer.valueOf(settings.getString("tab_shade_on", "1"));
-        tab_shade_off = Integer.valueOf(settings.getString("tab_shade_off", "0"));
         
         if(getIntent().hasExtra("username")){
         
@@ -159,6 +157,9 @@ public class MainTabActivity extends ScrollableTabActivity{
     public void initUI(){    
     	SharedPreferences preferences = getSharedPreferences("ogame", Context.MODE_PRIVATE);
     	
+    	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", "1"));
+        tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", "0"));
+    	
     	if(preferences.getBoolean("show_ads", true)){
 	    	//Load Ads
 	    	AdRequest adRequest = new AdRequest();
@@ -171,7 +172,14 @@ public class MainTabActivity extends ScrollableTabActivity{
     	if(preferences.getBoolean("fleetsystem_global", true)){
 	       	notify = new NotificationSystem(MainTabActivity.this, MainTabActivity.game, preferences.getString("fleetsystem_sound", null));
 
-	       	notify.setDelay(preferences.getInt("fleetsystem_reload_rate", 60)); // TODO int array?
+	       	int intervall = 300;
+	       	try{
+	       		intervall = Integer.valueOf(preferences.getString("fleetsystem_intervall", "300"));
+	       	}catch(Exception e){
+	       		intervall = 300;
+	       	}
+	       	
+	       	notify.setDelay(preferences.getInt("fleetsystem_reload_rate", intervall));
 	       	notify.config(
 	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
 	       			preferences.getBoolean("fleetsystem_alarm_neutral", false),
