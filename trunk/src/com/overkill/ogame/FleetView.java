@@ -654,7 +654,10 @@ public class FleetView extends ListActivity {
 					ship.setUsed(ship.getTotal());
 					selectedShips += ship.getTotal();
 				}
-				next.setEnabled(true);
+				if(selectedShips > 0)
+					next.setEnabled(true);
+				else
+					next.setEnabled(false);
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -667,7 +670,10 @@ public class FleetView extends ListActivity {
 					Ship ship = (Ship) adapter.getItem(i);
 					ship.setUsed(0);
 				}
-				next.setEnabled(false);
+				if(selectedShips > 0)
+					next.setEnabled(true);
+				else
+					next.setEnabled(false);
 				adapter.notifyDataSetChanged();
 			}
 		});
