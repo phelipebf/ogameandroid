@@ -1,5 +1,7 @@
 package com.overkill.ogame.game;
 
+import android.graphics.Color;
+
 import com.flurry.android.FlurryAgent;
 
 public class Message {
@@ -10,6 +12,7 @@ public class Message {
 	private String date;
 	private String content;
 	private String html;
+	private int color;
 	private boolean read;
 	
 	public Message(int ID) {
@@ -32,15 +35,30 @@ public class Message {
 		this.date = date;
 		this.read = read;
 	}
+	
+	public Message(int ID, String from, String subject, String date, boolean read, int color) {
+		this.ID = ID;
+		this.from = from;
+		this.subject = subject;
+		this.date = date;
+		this.read = read;
+		this.color = color;
+	}
 
 	public static Message parse(String html){
 		try{
 			int ID = Integer.valueOf(Tools.between(html,"id=\"", "TR"));
+			int color = Color.WHITE;
 			String from = Tools.between(html,"<td class=\"from\">", "</td>");
 			String date = Tools.between(html,"<td class=\"date\">", "</td>");
 			String subject = Tools.between(html,"<td class=\"subject\">", "</a>");
-			if(subject.contains("<span")){
+			if(subject.contains("<span")){ // color
 				subject = subject.substring(subject.indexOf(">") + 1).trim(); //a
+				if(Tools.between(subject, "class=\"", "\"").contains("iwon")){
+					color = Color.GREEN;
+				}else{
+					color = Color.RED;
+				}
 				subject = subject.substring(subject.indexOf(">") + 1, subject.lastIndexOf("<")).trim(); //span
 			}else{
 				subject = subject.substring(subject.lastIndexOf(">") + 1).trim();
@@ -48,7 +66,7 @@ public class Message {
 			while(subject.contains(">"))
 				subject = Tools.between(subject, ">", "<");
 			boolean read = !html.contains("entry trigger new");
-			return new Message(ID, from, subject, date, read);		
+			return new Message(ID, from, subject, date, read, color);		
 		}catch(Exception e){
 			FlurryAgent.onError("Message.parse", html, "Message.parse");
 			return new Message(0, "ogame.core.Message", "parseing error", "", false);
@@ -117,6 +135,14 @@ public class Message {
 
 	public void setHtml(String html) {
 		this.html = html;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 
 	public String toString(){

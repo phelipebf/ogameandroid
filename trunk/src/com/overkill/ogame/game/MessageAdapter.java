@@ -43,6 +43,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 			else
 				state.setImageResource(R.drawable.post_unread);
 			((TextView) v.findViewById(R.id.subject)).setText(b.getSubject());
+			((TextView) v.findViewById(R.id.subject)).setTextColor(b.getColor());
 			((TextView) v.findViewById(R.id.from)).setText(b.getFrom());	
 			((TextView) v.findViewById(R.id.date)).setText(b.getDate());	
 		}

@@ -30,7 +30,20 @@
                 android:key="message_html"
                 android:title="Show HTML-Message"
                 android:defaultValue="true" />      
-            
+         
+        <ListPreference           
+                android:key="tab_shade_off"
+                android:title="Tabbar default color"
+                android:entries="@array/preferences_shades"
+                android:entryValues="@array/preferences_shades_values"
+                android:defaultValue="0" />   
+                 
+        <ListPreference           
+                android:key="tab_shade_on"
+                android:title="Tabbar highlight color"
+                android:entries="@array/preferences_shades"
+                android:entryValues="@array/preferences_shades_values"
+                android:defaultValue="1" />   
         <!-- <CheckBoxPreference
                 android:key="show_disabled"
                 android:title="@string/settings_disabled"
