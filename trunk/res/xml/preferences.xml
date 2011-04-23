@@ -65,34 +65,25 @@
                 android:key="fleetsystem_global"
                 android:title="@string/settings_fleet_global"
                 android:summary="@string/settings_fleet_global_summary" />
-		<!-- 
-        <ListPreference
+                
+        <EditTextPreference
                 android:key="fleetsystem_intervall"
-                android:title="Prüfintervall"
-                android:summary="Höheres Intervall benötigt weniger Akku"
-                android:entries="@array/select_intervall_key"
-                android:entryValues="@array/select_intervall_value"
-                android:dialogTitle="Wähle"
+                android:title="Intervall"
+                android:summary="Refresh intervall in seconds"
+				android:defaultValue="300"
                 android:dependency="fleetsystem_global"
-                android:layout="?android:attr/preferenceLayoutChild" />
-              -->  
+                android:layout="?android:attr/preferenceLayoutChild" 
+                android:inputType="phone"/>
+                
 		<RingtonePreference
-			android:key="fleetsystem_sound"
-            android:title="@string/settings_fleet_sound"
-            android:summary="@string/settings_fleet_sound_summary"
-            android:dialogTitle="Select"
-            android:showDefault="true"
-			android:showSilent="true"
-            android:ringtoneType="notification" />
-   <!-- 
-        <ListPreference
-                android:key="fleetsystem_sound"
-                android:title="@string/settings_fleet_sound"
-                android:summary="@string/settings_fleet_sound_summary"
-                android:dialogTitle="Select"
-                android:dependency="fleetsystem_global"
-                android:layout="?android:attr/preferenceLayoutChild" />
---> 
+				android:key="fleetsystem_sound"
+	            android:title="@string/settings_fleet_sound"
+	            android:summary="@string/settings_fleet_sound_summary"
+	            android:dialogTitle="Select"
+	            android:showDefault="true"
+				android:showSilent="true"
+	            android:ringtoneType="notification" />
+ 
 		<CheckBoxPreference
                 android:key="fleetsystem_alarm_neutral"
                 android:title="@string/settings_fleet_neutral"

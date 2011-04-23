@@ -144,6 +144,7 @@ public class NotificationSystem {
 		if(mRun==false)
 			return;
 		try {
+			Log.d(TAG, "fetchEventbox");
 			mJson = new JSONObject(mGame.get("page=fetchEventbox&ajax=1"));
 			setFleetEvents(
 					Integer.valueOf(mJson.getString("hostile")), 
