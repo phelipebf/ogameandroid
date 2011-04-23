@@ -96,6 +96,7 @@ public class Overview extends Activity {
 	private void loadCountdown(){		
 		resetCountdown();
 		
+		boolean needCountdown = false;
 		long diff = (SystemClock.elapsedRealtime() - timeLastAjaxCall) / 1000;
 		
 		try{
@@ -144,6 +145,8 @@ public class Overview extends Activity {
 						continue;
 					}					
 					
+					needCountdown = true;
+					
 					img.setVisibility(View.VISIBLE);
 					txt.setVisibility(View.VISIBLE);
 					
@@ -151,6 +154,10 @@ public class Overview extends Activity {
 					txt.setText(name + "\n" + Tools.sec2str(time));
 				}
 			}
+			
+			if(needCountdown == false)
+				h_countdown.removeCallbacks(t_countdown);
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
