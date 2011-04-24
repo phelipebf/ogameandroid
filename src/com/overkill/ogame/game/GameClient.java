@@ -424,8 +424,7 @@ public class GameClient{
 	 */
 	public Message[] getMassages(int displayCategory){
 		Document html = Jsoup.parse(get("page=messages&displayCategory=" + String.valueOf(displayCategory) + "&ajax=1"));
-		Elements tr = html.select("tr:not(.first):not(.last)");
-		//String tr[] = html.split("</tr>");
+		Elements tr = html.select("tr.entry"); 
 		if(tr.size() <= 0){
 			Message m[] = new Message[0];
 			return m;
