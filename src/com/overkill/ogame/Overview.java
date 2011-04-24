@@ -86,11 +86,16 @@ public class Overview extends Activity {
         });
         t.start();
     }
+		
+	@Override
+	protected void onPause() {
+		super.onPause();
+		h_countdown.removeCallbacks(t_countdown);
+	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		h_countdown.removeCallbacks(t_countdown);
 	}
 	
 	private void loadCountdown(){		

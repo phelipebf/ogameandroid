@@ -1,6 +1,10 @@
 package com.overkill.ogame.game;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import android.graphics.Color;
+import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 
@@ -45,31 +49,24 @@ public class Message {
 		this.color = color;
 	}
 
-	public static Message parse(String html){
+	public static Message parse(Element tr) {
 		try{
-			int ID = Integer.valueOf(Tools.between(html,"id=\"", "TR"));
+			boolean read = !tr.classNames().contains("new");
+			int ID = Integer.valueOf(tr.id().replace("TR", ""));
+			String from = tr.select("td.from").text();
+			String subject = tr.select("td.subject").text();
+			String date = tr.select("td.date").text();
 			int color = Color.WHITE;
-			String from = Tools.between(html,"<td class=\"from\">", "</td>");
-			String date = Tools.between(html,"<td class=\"date\">", "</td>");
-			String subject = Tools.between(html,"<td class=\"subject\">", "</a>");
-			if(subject.contains("<span")){ // color
-				subject = subject.substring(subject.indexOf(">") + 1).trim(); //a
-				if(Tools.between(subject, "class=\"", "\"").contains("iwon")){
+			
+			if(tr.select("td.subject > span").size() > 0){ //span tag with color
+				if(tr.select("td.subject > span").first().className().contains("iwon"))
 					color = Color.GREEN;
-				}else{
+				else
 					color = Color.RED;
-				}
-				subject = subject.substring(subject.indexOf(">") + 1, subject.lastIndexOf("<")).trim(); //span
-			}else{
-				subject = subject.substring(subject.lastIndexOf(">") + 1).trim();
-			}
-			while(subject.contains(">"))
-				subject = Tools.between(subject, ">", "<");
-			boolean read = !html.contains("entry trigger new");
-			return new Message(ID, from, subject, date, read, color);		
+			}			
+			return new Message(ID, from, subject, date, read, color);
 		}catch(Exception e){
-			FlurryAgent.onError("Message.parse", html, "Message.parse");
-			return new Message(0, "ogame.core.Message", "parseing error", "", false);
+			return new Message(0, "ogame.core.Message", "error", "", false);
 		}
 	}
 
