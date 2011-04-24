@@ -12,6 +12,7 @@
 	
 	<string name="menu_settings">Instellingen</string>
 	<string name="menu_reload_serverlist">Serverlijst herladen</string>
+	<string name="menu_about">Informatie</string>
 	<string name="menu_messages">Berichten</string>
 	<string name="menu_fleet">Vloot</string>
 	<string name="menu_galaxy">Melkweg</string>
@@ -23,13 +24,18 @@
 	<string name="tab_research">Onderzoek</string>
 	<string name="tab_shipyard">Werf</string>
 	<string name="tab_defense">Verdediging</string>
+	<string name="tab_fleet">Vloot</string>
 	
-	<string name="save_login">login onthouden</string>
-	<string name="username">Gebruikersnaam</string>
-	<string name="password">Wachtwoord</string>
+	<string name="save_login">Gegevens onthouden</string>    
+	<string name="username">Gebruikersnaam</string>   
+	<string name="password">Wachtwoord</string>   
 	<string name="login_button">Login</string>
 	
-	<string name="fleet_info_title">Vloot Info</string>
+	<string name="more">Meer</string>
+	<string name="requirements">Benodigdheden</string>
+	<string name="not_available">Niet beschikbaar</string>
+	
+	<string name="fleet_info_title">Vloot informatie</string>
 	<string name="new_mission">Nieuwe missie</string>
 	
 	<string name="error_login">Verkeerd ingelogd</string>
@@ -40,10 +46,17 @@
 	<string name="enter_amount">Hoeveelheid</string>
 	<string name="send_command">Opdracht versturen...</string>
 	<string name="ask_with_count" formatted="false">Opdracht voor %d %s versturen?</string>
-	<string name="ask_no_count">Opdracht voor %s versturen?</string>
+	<string name="ask_no_count" formatted="false">Opdracht voor %s versturen %s?</string>
 	<string name="now_building">%s wordt nu gebouwd.</string>
+	<string name="building_time">Bouwtijd: %s</string>
+	<string name="buildable_in">Niet genoeg grondstoffen\nBeschikbaar in: %s</string>
+	<string name="buildable_once">%s kan maar eenmalig gebouwd worden</string>
 	<string name="loading">Laden...</string>
 	<string name="change_planet">Overschakelen naar \"%s\"</string>
+	<string name="in_queue">In queue</string>
+	<string name="time_to_complete">Time to complete: %s</string>
+	<string name="cancel_upgrade">Cancel upgrade?</string>
+	<string name="expansion_cancelled">Expansion canceled</string>
 	
 	<string name="settings_display">Weergave Instellingen</string>
 	<string name="settings_disabled">Verberg inactief</string>
@@ -60,17 +73,58 @@
 	<string name="settings_fleet_friendly_summary">Waarschuwen bij vriendelijke activiteit</string>
 	<string name="settings_fleet_hostile">Vijandelijk</string>
 	<string name="settings_fleet_hostile_summary">Waarschuwen bij vijandelijke activiteit</string>
+	<string name="settings_messages">Berichten</string>
+	<string name="settings_messages_summary">Waarschuwen bij ongelezen berichten</string>
 	
-	<string name="message_reply">Antwoord</string>
-	<string name="message_report">Raport</string>
+	<string name="message_no_message">Geen berichten om weer te geven</string>
+	<string name="message_send">Verstuur</string>
+	<string name="message_reply">Beantwoord</string>
+	<string name="message_report">Rapporteer</string>
 	<string name="message_delete">Verwijder</string>
 	<string name="message_delete_all">Alles verwijderen</string>
 	<string name="message_from">Van:</string>
-	<string name="message_to">Aan:</string>
+	<string name="message_to">Naar:</string>
 	<string name="message_date">Datum:</string>
 	<string name="message_subject">Onderwerp:</string>
 	
 	<string name="object_amount">Hoeveelheid</string>
 	<string name="object_level">Level</string>
-
+	
+	<string name="galaxy_colonize">Kolonisatie positie%s?</string>
+	<string name="galaxy_probes">Verzend spionagesonde?</string>
+	<string name="galaxy_activity">Activiteit: %s</string>
+	<string name="galaxy_activity_now">nu</string>
+	<string name="galaxy_empty_slot">Lege plaats</string>
+	
+	<string name="fleet1_reset">Reset</string>
+	<string name="fleet1_all">Alles</string>
+	<string name="fleet1_next">Volgende</string>
+	
+	<string name="fleet2_acs">AGS</string>
+	<string name="fleet2_shortcuts">Snelkoppelingen</string>
+	<string name="fleet2_speed">Snelheid</string>
+	<string name="fleet2_refresh">Ververs</string>
+	<string name="fleet2_back">Terug</string>
+	<string name="fleet2_planet">Planeet</string>
+	<string name="fleet2_debris">Puin</string>
+	<string name="fleet2_consumption">Deuterium verbruik:</string>
+	<string name="fleet2_duration">Tijdsduur:</string>
+	<string name="fleet2_arrival">Aankomst:</string>
+	<string name="fleet2_return">Terugkomst:</string>
+	<string name="fleet2_cargobays">Laadruim:</string>
+	
+	<string name="fleet3_metal">Metaal:</string>
+	<string name="fleet3_crystal">Kristal:</string>
+	<string name="fleet3_deuterium">Deuterium:</string>
+	<string name="fleet3_target">Doel:</string>
+	<string name="fleet3_send">Verzend vloot</string>
+	<string name="fleet3_cargobays">Laadruim:</string>
+	<string name="fleet3_noMission">Selecteer een missie</string>
+	<string name="fleet3_expedition">Tijdsduur van de expeditie (h):</string>
+		
+	<string name="mission_attack">Aanval</string>
+	<string name="mission_transport">Transport</string>
+	<string name="mission_espionage">Spionage</string>
+	<string name="mission_missile">Raket aanval</string>
+	<string name="mission_harvest">Recyclen</string>
 </resources>

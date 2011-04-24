@@ -355,6 +355,10 @@ public class GameClient{
         this.execute("page=" + pageKey, postData);	
 	}
 	
+	public void demolishBuild(int demolish_id){
+		this.get("page=resources&modus=3&type=" + String.valueOf(demolish_id));
+	}
+	
 	/**
 	 * Send the request to change the current planet
 	 * @param id The id of the taget planet
@@ -410,23 +414,27 @@ public class GameClient{
 		return this.imagebase;
 	}
 	
+	public Message[] getMassages(){
+		return getMassages(10);
+	}
+	
 	/**
 	 * Reads messages from server
 	 * @return All messages displayed on the first page
 	 */
-	public Message[] getMassages(){
-		String html = Tools.between(get("page=messages&ajax=1"), "<tbody>", "</tbody>");
-		String tr[] = html.split("</tr>");
-		if(tr.length < 3){
+	public Message[] getMassages(int displayCategory){
+		Document html = Jsoup.parse(get("page=messages&displayCategory=" + String.valueOf(displayCategory) + "&ajax=1"));
+		Elements tr = html.select("tr:not(.first):not(.last)");
+		//String tr[] = html.split("</tr>");
+		if(tr.size() <= 0){
 			Message m[] = new Message[0];
 			return m;
 		}
-		Message m[] = new Message[tr.length - 3];
-		for(int i = 1; i <= m.length; i++){
-			m[i-1] = Message.parse(tr[i].trim());
+		Message m[] = new Message[tr.size()];
+		for(int i = 0; i < m.length; i++){
+			m[i] = Message.parse(tr.get(i));
 		}
-		return m;
-		
+		return m;		
 	}
 	
 	/**
