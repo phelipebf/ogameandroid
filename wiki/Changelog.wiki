@@ -2,6 +2,22 @@
 
 =Changelog=
 
+== 0.6 ==
+ * Added sound alert to notification
+ * Added unread messages to notification
+ * Changed layout of notification
+ * Added Menu (Attack, Transport) to galaxy view
+ * Added alliance view (currently only showing ally-webpage)
+ * Added function to show a combat report
+ * Added setting to select if message should be show as html or text
+ * Added function to change to color of the tabs in the settings
+ * Added color to message subject in message list
+ * Fixed crash on Overview
+ * Fixed moon not showing in title when selected
+ * Fixed overlapping on bottom bar
+ * Fixed some minor bugs
+ * Updated countries
+
 == 0.5 ==
  * Added new feature to send fleet (Menu -> Fleet -> New Mission)
  * Added clickable links in messages (Planet coordinates, attack link) (Issue 28)
