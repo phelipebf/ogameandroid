@@ -58,8 +58,8 @@ public class Message {
 			String date = tr.select("td.date").text();
 			int color = Color.WHITE;
 			
-			if(tr.select("td.subject > span").size() > 0){ //span tag with color
-				if(tr.select("td.subject > span").first().className().contains("iwon"))
+			if(tr.select("td.subject > a > span").size() > 0){ //span tag with color
+				if(tr.select("td.subject > a > span").first().className().contains("iwon"))
 					color = Color.GREEN;
 				else
 					color = Color.RED;

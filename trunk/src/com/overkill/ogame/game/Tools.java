@@ -174,28 +174,39 @@ public class Tools {
 			
 			// Fix '.' if value >= 1000 / ',' will be removed for the same reason
 			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "").replace(",", "");
-						
+			
+			// Remove the (+2) from Technokrat
+			if(level.contains("+2")){
+				level = level.substring(level.indexOf("("));
+				level = String.valueOf(Integer.valueOf(level) + 2);
+			}
+			
 			//Sets status to "on" so we can add the same defense/ship to cue again. 
 			if(getCuetypeById(Integer.valueOf(id)) == Item.CUETYPE_MULTIPLE && timeleft > 0 && status.equals("off"))
 				status = "on";
 			
-			BuildObject m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
-			m.setResources(
-					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_METAL), 
-					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_CRYSTAL), 
-					Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_DEUTERIUM)
-					);		
-			m.setTimeLeft(timeleft);
-			if(planet != null){
-				m.checkRecources(
-							planet.getMetal(), 
-							planet.getCrystal(), 
-							planet.getDeuterium()
+			BuildObject m = null;
+			try{
+				m = new BuildObject(context, Integer.valueOf(id), name, status, Integer.valueOf(level));
+				m.setResources(
+						Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_METAL), 
+						Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_CRYSTAL), 
+						Resources.calc(Integer.valueOf(id), Integer.valueOf(level), Item.RESOURCE_DEUTERIUM)
 						);		
-				//Set status to disabled if we cant build it
-				if(m.canBuild()==false && m.getStatus().equals("on")){
-					m.setStatus("disabled");
+				m.setTimeLeft(timeleft);
+				if(planet != null){
+					m.checkRecources(
+								planet.getMetal(), 
+								planet.getCrystal(), 
+								planet.getDeuterium()
+							);		
+					//Set status to disabled if we cant build it
+					if(m.canBuild()==false && m.getStatus().equals("on")){
+						m.setStatus("disabled");
+					}
 				}
+			}catch(Exception ex){
+				m = new BuildObject(context, 1, "error reading this item", "disabled");
 			}
 			objectlist.add(m);
 		}
