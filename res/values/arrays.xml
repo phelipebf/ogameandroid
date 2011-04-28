@@ -2,6 +2,7 @@
 <resources>
 	<string-array name="countries">
 		<item>Argentina</item>
+      <item>Bosnia and Herzegovina</item>
 		<item>Brazil</item>
 		<item>Croatia</item>
 		<item>Czech Republic</item>
@@ -33,6 +34,7 @@
 
 	<string-array name="domainlist">
 		<item>http://www.ogame.com.ar</item>
+      <item>http://www.ogame.ba</item>
 		<item>http://www.ogame.com.br</item>
 		<item>http://www.ogame.com.hr</item>
 		<item>http://www.ogame.cz</item>
