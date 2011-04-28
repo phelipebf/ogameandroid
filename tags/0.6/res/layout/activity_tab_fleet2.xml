@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:background="#FF0D1014"
+  android:layout_height="fill_parent">
+  
+  <ListView
+	android:id="@android:id/list"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:cacheColorHint="#00000000" 
+	android:layout_alignParentTop="true" />
+    
+
+
+    <Spinner 
+    	android:entries="@array/galaxies"
+    	android:entryValues="@array/galaxies"
+    	android:layout_width="wrap_content" 
+    	android:layout_alignParentTop="true" 
+    	android:id="@+id/galaxy_spinner" 
+    	android:layout_height="wrap_content" />    	
+
+    <EditText    	
+    	android:text="192" 
+    	android:maxLength="3"
+    	android:lines="1"
+    	android:inputType="number"
+    	android:cursorVisible="false"
+    	android:layout_height="wrap_content" 
+    	android:layout_width="wrap_content" 
+    	android:id="@+id/system" 
+    	android:layout_toRightOf="@+id/galaxy_spinner" 
+    	android:layout_alignTop="@+id/galaxy_spinner" 
+    	android:layout_alignBottom="@+id/galaxy_spinner" />
+    	    
+    <Spinner 
+    	android:id="@+id/position" 
+    	android:entries="@array/positions"
+    	android:entryValues="@array/positions"
+    	android:layout_width="wrap_content" 
+    	android:layout_alignParentTop="true" 
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@+id/system" 
+    	android:layout_alignTop="@+id/system" 
+    	android:layout_alignBottom="@+id/system" />
+    	
+	<RadioGroup
+		android:id="@+id/radioGroup"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_below="@+id/galaxy_spinner"	>
+  
+	    <RadioButton android:checked="true"  android:id="@+id/radioPlanet" android:layout_width="wrap_content" android:text="@string/fleet2_planet" android:layout_height="wrap_content"></RadioButton>
+	    <RadioButton android:id="@+id/radioMoon" android:layout_width="wrap_content" android:text="@string/moon" android:layout_height="wrap_content" ></RadioButton>
+	    <RadioButton android:id="@+id/radioDebris" android:layout_width="wrap_content" android:text="@string/fleet2_debris" android:layout_height="wrap_content" ></RadioButton>
+	</RadioGroup>	
+       
+    <Spinner 
+    	android:id="@+id/shortcuts"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/radioGroup"  />
+    
+    <TextView 
+    	android:layout_toRightOf="@+id/shortcuts" 
+    	android:textStyle="bold" 
+    	android:textColor="#FF6F9FC8"
+    	android:layout_width="wrap_content" 
+    	android:text="@string/fleet2_shortcuts" 
+    	android:layout_height="wrap_content"
+    	android:gravity="center" 
+    	android:layout_alignTop="@+id/shortcuts" 
+    	android:layout_alignBottom="@+id/shortcuts" />
+       
+    <Spinner 
+    	android:id="@+id/acs"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/shortcuts"  />
+    
+    <TextView 
+    	android:layout_toRightOf="@+id/acs" 
+    	android:textStyle="bold" 
+    	android:textColor="#FF6F9FC8"
+    	android:layout_width="wrap_content" 
+    	android:text="@string/fleet2_acs" 
+    	android:layout_height="wrap_content"
+    	android:gravity="center" 
+    	android:layout_alignTop="@+id/acs" 
+    	android:layout_alignBottom="@+id/acs" />
+    
+    <Spinner 
+    	android:id="@+id/speed"  
+    	android:entries="@array/speed"
+    	android:entryValues="@array/speed"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/acs"  />
+    
+    <TextView 
+    	android:layout_toRightOf="@+id/speed" 
+    	android:textStyle="bold" 
+    	android:textColor="#FF6F9FC8"
+    	android:layout_width="wrap_content" 
+    	android:text="@string/fleet2_speed" 
+    	android:layout_height="wrap_content"
+    	android:gravity="center" 
+    	android:layout_alignTop="@+id/speed" 
+    	android:layout_alignBottom="@+id/speed" />
+
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView1" android:layout_width="wrap_content" android:text="@string/fleet2_consumption" android:layout_height="wrap_content" android:layout_below="@+id/speed" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView2" android:layout_width="wrap_content" android:text="@string/fleet2_duration" android:layout_height="wrap_content" android:layout_below="@+id/textView1" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView3" android:layout_width="wrap_content" android:text="@string/fleet2_arrival" android:layout_height="wrap_content" android:layout_below="@+id/textView2" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView4" android:layout_width="wrap_content" android:text="@string/fleet2_return" android:layout_height="wrap_content" android:layout_below="@+id/textView3" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView5" android:layout_width="wrap_content" android:text="@string/fleet2_cargobays" android:layout_height="wrap_content" android:layout_below="@+id/textView4" android:paddingRight="5dp" />
+    
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_consumption" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView1" android:text="112" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView1" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_duration" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView2" android:text="51m 57s" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView2" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_arrival" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView3" android:text="22.02.11 20:19:17 Clock" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView3" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_return" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView4" android:text="22.02.11 21:11:14 Clock" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView4" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_cargobays" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView5" android:text="24.999" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView5" ></TextView>
+    
+    <Button android:layout_below="@+id/textView5" android:layout_width="wrap_content" android:text="@string/fleet2_refresh" android:id="@+id/refresh" android:layout_height="wrap_content" android:layout_alignLeft="@+id/textView5"></Button>
+    
+
+  <Button android:id="@+id/fleet2_back"
+	android:layout_height="wrap_content"
+	android:layout_alignParentBottom="true"
+	android:layout_width="wrap_content"
+	android:layout_alignParentLeft="true"
+	android:text="@string/fleet2_back"
+	android:onClick="goBack" />
+	
+  <Button android:id="@+id/fleet1_next"
+	android:layout_height="wrap_content"
+	android:layout_alignParentBottom="true"
+	android:layout_width="wrap_content"
+	android:layout_alignParentRight="true"
+	android:text="@string/fleet1_next" />
+	
+</RelativeLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- This is a primitive example showing the different types of preferences available. -->
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="@string/settings_display">
+            
+       	<CheckBoxPreference
+                android:key="show_ads"
+                android:title="Show Ads"
+                android:defaultValue="true" />      
+       
+       	<CheckBoxPreference
+                android:key="message_html"
+                android:title="Show HTML-Message"
+                android:defaultValue="true" />      
+         
+        <ListPreference           
+                android:key="tab_shade_off"
+                android:title="Tabbar default color"
+                android:entries="@array/preferences_shades"
+                android:entryValues="@array/preferences_shades_values"
+                android:defaultValue="0" />   
+                 
+        <ListPreference           
+                android:key="tab_shade_on"
+                android:title="Tabbar highlight color"
+                android:entries="@array/preferences_shades"
+                android:entryValues="@array/preferences_shades_values"
+                android:defaultValue="1" />   
+        <!-- <CheckBoxPreference
+                android:key="show_disabled"
+                android:title="@string/settings_disabled"
+                android:summary="@string/settings_disabled_summary" />              
+
+       	<ListPreference
+                android:key="show_sort"
+                android:title="Sortierung"
+                android:summary="In welcher Reihenfolge sollen die Objekte angezeigt werden"
+                android:entries="@array/select_sort_key"
+                android:entryValues="@array/select_sort_key"
+                android:dialogTitle="Wähle" /> -->
+    </PreferenceCategory>
+                
+    <PreferenceCategory
+            android:title="@string/settings_fleet">
+
+		 <CheckBoxPreference
+                android:key="fleetsystem_global"
+                android:title="@string/settings_fleet_global"
+                android:summary="@string/settings_fleet_global_summary" />
+                
+        <EditTextPreference
+                android:key="fleetsystem_intervall"
+                android:title="Intervall"
+                android:summary="Refresh intervall in seconds"
+				android:defaultValue="300"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" 
+                android:inputType="phone"/>
+                
+		<RingtonePreference
+				android:key="fleetsystem_sound"
+	            android:title="@string/settings_fleet_sound"
+	            android:summary="@string/settings_fleet_sound_summary"
+	            android:dialogTitle="Select"
+	            android:showDefault="true"
+				android:showSilent="true"
+	            android:ringtoneType="notification" />
+ 
+		<CheckBoxPreference
+                android:key="fleetsystem_alarm_neutral"
+                android:title="@string/settings_fleet_neutral"
+                android:summary="@string/settings_fleet_neutral_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+		<CheckBoxPreference
+                android:key="fleetsystem_alarm_friendly"
+                android:title="@string/settings_fleet_friendly"
+                android:summary="@string/settings_fleet_friendly_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+        <CheckBoxPreference
+                android:key="fleetsystem_alarm_hostile"
+                android:title="@string/settings_fleet_hostile"
+                android:summary="@string/settings_fleet_hostile_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+        <CheckBoxPreference
+                android:key="fleetsystem_alarm_messages"
+                android:title="@string/settings_messages"
+                android:summary="@string/settings_messages_summary"
+                android:dependency="fleetsystem_global"
+                android:layout="?android:attr/preferenceLayoutChild" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

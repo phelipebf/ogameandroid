@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/background" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<TextView android:id="@+id/txt_info" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+		android:layout_margin="10dip" />
+		
+	<ImageView android:src="@drawable/icon" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@+id/txt_info"
+		android:layout_alignLeft="@+id/txt_info" android:id="@+id/img_building" android:visibility="invisible"/>
+		
+	<ImageView android:src="@drawable/icon" android:layout_width="wrap_content"
+		android:id="@+id/img_reseach" android:layout_height="wrap_content"
+		android:layout_below="@+id/img_building" android:layout_alignLeft="@+id/img_building"
+		android:layout_alignRight="@+id/img_building" android:visibility="invisible"/>
+	
+	<ImageView android:src="@drawable/icon" android:layout_width="wrap_content"
+		android:id="@+id/img_ships" android:layout_height="wrap_content"
+		android:layout_below="@+id/img_reseach" android:layout_alignLeft="@+id/img_reseach"
+		android:layout_alignRight="@+id/img_reseach" android:visibility="invisible"></ImageView>
+
+	<TextView android:id="@+id/txt_building"
+		android:layout_toRightOf="@+id/img_building" android:layout_width="wrap_content"
+		android:text="TextView" android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/img_building" android:layout_alignBottom="@+id/img_building" android:gravity="center_vertical" android:visibility="invisible" android:layout_marginLeft="5dip"/>
+		
+	<TextView android:id="@+id/txt_research"
+		android:layout_toRightOf="@+id/img_reseach" android:layout_width="wrap_content"
+		android:text="TextView" android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/img_reseach" android:layout_alignBottom="@+id/img_reseach" android:gravity="center_vertical" android:visibility="invisible" android:layout_marginLeft="5dip"/>
+		
+	<TextView android:id="@+id/txt_ships"
+		android:layout_toRightOf="@+id/img_ships" android:layout_width="wrap_content"
+		android:text="TextView" android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/img_ships" android:layout_alignBottom="@+id/img_ships" android:gravity="center_vertical" android:visibility="invisible" android:layout_marginLeft="5dip"/>
+
+</RelativeLayout>  

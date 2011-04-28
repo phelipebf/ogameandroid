@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="InfoTitleTheme" parent="android:Theme">
+		<item name="android:windowTitleSize">50dip</item>    
+		<!--  <item name="android:windowBackground">@drawable/background</item> -->
+	</style>
+	
+	<style name="CustomButton" parent="android:style/Theme.NoTitleBar">
+        <item name="android:buttonStyle">@style/MyLoginButton</item>
+    </style>
+</resources>

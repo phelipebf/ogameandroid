@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.overkill.ogame"
+      android:versionCode="20" android:versionName="svn-trunk">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+      
+    <application android:icon="@drawable/icon" android:label="@string/app_name">    
+        <activity android:name=".LoginView"
+                  android:label="@string/app_name" 
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="MainTabActivity"
+        		  android:label="@string/app_name" 
+        		  android:theme="@style/InfoTitleTheme" 
+        		  android:screenOrientation="portrait" 
+        		  android:alwaysRetainTaskState="true" />
+
+	    <activity android:name="ObjectListActivity" 
+	    		  android:screenOrientation="portrait" />
+	    
+	    <activity android:name="Overview"
+	    		  android:screenOrientation="portrait" />
+	    
+		<activity android:name="SettingsView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="FleetView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />	
+				<data android:scheme="ogame" android:host="fleet" />
+			</intent-filter>
+		</activity>
+				  
+		<activity android:name="MovementView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="GalaxyView"
+				  android:label="@string/app_name"
+        		  android:theme="@style/InfoTitleTheme" 
+				  android:screenOrientation="portrait" >
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />	
+				<data android:scheme="ogame" android:host="galaxy" />
+			</intent-filter>
+		</activity>
+				  
+		<activity android:name="MessageListView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="MessageDetailView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="MessageComposeView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+				  
+		<activity android:name="ResourceSettingsView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait" />
+     	
+		<activity android:name=".PlanetListActivity"
+				  android:label="@string/select_planet"
+				  android:theme="@android:style/Theme.Dialog"
+				  android:configChanges="orientation|keyboardHidden" />
+		
+		<activity android:name="AllianceView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />	
+				<data android:scheme="ogame" android:host="alliance" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="CombatReportView"
+				  android:label="@string/app_name"
+				  android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />	
+				<data android:scheme="ogame" android:host="combat" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>		
+	</application>
+    <uses-sdk android:minSdkVersion="4" />
+
+	<uses-permission android:name="android.permission.INTERNET" />
+</manifest> 
