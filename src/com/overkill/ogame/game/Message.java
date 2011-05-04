@@ -1,14 +1,13 @@
 package com.overkill.ogame.game;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import android.graphics.Color;
-import android.util.Log;
-
-import com.flurry.android.FlurryAgent;
 
 public class Message {
+	public static final int ACTION_DELETE = 2;
+	public static final int ACTION_RESTORE = 2;
+	public static final int ACTION_READ = 12;
+	
 	private int ID;
 	private String from;
 	private String to;
@@ -18,6 +17,7 @@ public class Message {
 	private String html;
 	private int color;
 	private boolean read;
+	private boolean checked;
 	
 	public Message(int ID) {
 		this.ID = ID;
@@ -61,6 +61,8 @@ public class Message {
 			if(tr.select("td.subject > a > span").size() > 0){ //span tag with color
 				if(tr.select("td.subject > a > span").first().className().contains("iwon"))
 					color = Color.GREEN;
+				else if(tr.select("td.subject > a > span").first().className().contains("draw"))
+					color = Color.WHITE;
 				else
 					color = Color.RED;
 			}			
@@ -140,6 +142,14 @@ public class Message {
 
 	public void setColor(int color) {
 		this.color = color;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 	public String toString(){

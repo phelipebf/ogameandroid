@@ -82,10 +82,12 @@
 	<string name="message_report">Report</string>
 	<string name="message_delete">Delete</string>
 	<string name="message_delete_all">Delete All</string>
+	<string name="message_delete_selected">Delete Selected</string>
 	<string name="message_from">From:</string>
 	<string name="message_to">To:</string>
 	<string name="message_date">Date:</string>
 	<string name="message_subject">Subject:</string>
+	<string name="message_mark_as_read">Mark as Read</string>
 	
 	<string name="object_amount">Amount</string>
 	<string name="object_level">Level</string>
@@ -127,4 +129,7 @@
 	<string name="mission_espionage">Espionage</string>
 	<string name="mission_missile">Missile Attack</string>
 	<string name="mission_harvest">Harvest</string>
+	
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
 </resources>

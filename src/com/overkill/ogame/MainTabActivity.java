@@ -68,7 +68,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_planet);     
         Tools.filesDir = getFilesDir().getAbsolutePath();
                         
-        final SharedPreferences settings = getSharedPreferences(TAG, 0);
+        final SharedPreferences preferences = getSharedPreferences(TAG, 0);
         
         if(getIntent().hasExtra("username")){
         
@@ -92,7 +92,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 				@Override
 				public void run() {	
 					try{
-						Tools.trackLogin(domain, universe);		
+						Tools.trackLogin(domain, universe, preferences.getBoolean("show_ads", true));		
 						
 						game = new GameClient(MainTabActivity.this);
 						boolean state = game.login(universe, username, password);
@@ -113,7 +113,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 				       	}else{ //LOGIN OK
 					       	//should we save the login data
 					       	if(save){
-								SharedPreferences.Editor editor = settings.edit();
+								SharedPreferences.Editor editor = preferences.edit();
 								editor.putString("username", username);
 								editor.putString("password", password);
 								editor.putInt("universum", uni_i);
@@ -121,7 +121,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 								editor.commit();
 							}else{
 								//clean login preferences
-								SharedPreferences.Editor editor = settings.edit();
+								SharedPreferences.Editor editor = preferences.edit();
 								editor.putString("username", "");
 								editor.putString("password", "");
 								editor.putInt("universum", 0);

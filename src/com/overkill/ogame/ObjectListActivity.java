@@ -80,7 +80,7 @@ public class ObjectListActivity extends ListActivity {
 				String message = getString(R.string.time_to_complete, Tools.sec2str(b.getTimeLeft()));
 				if("resources".equals(pageKey) || "station".equals(pageKey) || "research".equals(pageKey)) {//cancellable
 					message += "\n" + getString(R.string.cancel_upgrade);
-					dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
 							final ProgressDialog loaderDialog = new ProgressDialog(ObjectListActivity.this);	
 							loaderDialog.setMessage(getString(R.string.send_command));
@@ -107,7 +107,7 @@ public class ObjectListActivity extends ListActivity {
 							buildThread.start();
 						}
 					});
-			    	dialog.setNegativeButton(android.R.string.cancel, cancelDialog());									
+			    	dialog.setNegativeButton(R.string.no, cancelDialog());									
 				} else {//not cancellable
 					dialog.setPositiveButton(android.R.string.ok, cancelDialog());					
 				}

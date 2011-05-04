@@ -597,14 +597,11 @@ public class FleetView extends ListActivity {
 	}
 	
 	private void onCreateFleet1() {
-		final Button next = (Button) this.findViewById(R.id.fleet1_next);
-		
-		String body = MainTabActivity.game.get("page=fleet1");
-		final Document document = Jsoup.parse(body);
+		final Button next = (Button) this.findViewById(R.id.fleet1_next);		
 		
 		ArrayList<Ship> shiplist = new ArrayList<Ship>();
 		for(int i = 0; i < ulKey.length; i++){
-			ArrayList<Ship> o = Tools.parseFleet(document, ulKey[i], FleetView.this);
+			ArrayList<Ship> o = MainTabActivity.game.getFleet(ulKey);
 			shiplist.addAll(o);
 		}
 		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, shiplist);
