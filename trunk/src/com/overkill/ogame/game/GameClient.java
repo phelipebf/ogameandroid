@@ -449,13 +449,21 @@ public class GameClient{
 	 * @param msg_ids The IDs to delete
 	 */
 	public void deleteMessage(int msg_ids[]){
+		this.actionMessage(msg_ids, Message.ACTION_DELETE);
+	}
+	
+	public void actionMessage(int msg_ids[], int action){
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		
 		for(int msg_id : msg_ids)
 			 nameValuePairs.add(new BasicNameValuePair("deleteMessageIds[]", String.valueOf(msg_id)));		
        
-        nameValuePairs.add(new BasicNameValuePair("actionMode", "2"));
+        nameValuePairs.add(new BasicNameValuePair("actionMode", String.valueOf(action)));
         this.execute("page=messages", nameValuePairs);
+	}
+	
+	public void actionMessage(int msg_id, int action){
+		this.actionMessage(new int[]{msg_id}, action);
 	}
 	
 	/**
@@ -516,7 +524,7 @@ public class GameClient{
         }        
 	}
 	
-	public FleetEvent[] getFleetEvents(){
+	public FleetEvent[] getCancelableFleetEvents(){
 		Document html = Jsoup.parse(get("page=movement"));	    	
     	String script = html.select("script").not("script[src]").html();
 		
@@ -573,6 +581,88 @@ public class GameClient{
 	    	count++;			
 		}		
 		return fes;
+	}
+	
+	public FleetEvent[] getFleetEvents(){
+		Document html = Jsoup.parse(get("page=eventList&ajax=1"));	    	
+		
+		Elements events = html.select("div.eventFleet");
+		
+		FleetEvent fes[] = new FleetEvent[events.size()];
+		
+		int count = 0;
+		
+		for(Element event : events){
+			String id = event.id().replace("eventRow-", "");
+			FleetEvent fe = new FleetEvent(Integer.valueOf(id));
+			fe.setArrivalTime(event.select("li.arrivalTime").text());
+			fe.setMission(event.select("li.missionFleet").text());
+			
+			fe.setOriginName(event.select("li.originFleet").text());
+			fe.setOriginCoords(event.select("li.coordsOrigin").text());
+
+			fe.setDestinationName(event.select("li.destFleet").text());
+			fe.setDestinationCoords(event.select("li.destCoords").text());
+			
+			fe.setCanCancel(event.select("span.reversal").size() > 0);
+			
+			if(fe.getDestinationName().length() == 0)
+				fe.setDestinationName(fe.getMission());
+			
+			
+			Element table = Jsoup.parse(get("page=eventListTooltip&ajax=1&eventID=" + id)).select("table").first();
+			String info = "";
+			
+			Elements tr = table.select("tr");
+	    	for(int i = 0; i < tr.size(); i++){
+	    		info += tr.get(i).text() + "\n";
+	    	}
+			
+	    	fe.setInfo(info);		
+	    	
+	    	/*
+	    	 new movementImageCountdown(
+		        getElementByIdWithCache("route_12818421"),  // ID
+		    0    3663,										// leftoverTime
+		    1    11582,										// duration
+		    2    1,											// isReturn
+		    3    0    );										// isRTL
+	    	 */
+	    	
+	    	fes[count] = fe;
+	    	count++;			
+		}		
+		return fes;
+	}
+	
+	public ArrayList<Ship> getFleet(String[] ulKeys){
+		final Document document = Jsoup.parse(this.get("page=fleet1"));
+		
+		ArrayList<Ship> objectlist = new ArrayList<Ship>();		
+		for (String ulKey : ulKeys) {
+			Elements ul = document.select("ul#" + ulKey);
+			
+			if(ul.size() == 0){
+				continue;
+			}		
+			
+			for(Element li : ul.select("li")) {
+				
+				String status = li.className();
+				if(!"on".equals(status)) {
+					continue;
+				}
+				
+				String id = li.id().replace("button", "");
+				String name = li.select("span.textlabel").text();
+				String total = li.select("span.level").text().replace(name, "").trim().replace(".", "");
+				
+				Ship m = new Ship(Integer.valueOf(id), name, Integer.valueOf(total), context);
+	
+				objectlist.add(m);
+			}
+		}
+		return objectlist;
 	}
 	
 	public void cancelFleetEvent(int id){

@@ -212,36 +212,6 @@ public class Tools {
 		}
 		return objectlist;
 	}
-	
-	public static ArrayList<Ship> parseFleet(Document document, String ulKey, Context context){
-		
-		ArrayList<Ship> objectlist = new ArrayList<Ship>();		
-		Elements ul = document.select("ul#" + ulKey);
-		
-		if(ul.size() == 0){
-			Log.e("parseObjectList", ulKey + " not found");
-			return objectlist;
-		}		
-		
-		for(Element li : ul.select("li")) {
-			
-			String status = li.className();
-			if(!"on".equals(status)) {
-				continue;
-			}
-			
-			String id = li.id().replace("button", "");
-			String name = li.select("span.textlabel").text();
-			String total = li.select("span.level").text().replace(name, "").trim().replace(".", "");
-						
-			//Log.i("li", id + " " + name + " (" + level + ") " + status);
-			
-			Ship m = new Ship(Integer.valueOf(id), name, Integer.valueOf(total), context);
-
-			objectlist.add(m);
-		}
-		return objectlist;
-	}
 		
 	public static int getCuetypeById(int id){
 		int i = Item.CUETYPE_BUILDING;
@@ -348,10 +318,11 @@ public class Tools {
 		return byteArrayOutputStream.toString();
 	}
 	
-	public static void trackLogin(String domain, String universe){
+	public static void trackLogin(String domain, String universe, boolean showAds){
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("country", domain);
 		parameters.put("universe", universe);
+		parameters.put("showAds", String.valueOf(showAds));
 		FlurryAgent.onEvent("Login", parameters);
 	}
 }

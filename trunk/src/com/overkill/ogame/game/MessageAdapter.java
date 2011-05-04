@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +38,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
-		Message b = this.getItem(position);
+		final Message b = this.getItem(position);
 		if (b != null) {			
 			ImageView state = (ImageView) v.findViewById(R.id.state);
 			if(b.getRead())
@@ -45,8 +48,31 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 			((TextView) v.findViewById(R.id.subject)).setText(b.getSubject());
 			((TextView) v.findViewById(R.id.subject)).setTextColor(b.getColor());
 			((TextView) v.findViewById(R.id.from)).setText(b.getFrom());	
-			((TextView) v.findViewById(R.id.date)).setText(b.getDate());	
+			((TextView) v.findViewById(R.id.date)).setText(b.getDate());
+			((CheckBox)v.findViewById(R.id.check)).setFocusable(false);
+			((CheckBox)v.findViewById(R.id.check)).setChecked(b.isChecked());
+			((CheckBox)v.findViewById(R.id.check)).setOnCheckedChangeListener(new OnCheckedChangeListener() {				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					b.setChecked(isChecked);					
+				}
+			});
 		}
 		return v;
+	}
+	
+	public int getCheckedCount(){
+		int checked = 0;
+		for(int i = 0; i < super.getCount(); i++){
+			if(super.getItem(i).isChecked())
+				checked++;
+		}
+		return checked;
+	}
+	
+	public void setAllChecked(boolean checked){
+		for(int i = 0; i < super.getCount(); i++){
+			super.getItem(i).setChecked(checked);
+		}
 	}
 }

@@ -4,16 +4,22 @@
     android:id="@+id/root"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent">    
       
-        
-    <ImageView
-        android:background="@null"
-        android:id="@+id/state"
-        android:src="@drawable/post_unread"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content" android:layout_height="fill_parent" android:paddingRight="5dp"/>    
+    <CheckBox android:layout_height="wrap_content" 
+    	android:layout_alignParentLeft="true"
+    	android:layout_width="wrap_content"
+    	android:id="@+id/check" />
+       
+    <ImageView android:layout_height="fill_parent"
+    	android:src="@drawable/post_unread" 
+    	android:id="@+id/state" 
+    	android:layout_width="wrap_content" 
+    	android:paddingRight="5dp" 
+    	android:background="@null" 
+    	android:layout_toRightOf="@+id/check" 
+    	android:layout_alignTop="@+id/check" 
+    	android:layout_alignBottom="@+id/check" />
         
     <TextView
         android:id="@+id/subject"
@@ -38,7 +44,7 @@
      <TextView
         android:id="@+id/date"
         android:textColor="#efefef"
-        android:text="date"
+        android:text=""
         android:ellipsize="marquee"
         android:layout_below="@id/subject" 
         android:layout_height="wrap_content"
