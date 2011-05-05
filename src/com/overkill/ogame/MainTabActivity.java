@@ -36,10 +36,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     
     private int tab_shade_off = RadioStateDrawable.SHADE_GRAY; 
     private int tab_shade_on = RadioStateDrawable.SHADE_BLUE; 
-    //print debug
-    //private final boolean D = true;
-    //httpclient for login and game contructor
-	//private DefaultHttpClient http = new DefaultHttpClient();
+    
 	//Game instanz für die gesammte App
 	public static GameClient game = null;
 	//System für flotten und andere infos
