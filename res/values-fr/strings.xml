@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OGame</string>
+    <string name="select_planet">Sélectionner Planète</string>
+    <string name="moon">Lune</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Changer pour ([^/]*)&lt;\\/B&gt;</string>
+    
+    <string name="tos_version">1</string>
+    <string name="tos">Cette application n\'a pas été approuvée par GameForge, je ne suis donc pas responsable si votre compte est banni.\nCette application est expérimentale, je ne suis donc pas responsable pour les éventuels problèmes provoqués sur votre compte.</string>
+
+	<string name="menu_settings">Paramètres</string>
+	<string name="menu_reload_serverlist">Recharger liste serveurs</string>
+	<string name="menu_about">A propos</string>
+	<string name="menu_messages">Messages</string>
+	<string name="menu_fleet">Flotte</string>
+	<string name="menu_galaxy">Galaxie</string>
+	<string name="menu_resources">Paramètres des ressources</string>
+	
+	<string name="tab_overview">Vue générale</string>
+	<string name="tab_resources">Ressources</string>
+	<string name="tab_station">Installations</string>
+	<string name="tab_research">Recherche</string>
+	<string name="tab_shipyard">Chantier</string>
+	<string name="tab_defense">Défenses</string>
+	<string name="tab_fleet">Flottes</string>
+	
+	<string name="save_login">Sauv. Identifiants</string>    
+	<string name="username">Utilisateur</string>   
+	<string name="password">Mot de passe</string>   
+	<string name="login_button">Connexion</string>
+	
+	<string name="more">Plus</string>
+	<string name="requirements">Prérequis</string>
+	<string name="not_available">Indisponible</string>
+	
+	<string name="fleet_info_title">Information Flottes</string>
+	<string name="new_mission">Nouvelle Mission</string>
+	
+	<string name="error_login">Erreur d\'identification</string>
+	<string name="error_load">Impossible d\'accéder au serveur</string>
+	<string name="error_send_command">Impossible de lancer la commande</string>
+	
+	<string name="new_command">Nouvelle commande</string>
+	<string name="enter_amount">Entrer la quantité</string>
+	<string name="send_command">Envoi de la commande...</string>
+	<string name="ask_with_count" formatted="false">Envoyer la commande pour %d %s?</string>
+	<string name="ask_no_count">Envoyer la commande pour %s?</string>
+	<string name="now_building">%s est en train d\'être construit.</string>
+	<string name="building_time">Temps de construction: %s</string>
+	<string name="buildable_in">Pas assez de ressources.\nConstruisible dans : %s</string>
+	<string name="buildable_once">%s ne peut être construit qu\'une seule fois</string>
+	<string name="loading">Chargement...</string>
+	<string name="change_planet">Changement vers \"%s\"</string>
+	<string name="in_queue">Dans la file</string>
+	<string name="time_to_complete">Temps pour finir: %s</string>
+	<string name="cancel_upgrade">Annuler l\'amélioration?</string>
+	<string name="expansion_cancelled">Expansion annulée</string>
+	
+	<string name="settings_display">Afficher paramètres</string>
+	<string name="settings_disabled">Cacher inactif</string>
+	<string name="settings_disabled_summary">Cacher les objets que vous ne pouvez pas construire</string>
+	
+	<string name="settings_fleet">Paramètres de l\'alarme de flotte</string>
+	<string name="settings_fleet_global">Activer l\'alarme de flotte</string>
+	<string name="settings_fleet_global_summary">Activation globale l\'alarme de flotte</string>
+	<string name="settings_fleet_sound">Son de notification</string>
+	<string name="settings_fleet_sound_summary">Selectionner le son de notification</string>
+	<string name="settings_fleet_neutral">Neutre</string>
+	<string name="settings_fleet_neutral_summary">Notifier pour les événements neutres</string>
+	<string name="settings_fleet_friendly">Amicale</string>
+	<string name="settings_fleet_friendly_summary">Notifier pour les événements amicaux</string>
+	<string name="settings_fleet_hostile">Hostile</string>
+	<string name="settings_fleet_hostile_summary">Notifier pour les événements hostiles</string>
+	<string name="settings_messages">Messages</string>
+	<string name="settings_messages_summary">Notifier pour les messages non-lus</string>
+	
+	<string name="message_no_message">Aucun message à afficher</string>
+	<string name="message_send">Envoyer</string>
+	<string name="message_reply">Répondre</string>
+	<string name="message_report">Signaler</string>
+	<string name="message_delete">Supprimer</string>
+	<string name="message_delete_all">Supprimer tout</string>
+	<string name="message_delete_selected">Supprimer sélectionnés</string>
+	<string name="message_from">De:</string>
+	<string name="message_to">A:</string>
+	<string name="message_date">Date:</string>
+	<string name="message_subject">Sujet:</string>
+	<string name="message_mark_as_read">Marquer comme lu</string>
+	
+	<string name="object_amount">Quantité</string>
+	<string name="object_level">Niveau</string>
+	
+	<string name="galaxy_colonize">Coloniser la position %s?</string>
+	<string name="galaxy_probes">Envoyer des sondes d\'espionnage?</string>
+	<string name="galaxy_activity">Activité: %s</string>
+	<string name="galaxy_activity_now">maintenant</string>
+	<string name="galaxy_empty_slot">Emplacement vide</string>
+	
+	<string name="fleet1_reset">Réinitialiser</string>
+	<string name="fleet1_all">Tout</string>
+	<string name="fleet1_next">Suivant</string>
+	
+	<string name="fleet2_acs">Groupes de combat</string>
+	<string name="fleet2_shortcuts">Raccourcis</string>
+	<string name="fleet2_speed">Vitesse</string>
+	<string name="fleet2_refresh">Rafraîchir</string>
+	<string name="fleet2_back">Précédent</string>
+	<string name="fleet2_planet">Planète</string>
+	<string name="fleet2_debris">Débris</string>
+	<string name="fleet2_consumption">Consommation de deutérium:</string>
+	<string name="fleet2_duration">Durée de vol:</string>
+	<string name="fleet2_arrival">Arrivée:</string>
+	<string name="fleet2_return">Retour:</string>
+	<string name="fleet2_cargobays">Espace cargo vide:</string>
+	
+	<string name="fleet3_metal">Métal:</string>
+	<string name="fleet3_crystal">Cristal:</string>
+	<string name="fleet3_deuterium">Deutérium:</string>
+	<string name="fleet3_target">Cible:</string>
+	<string name="fleet3_send">Envoyer flotte</string>
+	<string name="fleet3_cargobays">Espace cargo:</string>
+	<string name="fleet3_noMission">Selectionner une mission</string>
+	<string name="fleet3_expedition">Durée de l\'expédition (h):</string>
+		
+	<string name="mission_attack">Attaquer</string>
+	<string name="mission_transport">Transporter</string>
+	<string name="mission_espionage">Espionner</string>
+	<string name="mission_missile">Attaquer au missile</string>
+	<string name="mission_harvest">Coloniser</string>
+	
+	<string name="yes">Oui</string>
+	<string name="no">Non</string>
+</resources>
