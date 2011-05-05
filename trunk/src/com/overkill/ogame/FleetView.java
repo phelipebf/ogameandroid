@@ -599,11 +599,8 @@ public class FleetView extends ListActivity {
 	private void onCreateFleet1() {
 		final Button next = (Button) this.findViewById(R.id.fleet1_next);		
 		
-		ArrayList<Ship> shiplist = new ArrayList<Ship>();
-		for(int i = 0; i < ulKey.length; i++){
-			ArrayList<Ship> o = MainTabActivity.game.getFleet(ulKey);
-			shiplist.addAll(o);
-		}
+		ArrayList<Ship> shiplist = new ArrayList<Ship>(MainTabActivity.game.getFleet(ulKey));
+
 		adapter = new FleetAdapter(FleetView.this, R.layout.adapter_item_fleet, shiplist);
 		
 		//We have ships form a previous call
