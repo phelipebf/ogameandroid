@@ -8,6 +8,15 @@ public class Message {
 	public static final int ACTION_RESTORE = 2;
 	public static final int ACTION_READ = 12;
 	
+	public static final int FILTER_INBOX = 10;
+	public static final int FILTER_BIN = 3;
+	public static final int FILTER_ESPIONAGE = 7;
+	public static final int FILTER_BATTLE = 5;
+	public static final int FILTER_PLAYER = 6;
+	public static final int FILTER_EXPEDITION = 8;
+	public static final int FILTER_ALLIANCE = 2;
+	public static final int FILTER_OTHER = 4;
+	
 	private int ID;
 	private String from;
 	private String to;
