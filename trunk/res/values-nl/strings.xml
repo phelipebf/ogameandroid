@@ -81,11 +81,13 @@
 	<string name="message_reply">Beantwoord</string>
 	<string name="message_report">Rapporteer</string>
 	<string name="message_delete">Verwijder</string>
-	<string name="message_delete_all">Alles verwijderen</string>
+	<string name="message_delete_all">Verwijder alles</string>
+	<string name="message_delete_selected">Verwijder selectie</string>
 	<string name="message_from">Van:</string>
 	<string name="message_to">Naar:</string>
 	<string name="message_date">Datum:</string>
 	<string name="message_subject">Onderwerp:</string>
+  <string name="message_mark_as_read">Markeer gelezen</string>
 	
 	<string name="object_amount">Hoeveelheid</string>
 	<string name="object_level">Level</string>
@@ -127,4 +129,7 @@
 	<string name="mission_espionage">Spionage</string>
 	<string name="mission_missile">Raket aanval</string>
 	<string name="mission_harvest">Recyclen</string>
+
+	<string name="yes">Ja</string>
+	<string name="no">Nee</string>
 </resources>
