@@ -7,6 +7,10 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class Planet {
+	public static final int TYPE_PLANET = 1;
+	public static final int TYPE_DEBRIS = 2;
+	public static final int TYPE_MOON = 3;
+	
 	private int id;
 	private String name;
 	private String shortInfo;

@@ -41,33 +41,6 @@ public class Tools {
 					replace("&Uuml;", "Ü");
 	}
 	
-	public static Drawable ImageOperations(String address) {
-		Log.i("ImageOperations", address);
-		// TODO The image should be save somewhere to prevent permanent reloading of the same file
-		/*//get filename
-		String[] parts = address.split("/");
-		String filename = parts[parts.length - 1];
-		//need basepath
-		File file = new File(filesDir + "/" + filename);
-		Log.i("file", file.getAbsolutePath());
-		if(file.exists() == false){*/
-			try {
-				URL url = new URL(address);
-				InputStream is = (InputStream) url.getContent();
-				Drawable d = Drawable.createFromStream(is, "src");
-				//is.reset();
-				//save(file, is);
-				return d;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		/*}else{
-			Drawable d = Drawable.createFromPath(file.getAbsolutePath());
-			return d;
-		}*/
-	}
-	
 	public static void save(File file, InputStream is){
 		Log.i("filesystem", "store " + file.getAbsolutePath());
 	    BufferedOutputStream f = null;

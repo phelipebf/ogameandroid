@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +57,7 @@ public class FleetView extends ListActivity {
 	private String targetSystem = null;
 	private String targetPosition = null;
 	private int mission = FleetEvent.MISSION_NONE;
-	private String planetType = "1";
+	private int planetType = Planet.TYPE_PLANET;
 	private String union = "0";
 	private HashMap<String, String> ships;
 	private int speed;
@@ -173,18 +174,18 @@ public class FleetView extends ListActivity {
 					targetGalaxy = uri.getQueryParameter("galaxy");
 					targetSystem = uri.getQueryParameter("system");
 					targetPosition = uri.getQueryParameter("position");
-					planetType = uri.getQueryParameter("type");
+					planetType = Integer.valueOf(uri.getQueryParameter("type"));
 				}
 				else if(getIntent().hasExtra("galaxy")) {
 					targetGalaxy = getIntent().getExtras().getString("galaxy");
 					targetSystem = getIntent().getExtras().getString("system");
 					targetPosition = getIntent().getExtras().getString("position");
-					planetType = getIntent().getExtras().getString("planetType");
+					planetType = getIntent().getExtras().getInt("planetType");
 				} else {
 					targetGalaxy = String.valueOf(p.getGalaxy());
 					targetSystem = String.valueOf(p.getSystem());
 					targetPosition = String.valueOf(p.getPosition());
-					planetType = "1";
+					planetType = Planet.TYPE_PLANET;
 				}
 				
 				if(uri != null){
@@ -293,7 +294,7 @@ public class FleetView extends ListActivity {
         final String duration = document.select("#duration").text();
         final String arrivalTime = document.select("#arrivalTime").text();
         final String returnTime = document.select("#returnTime").text();
-        final String consumption = document.select("#consumption > span").text();
+        final String consumption = document.select("#consumption").text();
         
         /*Log.i("onCreateFleet3", "target=" + target 
         		+ ", maxresources=" + maxresources
@@ -305,6 +306,7 @@ public class FleetView extends ListActivity {
         maxresources = maxresources.replace(".", "");
         final int cargoSpace = Integer.parseInt(maxresources);
         remainingresources = cargoSpace;
+        final Button next = (Button) this.findViewById(R.id.fleet3_send);
         
         final TextView metalOnPlanetView = (TextView) findViewById(R.id.metalOnPlanet);
         final TextView crystalOnPlanetView = (TextView) findViewById(R.id.crystalOnPlanet);
@@ -404,6 +406,10 @@ public class FleetView extends ListActivity {
 			}
 		});
         
+        // Make sure we have enough Deuterium
+        
+        
+        
         runOnUiThread(new Runnable() {			
 			@Override
 			public void run() {
@@ -418,10 +424,21 @@ public class FleetView extends ListActivity {
 				returnView.setText(returnTime);
 				consumptionView.setText(consumption);
 				targetView.setText(target);
+				
+				try{
+			        int neededDeuterium = Integer.valueOf(consumption);
+			        if(neededDeuterium > (p.getDeuterium() - deuterium)){
+			        	consumptionView.setTextColor(Color.RED);
+			        	next.setEnabled(false);
+			        }
+		        }catch (Exception e) {
+		        	consumptionView.setTextColor(Color.RED);
+		        	next.setEnabled(false);
+				}
 			}
 		});
 		
-		final Button next = (Button) this.findViewById(R.id.fleet3_send);
+		
 		next.setOnClickListener(new Button.OnClickListener() {				
 			@Override
 			public void onClick(View v) {
@@ -464,13 +481,17 @@ public class FleetView extends ListActivity {
 	
 	private void setUpJavascriptVariables(String script) {
 		String[] serverTimeArray = Tools.between(script, "serverTime = new Date(", ");").split(", ");		
-		serverTime.set(Calendar.YEAR, Integer.parseInt(serverTimeArray[0]));
-		serverTime.set(Calendar.MONTH, Integer.parseInt(serverTimeArray[1])-1);
-		serverTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(serverTimeArray[2]));
-		serverTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(serverTimeArray[3]));
-		serverTime.set(Calendar.MINUTE, Integer.parseInt(serverTimeArray[4]));
-		serverTime.set(Calendar.SECOND, Integer.parseInt(serverTimeArray[5]));		
-		serverTime.set(Calendar.MILLISECOND, 0);	
+		try{
+			serverTime.set(Calendar.YEAR, Integer.parseInt(serverTimeArray[0]));
+			serverTime.set(Calendar.MONTH, Integer.parseInt(serverTimeArray[1])-1);
+			serverTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(serverTimeArray[2]));
+			serverTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(serverTimeArray[3]));
+			serverTime.set(Calendar.MINUTE, Integer.parseInt(serverTimeArray[4]));
+			serverTime.set(Calendar.SECOND, Integer.parseInt(serverTimeArray[5]));		
+			serverTime.set(Calendar.MILLISECOND, 0);	
+		}catch(Exception e){
+			// catch integer errors
+		}
 
 		maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
 		speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
@@ -562,19 +583,19 @@ public class FleetView extends ListActivity {
         ((RadioButton) findViewById(R.id.radioPlanet)).setOnClickListener(new OnClickListener() {		
 			@Override
             public void onClick(View v) {
-                planetType = "1";
+                planetType = Planet.TYPE_PLANET;
             }
         });
         ((RadioButton) findViewById(R.id.radioMoon)).setOnClickListener(new OnClickListener() {		
 			@Override
             public void onClick(View v) {
-            	planetType = "3";
+            	planetType = Planet.TYPE_MOON;
             }
         });
         ((RadioButton) findViewById(R.id.radioDebris)).setOnClickListener(new OnClickListener() {		
 			@Override
             public void onClick(View v) {
-            	planetType = "2";
+            	planetType = Planet.TYPE_DEBRIS;
             }
         });
         		
@@ -683,7 +704,7 @@ public class FleetView extends ListActivity {
         postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
         postData.add(new BasicNameValuePair("system", targetSystem));
         postData.add(new BasicNameValuePair("position", targetPosition));
-        postData.add(new BasicNameValuePair("type", planetType));
+        postData.add(new BasicNameValuePair("type", String.valueOf(planetType)));
 		postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
         postData.add(new BasicNameValuePair("speed", "10"));
         
@@ -708,7 +729,7 @@ public class FleetView extends ListActivity {
         postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
         postData.add(new BasicNameValuePair("system", targetSystem));
         postData.add(new BasicNameValuePair("position", targetPosition));
-        postData.add(new BasicNameValuePair("type", planetType));
+        postData.add(new BasicNameValuePair("type", String.valueOf(planetType)));
 		postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
 
 		String union = (String) getIntent().getExtras().getSerializable("union");
@@ -752,7 +773,7 @@ public class FleetView extends ListActivity {
 					postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
 					postData.add(new BasicNameValuePair("system", targetSystem));
 					postData.add(new BasicNameValuePair("position", targetPosition));
-					postData.add(new BasicNameValuePair("type", planetType));
+					postData.add(new BasicNameValuePair("type",String.valueOf(planetType)));
 					postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
 					postData.add(new BasicNameValuePair("holdingtime", "1")); //TODO: ACS defend?
 					postData.add(new BasicNameValuePair("holdingOrExpTime", holdingOrExpTime));
@@ -815,11 +836,11 @@ public class FleetView extends ListActivity {
 				((EditText) findViewById(R.id.system)).setText(targetSystem);
 				((Spinner) findViewById(R.id.position)).setSelection(Integer.parseInt(targetPosition)-1);
 				
-				if("1".equals(planetType)) {
+				if(planetType == Planet.TYPE_PLANET) {
 					((RadioButton) findViewById(R.id.radioPlanet)).setChecked(true);
-				} else if("3".equals(planetType)) {
+				} else if(planetType == Planet.TYPE_MOON) {
 					((RadioButton) findViewById(R.id.radioMoon)).setChecked(true);
-				} else if("2".equals(planetType)) {
+				} else if(planetType == Planet.TYPE_DEBRIS) {
 					((RadioButton) findViewById(R.id.radioDebris)).setChecked(true);			
 				}	
 			}
@@ -930,6 +951,16 @@ public class FleetView extends ListActivity {
 			    ((TextView) findViewById(R.id.fleet_consumption)).setText(String.valueOf(consumption));
 			    ((TextView) findViewById(R.id.fleet_cargobays)).setText(String.valueOf(cargoSpace));
 			    
+			    Planet p = MainTabActivity.game.getCurrentPlanet();
+			    Button next = (Button) findViewById(R.id.fleet1_next);
+			    if(consumption > p.getDeuterium()){
+				    ((TextView) findViewById(R.id.fleet_consumption)).setTextColor(Color.RED);
+				    if(next != null) next.setEnabled(false);
+			    }else{
+			    	((TextView) findViewById(R.id.fleet_consumption)).setTextColor(Color.rgb(0x99, 0xCC, 0x00));
+			    	if(next != null) next.setEnabled(true);
+			    }
+			    
 			    updateTimes(duration);
 			}
        	});
@@ -957,7 +988,7 @@ public class FleetView extends ListActivity {
 	        targetGalaxy = String.valueOf(parts[0]);
 	        targetSystem = String.valueOf(parts[1]);
 	        targetPosition = String.valueOf(parts[2]);
-	        planetType = String.valueOf(parts[3]);
+	        planetType = Integer.valueOf(parts[3]);
 	        
 	        updateWidgetsFromVariables();
 	    }
@@ -987,16 +1018,21 @@ public class FleetView extends ListActivity {
         postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
         postData.add(new BasicNameValuePair("system", targetSystem));
         postData.add(new BasicNameValuePair("planet", targetPosition));        
-        postData.add(new BasicNameValuePair("type", planetType));
+        postData.add(new BasicNameValuePair("type", String.valueOf(planetType)));
 
         //cannot send fleet to the current planet
 		Planet p = MainTabActivity.game.getCurrentPlanet();
-        if(targetGalaxy.equals(String.valueOf(p.getGalaxy())) &&
-        		targetSystem.equals(String.valueOf(p.getSystem())) &&
-        		targetPosition.equals(String.valueOf(p.getPosition())) &&
-        		planetType.equals("1")) { //TODO: sending fleet from moon
-        	return;
-        }
+		
+	    if(targetGalaxy.equals(String.valueOf(p.getGalaxy())) &&
+	    		targetSystem.equals(String.valueOf(p.getSystem())) &&
+	    		targetPosition.equals(String.valueOf(p.getPosition()))) {
+	    	if(p.isMoon() == false && planetType == Planet.TYPE_PLANET) { // target == origin
+	    		return;
+	    	}
+	    	if(p.isMoon() == true && planetType == Planet.TYPE_MOON) { // target == origin
+	    		return;
+	    	}
+		}
 
         //final HashMap<String, String> ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
         ships = (HashMap<String, String>) getIntent().getExtras().getSerializable("ships");
