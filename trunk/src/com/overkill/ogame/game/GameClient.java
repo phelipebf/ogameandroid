@@ -210,11 +210,11 @@ public class GameClient{
 				if(this.moon_regex.equals("")){
 					moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
 				}else{
-					Pattern pattern = Pattern.compile(this.moon_regex);				
-					Matcher matcher = pattern.matcher(moon_name);
-					if(matcher.matches()){
-						moon_name = matcher.group(1);
-					}else{
+					try{
+						Pattern pattern = Pattern.compile(this.moon_regex);				
+						Matcher matcher = pattern.matcher(moon_name);
+						moon_name = matcher.replaceAll("$1");
+					}catch (Exception e) {
 						moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
 					}
 				}
