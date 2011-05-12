@@ -51,7 +51,7 @@ public class LoginView extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		NotificationSystem.remove(this);
+		NotificationSystem.remove(this);		
 		
 		try {
 			PackageInfo pinfo = getPackageManager().getPackageInfo(this.getClass().getPackage().getName(),0);
