@@ -6,7 +6,9 @@ import java.util.Arrays;
 import com.overkill.ogame.game.Message;
 import com.overkill.ogame.game.MessageAdapter;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +23,7 @@ import android.widget.Toast;
 
 public class MessageListView extends ListActivity {
 	MessageAdapter adapter;
-	int displayCategory = 10; // Default Inbox
+	int displayCategory = Message.FILTER_INBOX;
 	
 	public void setProgressVisibility(boolean visible){
 		if(visible)
@@ -56,13 +58,37 @@ public class MessageListView extends ListActivity {
 			}
 		});
         
+        ((Button)findViewById(R.id.btn_folder)).setText(getResources().getIdentifier("string/message_folder_" + displayCategory, null, getPackageName()));
+        
         ((Button)findViewById(R.id.btn_folder)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(MessageListView.this, MessageListView.class);
-				i.putExtra("displayCategory", 3);
-				startActivity(i);
-				finish();
+				final int[] folderIDs = {Message.FILTER_INBOX, 
+										 Message.FILTER_ESPIONAGE, 
+										 Message.FILTER_BATTLE, 
+										 Message.FILTER_PLAYER, 
+										 Message.FILTER_EXPEDITION, 
+										 Message.FILTER_ALLIANCE, 
+										 Message.FILTER_OTHER, 
+										 Message.FILTER_BIN};
+				final CharSequence[] folderNames = new CharSequence[folderIDs.length];
+				for(int i = 0; i < folderIDs.length; i++){
+					folderNames[i] = getString(getResources().getIdentifier("string/message_folder_" + folderIDs[i], null, getPackageName()));
+				}
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(MessageListView.this);
+				builder.setTitle("Pick a folder");
+				builder.setItems(folderNames, new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int item) {
+				    	Intent i = new Intent(MessageListView.this, MessageListView.class);
+						i.putExtra("displayCategory", folderIDs[item]);
+						startActivity(i);
+						finish();
+				    }
+				});
+				AlertDialog alert = builder.create();
+				alert.show();
+				
 			}
 		});
         
