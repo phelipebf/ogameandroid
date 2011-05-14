@@ -1,5 +1,10 @@
 package com.overkill.ogame.game;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -108,7 +113,12 @@ public class NotificationSystem {
 		
 		if(mJson != null && mJson.has("eventText")){
 			try {
-				show(mJson.getString("eventText") + " in " + Tools.sec2str(Integer.valueOf(mJson.getString("eventTime"))));
+				String text = mJson.getString("eventText") + " (";
+				Calendar now = Calendar.getInstance();
+				DateFormat sdf = DateFormat.getDateTimeInstance();
+				now.add(Calendar.SECOND, Integer.valueOf(mJson.getString("eventTime")));
+				text += sdf.format(now.getTime()) + ")";
+				show(text);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}			
