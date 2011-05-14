@@ -89,6 +89,15 @@
 	<string name="message_subject">Subject:</string>
 	<string name="message_mark_as_read">Mark as Read</string>
 	
+	<string name="message_folder_10">Inbox</string>
+	<string name="message_folder_7">Espionage</string>
+	<string name="message_folder_5">Battle</string>
+	<string name="message_folder_6">Player</string>
+	<string name="message_folder_8">Expedition</string>
+	<string name="message_folder_2">Alliance</string>
+	<string name="message_folder_4">Other</string>
+	<string name="message_folder_3">Recycle Bin</string>
+	
 	<string name="object_amount">Amount</string>
 	<string name="object_level">Level</string>
 	

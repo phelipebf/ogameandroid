@@ -88,6 +88,15 @@
 	<string name="message_date">Datum:</string>
 	<string name="message_subject">Betreff:</string>
 	<string name="message_mark_as_read">Als gelesen markieren</string>
+		
+	<string name="message_folder_10">Posteingang</string>
+	<string name="message_folder_7">Spionage</string>
+	<string name="message_folder_5">Kampfberichte</string>
+	<string name="message_folder_6">Spieler</string>
+	<string name="message_folder_8">Expedition</string>
+	<string name="message_folder_2">Allianz</string>
+	<string name="message_folder_4">Sonstige</string>
+	<string name="message_folder_3">Papierkorb</string>
 	
 	<string name="object_amount">Anzahl</string>
 	<string name="object_level">Stufe</string>

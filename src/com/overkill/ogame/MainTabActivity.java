@@ -169,7 +169,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     	if(preferences.getBoolean("fleetsystem_global", true)){
 	       	notify = new NotificationSystem(MainTabActivity.this, MainTabActivity.game, preferences.getString("fleetsystem_sound", null));
 
-	       	int intervall = 300;
+	       	int intervall = 300; // Default interval (300sec -> 5min)
 	       	try{
 	       		intervall = Integer.valueOf(preferences.getString("fleetsystem_intervall", "300"));
 	       	}catch(Exception e){
