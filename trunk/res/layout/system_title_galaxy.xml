@@ -27,13 +27,13 @@
     	android:maxLength="3"
     	android:lines="1"
     	android:inputType="number"
-    	android:cursorVisible="false"
+    	android:cursorVisible="true"
     	android:layout_height="wrap_content" 
     	android:layout_width="wrap_content" 
     	android:id="@+id/system" 
     	android:layout_toRightOf="@+id/prev_system" 
     	android:layout_alignTop="@+id/prev_system" 
-    	android:layout_alignBottom="@+id/prev_system" />     
+    	android:layout_alignBottom="@+id/prev_system" android:paddingLeft="10dip" android:paddingRight="10dip"/>     
     	
     <ImageButton 
     	android:layout_width="wrap_content"

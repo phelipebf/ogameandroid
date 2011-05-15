@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -33,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.GalaxyPlanet;
 import com.overkill.ogame.game.GalaxyPlanetAdapter;
@@ -417,10 +419,15 @@ public class GalaxyView extends ListActivity {
 		ArrayList<GalaxyPlanet> galaxySystem = new ArrayList<GalaxyPlanet>();
 		
 		Document solarSystem = Jsoup.parse(html);
-		probeCount = solarSystem.select("#probeValue").text();
-		recyclerCount = Integer.parseInt(solarSystem.select("#recyclerValue").text());
-		missileCount = solarSystem.select("#missileValue").text();
-		
+		try{ 
+			probeCount = solarSystem.select("#probeValue").text();
+			recyclerCount = Integer.parseInt(solarSystem.select("#recyclerValue").text());
+			missileCount = solarSystem.select("#missileValue").text();
+		}catch (Exception e) {
+			probeCount = "0";
+			recyclerCount = 0;
+			missileCount = "0";
+		}
 		Elements slotValue = solarSystem.select("#slotValue");
 		slotsUsed = slotValue.select("#slotUsed").text();
 		slotValue.remove("#slotUsed");
@@ -440,7 +447,13 @@ public class GalaxyView extends ListActivity {
 				img = Tools.between(img, "(", ")");
 				img = img.replace("img/planets/micro/", "").replace(".gif", "");
 				img = img.substring(0, img.lastIndexOf("_"));
-				planet.setImage(getResources().getIdentifier("drawable/planet_" + img, null, getPackageName()));
+				int img_id = getResources().getIdentifier("drawable/planet_" + img, null, getPackageName());
+				if(img_id == 0){
+					FlurryAgent.onError("planetImage", "drawable/planet_" + img, "parseGalaxy");
+					Log.e(GameClient.TAG, "Unable to find drawable/planet_" + img);
+					img_id = R.drawable.planet_default;
+				}
+				planet.setImage(img_id);
 				
 				Elements h4 = microplanet.select("h4");
 				planet.setPlanetName(h4.select("span.textNormal").text());
