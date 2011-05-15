@@ -25,6 +25,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.flurry.android.FlurryAgent;
+import com.overkill.ogame.R;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -34,7 +37,7 @@ import android.util.Log;
  *
  */
 public class GameClient{
-	private static final String TAG = "ogame-core";
+	public static final String TAG = "ogame-core";
 	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
 	
@@ -182,6 +185,11 @@ public class GameClient{
 			img = img.replace("img/planets/", "").replace(".gif", "");
 			img = img.substring(0, img.lastIndexOf("_"));
 			int img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, context.getPackageName());
+			if(img_id == 0){
+				FlurryAgent.onError("planetImage", "drawable/planet_" + img, "loadPlanets");
+				Log.e(TAG, "Unable to find drawable/planet_" + img);
+				img_id = R.drawable.planet_default;
+			}
 			Element link = div.select("a").get(0);
 			String info = link.attr("title");
 			int id = 0;
