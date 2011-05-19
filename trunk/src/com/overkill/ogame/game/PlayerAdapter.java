@@ -1,6 +1,8 @@
 package com.overkill.ogame.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.overkill.ogame.R;
 
@@ -24,7 +26,8 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
 		this.objects = objects;
-		this.filteredobjects = objects;
+		this.sort(this.objects);
+		this.filteredobjects = this.objects;
 	}	
 	
 	@Override
@@ -59,5 +62,14 @@ public class PlayerAdapter extends ArrayAdapter<Player> {
 				this.filteredobjects.add(this.objects.get(i));
 		}
 		return this.getCount();
+	}
+	
+	public void sort(ArrayList<Player> list){
+		Collections.sort(list, new Comparator<Player>() {
+			@Override
+			public int compare(Player object1, Player object2) {
+				return object1.getPlayerName().compareTo(object2.getPlayerName());
+			}
+		});
 	}
 }
