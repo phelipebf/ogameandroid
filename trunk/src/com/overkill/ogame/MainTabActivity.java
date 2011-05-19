@@ -58,8 +58,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     }
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {     
-    	    	
+    public void onCreate(Bundle savedInstanceState) {         	    	
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);   
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_planet);     

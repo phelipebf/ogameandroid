@@ -45,6 +45,7 @@ public class AllianceView extends Activity {
 				WebView web = new WebView(this);
 				web.getSettings().setBuiltInZoomControls(true);
 				web.getSettings().setSupportZoom(true);
+				web.getSettings().setLoadsImagesAutomatically(true);
 				setContentView(web);
 				web.loadUrl(MainTabActivity.game.getBaseUrl() + "ainfo.php?allyid=" + uri.getQueryParameter("allyid"));
 			}

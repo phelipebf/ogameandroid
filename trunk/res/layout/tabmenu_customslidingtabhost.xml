@@ -48,7 +48,7 @@
     	android:scrollbarThumbHorizontal="@drawable/scrollbar_horizontal_thumb"
     	android:scrollbarSize="2dip"
     	android:layout_width="fill_parent"
-    	android:background="@drawable/bottom_bar" android:layout_height="wrap_content">
+    	android:background="@drawable/bottom_bar" android:layout_height="wrap_content" android:scrollbarAlwaysDrawHorizontalTrack="true">
     	<RadioGroup
         		android:layout_width="fill_parent"
         		android:layout_height="wrap_content"

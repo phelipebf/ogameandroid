@@ -9,6 +9,10 @@ public class Player implements Serializable {
 	String playerName;
 	int allianceID;
 	String allianceName;
+	boolean online = false;
+	int rank;
+	int points;
+	
 	
 	public Player(int playerID){
 		this.playerID = playerID;
@@ -18,6 +22,8 @@ public class Player implements Serializable {
 		this.playerID = playerID;
 		this.playerName = playerName;
 	}
+
+	public Player() {}
 
 	public int getPlayerID() {
 		return playerID;
@@ -49,5 +55,29 @@ public class Player implements Serializable {
 
 	public void setAllianceName(String allianceName) {
 		this.allianceName = allianceName;
+	}
+
+	public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}	
 }
