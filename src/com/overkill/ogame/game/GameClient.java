@@ -684,4 +684,32 @@ public class GameClient{
 	public String getIndexUrl(){
 		return this.indexbase;
 	}
+	
+	public Player[] getBuddyList(){		
+		Document html = Jsoup.parse(get("page=buddies&action=11"));
+		Elements entries = html.select("tr");
+		int count = entries.size() - 1; //remove header
+		Player buddies[] = new Player[count];
+		
+		for(int i = 0; i < count; i++){
+			Player p = new Player();
+			Element row = entries.get(i + 1);
+			Elements data = row.select("td");
+			p.setPlayerName(data.get(1).text());
+			p.setPoints(Integer.valueOf(data.get(2).text().replace(".", "")));
+			p.setRank(Integer.valueOf(data.get(3).text().replace(".", "")));
+			Element allyLink = data.get(4).select("a").first();
+			p.setAllianceName(allyLink.text());
+			String allyID = allyLink.attr("href");
+			allyID = allyID.substring(allyID.indexOf("allyid=") + "allyid=".length());
+			p.setAllianceID(Integer.valueOf(allyID));
+			p.setOnline(data.get(6).select("span").first().hasClass("undermark"));
+			String playerID = data.get(7).select("a").first().attr("onclick");
+			playerID = Tools.between(playerID, "to=", "&");
+			p.setPlayerID(Integer.valueOf(playerID));		
+			buddies[i] = p;
+		}
+		
+		return buddies;
+	}
 }

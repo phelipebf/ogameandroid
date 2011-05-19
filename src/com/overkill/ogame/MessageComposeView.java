@@ -6,6 +6,7 @@ import com.overkill.ogame.game.Tools;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
@@ -49,6 +50,19 @@ public class MessageComposeView extends Activity {
 			}
 		});
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		this.player = (Player) data.getExtras().get("to");
+		((EditText) findViewById(R.id.edit_to)).setText(player.getPlayerName());
+		((EditText) findViewById(R.id.edit_subject)).requestFocus();
+	}
+	
+	public void btnLookup(View view){
+		Intent i = new Intent(this, BuddyView.class);
+		startActivityForResult(i, 0);
 	}
 	
 	public void btnSend(View view){

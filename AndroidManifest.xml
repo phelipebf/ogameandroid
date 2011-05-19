@@ -25,6 +25,9 @@
 	    
 	    <activity android:name="Overview"
 	    		  android:screenOrientation="portrait" />
+	    		  
+	   	<activity android:name="BuddyView"
+	    		  android:screenOrientation="portrait" />
 	    
 		<activity android:name="SettingsView"
 				  android:label="@string/app_name"
