@@ -1,6 +1,7 @@
 package com.overkill.ogame;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -236,6 +238,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         			.putExtra("ulKey", new String[]{"military", "civil"})
         		);
         */
+        disableScrollbarFading((HorizontalScrollView)findViewById(R.id.bottomBar));
         commit();
         
         ((ImageButton)findViewById(R.id.home_button)).setOnClickListener(new ImageButton.OnClickListener() {			
@@ -368,5 +371,16 @@ public class MainTabActivity extends ScrollableTabActivity{
             	syncIndicator.setImageResource(android.R.drawable.ic_menu_recent_history);		
             }});
 		t.start();
-	}        
+	}     
+	
+	public static void disableScrollbarFading(View view) {
+	    try {
+	        Method setScrollbarFadingEnabled = View.class.getDeclaredMethod(
+	                "setScrollbarFadingEnabled", boolean.class);
+	        setScrollbarFadingEnabled.setAccessible(true);
+	        setScrollbarFadingEnabled.invoke(view, false);
+	    } catch (Exception e) {
+	        // OK, API level < 5
+	    }
+	}
 }
