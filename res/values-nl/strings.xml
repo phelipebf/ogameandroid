@@ -46,7 +46,7 @@
 	<string name="enter_amount">Hoeveelheid</string>
 	<string name="send_command">Opdracht versturen...</string>
 	<string name="ask_with_count" formatted="false">Opdracht voor %d %s versturen?</string>
-	<string name="ask_no_count" formatted="false">Opdracht voor %s versturen %s?</string>
+	<string name="ask_no_count" formatted="false">Opdracht voor %s versturen?</string>
 	<string name="now_building">%s wordt nu gebouwd.</string>
 	<string name="building_time">Bouwtijd: %s</string>
 	<string name="buildable_in">Niet genoeg grondstoffen\nBeschikbaar in: %s</string>
