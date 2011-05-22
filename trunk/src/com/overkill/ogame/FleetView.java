@@ -489,13 +489,14 @@ public class FleetView extends ListActivity {
 			serverTime.set(Calendar.MINUTE, Integer.parseInt(serverTimeArray[4]));
 			serverTime.set(Calendar.SECOND, Integer.parseInt(serverTimeArray[5]));		
 			serverTime.set(Calendar.MILLISECOND, 0);	
+			maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
+			speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
+			storageCapacity = Integer.parseInt(Tools.between(script, "storageCapacity = ", ";"));
 		}catch(Exception e){
 			// catch integer errors
 		}
 
-		maxSpeed = Integer.parseInt(Tools.between(script, "maxSpeed = ", ";"));
-		speedFactor = Integer.parseInt(Tools.between(script, "speedFactor = ", ";"));
-		storageCapacity = Integer.parseInt(Tools.between(script, "storageCapacity = ", ";"));
+		
 		
 		for(int i = 0; i < 13; i++) {
 			if(script.indexOf("shipIDs[" + i + "]") > -1) {
