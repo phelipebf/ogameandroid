@@ -12,4 +12,7 @@
 	<data server="ogame.nl">
 		<string name="moon_regex">\|&lt;B&gt;Spring naar ([^/]*)&lt;\/B&gt;</string>
 	</data>
+	<data server="ogame.com.es">
+		<string name="moon_regex">\|&lt;B&gt;Cambiar a ([^/]*)&lt;\/B&gt;</string>
+	</data>
 </resources>

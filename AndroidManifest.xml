@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.overkill.ogame"
-      android:versionCode="22" android:versionName="svn-trunk">
+      android:versionCode="23" android:versionName="svn-trunk">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
       
     <application android:icon="@drawable/icon" android:label="@string/app_name">    
