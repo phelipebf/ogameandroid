@@ -231,18 +231,25 @@ public class GameClient{
 				m.setShortInfo(info);
 				tmp.setMoon(m);
 				
-				// if planet is active but has an id then the moon is our current planet
-				if(link.classNames().contains("active") && tmp.getId() != 0)
-					this.current_planet = m;
 				
+				if(link.classNames().contains("active") && m.getName().equals(this.getPlanetNameFromOverview(body))){
+					this.current_planet = m;				
+				}else if(link.classNames().contains("active"))
+					this.current_planet = tmp;
+				
+				// if planet is active but has an id then the moon is our current planet
+				//if(link.classNames().contains("active") && tmp.getId() != 0)
+					//this.current_planet = m;
+				
+			}else{ // if has moon			
+				if(link.classNames().contains("active")){
+					this.current_planet = tmp;	
+				}
 			}
+
 			
-			if(tmp.getId() == 0)
-				this.current_planet = tmp;
-			
-			this.planets.add(tmp);			
-			
-		}
+			this.planets.add(tmp);				
+		} // For planets
 	}
 	
 	/**
@@ -251,9 +258,8 @@ public class GameClient{
 	 * @return The Planetname
 	 */
 	private String getPlanetNameFromOverview(String body){
-		int start = body.indexOf("planetNameHeader\">") + "planetNameHeader\">".length();
-		int end = body.indexOf("<", start);
-		return body.substring(start, end).trim();
+		Document html = Jsoup.parse(body);
+		return html.select("span#planetNameHeader").text();
 	}
 	
 	/**
@@ -262,7 +268,7 @@ public class GameClient{
 	 * @param token The token for this request
 	 * @return The HTTP-Satuscode of the reply
 	 */
-	public String execute(String url, String token){
+	public synchronized String execute(String url, String token){
 		try{
 			HttpGet httpget = new HttpGet(this.indexbase + url + "&session=" + this.session + "&token=" + token);
 			httpget.addHeader("User-Agent", USER_AGENT);
@@ -308,7 +314,7 @@ public class GameClient{
 	 * @param token The token for this request
 	 * @return The HTTP-Satuscode of the reply
 	 */
-	public String execute(String url, List<NameValuePair> postData, String token){
+	public synchronized String execute(String url, List<NameValuePair> postData, String token){
 		postData.add(new BasicNameValuePair("token", token));
 		return  execute(url, postData);
 	}
@@ -410,7 +416,6 @@ public class GameClient{
 	 * @return The currently selected {@link Planet}
 	 */
 	public Planet getCurrentPlanet(){
-		Log.i("Current Planet", this.current_planet.getName());
 		return this.current_planet;
 	}
 	
@@ -594,7 +599,7 @@ public class GameClient{
 	public FleetEvent[] getFleetEvents(){
 		Document html = Jsoup.parse(get("page=eventList&ajax=1"));	    	
 		
-		Elements events = html.select("div.eventFleet");
+		Elements events = html.select("tr.eventFleet");
 		
 		FleetEvent fes[] = new FleetEvent[events.size()];
 		
@@ -603,14 +608,16 @@ public class GameClient{
 		for(Element event : events){
 			String id = event.id().replace("eventRow-", "");
 			FleetEvent fe = new FleetEvent(Integer.valueOf(id));
-			fe.setArrivalTime(event.select("li.arrivalTime").text());
-			fe.setMission(event.select("li.missionFleet").text());
+			fe.setArrivalTime(event.select("td.arrivalTime").text());
+			String mission = event.select("td.missionFleet").select("img").attr("title");
+			mission = mission.substring(mission.indexOf("|") + 1);
+			fe.setMission(mission);
 			
-			fe.setOriginName(event.select("li.originFleet").text());
-			fe.setOriginCoords(event.select("li.coordsOrigin").text());
+			fe.setOriginName(event.select("td.originFleet").text());
+			fe.setOriginCoords(event.select("td.coordsOrigin").text());
 
-			fe.setDestinationName(event.select("li.destFleet").text());
-			fe.setDestinationCoords(event.select("li.destCoords").text());
+			fe.setDestinationName(event.select("td.destFleet").text());
+			fe.setDestinationCoords(event.select("td.destCoords").text());
 			
 			fe.setCanCancel(event.select("span.reversal").size() > 0);
 			
