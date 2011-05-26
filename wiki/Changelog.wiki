@@ -2,6 +2,12 @@
 
 =Changelog=
 
+== 0.6.3 ==
+ * Fixed crash on single planet accounts
+ * Fixed changes for 2.1.3 server update
+ * Added better errorhandling for further server updates
+ * Added Polish Translation
+
 == 0.6.2 ==
  * Added missing planet icons
  * Added folders to message box (*Will show up for everyone but only work if you have commander*)
