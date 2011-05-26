@@ -30,6 +30,7 @@ import com.overkill.ogame.R;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Controller für interaktion mit ogame server
@@ -40,6 +41,12 @@ public class GameClient{
 	public static final String TAG = "ogame-core";
 	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
+	
+	public static final int LOGIN_OK = 1;
+	public static final int LOGIN_WRONG_DATA = 2;
+	public static final int LOGIN_SERVER_VERSION = 3;
+	public static final int LOGIN_CONNECTION_TIMEOUT = 4;
+	public static final int LOGIN_UNKNOWN = 5;
 	
 	//
 	Context context;
@@ -63,6 +70,9 @@ public class GameClient{
 	//Server Specific Data
 	private String moon_regex = "";
 	
+	//Server Version
+	private String serverVersion = "0";
+	private String latestWorkingServerVersion = "2.1.3";
 	/**
 	 * Creates a new Game object
 	 * @param http The {DefaultHttpClient} containing cookies from login
@@ -112,53 +122,68 @@ public class GameClient{
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	public boolean login(String universe, String username, String password) throws ClientProtocolException, IOException{
-		http.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
-		HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
-		httppost.addHeader("User-Agent", USER_AGENT);
-		if(D) Log.i(TAG, "Login at " + httppost.getURI().toString());		
-		//build login post data
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("v", "2"));
-        nameValuePairs.add(new BasicNameValuePair("is_utf8", "0"));
-        nameValuePairs.add(new BasicNameValuePair("login", username));
-        nameValuePairs.add(new BasicNameValuePair("pass", password));
-        nameValuePairs.add(new BasicNameValuePair("submit", "Einloggen"));
-        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-        //execute request
-        HttpResponse response = http.execute(httppost);		
-        if(response == null){
-        	// Request timed out
-        	return false;
-        }
-        //read the target location (HTTP 302)
-       	String state = response.getHeaders("Location")[0].getValue();
-       	if(state.contains("error")){
-       		return false;
-       	}else{
-       		this.session = Tools.between(state, "session=", "&");
-       		this.username = username;
-       		this.password = password;
-       		this.universe = universe;
-    		this.imagebase = "http://"  + this.universe + "/game/";
-    		this.indexbase = this.imagebase + "index.php?";
-    		this.moon_regex = Tools.getServerSpecificData(this.context, this.universe.substring(this.universe.indexOf(".") + 1), "moon_regex");    		
-    		loadPlanets();
-    		return true;
-       	}       		
+	public int login(String universe, String username, String password){
+		try{
+			http.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
+			HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
+			httppost.addHeader("User-Agent", USER_AGENT);
+			if(D) Log.i(TAG, "Login at " + httppost.getURI().toString());		
+			//build login post data
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	        nameValuePairs.add(new BasicNameValuePair("v", "2"));
+	        nameValuePairs.add(new BasicNameValuePair("is_utf8", "0"));
+	        nameValuePairs.add(new BasicNameValuePair("login", username));
+	        nameValuePairs.add(new BasicNameValuePair("pass", password));
+	        nameValuePairs.add(new BasicNameValuePair("submit", "Einloggen"));
+	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	        //execute request
+	        HttpResponse response = http.execute(httppost);		
+	        if(response == null){
+	        	// Request timed out
+	        	return GameClient.LOGIN_CONNECTION_TIMEOUT;
+	        }
+	        //read the target location (HTTP 302)
+	       	String state = response.getHeaders("Location")[0].getValue();
+	       	if(state.contains("error")){
+	       		return GameClient.LOGIN_WRONG_DATA;
+	       	}else{
+	       		this.session = Tools.between(state, "session=", "&");
+	       		this.username = username;
+	       		this.password = password;
+	       		this.universe = universe;
+	    		this.imagebase = "http://"  + this.universe + "/game/";
+	    		this.indexbase = this.imagebase + "index.php?";
+	    		this.moon_regex = Tools.getServerSpecificData(this.context, this.universe.substring(this.universe.indexOf(".") + 1), "moon_regex");    
+	    		String html = this.get("page=overview");
+	    		this.serverVersion = this.getServerVersion(html);
+	    		if(this.serverVersion.compareTo(this.latestWorkingServerVersion) > 0)
+	    			return GameClient.LOGIN_SERVER_VERSION;
+	    		loadPlanets(html);
+	    		return GameClient.LOGIN_OK;
+	       	}       		
+		}catch (Exception e) {
+			Toast.makeText(this.context, e.getMessage(), Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+			return GameClient.LOGIN_UNKNOWN;
+		}
 	}
 	
 	/**
 	 * Tries to relogin
 	 * @return true or false if the login-attempt succeeds or fails 
 	 */
-	private boolean login(){
+	private int login(){
 		try {
 			return this.login(this.universe, this.username, this.password);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return GameClient.LOGIN_UNKNOWN;
 		}
+	}
+	
+	private String getServerVersion(String html){
+		Document doc = Jsoup.parse(html);
+		return doc.select("a[href*=changelog]:not(#changelog_link)").text();
 	}
 	
 	/**
@@ -250,6 +275,10 @@ public class GameClient{
 			
 			this.planets.add(tmp);				
 		} // For planets
+		
+		if(this.planets.size() == 1)
+			// If only one planet is present it has no active class
+			this.current_planet = this.planets.get(0);
 	}
 	
 	/**

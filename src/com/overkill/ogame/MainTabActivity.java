@@ -93,15 +93,32 @@ public class MainTabActivity extends ScrollableTabActivity{
 						Tools.trackLogin(domain, universe, preferences.getBoolean("show_ads", true));		
 						
 						game = new GameClient(MainTabActivity.this);
-						boolean state = game.login(universe, username, password);
+						final int state = game.login(universe, username, password);
 						
-				       	if(state == false){
+				       	if(state != GameClient.LOGIN_OK){
 				       		//hide loader and tell user
 				       		loader.cancel();
 				       		runOnUiThread(new Runnable() {									
 								@Override
 								public void run() {
-									Toast.makeText(MainTabActivity.this, R.string.error_login, Toast.LENGTH_SHORT).show();
+									String toastText = "";
+									switch (state) {
+									case GameClient.LOGIN_WRONG_DATA:
+										toastText = getString(R.string.error_login);
+										break;
+									case GameClient.LOGIN_CONNECTION_TIMEOUT:
+										toastText = "Unable to connect. Please check your network connection";
+										break;
+									case GameClient.LOGIN_SERVER_VERSION:
+										toastText = "The server version is not supported";
+										break;
+									case GameClient.LOGIN_UNKNOWN:
+										toastText = "An unknown error occured";
+										break;
+									default:
+										break;
+									}
+									Toast.makeText(MainTabActivity.this, toastText, Toast.LENGTH_SHORT).show();
 									Intent intent = new Intent(MainTabActivity.this, LoginView.class);
 									startActivity(intent);								
 									finish();
