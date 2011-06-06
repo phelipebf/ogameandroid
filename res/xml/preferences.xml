@@ -22,8 +22,8 @@
             android:title="@string/settings_display">
             
        	<CheckBoxPreference
-                android:key="show_ads"
-                android:title="Show Ads"
+                android:key="show_ads_2"
+                android:title="@string/settings_show_ads"
                 android:defaultValue="true" />      
        
        	<CheckBoxPreference
@@ -109,5 +109,18 @@
                 android:dependency="fleetsystem_global"
                 android:layout="?android:attr/preferenceLayoutChild" />
     </PreferenceCategory>
+    
+     <PreferenceCategory
+            android:title="More">
+            
+     <Preference android:title="Donate"
+                android:summary="!! Donation will NOT remove Advertisement !!"
+                android:key="donate" />
+                
+     <Preference android:title="About"
+                android:summary="Find out who is working on this app"
+                android:key="about" />    
+            
+     </PreferenceCategory>
 
 </PreferenceScreen>
