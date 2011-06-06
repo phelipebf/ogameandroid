@@ -62,6 +62,8 @@
 	<string name="settings_disabled">Hide inactive</string>
 	<string name="settings_disabled_summary">Hide Objects you can\'t build</string>
 	
+	<string name="settings_show_ads">Show Advertisement</string>
+	
 	<string name="settings_fleet">Fleetalarm Settings</string>
 	<string name="settings_fleet_global">Activate Fleetalarm</string>
 	<string name="settings_fleet_global_summary">Globally activate Fleetalarms</string>
@@ -141,4 +143,17 @@
 	
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
+	
+	<string name="billing_not_supported_title">Can\'t make purchases</string>
+    <string name="billing_not_supported_message">The Market billing
+     service is not available at this time.  You can continue to use this app but you
+     won\'t be able to make purchases.</string>
+    <string name="cannot_connect_title">Can\'t connect to Market</string>
+    <string name="cannot_connect_message">This app cannot connect to Market.
+     Your version of Market may be out of date.
+     You can continue to use this app but you
+     won\'t be able to make purchases.</string>     
+    <string name="learn_more">Learn more</string>
+    <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
+    <string name="restoring_transactions">Checking for purchase</string>
 </resources>

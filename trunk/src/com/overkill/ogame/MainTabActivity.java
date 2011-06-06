@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,7 +61,8 @@ public class MainTabActivity extends ScrollableTabActivity{
     }
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {         	    	
+    public void onCreate(Bundle savedInstanceState) {         	 
+    	Log.i("OGAME", "onCreate");   	
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);   
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_planet);     
@@ -175,7 +177,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", "1"));
         tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", "0"));
     	
-    	if(preferences.getBoolean("show_ads", true)){
+    	if(preferences.getBoolean("show_ads_2", true)){
 	    	//Load Ads
 	    	AdRequest adRequest = new AdRequest();
 	    	AdView adView = (AdView)this.findViewById(R.id.adView);
@@ -249,12 +251,10 @@ public class MainTabActivity extends ScrollableTabActivity{
         			.putExtra("liKey", new String[]{"defense"})
         		);
         
-        /*this.addTab(getString(R.string.tab_fleet), R.drawable.navi_ikon_fleet1_a, RadioStateDrawable.SHADE_GRAY, RadioStateDrawable.SHADE_YELLOW, 
-        		new Intent(this, FleetView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("tab", "fleet1")
-        			.putExtra("ulKey", new String[]{"military", "civil"})
-        		);
-        */
+        /*this.addTab(getString(R.string.tab_fleet), R.drawable.navi_ikon_fleet1_a, tab_shade_off, tab_shade_on, 
+        		new Intent(this, MovementView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        		);*/
+        
         disableScrollbarFading((HorizontalScrollView)findViewById(R.id.bottomBar));
         commit();
         
@@ -350,6 +350,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     
     @Override
     public void onResume() {
+    	Log.i("OGAME", "onResume");
     	super.onResume();
     	if(ready){
     		reloadTitleData(false);

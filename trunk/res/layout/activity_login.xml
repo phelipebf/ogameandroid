@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:admobsdk="http://schemas.android.com/apk/res/com.overkill.ogame"	
     android:background="@drawable/background"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" android:orientation="vertical">
-<!-- <com.admob.android.ads.AdView  
-	 	android:id="@+id/ad" 
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    admobsdk:backgroundColor="#000000"
-	    admobsdk:primaryTextColor="#FFFFFF"
-        admobsdk:secondaryTextColor="#CCCCCC"
-        admobsdk:keywords="Android application" /> -->
+    
 <Spinner
     android:layout_height="wrap_content"     
     android:id="@+id/sel_domain"
     android:entries="@array/countries" android:layout_width="fill_parent"/>
-
     
 <Spinner
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"     
-    android:id="@+id/sel_uni"
-    />
+    android:id="@+id/sel_uni"  />
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -33,19 +23,17 @@
     android:layout_height="wrap_content" 
     android:id="@+id/txt_login_user"
     android:text=""
-/>
+android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android:imeOptions="actionNext|flagNoEnterAction"/>
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/password"
-    />
+    android:text="@string/password" />
 <EditText
 	android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:id="@+id/txt_login_password"    
     android:text=""
-    android:password="true"
-/>
+    android:password="true" android:imeOptions="actionDone|flagNoEnterAction" android:inputType="textPassword"/>
 <CheckBox
 	android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
