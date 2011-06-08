@@ -42,6 +42,8 @@ public class GameClient{
 	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
 	
+	private String latestWorkingServerVersion = "2.1.4";
+	
 	public static final int LOGIN_OK = 1;
 	public static final int LOGIN_WRONG_DATA = 2;
 	public static final int LOGIN_SERVER_VERSION = 3;
@@ -72,7 +74,7 @@ public class GameClient{
 	
 	//Server Version
 	private String serverVersion = "0";
-	private String latestWorkingServerVersion = "2.1.3";
+
 	/**
 	 * Creates a new Game object
 	 * @param http The {DefaultHttpClient} containing cookies from login
@@ -123,6 +125,7 @@ public class GameClient{
 	 * @throws IOException
 	 */
 	public int login(String universe, String username, String password){
+		int returnState = 0;
 		try{
 			http.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
 			HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
@@ -157,9 +160,9 @@ public class GameClient{
 	    		String html = this.get("page=overview");
 	    		this.serverVersion = this.getServerVersion(html);
 	    		if(this.serverVersion.compareTo(this.latestWorkingServerVersion) > 0)
-	    			return GameClient.LOGIN_SERVER_VERSION;
+	    			returnState = GameClient.LOGIN_SERVER_VERSION;
 	    		loadPlanets(html);
-	    		return GameClient.LOGIN_OK;
+	    		return (returnState == 0) ? GameClient.LOGIN_OK : returnState;
 	       	}       		
 		}catch (Exception e) {
 			Toast.makeText(this.context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -266,11 +269,12 @@ public class GameClient{
 				//if(link.classNames().contains("active") && tmp.getId() != 0)
 					//this.current_planet = m;
 				
-			}else{ // if has moon			
+			}else{ // if has no moon			
 				if(link.classNames().contains("active")){
 					this.current_planet = tmp;	
 				}
 			}
+			Log.i(TAG, link.className());
 
 			
 			this.planets.add(tmp);				
@@ -279,6 +283,8 @@ public class GameClient{
 		if(this.planets.size() == 1)
 			// If only one planet is present it has no active class
 			this.current_planet = this.planets.get(0);
+		
+		
 	}
 	
 	/**

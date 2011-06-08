@@ -136,5 +136,14 @@ public class FleetEvent {
 			this.timeLeft = 0;
 		else
 			this.timeLeft = timeLeft;
-	}		
+	}	
+	
+	@Override
+	public boolean equals(Object o) {
+		FleetEvent f = (FleetEvent)o;
+		return f.getOriginCoords().equals(this.getOriginCoords()) && 
+			   f.getDestinationCoords().equals(this.getDestinationCoords()) && 
+			   f.getMission().equals(this.getMission()) && 
+			   f.getArrivalTime().equals(this.getArrivalTime());
+	}
 }

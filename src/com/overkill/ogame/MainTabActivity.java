@@ -97,7 +97,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 						game = new GameClient(MainTabActivity.this);
 						final int state = game.login(universe, username, password);
 						
-				       	if(state != GameClient.LOGIN_OK){
+				       	if(state == GameClient.LOGIN_WRONG_DATA || state == GameClient.LOGIN_CONNECTION_TIMEOUT || state == GameClient.LOGIN_UNKNOWN){
 				       		//hide loader and tell user
 				       		loader.cancel();
 				       		runOnUiThread(new Runnable() {									
@@ -110,9 +110,6 @@ public class MainTabActivity extends ScrollableTabActivity{
 										break;
 									case GameClient.LOGIN_CONNECTION_TIMEOUT:
 										toastText = "Unable to connect. Please check your network connection";
-										break;
-									case GameClient.LOGIN_SERVER_VERSION:
-										toastText = "The server version is not supported";
 										break;
 									case GameClient.LOGIN_UNKNOWN:
 										toastText = "An unknown error occured";
@@ -128,6 +125,14 @@ public class MainTabActivity extends ScrollableTabActivity{
 							});
 				       		
 				       	}else{ //LOGIN OK
+				       		if(state == GameClient.LOGIN_SERVER_VERSION){
+				       			runOnUiThread(new Runnable() {									
+									@Override
+									public void run() {
+										Toast.makeText(MainTabActivity.this, "Warning\nThe server version may not be fully supported.\nPlease check for an update.", Toast.LENGTH_SHORT).show();
+									}
+								});
+				       		}
 					       	//should we save the login data
 					       	if(save){
 								SharedPreferences.Editor editor = preferences.edit();
@@ -177,7 +182,7 @@ public class MainTabActivity extends ScrollableTabActivity{
     	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", "1"));
         tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", "0"));
     	
-    	if(preferences.getBoolean("show_ads_2", true)){
+    	if(preferences.getBoolean("show_ads", true)){
 	    	//Load Ads
 	    	AdRequest adRequest = new AdRequest();
 	    	AdView adView = (AdView)this.findViewById(R.id.adView);
