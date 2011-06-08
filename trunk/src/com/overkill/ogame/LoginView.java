@@ -226,7 +226,7 @@ public class LoginView extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        	case R.id.settings: Log.i("OGAME", "settings"); startActivity(new Intent(this, SettingsViewWithInAppBilling.class)); return true;
+        	case R.id.settings: Log.i("OGAME", "settings"); startActivity(new Intent(this, SettingsView.class)); return true;
         	case R.id.reloadunivers: 
         		Spinner spinner = ((Spinner) findViewById(R.id.sel_domain));
         		int position = spinner.getSelectedItemPosition();
