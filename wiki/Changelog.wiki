@@ -2,6 +2,7 @@
 
 =Changelog=
 == 0.6.4 ==
+ * Added Spanish Translation
  * update to server version 2.1.4
  * improved handling of server updates
 
