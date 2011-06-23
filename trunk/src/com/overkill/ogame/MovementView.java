@@ -48,16 +48,30 @@ public class MovementView extends ListActivity {
 	public void loadData(){
 		Thread t = new Thread(new Runnable() {			
 		 	@Override
-			public void run() {							
+			public void run() {		
+		 		// Get All Events (own + hostile)
+		 		ArrayList<FleetEvent> allEvents = new ArrayList<FleetEvent>(Arrays.asList(MainTabActivity.game.getFleetEvents()));
+		 		// Get own Events with cancel IDs
+		 		ArrayList<FleetEvent> myEvents = new ArrayList<FleetEvent>(Arrays.asList(MainTabActivity.game.getCancelableFleetEvents()));
+		 		// Merge cancel IDs to all events
+		 		int eventCount = allEvents.size();
+		 		for(int i = 0; i < eventCount; i++){
+		 			int indexInMy = myEvents.indexOf(allEvents.get(i));
+		 			if(indexInMy < 0){ // Not found
+		 				continue;
+		 			}
+		 			allEvents.set(i, myEvents.get(indexInMy));
+		 		}
+		 		
 				adapter = new FleetEventAdapter(MovementView.this,
 						R.layout.adapter_item_fleetevent,
-						new ArrayList<FleetEvent>(Arrays.asList(MainTabActivity.game.getFleetEvents())));		
+						allEvents);		
 				runOnUiThread(new Runnable() {					
 					@Override
 					public void run() {
 						setListAdapter(adapter);
 						setProgressBarIndeterminateVisibility(false);	
-						h_countdown.removeCallbacks(t_countdown);
+						/*h_countdown.removeCallbacks(t_countdown);
 						t_countdown = new Runnable() {
 					   		 public void run() {
 					   			 		for(int i = 0; i < adapter.getCount(); i++){
@@ -70,6 +84,7 @@ public class MovementView extends ListActivity {
 						};   
 						if(adapter.getCount() > 0)
 							t_countdown.run();
+						*/
 					}
 				});
 			}

@@ -33,8 +33,13 @@ public class ResourceSettingsView extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.activity_resource_settings);
-		load();		
+		setContentView(R.layout.activity_resource_settings);		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		load();
 	}
 	
 	@Override
@@ -55,12 +60,7 @@ public class ResourceSettingsView extends ListActivity {
 		});
 		dialog.show();
 	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-	
+		
 	private String getSelectedValue(Element select){
 		Elements options = select.select("option");
 		for(int i = 0; i < options.size(); i++){

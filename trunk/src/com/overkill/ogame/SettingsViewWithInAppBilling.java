@@ -82,6 +82,8 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
 
     private boolean donateOnly = false;
     
+    private boolean inAppEnabled = false;
+    
     /**
      * Each product in the catalog is either MANAGED or UNMANAGED.  MANAGED
      * means that the product can be purchased only once per user (such as a new
@@ -110,8 +112,10 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
             if (supported) {
                 restoreDatabase();
                 mBuyButton.setEnabled(true);
+                inAppEnabled = true;
             } else {
                 showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
+                //((Preference)findPreference("donate")).setEnabled(false);
             }
         }
 
@@ -330,7 +334,12 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
         ((Preference)findPreference("donate")).setOnPreferenceClickListener(new OnPreferenceClickListener() {			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				createDonationDialog();
+				if(inAppEnabled){
+					createDonationDialog();
+				}else{
+					Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
+					startActivity(myIntent);
+				}
 				return false;
 			}
 		});

@@ -6,12 +6,10 @@
     android:layout_height="fill_parent"
      >
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-    <Button android:text="0 %" android:onClick="setAllNull" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
-    <Button android:text="100 %" android:onClick="setAllMax" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
-    </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-    <Button android:text="save" android:onClick="save" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
-    </LinearLayout>
+	    <Button android:text="0 %" android:onClick="setAllNull" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+	    <Button android:text="save" android:onClick="save" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+	    <Button android:text="100 %" android:onClick="setAllMax" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+ 	</LinearLayout>
 	
 	<ListView
 	android:id="@android:id/list"

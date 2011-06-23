@@ -256,9 +256,8 @@ public class MainTabActivity extends ScrollableTabActivity{
         			.putExtra("liKey", new String[]{"defense"})
         		);
         
-        /*this.addTab(getString(R.string.tab_fleet), R.drawable.navi_ikon_fleet1_a, tab_shade_off, tab_shade_on, 
-        		new Intent(this, MovementView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        		);*/
+        this.addTab(getString(R.string.menu_resources), R.drawable.navi_ikon_resources_a, tab_shade_off, tab_shade_on, 
+        		new Intent(this, ResourceSettingsView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         
         disableScrollbarFading((HorizontalScrollView)findViewById(R.id.bottomBar));
         commit();

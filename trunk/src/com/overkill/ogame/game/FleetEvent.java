@@ -1,5 +1,7 @@
 package com.overkill.ogame.game;
 
+import android.util.Log;
+
 public class FleetEvent {	
 	public static final int MISSION_NONE = 0;
 	public static final int MISSION_ATTACK = 1;
@@ -140,6 +142,7 @@ public class FleetEvent {
 	
 	@Override
 	public boolean equals(Object o) {
+		Log.i("FleetEvent", ".equals()");
 		FleetEvent f = (FleetEvent)o;
 		return f.getOriginCoords().equals(this.getOriginCoords()) && 
 			   f.getDestinationCoords().equals(this.getDestinationCoords()) && 
