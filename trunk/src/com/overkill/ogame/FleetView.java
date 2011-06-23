@@ -758,18 +758,20 @@ public class FleetView extends ListActivity {
 	//$('form[name=sendForm]').serialize()
 	//"holdingtime=1&expeditiontime=1&galaxy=3&system=293&position=8&type=1&mission=4&union2=0&holdingOrExpTime=0&speed=10&am202=2&metal=0&crystal=0&deuterium=0"
 	private void sendShips3() {
-
-        runOnUiThread(new Runnable() {			
+		final ProgressDialog loaderDialog = new ProgressDialog(FleetView.this);					
+		loaderDialog.setMessage(getString(R.string.loading));
+		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {
-				
 				if(FleetEvent.MISSION_NONE == mission) {
-					Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.fleet3_noMission), Toast.LENGTH_LONG).show();
-				} else {
-					final ProgressDialog loaderDialog = new ProgressDialog(FleetView.this);					
-					loaderDialog.setMessage(getString(R.string.loading));
-					loaderDialog.show();
-										
+					runOnUiThread(new Runnable() {			
+						@Override
+						public void run() {
+							loaderDialog.cancel();
+							Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.fleet3_noMission), Toast.LENGTH_LONG).show();							
+						}
+					});
+				} else {															
 					List<NameValuePair> postData = new ArrayList<NameValuePair>();
 					postData.add(new BasicNameValuePair("galaxy", targetGalaxy));
 					postData.add(new BasicNameValuePair("system", targetSystem));
@@ -797,13 +799,19 @@ public class FleetView extends ListActivity {
 						}
 					}
 					MainTabActivity.game.execute("page=movement", postData);
-					
-					loaderDialog.cancel();
-					startActivity(new Intent(FleetView.this, MovementView.class));
-					finish();
-				}
+					runOnUiThread(new Runnable() {			
+						@Override
+						public void run() {
+							loaderDialog.cancel();
+							startActivity(new Intent(FleetView.this, MovementView.class));
+							finish();
+						}
+					});
+				}				
 			}
 		});
+		loaderDialog.show();
+		t.start();
 	}
 	
 	
