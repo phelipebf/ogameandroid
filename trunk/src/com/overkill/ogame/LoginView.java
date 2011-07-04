@@ -186,9 +186,10 @@ public class LoginView extends Activity {
 		btn_donate.setOnClickListener(new Button.OnClickListener() {	
 			@Override
 			public void onClick(View v) {
+				startActivity(new Intent(LoginView.this, SettingsViewWithInAppBilling.class).putExtra("donateOnly", true));
 				//PLEASE DO NOT CHANGE THIS PAYPAL LINK!!
-				Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
-				startActivity(myIntent);
+				//Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
+				//startActivity(myIntent);
 			}		
 		});		
 	}
@@ -226,7 +227,7 @@ public class LoginView extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        	case R.id.settings: Log.i("OGAME", "settings"); startActivity(new Intent(this, SettingsViewWithInAppBilling.class)); return true;
+        	case R.id.settings: startActivity(new Intent(this, SettingsViewWithInAppBilling.class)); return true;
         	case R.id.reloadunivers: 
         		Spinner spinner = ((Spinner) findViewById(R.id.sel_domain));
         		int position = spinner.getSelectedItemPosition();

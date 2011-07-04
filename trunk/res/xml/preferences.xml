@@ -101,9 +101,13 @@
      <PreferenceCategory
             android:title="More">
             
-     <Preference android:title="Donate"
+     <Preference android:title="Donate (inApp Payment)"
                 android:summary="!! Donation will NOT remove Advertisement !!"
                 android:key="donate" />
+                
+     <Preference android:title="Donate (Paypal)"
+                android:summary="!! Donation will NOT remove Advertisement !!"
+                android:key="donate_paypal" />
                 
      <Preference android:title="About"
                 android:summary="Find out who is working on this app"

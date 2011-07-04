@@ -77,29 +77,13 @@ public class GameClient{
 
 	/**
 	 * Creates a new Game object
-	 * @param http The {DefaultHttpClient} containing cookies from login
-	 * @param session The session-id passed on in the url
-	 * @param base The base of the url, containing univers and tld
-	 */
-	/*public GameClient(Context context, DefaultHttpClient http, String session, String universe) {
-		this.context = context;
-		this.http = http;
-		this.session = session;
-		this.indexbase = "http://"  + universe + "/game/index.php?";
-		this.imagebase = "http://"  + universe + "/game/";
-		this.loadPlanets();
-	}*/
-	
+	 * @param context
+	 */	
 	public GameClient(Context context){
 		this.context = context;
 		HttpParams httpParameters = new BasicHttpParams();
-		// Set the timeout in milliseconds until a connection is established.
-		int timeoutConnection = 5000;
-		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-		// Set the default socket timeout (SO_TIMEOUT) 
-		// in milliseconds which is the timeout for waiting for data.
-		int timeoutSocket = 5000;
-		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+		HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
+		HttpConnectionParams.setSoTimeout(httpParameters, 2000);
 		this.http.setParams(httpParameters);
 	}
 	
@@ -431,10 +415,15 @@ public class GameClient{
 			HttpResponse response = this.http.execute(httpget);
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
             response.getEntity().writeTo(ostream);
+            String data = ostream.toString();
             // TODO check if connection is valid. If not call login function
-            return ostream.toString();
+            if(data.startsWith("<script>document.location.href=")){ // session has died
+            	this.login();
+            	return this.get(url);
+            }
+            return data;
 		}catch(Exception ex){
-			return "";
+			return null;
 		}
 	}	
 
@@ -570,6 +559,27 @@ public class GameClient{
         }catch(Exception e){
         	return false;
         }        
+	}
+	
+	public boolean abandonPlanet(String password){
+		List<NameValuePair> postData = new ArrayList<NameValuePair>();
+        postData.add(new BasicNameValuePair("abandon", "some hash value"));
+        postData.add(new BasicNameValuePair("password", password));
+        String result = execute("page=planetGiveup", postData);
+        Log.i("abandonPlanet", result);
+        boolean state = false;
+        try{
+        	JSONObject json = new JSONObject(result);
+        	state = json.getBoolean("status");
+        }catch(Exception e){
+        	state = false;
+        }    
+		// Drop to first Planet and reload list
+        if(state){
+			this.switchPlanet(this.planets.get(0).getId());
+			this.loadPlanets();
+        }
+		return state;
 	}
 	
 	public FleetEvent[] getCancelableFleetEvents(){

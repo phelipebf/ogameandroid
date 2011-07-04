@@ -144,6 +144,12 @@
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	
+	<string name="planet_rename_title">Rename Planet</string>
+	<string name="planet_rename_text">Enter new Name:</string>
+	<string name="planet_abandon_title">Abandon Planet</string>
+	<string name="planet_abandon_text">Are you sure you want to abandon the planet called %s?</string>
+	<string name="planet_abandon_question">To abandon the planet please enter your password</string>
+	
 	<string name="billing_not_supported_title">Can\'t make purchases</string>
     <string name="billing_not_supported_message">The Market billing
      service is not available at this time.  You can continue to use this app but you

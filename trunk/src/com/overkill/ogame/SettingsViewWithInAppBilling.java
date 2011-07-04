@@ -57,11 +57,13 @@ import java.util.Set;
 /**
  * A sample application that demonstrates in-app billing.
  */
-public class SettingsViewWithInAppBilling extends PreferenceActivity implements OnPreferenceChangeListener, DialogInterface.OnClickListener {
+public class SettingsViewWithInAppBilling extends PreferenceActivity{
     private static final String TAG = "ogame-donate";
 
     private static final String DB_INITIALIZED = "db_initialized";
 
+    private static final String paypalurl = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted";
+    private static final String abouturl = "http://code.google.com/p/ogameandroid/people/list";
     private DonationObserver mDonationObserver;
     private Handler mHandler;
 
@@ -79,11 +81,7 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
 
     private static final int DIALOG_CANNOT_CONNECT_ID = 1;
     private static final int DIALOG_BILLING_NOT_SUPPORTED_ID = 2;
-
-    private boolean donateOnly = false;
-    
-    private boolean inAppEnabled = false;
-    
+        
     /**
      * Each product in the catalog is either MANAGED or UNMANAGED.  MANAGED
      * means that the product can be purchased only once per user (such as a new
@@ -112,10 +110,9 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
             if (supported) {
                 restoreDatabase();
                 mBuyButton.setEnabled(true);
-                inAppEnabled = true;
             } else {
                 showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
-                //((Preference)findPreference("donate")).setEnabled(false);
+                ((Preference)findPreference("donate")).setEnabled(false);
             }
         }
 
@@ -134,10 +131,6 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
 
             if (purchaseState == PurchaseState.PURCHASED) {
                 mOwnedItems.add(itemId);
-                // close settings if we only want to donate
-                if(donateOnly){
-                	finish();
-                }
             }
             mCatalogAdapter.setOwnedItems(mOwnedItems);
             mOwnedItemsCursor.requery();
@@ -234,10 +227,6 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
             showDialog(DIALOG_CANNOT_CONNECT_ID);
         }
         
-        if(getIntent().hasExtra("donateOnly")){
-        	donateOnly = true;
-        	createDonationDialog();
-        }
     }
 
     /**
@@ -329,17 +318,35 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
 
         mBuyButton = (CheckBoxPreference)findPreference("show_ads");
         mBuyButton.setEnabled(false);
-        mBuyButton.setOnPreferenceChangeListener(this);
+        mBuyButton.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        	@Override
+        	public boolean onPreferenceChange(Preference preference, Object newValue) {
+        		boolean newState = (Boolean)newValue;
+        		if(newState == true){
+        			return true;
+        		}
+        		if(!hasAdsFree()){
+        			createAdsFreeDialog();
+        			return false;
+        		}else{
+        			return true;
+        		}
+        	}
+		});
         
         ((Preference)findPreference("donate")).setOnPreferenceClickListener(new OnPreferenceClickListener() {			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				if(inAppEnabled){
-					createDonationDialog();
-				}else{
-					Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
-					startActivity(myIntent);
-				}
+				createDonationDialog();
+				return false;
+			}
+		});
+        
+        ((Preference)findPreference("donate_paypal")).setOnPreferenceClickListener(new OnPreferenceClickListener() {			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(paypalurl));
+				startActivity(myIntent);
 				return false;
 			}
 		});
@@ -347,15 +354,26 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
         ((Preference)findPreference("about")).setOnPreferenceClickListener(new OnPreferenceClickListener() {			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://code.google.com/p/ogameandroid/people/list")));
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(abouturl)));
 				return false;
 			}
 		});        
         
         mCatalogAdapter = new CatalogAdapter(this, CATALOG);
-
         mOwnedItemsCursor = mPurchaseDatabase.queryAllPurchasedItems();
         startManagingCursor(mOwnedItemsCursor);
+        
+        if(getIntent().hasExtra("donateOnly")){
+        	runOnUiThread(new Runnable() {				
+				@Override
+				public void run() {
+		        	getListView().setSelection(10);
+		        	getListView().setSelected(true);
+					
+				}
+			});
+        	// scroll down
+        }
     }
 
     private void prependLogEntry(CharSequence cs) {
@@ -433,24 +451,21 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
         });
     }
 
-	@Override
-	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		boolean newState = (Boolean)newValue;
-		if(newState == true){
-			return true;
-		}
-		if(!hasAdsFree()){
-			createAdsFreeDialog();
-			return false;
-		}else{
-			return true;
-		}
-	}
+	
     
 	public void createDonationDialog(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("How much do you want to donate ?");
-		builder.setAdapter(mCatalogAdapter, this);
+		builder.setAdapter(mCatalogAdapter, new DialogInterface.OnClickListener() {			
+			public void onClick(DialogInterface dialog, int position) {
+				mItemName = CATALOG[position].name;
+		        mSku = CATALOG[position].sku;
+		        if (Consts.DEBUG) { Log.d(TAG, "buying: " + mItemName + " sku: " + mSku); }
+		        if (!mBillingService.requestPurchase(mSku, null)) {
+		            showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
+		        }				
+			}
+		});
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
@@ -464,22 +479,12 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity implements 
         }
 	}
 	
-	public boolean hasAdsFree(){
-		Log.d(TAG, "mOwnedItems.size(): " + mOwnedItems.size());	
-		Log.d(TAG, "mOwnedItemsCursor.getCount(): " + mOwnedItemsCursor.getCount());			
+	public boolean hasAdsFree(){	
 		return mOwnedItems.size() > 0;
 	}
     
-    /**
-     * Called when an item in the spinner is selected.
-     */
     public void onClick(DialogInterface dialog, int position) {
-        mItemName = CATALOG[position].name;
-        mSku = CATALOG[position].sku;
-        if (Consts.DEBUG) { Log.d(TAG, "buying: " + mItemName + " sku: " + mSku); }
-        if (!mBillingService.requestPurchase(mSku, null)) {
-            showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
-        }
+        
     }
 
     /**
