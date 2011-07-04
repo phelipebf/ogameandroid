@@ -273,34 +273,23 @@ public class MainTabActivity extends ScrollableTabActivity{
         ((ImageButton)findViewById(R.id.home_button)).setOnLongClickListener(new ImageButton.OnLongClickListener() {			
 			@Override
 			public boolean onLongClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(MainTabActivity.this);
-				final EditText input = new EditText(MainTabActivity.this);
-		    	input.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-				dialog.setTitle("Rename Planet");
-				dialog.setMessage("Enter new Name:");
-				dialog.setView(input);
-				dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {			
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String newPlanetName = input.getEditableText().toString();
-						boolean result = MainTabActivity.game.renamePlanet(newPlanetName);
-						if(result){
-							Toast.makeText(MainTabActivity.this, "Success", Toast.LENGTH_SHORT).show();
-							reloadTitleData(true);
-							dialog.cancel();
-						}else{
-							Toast.makeText(MainTabActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-							dialog.cancel();
+				final CharSequence[] items = {getString(R.string.planet_rename_title), getString(R.string.planet_abandon_title)};
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainTabActivity.this);
+				builder.setTitle("Select Action");				
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int item) {
+				    	switch (item) {
+						case 0:
+							showRenamePlanetDialog();
+							break;
+						case 1:
+							showAbandonPlanetDialog();
+							break;
 						}
-					}
+				    }
 				});
-				dialog.setNegativeButton(android.R.string.cancel, new OnClickListener() {			
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();				
-					}
-				});
-				dialog.show();
+				AlertDialog alert = builder.create();
+				alert.show();
 				return true;
 			}
 		});
@@ -404,5 +393,85 @@ public class MainTabActivity extends ScrollableTabActivity{
 	    } catch (Exception e) {
 	        // OK, API level < 5
 	    }
+	}
+	
+	public void showRenamePlanetDialog(){
+		AlertDialog.Builder dialog = new AlertDialog.Builder(MainTabActivity.this);
+		final EditText input = new EditText(MainTabActivity.this);
+		input.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		dialog.setTitle(R.string.planet_rename_title);
+		dialog.setMessage(R.string.planet_rename_text);
+		dialog.setView(input);
+		dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String newPlanetName = input.getEditableText().toString();
+				boolean result = MainTabActivity.game.renamePlanet(newPlanetName);
+				if(result){
+					Toast.makeText(MainTabActivity.this, "Success", Toast.LENGTH_SHORT).show();
+					reloadTitleData(true);
+					dialog.cancel();
+				}else{
+					Toast.makeText(MainTabActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+					dialog.cancel();
+				}
+			}
+		});
+		dialog.setNegativeButton(android.R.string.cancel, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();				
+			}
+		});
+		dialog.show();
+	}
+	
+	public void showAbandonPlanetDialog(){
+		AlertDialog.Builder dialog = new AlertDialog.Builder(MainTabActivity.this);
+		dialog.setTitle(R.string.planet_abandon_title);
+		dialog.setMessage(getString(R.string.planet_abandon_text, MainTabActivity.game.getCurrentPlanet().getName()));
+		dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				showAbandonPlanetValidationDialog();
+			}
+		});
+		dialog.setNegativeButton(android.R.string.cancel, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();				
+			}
+		});
+		dialog.show();
+	}
+	
+	public void showAbandonPlanetValidationDialog(){
+		AlertDialog.Builder dialog = new AlertDialog.Builder(MainTabActivity.this);
+		final EditText input = new EditText(MainTabActivity.this);
+		input.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		dialog.setTitle(R.string.planet_abandon_title);
+		dialog.setMessage(R.string.planet_abandon_question);
+		dialog.setView(input);
+		dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String password = input.getEditableText().toString();
+				boolean result = MainTabActivity.game.abandonPlanet(password);
+				if(result){
+					Toast.makeText(MainTabActivity.this, "Success", Toast.LENGTH_SHORT).show();
+					dialog.cancel();
+				}else{
+					Toast.makeText(MainTabActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+					dialog.cancel();
+				}
+			}
+		});
+		dialog.setNegativeButton(android.R.string.cancel, new OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();				
+			}
+		});
+		dialog.show();
 	}
 }
