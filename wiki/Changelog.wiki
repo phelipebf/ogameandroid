@@ -1,6 +1,15 @@
 #summary Changelog
 
 =Changelog=
+
+== 0.6.5 ==
+ * update to server version 2.2.5
+ * Disabled market-only features
+ * Removed resource settings from context menu
+ * Added resource settings to tab menu
+ * Added abandon planet function
+ * Further improved loading and crash reduction
+
 == 0.6.4 ==
  * Added Spanish Translation
  * update to server version 2.1.4
