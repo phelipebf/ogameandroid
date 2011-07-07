@@ -124,7 +124,7 @@ public class Security {
              * Generally, encryption keys / passwords should only be kept in memory
              * long enough to perform the operation they need to perform.
              */
-            String base64EncodedPublicKey = "";
+            String base64EncodedPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7fGlF+8SqIfCWQbTz56FBT2sWDkDvNHm6LeeBuf7F+h4A5Z1JHkIykNHtqJH6TmgqrVP/cB/HV221flSeBEQSQerLkP0GoaTCz1dvG7KasrRDPJZCy9JIiCCu7NUA+a1H0kHgTOtajJq7DZzl6pMpfuvKW5mzZfhpCJkFW3xKVwIDAQAB";
             PublicKey key = Security.generatePublicKey(base64EncodedPublicKey);
             verified = Security.verify(key, signedData, signature);
             if (!verified) {
