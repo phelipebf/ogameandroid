@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:admobsdk="http://schemas.android.com/apk/res/com.overkill.ogame"	
+    android:background="@drawable/background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:orientation="vertical">
+
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txt_from" android:text="@string/message_from"/>
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txt_to" android:text="@string/message_to"/>
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"     
+    android:id="@+id/txt_subject" android:text="@string/message_subject"/>
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txt_date" android:text="@string/message_date"/>
+<LinearLayout
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"> 
+	<Button
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/btn_reply"
+	    android:layout_weight="1" android:text="@string/message_reply" android:enabled="false" android:onClick="btnRepley"/>
+	
+	 <Button
+	 	android:id="@+id/btn_delete"
+	 	android:layout_width="wrap_content"
+	 	android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/message_delete" android:onClick="btnDelete"/>
+	 <Button
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/btn_report"
+	    android:layout_weight="1" android:text="@string/message_report" android:enabled="false"/>
+</LinearLayout>
+<WebView  
+    android:layout_width="fill_parent" 
+    android:id="@+id/web_msg"
+    android:layout_height="fill_parent"
+    android:visibility="gone" />
+<ScrollView android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" android:background="#AA444444" android:alwaysDrawnWithCache="true" android:longClickable="false" android:id="@+id/txt_scroll" android:visibility="gone">
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:id="@+id/txt_msg"
+    android:layout_height="wrap_content"/>
+</ScrollView>
+
+  
+
+
+
+
+
+</LinearLayout>

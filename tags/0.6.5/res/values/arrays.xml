@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string-array name="countries">
+		<item>Argentina</item>
+      <item>Bosnia and Herzegovina</item>
+		<item>Brazil</item>
+		<item>Croatia</item>
+		<item>Czech Republic</item>
+		<item>Denmark</item>
+		<item>Finland</item>
+		<item>France</item>
+		<item>Germany</item>
+		<item>Greece</item>
+		<item>Hungary</item>
+		<item>Italy</item>
+		<item>Japan</item>
+		<item>Mexico</item>
+		<item>Netherlands</item>
+		<item>Norway</item>
+		<item>Poland</item>
+		<item>Portugal</item>
+		<item>Romania</item>
+		<item>Russian Federation</item>
+		<item>Slovakia</item>
+		<item>Slovenia</item>
+		<item>Spain</item>
+		<item>Sweden</item>
+		<item>Taiwan</item>
+		<item>Turkey</item>
+		<item>United Arab Emirates</item>
+		<item>United Kingdom</item>
+		<item>United States of America</item>
+	</string-array>
+
+	<string-array name="domainlist">
+		<item>http://www.ogame.com.ar</item>
+      <item>http://www.ogame.ba</item>
+		<item>http://www.ogame.com.br</item>
+		<item>http://www.ogame.com.hr</item>
+		<item>http://www.ogame.cz</item>
+		<item>http://www.ogame.dk</item>
+		<item>http://www.fi.ogame.org</item>
+		<item>http://www.ogame.fr</item>
+		<item>http://www.ogame.de</item>
+		<item>http://www.ogame.gr</item>
+		<item>http://www.ogame.hu</item>
+		<item>http://www.ogame.it</item>
+		<item>http://www.ogame.jp</item>
+		<item>http://www.mx.ogame.org</item>
+		<item>http://www.ogame.nl</item>
+		<item>http://www.ogame.no</item>
+		<item>http://www.ogame.pl</item>
+		<item>http://www.ogame.com.pt</item>
+		<item>http://www.ogame.ro</item>
+		<item>http://www.ogame.ru</item>
+		<item>http://www.ogame.sk</item>
+		<item>http://www.ogame.si</item>
+		<item>http://www.ogame.com.es</item>
+		<item>http://www.ogame.se</item>
+		<item>http://www.ogame.tw</item>
+		<item>http://www.tr.ogame.org</item>
+		<item>http://www.ae.ogame.org</item>
+		<item>http://www.ogame.org</item>
+		<item>http://www.ogame.us</item>
+	</string-array>
+
+    <string-array name="select_intervall_key">
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>1 Stunde</item> 
+        <item>2 Stunde</item>   
+    </string-array>
+
+    <string-array name="select_intervall_value">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>  
+        <item>120</item>  
+    </string-array>
+    
+    <string-array name="select_sort_key">
+        <item>Wie auf Homepage</item>
+        <item>A-Z</item>
+    </string-array>
+    
+    <string-array name="galaxies">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+    
+    <string-array name="speed">
+        <item>100</item>
+        <item>90</item>
+        <item>80</item>
+        <item>70</item>
+        <item>60</item>
+        <item>50</item>
+        <item>40</item>
+        <item>30</item>
+        <item>20</item>
+        <item>10</item>
+    </string-array>
+    
+    <string-array name="percent">
+        <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+    </string-array>
+    
+    <string-array name="positions">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+    
+    <string-array name="preferences_shades">
+        <item>Gray</item>
+        <item>Blue</item>
+        <item>Magenta</item>
+        <item>Yellow</item> 
+        <item>Green</item> 
+        <item>Red</item>   
+        <item>Orange</item>  
+    </string-array>
+    
+    <string-array name="preferences_shades_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item> 
+        <item>4</item> 
+        <item>5</item>   
+        <item>6</item>  
+    </string-array>
+</resources>

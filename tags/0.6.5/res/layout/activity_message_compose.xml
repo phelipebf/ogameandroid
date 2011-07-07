@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:admobsdk="http://schemas.android.com/apk/res/com.overkill.ogame"	
+    android:background="@drawable/background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:orientation="vertical">
+
+<TextView android:text="@string/message_to" android:id="@+id/txt_to" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_alignBaseline="@+id/edit_to"></TextView>
+<EditText android:layout_toRightOf="@+id/txt_to" android:id="@+id/edit_to" android:hint="Enter Player Name" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_toLeftOf="@+id/btn_lookup"></EditText>
+<ImageButton android:layout_height="wrap_content" android:layout_alignTop="@+id/edit_to" android:layout_alignBottom="@+id/edit_to" android:src="@android:drawable/ic_input_get" android:layout_alignParentRight="true" android:layout_width="wrap_content" android:id="@+id/btn_lookup" android:onClick="btnLookup"></ImageButton>
+<TextView android:text="@string/message_subject" android:id="@+id/txt_subject" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/edit_to" android:layout_alignBaseline="@+id/edit_subject"/>
+<EditText android:layout_toRightOf="@+id/txt_subject" android:id="@+id/edit_subject" android:hint="@string/message_subject" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/edit_to"></EditText>
+    
+<LinearLayout
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:id="@+id/button_bar"
+    android:layout_alignParentBottom="true"> 
+	<Button
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/btn_send"
+	    android:layout_weight="1" android:text="@string/message_send" android:onClick="btnSend"/>
+	
+	 <Button
+	 	android:id="@+id/btn_delete"
+	 	android:layout_width="wrap_content"
+	 	android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/message_delete" android:onClick="btnDelete"/>
+</LinearLayout>
+
+<EditText  
+    android:layout_width="fill_parent" 
+    android:id="@+id/txt_msg"
+    android:layout_height="fill_parent"
+    android:layout_above="@id/button_bar"
+    android:layout_below="@id/edit_subject" android:hint="MSG" android:gravity="top"/>
+
+</RelativeLayout>

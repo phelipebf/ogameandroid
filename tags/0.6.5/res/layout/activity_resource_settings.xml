@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:layout_width="fill_parent"  
+    android:layout_height="fill_parent"
+     >
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+	    <Button android:text="0 %" android:onClick="setAllNull" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+	    <Button android:text="save" android:onClick="save" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+	    <Button android:text="100 %" android:onClick="setAllMax" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" />
+ 	</LinearLayout>
+	
+	<ListView
+	android:id="@android:id/list"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:cacheColorHint="#00000000"  />
+</LinearLayout>

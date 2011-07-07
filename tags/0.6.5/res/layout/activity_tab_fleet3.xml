@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:background="#FF0D1014"
+  android:layout_height="fill_parent">
+  
+  <ListView
+	android:id="@android:id/list"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:cacheColorHint="#00000000" 
+	android:layout_alignParentTop="true" />
+    
+    
+    
+  <Spinner 
+  	android:id="@+id/mission" 
+  	android:layout_width="fill_parent" 
+  	android:layout_height="wrap_content" />
+  	
+  	      
+  <TextView 
+  	android:textStyle="bold" 
+  	android:textColor="#FF6F9FC8" 
+  	android:id="@+id/textView1" 
+  	android:layout_width="wrap_content" 
+  	android:text="@string/fleet3_metal" 
+  	android:layout_height="wrap_content" 
+  	android:layout_below="@+id/mission" 
+  	android:paddingRight="5dp" />    
+   <TextView
+    android:id="@+id/metal_amount"
+    android:textColor="#FF99CC00"
+    android:text="0"
+  	android:layout_toRightOf="@+id/textView1"
+	android:layout_alignTop="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp"  
+    android:textStyle="bold" />  
+  <TextView
+ 	android:id="@+id/slash1"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/metal_amount"
+    android:layout_alignTop="@id/metal_amount" /> 
+  <TextView
+    android:id="@+id/metalOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash1"
+    android:layout_alignTop="@+id/slash1" />
+  <SeekBar 
+    android:id="@+id/metal_seekbar"
+  	android:layout_width="fill_parent" 
+  	android:layout_height="wrap_content" 
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
+  	android:layout_below="@+id/textView1" />
+  	
+  	      
+  <TextView 
+  	android:textStyle="bold" 
+  	android:textColor="#FF6F9FC8" 
+  	android:id="@+id/textView2" 
+  	android:layout_width="wrap_content" 
+  	android:text="@string/fleet3_crystal" 
+  	android:layout_height="wrap_content" 
+  	android:layout_below="@+id/metal_seekbar" 
+  	android:paddingRight="5dp" />    
+   <TextView
+    android:id="@+id/crystal_amount"
+    android:textColor="#FF99CC00"
+    android:text="0"
+  	android:layout_toRightOf="@+id/textView2"
+	android:layout_alignTop="@+id/textView2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp"  
+    android:textStyle="bold" />  
+  <TextView
+ 	android:id="@+id/slash2"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/crystal_amount"
+    android:layout_alignTop="@id/crystal_amount" /> 
+  <TextView
+    android:id="@+id/crystalOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash2"
+    android:layout_alignTop="@+id/slash2" />
+  <SeekBar 
+    android:id="@+id/crystal_seekbar"
+  	android:layout_width="fill_parent" 
+  	android:layout_height="wrap_content" 
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
+  	android:layout_below="@+id/textView2" />
+  	
+  	      
+  <TextView 
+  	android:textStyle="bold" 
+  	android:textColor="#FF6F9FC8" 
+  	android:id="@+id/textView3" 
+  	android:layout_width="wrap_content" 
+  	android:text="@string/fleet3_deuterium" 
+  	android:layout_height="wrap_content" 
+  	android:layout_below="@+id/crystal_seekbar" 
+  	android:paddingRight="5dp" />    
+   <TextView
+    android:id="@+id/deuterium_amount"
+    android:textColor="#FF99CC00"
+    android:text="0"
+  	android:layout_toRightOf="@+id/textView3"
+	android:layout_alignTop="@+id/textView3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp"  
+    android:textStyle="bold" />
+  <TextView
+ 	android:id="@+id/slash3"
+    android:textColor="#FF6F9FC8"
+    android:text="/"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/deuterium_amount"
+    android:layout_alignTop="@id/deuterium_amount" /> 
+  <TextView
+    android:id="@+id/deuteriumOnPlanet"
+    android:text="10.000"
+    android:textColor="#FF6F9FC8"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="1dp" 
+    android:paddingLeft="1dp" 
+    android:textStyle="bold"
+    android:layout_toRightOf="@id/slash3"
+    android:layout_alignTop="@+id/slash3" />  
+  <SeekBar 
+    android:id="@+id/deuterium_seekbar"
+  	android:layout_width="fill_parent" 
+  	android:layout_height="wrap_content" 
+  	android:layout_marginLeft="10dp"
+  	android:layout_marginRight="10dp"
+  	android:layout_below="@+id/textView3" />
+  
+
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView4" android:layout_width="wrap_content" android:text="@string/fleet3_target" android:layout_height="wrap_content" android:layout_below="@+id/deuterium_seekbar" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView5" android:layout_width="wrap_content" android:text="@string/fleet2_consumption" android:layout_height="wrap_content" android:layout_below="@+id/textView4" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView6" android:layout_width="wrap_content" android:text="@string/fleet2_duration" android:layout_height="wrap_content" android:layout_below="@+id/textView5" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView7" android:layout_width="wrap_content" android:text="@string/fleet2_arrival" android:layout_height="wrap_content" android:layout_below="@+id/textView6" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView8" android:layout_width="wrap_content" android:text="@string/fleet2_return" android:layout_height="wrap_content" android:layout_below="@+id/textView7" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/textView9" android:layout_width="wrap_content" android:text="@string/fleet3_cargobays" android:layout_height="wrap_content" android:layout_below="@+id/textView8" android:paddingRight="5dp" />
+    <TextView android:textStyle="bold" android:textColor="#FF6F9FC8" android:id="@+id/expeditionText" android:layout_width="wrap_content" android:text="@string/fleet3_expedition" android:layout_height="wrap_content" android:layout_below="@+id/textView9" android:paddingRight="5dp" android:visibility="gone" />
+    
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_target" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView4" android:text="[1:100:6] Planet" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView4" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_consumption" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView5" android:text="112" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView5" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_duration" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView6" android:text="51m 57s" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView6" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_arrival" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView7" android:text="22.02.11 20:19:17 Clock" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView7" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_return" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView8" android:text="22.02.11 21:11:14 Clock" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView8" ></TextView>
+    <TextView android:textColor="#FF99CC00" android:id="@+id/fleet_remainingresources" android:layout_width="wrap_content" android:layout_toRightOf="@+id/textView9" android:text="0" android:layout_height="wrap_content" android:layout_alignTop="@+id/textView9" ></TextView>
+    
+      
+     <TextView
+     	android:id="@+id/slash4"
+        android:textColor="#FF6F9FC8"
+        android:text="/"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="1dp" 
+        android:paddingLeft="1dp" 
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/fleet_remainingresources"
+        android:layout_alignTop="@id/fleet_remainingresources" /> 
+        
+	<TextView
+        android:id="@+id/fleet_cargobays"
+        android:text="25.000"
+        android:textColor="#FF6F9FC8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="1dp" 
+        android:paddingLeft="1dp" 
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/slash4"
+        android:layout_alignTop="@+id/slash4" />
+       
+    <Spinner 
+    	android:id="@+id/expeditionTime"
+    	android:visibility="gone"
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_below="@+id/expeditionText" />  	
+  
+  
+  <Button android:id="@+id/fleet1_back"
+	android:layout_height="wrap_content"
+	android:layout_alignParentBottom="true"
+	android:layout_width="wrap_content"
+	android:layout_alignParentLeft="true"
+	android:text="@string/fleet2_back"
+	android:onClick="goBack"/>
+	
+  <Button android:id="@+id/fleet3_send"
+	android:layout_height="wrap_content"
+	android:layout_alignParentBottom="true"
+	android:layout_width="wrap_content"
+	android:layout_alignParentRight="true"
+	android:text="@string/fleet3_send"  />
+	
+</RelativeLayout>

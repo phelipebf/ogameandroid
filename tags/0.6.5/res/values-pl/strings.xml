@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OGame</string>
+    <string name="select_planet">Wybierz planetę</string>
+    <string name="moon">Księżyc</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Przejdź do ([^/]*)&lt;\\/B&gt;</string>
+    
+    <string name="tos_version">1</string>
+    <string name="tos">Ta aplikacja nie została zaaprobowana przez Gameforge więc używasz jej na własną odpowiedzialność, autor nie ponosi żadnej odpowiedzialności jeśli Twoje konto zostanie zbanowane\nTo jest aplikacja eksperymentalna, jeśli namiesza na Twoim koncie Ogame, autor nie ponosi żadnej odpowiedzialności za jej działanie.</string>
+
+        <string name="menu_settings">Ustawienia</string>
+        <string name="menu_reload_serverlist">Przeładuj listę serwerów</string>
+        <string name="menu_about">O programie</string>
+        <string name="menu_messages">Wiadomości</string>
+        <string name="menu_fleet">Flota</string>
+        <string name="menu_galaxy">Galaktyka</string>
+        <string name="menu_resources">Ustawienia zasobów</string>
+        
+        <string name="tab_overview">Przegląd</string>
+        <string name="tab_resources">Zasoby</string>
+        <string name="tab_station">Stacja</string>
+        <string name="tab_research">Badania</string>
+        <string name="tab_shipyard">Stocznia</string>
+        <string name="tab_defense">Obrona</string>
+        <string name="tab_fleet">Flota</string>
+        
+        <string name="save_login">Zapisz login</string>    
+        <string name="username">Nazwa użytownika</string>   
+        <string name="password">Hasło</string>   
+        <string name="login_button">Zaloguj</string>
+        
+        <string name="more">Więcej</string>
+        <string name="requirements">Wymagania</string>
+        <string name="not_available">Niedostępne</string>
+        
+        <string name="fleet_info_title">Info o flocie</string>
+        <string name="new_mission">Nowa misja</string>
+        
+        <string name="error_login">Błędny login</string>
+        <string name="error_load">Serwer niedostępny</string>
+        <string name="error_send_command">Nie można wysłać polecenia</string>
+        
+        <string name="new_command">Nowe rozkazy</string>
+        <string name="enter_amount">Wpisz ilość</string>
+        <string name="send_command">Wysyłanie polecenia...</string>
+        <string name="ask_with_count" formatted="false">Wysłać polecenie do %d %s?</string>
+        <string name="ask_no_count">Wysłać polecenie dla %s?</string>
+        <string name="now_building">%s jest teraz budowane.</string>
+        <string name="building_time">Czas budowy: %s</string>
+        <string name="buildable_in">Za mało zasobów\nDostępne za: %s</string>
+        <string name="buildable_once">%s można zbudować tylko raz</string>
+        <string name="loading">Ładowanie...</string>
+        <string name="change_planet">Przełączanie na \"%s\"</string>
+        <string name="in_queue">W kolejce</string>
+        <string name="time_to_complete">Czas do zakończenia: %s</string>
+        <string name="cancel_upgrade">Przerwać rozbudowę?</string>
+        <string name="expansion_cancelled">Rozbudowa przerwana</string>
+        
+        <string name="settings_display">Ustawienia wyświetlania</string>
+        <string name="settings_disabled">Ukryj nieaktywne</string>
+        <string name="settings_disabled_summary">Ukryj obiekty których nie możesz budować</string>
+        
+        <string name="settings_fleet">Ustawienia alarmów </string>
+        <string name="settings_fleet_global">Uaktywnij alarmy</string>
+        <string name="settings_fleet_global_summary">Aktywuj wszystkie alarmy</string>
+        <string name="settings_fleet_sound">Dźwięk powiadomienia</string>
+        <string name="settings_fleet_sound_summary">Wybierz dźwięk powiadomienia</string>
+        <string name="settings_fleet_neutral">Neutralne</string>
+        <string name="settings_fleet_neutral_summary">Powiadamiaj o neutralnych zdarzeniach</string>
+        <string name="settings_fleet_friendly">Przyjazne</string>
+        <string name="settings_fleet_friendly_summary">Powiadamiaj o przyjaznych zdarzeniach</string>
+        <string name="settings_fleet_hostile">Wrogie</string>
+        <string name="settings_fleet_hostile_summary">Powiadamiaj o wrogich zdarzeniach</string>
+        <string name="settings_messages">Wiadomośći</string>
+        <string name="settings_messages_summary">Powiadamiaj o nieprzeczytanych wiadomościach</string>
+        
+        <string name="message_no_message">Brak wiadomości do wyświetlenia</string>
+        <string name="message_send">Wyślij</string>
+        <string name="message_reply">Odpowiedz</string>
+        <string name="message_report">Zgłoś</string>
+        <string name="message_delete">Skasuj</string>
+        <string name="message_delete_all">Skasuj wszystkie</string>
+        <string name="message_delete_selected">Skasuj zaznaczone</string>
+        <string name="message_from">Od:</string>
+        <string name="message_to">Do:</string>
+        <string name="message_date">Data:</string>
+        <string name="message_subject">Temat:</string>
+        <string name="message_mark_as_read">Zaznacz jako przeczytane</string>
+        
+        <string name="message_folder_10">Skrzynka odbiorcza</string>
+        <string name="message_folder_7">Szpiegostwo</string>
+        <string name="message_folder_5">Bitwa</string>
+        <string name="message_folder_6">Gracz</string>
+        <string name="message_folder_8">Ekspedycja</string>
+        <string name="message_folder_2">Sojusz</string>
+        <string name="message_folder_4">Inne</string>
+        <string name="message_folder_3">Kosz</string>
+        
+        <string name="object_amount">Ilość</string>
+        <string name="object_level">Poziom</string>
+        
+        <string name="galaxy_colonize">Kolonizować planetę %s?</string>
+        <string name="galaxy_probes">Wysłać sondy ?</string>
+        <string name="galaxy_activity">Aktywność: %s</string>
+        <string name="galaxy_activity_now">Teraz</string>
+        <string name="galaxy_empty_slot">Pusty slot</string>
+        
+        <string name="fleet1_reset">Reset</string>
+        <string name="fleet1_all">Wszystkie</string>
+        <string name="fleet1_next">Następne</string>
+        
+        <string name="fleet2_acs">Floty</string>
+        <string name="fleet2_shortcuts">Skróty</string>
+        <string name="fleet2_speed">Szybkość</string>
+        <string name="fleet2_refresh">Odśwież</string>
+        <string name="fleet2_back">Cofnij</string>
+        <string name="fleet2_planet">Planeta</string>
+        <string name="fleet2_debris">Szczątki</string>
+        <string name="fleet2_consumption">Zużycie deuteru:</string>
+        <string name="fleet2_duration">Czas lotu:</string>
+        <string name="fleet2_arrival">Przybycie:</string>
+        <string name="fleet2_return">Zawróć:</string>
+        <string name="fleet2_cargobays">Opróżnij ładownie:</string>
+        
+        <string name="fleet3_metal">Metal:</string>
+        <string name="fleet3_crystal">Kryształ:</string>
+        <string name="fleet3_deuterium">Deuter:</string>
+        <string name="fleet3_target">Cel:</string>
+        <string name="fleet3_send">Wyślij flotę</string>
+        <string name="fleet3_cargobays">Ładownia:</string>
+        <string name="fleet3_noMission">Wybierz typ misji</string>
+        <string name="fleet3_expedition">Czas trwania ekspedycji (h):</string>
+                
+        <string name="mission_attack">Atakuj</string>
+        <string name="mission_transport">Transportuj</string>
+        <string name="mission_espionage">Szpieguj</string>
+        <string name="mission_missile">Atak rakietowy</string>
+        <string name="mission_harvest">Zbieraj</string>
+        
+        <string name="yes">Tak</string>
+        <string name="no">Nie</string>
+</resources>
