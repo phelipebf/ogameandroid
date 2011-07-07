@@ -70,6 +70,8 @@
 	            android:dialogTitle="Select"
 	            android:showDefault="true"
 				android:showSilent="true"
+                android:layout="?android:attr/preferenceLayoutChild" 
+                android:dependency="fleetsystem_global"
 	            android:ringtoneType="notification" />
  
 		<CheckBoxPreference
