@@ -336,7 +336,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         	case R.id.fleet: startActivity(new Intent(this, MovementView.class)); return true;
         	case R.id.messages: startActivity(new Intent(this, MessageListView.class)); return true;
         	case R.id.galaxy: startActivity(new Intent(this, GalaxyView.class)); return true;
-        	case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
+        	//case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
         }
         return false;
     }

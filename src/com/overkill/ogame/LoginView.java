@@ -45,6 +45,8 @@ import android.widget.Toast;
 public class LoginView extends Activity {
     private static final String TAG = "ogame";
 	
+    private static final boolean marketRelease = false;
+    private Class<?> settingsClass = null;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,12 @@ public class LoginView extends Activity {
 			info.setText("Current Version of OGame for Android: " + pinfo.versionName + "\n" + info.getText());
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
+		}
+		
+		if(marketRelease){
+			settingsClass = SettingsViewWithInAppBilling.class;
+		}else{
+			settingsClass = SettingsView.class;
 		}
 		
 		//load settings
@@ -186,7 +194,7 @@ public class LoginView extends Activity {
 		btn_donate.setOnClickListener(new Button.OnClickListener() {	
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(LoginView.this, SettingsViewWithInAppBilling.class).putExtra("donateOnly", true));
+				startActivity(new Intent(LoginView.this, settingsClass).putExtra("donateOnly", true));
 				//PLEASE DO NOT CHANGE THIS PAYPAL LINK!!
 				//Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JBA3WQ9LAFH8C&lc=US&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));
 				//startActivity(myIntent);
@@ -227,7 +235,7 @@ public class LoginView extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        	case R.id.settings: startActivity(new Intent(this, SettingsViewWithInAppBilling.class)); return true;
+        	case R.id.settings: startActivity(new Intent(this, settingsClass)); return true;
         	case R.id.reloadunivers: 
         		Spinner spinner = ((Spinner) findViewById(R.id.sel_domain));
         		int position = spinner.getSelectedItemPosition();

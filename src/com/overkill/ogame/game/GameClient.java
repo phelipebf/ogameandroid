@@ -42,7 +42,7 @@ public class GameClient{
 	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
 	
-	private String latestWorkingServerVersion = "2.1.4";
+	private String latestWorkingServerVersion = "2.2.3";
 	
 	public static final int LOGIN_OK = 1;
 	public static final int LOGIN_WRONG_DATA = 2;
@@ -417,10 +417,10 @@ public class GameClient{
             response.getEntity().writeTo(ostream);
             String data = ostream.toString();
             // TODO check if connection is valid. If not call login function
-            if(data.startsWith("<script>document.location.href=")){ // session has died
+            /*if(data.startsWith("<script>document.location.href=")){ // session has died
             	this.login();
             	return this.get(url);
-            }
+            }*/
             return data;
 		}catch(Exception ex){
 			return null;
