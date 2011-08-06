@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OGame</string>
+    <string name="select_planet">Odaberi Planetu</string>
+    <string name="moon">Mjesec</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Prebaci na ([^/]*)&lt;\\/B&gt;</string>
+    
+    <string name="tos_version">1</string>
+    <string name="tos">Ova aplikacija nije odobrena od strane Gameforgea,instalirajte na svoju odgovornost.\nOva aplikaca je tek u probnoj verziji sva moguca steta na vasem racunu je na vasu odgovornost.</string>
+
+	<string name="menu_settings">Postavke</string>
+	<string name="menu_reload_serverlist">Ucitaj Listu Servera</string>
+	<string name="menu_about">O nama</string>
+	<string name="menu_messages">Poruke</string>
+	<string name="menu_fleet">Flota</string>
+	<string name="menu_galaxy">Galaksija</string>
+	<string name="menu_resources">Postavke Resursa</string>
+	
+	<string name="tab_overview">Pregled</string>
+	<string name="tab_resources">Resursi</string>
+	<string name="tab_station">Zgrade</string>
+	<string name="tab_research">Istrazivanje</string>
+	<string name="tab_shipyard">Brodogradiliste</string>
+	<string name="tab_defense">Obrana</string>
+	<string name="tab_fleet">Flota</string>
+	
+	<string name="save_login">Spremi prijavu</string>    
+	<string name="username">Korisnicko ime</string>   
+	<string name="password">Lozinka</string>   
+	<string name="login_button">Prijava</string>
+	
+	<string name="more">Vise</string>
+	<string name="requirements">Zahtjevi</string>
+	<string name="not_available">Nije dostupno</string>
+	
+	<string name="fleet_info_title">Obavijest Flote</string>
+	<string name="new_mission">Novi Zadatak</string>
+	
+	<string name="error_login">Greska u prijavi</string>
+	<string name="error_load">Server nedostupan</string>
+	<string name="error_send_command">Slanje naredbe neuspjelo</string>
+	
+	<string name="new_command">Nova Naredba</string>
+	<string name="enter_amount">Unesi kolicinu</string>
+	<string name="send_command">Slanje naredbe...</string>
+	<string name="ask_with_count" formatted="false">Salji naredbu za %d %s?</string>
+	<string name="ask_no_count">Salji naredbu za %s?</string>
+	<string name="now_building">%s je u izgradnji.</string>
+	<string name="building_time">Vrijeme izgradnje: %s</string>
+	<string name="buildable_in">Nedovoljno resursa\nMoguce izgraditi za: %s</string>
+	<string name="buildable_once">%s se moze samo jednom izgraditi</string>
+	<string name="loading">Ucitavanje...</string>
+	<string name="change_planet">Prebacivanje na \"%s\"</string>
+	<string name="in_queue">Na listi izgradnje</string>
+	<string name="time_to_complete">Vrijeme do zavrsetka: %s</string>
+	<string name="cancel_upgrade">Ponisti nadogradnju?</string>
+	<string name="expansion_cancelled">Nadogradnja ponistena</string>
+	
+	<string name="settings_display">Postavke Izgleda</string>
+	<string name="settings_disabled">Sakrij neaktivne</string>
+	<string name="settings_disabled_summary">Sakrij objekte koje nemozes graditi</string>
+	
+	<string name="settings_show_ads">Prikazi Oglase</string>
+	
+	<string name="settings_fleet">Postavke alarma flote</string>
+	<string name="settings_fleet_global">Ukljuci alarm flote</string>
+	<string name="settings_fleet_global_summary">Globalno aktiviraj alarm flote</string>
+	<string name="settings_fleet_sound">Zvuk obavijesti</string>
+	<string name="settings_fleet_sound_summary">Odaberi zvuk obavijesti</string>
+	<string name="settings_fleet_neutral">Neutralno</string>
+	<string name="settings_fleet_neutral_summary">Obavijesti o neutralnim aktivnostima</string>
+	<string name="settings_fleet_friendly">Prijateljski</string>
+	<string name="settings_fleet_friendly_summary">Obavijesti o prijateljskim aktivnostima</string>
+	<string name="settings_fleet_hostile">Neprijateljski</string>
+	<string name="settings_fleet_hostile_summary">Obavijesti o neprijateljskim aktivnostima</string>
+	<string name="settings_messages">Poruke</string>
+	<string name="settings_messages_summary">Obavijesti o novim porukama</string>
+	
+	<string name="message_no_message">Nema poruka za prikazati</string>
+	<string name="message_send">Salji</string>
+	<string name="message_reply">Odgovori</string>
+	<string name="message_report">Prijavi</string>
+	<string name="message_delete">Obrisi</string>
+	<string name="message_delete_all">Obrisi Sve</string>
+	<string name="message_delete_selected">Obrisi odabrani</string>
+	<string name="message_from">Od:</string>
+	<string name="message_to">Za:</string>
+	<string name="message_date">Datum:</string>
+	<string name="message_subject">Naslov:</string>
+	<string name="message_mark_as_read">Oznaci kao procitano</string>
+	
+	<string name="message_folder_10">Dolazne</string>
+	<string name="message_folder_7">Spijunaza</string>
+	<string name="message_folder_5">Bitka</string>
+	<string name="message_folder_6">Igrac</string>
+	<string name="message_folder_8">Ekspedicija</string>
+	<string name="message_folder_2">Savez</string>
+	<string name="message_folder_4">Drugo</string>
+	<string name="message_folder_3">Smece</string>
+	
+	<string name="object_amount">Kolicina</string>
+	<string name="object_level">Level</string>
+	
+	<string name="galaxy_colonize">Koloniziraj poziciju %s?</string>
+	<string name="galaxy_probes">Salji spijunazu?</string>
+	<string name="galaxy_activity">Aktivnosti: %s</string>
+	<string name="galaxy_activity_now">sada</string>
+	<string name="galaxy_empty_slot">Prazan slot</string>
+	
+	<string name="fleet1_reset">Resetiraj</string>
+	<string name="fleet1_all">Sve</string>
+	<string name="fleet1_next">Dalje</string>
+	
+	<string name="fleet2_acs">Ratne snage</string>
+	<string name="fleet2_shortcuts">Kratice</string>
+	<string name="fleet2_speed">Brzina</string>
+	<string name="fleet2_refresh">Osvjezi</string>
+	<string name="fleet2_back">Nazad</string>
+	<string name="fleet2_planet">Planet</string>
+	<string name="fleet2_debris">Rusevine</string>
+	<string name="fleet2_consumption">Potrosnja deuterija:</string>
+	<string name="fleet2_duration">Trajanje leta:</string>
+	<string name="fleet2_arrival">Dolazak:</string>
+	<string name="fleet2_return">Povratak:</string>
+	<string name="fleet2_cargobays">Slobodan kapacitet:</string>
+	
+	<string name="fleet3_metal">Metal:</string>
+	<string name="fleet3_crystal">Kristal:</string>
+	<string name="fleet3_deuterium">Deuterij:</string>
+	<string name="fleet3_target">Cilj:</string>
+	<string name="fleet3_send">Posalji flotu</string>
+	<string name="fleet3_cargobays">Teretni prostor:</string>
+	<string name="fleet3_noMission">Odaberi zadatak</string>
+	<string name="fleet3_expedition">Trajanje ekspedicije (h):</string>
+		
+	<string name="mission_attack">Napad</string>
+	<string name="mission_transport">Transport</string>
+	<string name="mission_espionage">Spijunaza</string>
+	<string name="mission_missile">Raketni Napad</string>
+	<string name="mission_harvest">Recikliraj</string>
+	
+	<string name="yes">Da</string>
+	<string name="no">Ne</string>
+	
+	<string name="planet_rename_title">Preimenuj planetu</string>
+	<string name="planet_rename_text">Unesi novo ime:</string>
+	<string name="planet_abandon_title">Napusti Planetu</string>
+	<string name="planet_abandon_text">Jeste li sigurni da zelite napustit planetu imenom %s?</string>
+	<string name="planet_abandon_question">Da napustite planetu unesite vasu lozinku</string>
+	
+	<string name="billing_not_supported_title">Kupnja nije obavljena</string>
+    <string name="billing_not_supported_message">Placanje trenutno nije moguce.  Mozete nastaviti koristiti ovu aplikaciju ali
+     necete moci obaviti kupnju.</string>
+    <string name="cannot_connect_title">Povezivanje nije uspjelo</string>
+    <string name="cannot_connect_message">Ova aplikacija se nemoze povezati sa Market-om.
+     Vasa verzija Market-a nije podrzana.
+     Mozete nastaviti koristiti ovi aplikaciju ali necete moci obaviti
+     nikakvu kupnju.</string>     
+    <string name="learn_more">Vidi vise</string>
+    <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
+    <string name="restoring_transactions">Provjeravam kupnju</string>
+</resources>
