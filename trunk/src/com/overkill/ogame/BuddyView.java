@@ -3,8 +3,6 @@ package com.overkill.ogame;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.overkill.ogame.game.Message;
-import com.overkill.ogame.game.MessageAdapter;
 import com.overkill.ogame.game.Player;
 import com.overkill.ogame.game.PlayerAdapter;
 

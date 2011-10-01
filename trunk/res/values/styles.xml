@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <style name="WindowTitleBackground" parent="android:WindowTitleBackground">    
-        <item name="android:background">@android:color/transparent</item>        
-    </style>    
+  
     
     <style name="MyLoginButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
