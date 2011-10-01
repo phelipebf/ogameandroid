@@ -53,10 +53,10 @@
 	<string name="buildable_once">%s kan maar eenmalig gebouwd worden</string>
 	<string name="loading">Laden...</string>
 	<string name="change_planet">Overschakelen naar \"%s\"</string>
-	<string name="in_queue">In queue</string>
-	<string name="time_to_complete">Time to complete: %s</string>
-	<string name="cancel_upgrade">Cancel upgrade?</string>
-	<string name="expansion_cancelled">Expansion canceled</string>
+	<string name="in_queue">In wachtrij</string>
+	<string name="time_to_complete">Tijd tot voltooing: %s</string>
+	<string name="cancel_upgrade">Annuleer upgrade?</string>
+	<string name="expansion_cancelled">Uitbreiding geannuleerd</string>
 	
 	<string name="settings_display">Weergave Instellingen</string>
 	<string name="settings_disabled">Verberg inactief</string>
@@ -66,7 +66,7 @@
 	<string name="settings_fleet_global">Vlootalarm actief</string>
 	<string name="settings_fleet_global_summary">Activeer vlootalarmen algemeen</string>
 	<string name="settings_fleet_sound">Waarschuwing geluid</string>
-	<string name="settings_fleet_sound_summary">Seleteer geluid</string>
+	<string name="settings_fleet_sound_summary">Selecteer geluid</string>
 	<string name="settings_fleet_neutral">Neutraal</string>
 	<string name="settings_fleet_neutral_summary">Waarschuwen bij neutrale activiteit</string>
 	<string name="settings_fleet_friendly">Vriendelijk</string>
