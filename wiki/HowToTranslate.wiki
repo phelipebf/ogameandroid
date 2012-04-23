@@ -27,7 +27,7 @@ Since some languages contain special characters it is very important that you sa
 The default Windows Notepad can't to this so please install a better text-editor (eg. Programmer's Notepad - _Just press File -> Encoding to change to UTF-8_). 
 
 === 5) Sending in the translation ===
-Send the translated file to ogame@ov3rk1ll.com.
+Send the translated file to phelipebf@gmail.com.
 
 Please put "Translation Your-Language ??" into the subject line _(?? being the code from step 1)_ and attache the file.
 
