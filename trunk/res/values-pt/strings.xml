@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OGame</string>
+    <string name="select_planet">Selecione o Planeta</string>
+    <string name="moon">Lua</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Switch to ([^/]*)&lt;\\/B&gt;</string>
+    
+    <string name="tos_version">1</string>
+    <string name="tos">Essa aplicação não foi aprovada pela Gameforge. Dessa forma, não somos responsáveis se sua conta for banida.\nEsta aplicação é altamente experimental, assim não somos responsáveis por qualquer dano que ela possa causar em sua conta.</string>
+
+	<string name="menu_settings">Configurações</string>
+	<string name="menu_reload_serverlist">Recarregar Lista de Servidores</string>
+	<string name="menu_about">Sobre</string>
+	<string name="menu_messages">Mensagens</string>
+	<string name="menu_fleet">Frota</string>
+	<string name="menu_galaxy">Galáxia/<string>
+	<string name="menu_resources">Config. de Recursos</string>
+	
+	<string name="tab_overview">Visão Geral</string>
+	<string name="tab_resources">Recursos</string>
+	<string name="tab_station">Instalações</string>
+	<string name="tab_research">Pesquisas</string>
+	<string name="tab_shipyard">Hangar</string>
+	<string name="tab_defense">Defesas</string>
+	<string name="tab_fleet">Frota</string>
+	
+	<string name="save_login">Lembrar</string>    
+	<string name="username">Nome de usuário</string>   
+	<string name="password">Senha</string>   
+	<string name="login_button">Login</string>
+        <string name="copyright_message">OGame e muitos dos gráficos são\n© 2003 - 2011 de Gameforge Productions</string>
+	
+	<string name="more">mais</string>
+	<string name="requirements">Requisitos</string>
+	<string name="not_available">Não disponível</string>
+	
+	<string name="fleet_info_title">Info. de Frota</string>
+	<string name="new_mission">Nova Missão</string>
+	
+	<string name="error_login">Não foi possível autenticar</string>
+	<string name="error_load">Não foi possível acessar o servidor</string>
+	<string name="error_send_command">Não foi possível enviar o comando</string>
+	
+	<string name="new_command">Novo Comando</string>
+	<string name="enter_amount">Digite valor</string>
+	<string name="send_command">Enviando comando...</string>
+	<string name="ask_with_count" formatted="false">Send command for %d %s?</string>
+	<string name="ask_no_count">Send command for %s?</string>
+	<string name="now_building">%s is now being built.</string>
+	<string name="building_time">Building time: %s</string>
+	<string name="buildable_in">Not enough resources\nBuildable in: %s</string>
+	<string name="buildable_once">%s can only be built once</string>
+	<string name="loading">Loading...</string>
+	<string name="change_planet">Switching to \"%s\"</string>
+	<string name="in_queue">In queue</string>
+	<string name="time_to_complete">Time to complete: %s</string>
+	<string name="cancel_upgrade">Cancel upgrade?</string>
+	<string name="expansion_cancelled">Expansion canceled</string>
+	
+	<string name="settings_display">Display Settings</string>
+	<string name="settings_disabled">Hide inactive</string>
+	<string name="settings_disabled_summary">Hide Objects you can\'t build</string>
+	
+	<string name="settings_show_ads">Show Advertisement</string>
+	
+	<string name="settings_fleet">Fleetalarm Settings</string>
+	<string name="settings_fleet_global">Activate Fleetalarm</string>
+	<string name="settings_fleet_global_summary">Globally activate Fleetalarms</string>
+	<string name="settings_fleet_sound">Notification Sound</string>
+	<string name="settings_fleet_sound_summary">Select the notification sound</string>
+	<string name="settings_fleet_neutral">Neutral</string>
+	<string name="settings_fleet_neutral_summary">Notify on neutral events</string>
+	<string name="settings_fleet_friendly">Friendly</string>
+	<string name="settings_fleet_friendly_summary">Notify on friendly events</string>
+	<string name="settings_fleet_hostile">Hostile</string>
+	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
+	<string name="settings_messages">Messages</string>
+	<string name="settings_messages_summary">Notify on unread messages</string>
+	
+	<string name="message_no_message">No message to display</string>
+	<string name="message_send">Send</string>
+	<string name="message_reply">Reply</string>
+	<string name="message_report">Report</string>
+	<string name="message_delete">Delete</string>
+	<string name="message_delete_all">Delete All</string>
+	<string name="message_delete_selected">Delete Selected</string>
+	<string name="message_from">From:</string>
+	<string name="message_to">To:</string>
+	<string name="message_date">Date:</string>
+	<string name="message_subject">Subject:</string>
+	<string name="message_mark_as_read">Mark as Read</string>
+	
+	<string name="message_folder_10">Inbox</string>
+	<string name="message_folder_7">Espionage</string>
+	<string name="message_folder_5">Battle</string>
+	<string name="message_folder_6">Player</string>
+	<string name="message_folder_8">Expedition</string>
+	<string name="message_folder_2">Alliance</string>
+	<string name="message_folder_4">Other</string>
+	<string name="message_folder_3">Recycle Bin</string>
+	
+	<string name="object_amount">Amount</string>
+	<string name="object_level">Level</string>
+	
+	<string name="galaxy_colonize">Colonize position %s?</string>
+	<string name="galaxy_probes">Send esp. probe?</string>
+	<string name="galaxy_activity">Activity: %s</string>
+	<string name="galaxy_activity_now">now</string>
+	<string name="galaxy_empty_slot">Empty slot</string>
+	
+	<string name="fleet1_reset">Reset</string>
+	<string name="fleet1_all">All</string>
+	<string name="fleet1_next">Next</string>
+	
+	<string name="fleet2_acs">Combat forces</string>
+	<string name="fleet2_shortcuts">Shortcuts</string>
+	<string name="fleet2_speed">Speed</string>
+	<string name="fleet2_refresh">Refresh</string>
+	<string name="fleet2_back">Back</string>
+	<string name="fleet2_planet">Planet</string>
+	<string name="fleet2_debris">Debris</string>
+	<string name="fleet2_consumption">Deuterium consumption:</string>
+	<string name="fleet2_duration">Duration of flight:</string>
+	<string name="fleet2_arrival">Arrival:</string>
+	<string name="fleet2_return">Return:</string>
+	<string name="fleet2_cargobays">Empty cargo bay:</string>
+	
+	<string name="fleet3_metal">Metal:</string>
+	<string name="fleet3_crystal">Crystal:</string>
+	<string name="fleet3_deuterium">Deuterium:</string>
+	<string name="fleet3_target">Target:</string>
+	<string name="fleet3_send">Send fleet</string>
+	<string name="fleet3_cargobays">Cargo bay:</string>
+	<string name="fleet3_noMission">Select a mission</string>
+	<string name="fleet3_expedition">Duration of expedition (h):</string>
+		
+	<string name="mission_attack">Attack</string>
+	<string name="mission_transport">Transport</string>
+	<string name="mission_espionage">Espionage</string>
+	<string name="mission_missile">Missile Attack</string>
+	<string name="mission_harvest">Harvest</string>
+	
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	
+	<string name="planet_rename_title">Rename Planet</string>
+	<string name="planet_rename_text">Enter new Name:</string>
+	<string name="planet_abandon_title">Abandon Planet</string>
+	<string name="planet_abandon_text">Are you sure you want to abandon the planet called %s?</string>
+	<string name="planet_abandon_question">To abandon the planet please enter your password</string>
+	
+	<string name="billing_not_supported_title">Can\'t make purchases</string>
+    <string name="billing_not_supported_message">The Market billing
+     service is not available at this time.  You can continue to use this app but you
+     won\'t be able to make purchases.</string>
+    <string name="cannot_connect_title">Can\'t connect to Market</string>
+    <string name="cannot_connect_message">This app cannot connect to Market.
+     Your version of Market may be out of date.
+     You can continue to use this app but you
+     won\'t be able to make purchases.</string>     
+    <string name="learn_more">Learn more</string>
+    <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
+    <string name="restoring_transactions">Checking for purchase</string>
+</resources>
