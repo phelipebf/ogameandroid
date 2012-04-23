@@ -2,6 +2,15 @@
 
 =Changelog=
 
+== 0.6.7 ==
+ * Some fixes so application can work with server version 3.1.0
+ * Removed Attack action from galaxy view menu if player are the owner of selected planet
+ * Galaxy view ally info
+ * Added or improved some indicators, like: loading indicator in galaxy view, planet activity indicator, moon activity indicator
+ * Mark debris in green if there are equals or more then configured recyclers needed (default set to 2)
+ * Added Honorable target mark in galaxy view
+ * Some minor fixes and improvements
+
 == 0.6.6 ==
  * Fixed login errors for server version 2.3.0
 
