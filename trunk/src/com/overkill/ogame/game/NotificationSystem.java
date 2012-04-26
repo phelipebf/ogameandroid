@@ -1,9 +1,7 @@
 package com.overkill.ogame.game;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,14 +11,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.overkill.ogame.MainTabActivity;
-import com.overkill.ogame.MovementView;
 import com.overkill.ogame.R;
 
 public class NotificationSystem {
@@ -154,12 +150,13 @@ public class NotificationSystem {
 		if(mRun==false)
 			return;
 		try {
-			Log.d(TAG, "fetchEventbox");
+			Log.i(TAG, "fetchEventbox");
 			mJson = new JSONObject(mGame.get("page=fetchEventbox&ajax=1"));
 			setFleetEvents(
-					Integer.valueOf(mJson.getString("hostile")), 
-					Integer.valueOf(mJson.getString("neutral")), 
-					Integer.valueOf(mJson.getString("friendly")));
+				Integer.valueOf(mJson.getString("hostile")), 
+				Integer.valueOf(mJson.getString("neutral")), 
+				Integer.valueOf(mJson.getString("friendly"))
+			);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

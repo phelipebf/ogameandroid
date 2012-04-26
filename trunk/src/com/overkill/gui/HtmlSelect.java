@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import org.apache.http.ParseException;
 
+import com.overkill.ogame.game.Tools;
+
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
@@ -76,27 +78,14 @@ public class HtmlSelect{
 		mKeys = new ArrayList<String>(options.length);
 		mValues = new ArrayList<String>(options.length);
 		for(String option : options){	
-			if(option.contains("<option value=\"") == false)
+			if(option.contains("value=\"") == false)
 				continue;
 			option = option.trim();
-			String value = between(option, "<option value=\"", "\"").trim();
+			String value = Tools.between(option, "value=\"", "\"").trim();
 			String key = option.substring(option.indexOf(">") + 1).trim();
 			mKeys.add(key);
 			mValues.add(value);
 		}
-	}
-	
-	/**
-	 * Gets a Substring between two Strings
-	 * @param string The String to search in
-	 * @param begin The String to start reading
-	 * @param end The String to end with
-	 * @return The part of string between begin and end
-	 */
-	private String between(String string, String begin, String end){
-		int start = string.indexOf(begin) + begin.length();
-		int ende = string.indexOf(end, start);
-		return string.substring(start, ende);
 	}
 	
 }

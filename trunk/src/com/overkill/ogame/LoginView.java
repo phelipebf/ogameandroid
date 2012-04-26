@@ -11,20 +11,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.flurry.android.FlurryAgent;
-import com.overkill.gui.HtmlSelect;
-import com.overkill.ogame.game.NotificationSystem;
-import com.overkill.ogame.game.Tools;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +35,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.flurry.android.FlurryAgent;
+import com.overkill.gui.HtmlSelect;
+import com.overkill.ogame.game.NotificationSystem;
+import com.overkill.ogame.game.Tools;
 
 
 public class LoginView extends Activity {
@@ -70,7 +70,7 @@ public class LoginView extends Activity {
 		}
 		
 		//load settings
-		final SharedPreferences settings = getSharedPreferences(TAG, 0);
+		final SharedPreferences settings = getSharedPreferences(TAG, Context.MODE_PRIVATE);
 		
 		//Do we need to show the TOS
 		if(settings.getBoolean("tos_" + getString(R.string.tos_version), false) == false){
@@ -203,8 +203,7 @@ public class LoginView extends Activity {
 	}
 		
 	public ListView.OnItemSelectedListener onChangeDomain(int position){
-		return null;
-		
+		return null;	
 	}
 	
 	@Override

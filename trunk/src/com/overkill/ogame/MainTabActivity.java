@@ -37,12 +37,13 @@ import android.widget.Toast;
 public class MainTabActivity extends ScrollableTabActivity{
     private static final String TAG = "ogame";
     
-    private int tab_shade_off = RadioStateDrawable.SHADE_GRAY; 
-    private int tab_shade_on = RadioStateDrawable.SHADE_BLUE; 
+    private int tab_shade_off; 
+    private int tab_shade_on; 
     
 	//Game instanz für die gesammte App
 	public static GameClient game = null;
-	//System für flotten und andere infos
+	
+	//System for fleet and other info
 	public static NotificationSystem notify = null;
 	
 	public boolean ready = false;
@@ -62,7 +63,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {         	 
-    	Log.i("OGAME", "onCreate");   	
+    	Log.i(TAG, "onCreate");   	
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(savedInstanceState);   
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.system_title_planet);     
@@ -109,10 +110,10 @@ public class MainTabActivity extends ScrollableTabActivity{
 										toastText = getString(R.string.error_login);
 										break;
 									case GameClient.LOGIN_CONNECTION_TIMEOUT:
-										toastText = "Unable to connect. Please check your network connection";
+										toastText = getString(R.string.error_connection_timeout);
 										break;
 									case GameClient.LOGIN_UNKNOWN:
-										toastText = "An unknown error occured";
+										toastText = getString(R.string.error_unknown);
 										break;
 									default:
 										break;
@@ -177,10 +178,10 @@ public class MainTabActivity extends ScrollableTabActivity{
     }
     
     public void initUI(){    
-    	SharedPreferences preferences = getSharedPreferences("ogame", Context.MODE_PRIVATE);
+    	SharedPreferences preferences = getSharedPreferences(TAG, Context.MODE_PRIVATE);
     	
-    	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", "1"));
-        tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", "0"));
+    	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", Integer.toString(RadioStateDrawable.SHADE_GRAY)));
+        tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", Integer.toString(RadioStateDrawable.SHADE_BLUE)));
     	
     	if(preferences.getBoolean("show_ads", true)){
 	    	//Load Ads
@@ -198,16 +199,16 @@ public class MainTabActivity extends ScrollableTabActivity{
 	       	try{
 	       		intervall = Integer.valueOf(preferences.getString("fleetsystem_intervall", "300"));
 	       	}catch(Exception e){
-	       		intervall = 300;
+	       		// will use default
 	       	}
 	       	
 	       	notify.setDelay(preferences.getInt("fleetsystem_reload_rate", intervall));
 	       	notify.config(
-	       			preferences.getBoolean("fleetsystem_alarm_hostile", false),
-	       			preferences.getBoolean("fleetsystem_alarm_neutral", false),
-	       			preferences.getBoolean("fleetsystem_alarm_friendly", false),
-	       			preferences.getBoolean("fleetsystem_alarm_messages", false)
-	       				);
+	       		preferences.getBoolean("fleetsystem_alarm_hostile", false),
+	       		preferences.getBoolean("fleetsystem_alarm_neutral", false),
+	       		preferences.getBoolean("fleetsystem_alarm_friendly", false),
+	       		preferences.getBoolean("fleetsystem_alarm_messages", false)
+	       	);
 	       	notify.init();
     	}
     	    	
@@ -219,45 +220,45 @@ public class MainTabActivity extends ScrollableTabActivity{
         setIcon(p1.getIcon());
                 
         this.addTab(getString(R.string.tab_overview), R.drawable.navi_ikon_overview_a, tab_shade_off, tab_shade_on,
-        		new Intent(this, Overview.class));
+        	new Intent(this, Overview.class));
         
         this.addTab(getString(R.string.tab_resources), R.drawable.navi_ikon_resources_a, tab_shade_off, tab_shade_on,
-        		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("pageKey", "resources")
-        			.putExtra("ulKey", new String[]{"building","storage"})
-        			.putExtra("liKey", new String[]{"supply","supply"})
-        		);
+    		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    			.putExtra("pageKey", "resources")
+    			.putExtra("ulKey", new String[]{"building","storage"})
+    			.putExtra("liKey", new String[]{"supply","supply"})
+    		);
         
         this.addTab(getString(R.string.tab_station), R.drawable.navi_ikon_station_a, tab_shade_off, tab_shade_on,
-        		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("pageKey", "station")
-        			.putExtra("ulKey", new String[]{"stationbuilding"})
-        			.putExtra("liKey", new String[]{"station"})
-        		);
+    		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    			.putExtra("pageKey", "station")
+    			.putExtra("ulKey", new String[]{"stationbuilding"})
+    			.putExtra("liKey", new String[]{"station"})
+    		);
         
         this.addTab(getString(R.string.tab_research), R.drawable.navi_ikon_research_a, tab_shade_off, tab_shade_on,
-        		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("pageKey", "research")
-        			.putExtra("ulKey", new String[]{"base", "base2", "base3", "base4"})
-        			.putExtra("liKey", new String[]{"research", "research", "research", "research"})
-        		);
+    		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    			.putExtra("pageKey", "research")
+    			.putExtra("ulKey", new String[]{"base", "base2", "base3", "base4"})
+    			.putExtra("liKey", new String[]{"research", "research", "research", "research"})
+    		);
         
         this.addTab(getString(R.string.tab_shipyard), R.drawable.navi_ikon_shipyard_a, tab_shade_off, tab_shade_on,
-        		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("pageKey", "shipyard")
-        			.putExtra("ulKey", new String[]{"military", "civil"})
-        			.putExtra("liKey", new String[]{"military", "civil"})
-        		); 
+    		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    			.putExtra("pageKey", "shipyard")
+    			.putExtra("ulKey", new String[]{"military", "civil"})
+    			.putExtra("liKey", new String[]{"military", "civil"})
+    		); 
         
         this.addTab(getString(R.string.tab_defense), R.drawable.navi_ikon_defense_a, tab_shade_off, tab_shade_on, 
-        		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        			.putExtra("pageKey", "defense")
-        			.putExtra("ulKey", new String[]{"defensebuilding"})
-        			.putExtra("liKey", new String[]{"defense"})
-        		);
+    		new Intent(this, ObjectListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    			.putExtra("pageKey", "defense")
+    			.putExtra("ulKey", new String[]{"defensebuilding"})
+    			.putExtra("liKey", new String[]{"defense"})
+    		);
         
         this.addTab(getString(R.string.menu_resources), R.drawable.navi_ikon_resources_a, tab_shade_off, tab_shade_on, 
-        		new Intent(this, ResourceSettingsView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    		new Intent(this, ResourceSettingsView.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         
         disableScrollbarFading((HorizontalScrollView)findViewById(R.id.bottomBar));
         commit();
@@ -306,6 +307,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 			@Override
 			public boolean onLongClick(View v) {
 				reloadTitleData(false);
+				reloadNotificationData();
 				return true;
 			}
 		});
@@ -336,14 +338,14 @@ public class MainTabActivity extends ScrollableTabActivity{
         	case R.id.fleet: startActivity(new Intent(this, MovementView.class)); return true;
         	case R.id.messages: startActivity(new Intent(this, MessageListView.class)); return true;
         	case R.id.galaxy: startActivity(new Intent(this, GalaxyView.class)); return true;
-        	//case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
+        	case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
         }
         return false;
     }
     
     @Override
     public void onResume() {
-    	Log.i("OGAME", "onResume");
+    	Log.i(TAG, "onResume");
     	super.onResume();
     	if(ready){
     		reloadTitleData(false);
@@ -372,9 +374,10 @@ public class MainTabActivity extends ScrollableTabActivity{
 					        setTitle(p1.getName() + " " + p1.getCoordinates());
 				        setInfo(p1.getResources());
 				        setIcon(p1.getIcon());
-				        //reloadTab();
+
 				        syncIndicator.setImageResource(android.R.drawable.ic_menu_rotate);							
-		        }});			
+		            }
+				});			
 			}
 		});
 		runOnUiThread(new Runnable() {
@@ -384,10 +387,35 @@ public class MainTabActivity extends ScrollableTabActivity{
 		t.start();
 	}     
 	
+	/**
+	 * Refresh notification data
+	 */
+	public void reloadNotificationData(){
+		if(notify != null){
+			final ImageButton syncIndicator = getReloadButton();
+			
+			Thread t = new Thread(new Runnable() {			
+				@Override
+				public void run() {
+					notify.update();
+					runOnUiThread(new Runnable() {
+			            public void run() {		
+					        syncIndicator.setImageResource(android.R.drawable.ic_menu_rotate);							
+			            }
+					});			
+				}
+			});
+			runOnUiThread(new Runnable() {
+	            public void run() {	
+	            	syncIndicator.setImageResource(android.R.drawable.ic_menu_recent_history);		
+	            }});
+			t.start();
+		}
+	}
+	
 	public static void disableScrollbarFading(View view) {
 	    try {
-	        Method setScrollbarFadingEnabled = View.class.getDeclaredMethod(
-	                "setScrollbarFadingEnabled", boolean.class);
+	        Method setScrollbarFadingEnabled = View.class.getDeclaredMethod("setScrollbarFadingEnabled", boolean.class);
 	        setScrollbarFadingEnabled.setAccessible(true);
 	        setScrollbarFadingEnabled.invoke(view, false);
 	    } catch (Exception e) {

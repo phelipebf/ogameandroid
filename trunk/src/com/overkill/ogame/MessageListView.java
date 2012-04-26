@@ -25,6 +25,8 @@ public class MessageListView extends ListActivity {
 	MessageAdapter adapter;
 	int displayCategory = Message.FILTER_INBOX;
 	
+	int lastPosition = 0;
+	
 	public void setProgressVisibility(boolean visible){
 		if(visible)
 			((ProgressBar)findViewById(R.id.progress)).setVisibility(View.VISIBLE);
@@ -63,14 +65,16 @@ public class MessageListView extends ListActivity {
         ((Button)findViewById(R.id.btn_folder)).setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				final int[] folderIDs = {Message.FILTER_INBOX, 
-										 Message.FILTER_ESPIONAGE, 
-										 Message.FILTER_BATTLE, 
-										 Message.FILTER_PLAYER, 
-										 Message.FILTER_EXPEDITION, 
-										 Message.FILTER_ALLIANCE, 
-										 Message.FILTER_OTHER, 
-										 Message.FILTER_BIN};
+				final int[] folderIDs = {
+					Message.FILTER_INBOX, 
+					Message.FILTER_ESPIONAGE, 
+					Message.FILTER_BATTLE, 
+					Message.FILTER_PLAYER, 
+					Message.FILTER_EXPEDITION, 
+					Message.FILTER_ALLIANCE, 
+					Message.FILTER_OTHER, 
+					Message.FILTER_BIN
+				};
 				final CharSequence[] folderNames = new CharSequence[folderIDs.length];
 				for(int i = 0; i < folderIDs.length; i++){
 					folderNames[i] = getString(getResources().getIdentifier("string/message_folder_" + folderIDs[i], null, getPackageName()));
@@ -101,6 +105,8 @@ public class MessageListView extends ListActivity {
 	}
 	
 	private void load(){
+		final int lastPosition = this.lastPosition;
+		
 		Thread t = new Thread(new Runnable() {			
 			@Override
 			public void run() {		
@@ -111,8 +117,11 @@ public class MessageListView extends ListActivity {
 					public void run() {
 						setListAdapter(adapter);
 						setProgressVisibility(false);
-						if(adapter.isEmpty())
+						if(adapter.isEmpty()){
 							Toast.makeText(MessageListView.this, R.string.message_no_message, Toast.LENGTH_SHORT).show();
+						}else{
+							setSelection(lastPosition);
+						}
 					}
 				});
 			}
@@ -124,6 +133,9 @@ public class MessageListView extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, final int position, long id) {
 		super.onListItemClick(l, v, position, id);
+		
+		this.lastPosition = position;
+		
 		final Message m = adapter.getItem(position);
 		m.setRead(true);
 		adapter.notifyDataSetChanged();

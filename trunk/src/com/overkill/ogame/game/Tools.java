@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,12 +15,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.flurry.android.FlurryAgent;
 import com.overkill.ogame.R;
-
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 public class Tools {
 	
@@ -33,12 +31,12 @@ public class Tools {
 	 * @return
 	 */
 	public static String htmlconvert(String html){
-		return html.replace("&auml;", "ä").
-					replace("&ouml;", "ö").
-					replace("&uuml;", "ü").
-					replace("&Auml;", "Ä").
-					replace("&Ouml;", "Ö").
-					replace("&Uuml;", "Ü");
+		return html.replace("&auml;", "?").
+					replace("&ouml;", "?").
+					replace("&uuml;", "?").
+					replace("&Auml;", "?").
+					replace("&Ouml;", "?").
+					replace("&Uuml;", "?");
 	}
 	
 	public static void save(File file, InputStream is){
@@ -149,8 +147,8 @@ public class Tools {
 			String level = item.select("span.level").text().replace(name, "").trim().replace(".", "").replace(",", "");
 			
 			// Remove the (+2) from Technokrat
-			if(level.contains("+2")){
-				level = level.substring(level.indexOf("("));
+			if(level.contains(" (+2)")){
+				level = level.replace(" (+2)", "");
 				level = String.valueOf(Integer.valueOf(level) + 2);
 			}
 			

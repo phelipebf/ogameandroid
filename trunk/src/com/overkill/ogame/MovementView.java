@@ -1,16 +1,7 @@
 package com.overkill.ogame;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.overkill.ogame.game.FleetEvent;
-import com.overkill.ogame.game.FleetEventAdapter;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -18,15 +9,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.overkill.ogame.game.FleetEvent;
+import com.overkill.ogame.game.FleetEventAdapter;
 
 public class MovementView extends ListActivity {
 	FleetEventAdapter adapter;

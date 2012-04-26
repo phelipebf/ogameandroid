@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.text.method.DigitsKeyListener;
@@ -29,12 +28,13 @@ public class SettingsView extends PreferenceActivity {
         EditText editText = (EditText)fleetsystem_intervall.getEditText();
         editText.setKeyListener(DigitsKeyListener.getInstance(false,true));
         
-        ((CheckBoxPreference)findPreference("show_ads")).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-        	@Override
-        	public boolean onPreferenceChange(Preference preference, Object newValue) {
-        		return true;
-        	}
-		});
+        // TODO: what is this for?
+//        ((CheckBoxPreference)findPreference("show_ads")).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+//        	@Override
+//        	public boolean onPreferenceChange(Preference preference, Object newValue) {
+//        		return true;
+//        	}
+//		});
         
         ((Preference)findPreference("donate")).setEnabled(false);
         

@@ -16,15 +16,9 @@
 
 package com.overkill.ogame;
 
-import com.android.vending.billing.BillingService;
-import com.android.vending.billing.BillingService.RequestPurchase;
-import com.android.vending.billing.BillingService.RestoreTransactions;
-import com.android.vending.billing.Consts;
-import com.android.vending.billing.Consts.PurchaseState;
-import com.android.vending.billing.Consts.ResponseCode;
-import com.android.vending.billing.PurchaseDatabase;
-import com.android.vending.billing.PurchaseObserver;
-import com.android.vending.billing.ResponseHandler;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -50,9 +44,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import com.android.vending.billing.BillingService;
+import com.android.vending.billing.BillingService.RequestPurchase;
+import com.android.vending.billing.BillingService.RestoreTransactions;
+import com.android.vending.billing.Consts;
+import com.android.vending.billing.Consts.PurchaseState;
+import com.android.vending.billing.Consts.ResponseCode;
+import com.android.vending.billing.PurchaseDatabase;
+import com.android.vending.billing.PurchaseObserver;
+import com.android.vending.billing.ResponseHandler;
 
 /**
  * A sample application that demonstrates in-app billing.
@@ -195,10 +195,10 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity{
 
     /** An array of product list entries for the products that can be purchased. */
     private static final CatalogEntry[] CATALOG = new CatalogEntry[] {
-        new CatalogEntry("ogame.inapp.donate.1", "Donate 1 €", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.2", "Donate 2 €", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.5", "Donate 5 €", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.10", "Donate 10 €", Managed.UNMANAGED)
+        new CatalogEntry("ogame.inapp.donate.1", "Donate 1 ï¿½", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.2", "Donate 2 ï¿½", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.5", "Donate 5 ï¿½", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.10", "Donate 10 ï¿½", Managed.UNMANAGED)
     };
 
     private String mItemName;
