@@ -25,12 +25,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.flurry.android.FlurryAgent;
-import com.overkill.ogame.R;
-
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.flurry.android.FlurryAgent;
+import com.overkill.ogame.R;
 
 /**
  * Controller für interaktion mit ogame server
@@ -39,7 +38,6 @@ import android.widget.Toast;
  */
 public class GameClient{
 	public static final String TAG = "ogame-core";
-	private final boolean D = true;
 	private final String USER_AGENT = "Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; generic) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17";
 	
 	private String latestWorkingServerVersion = "2.2.3";
@@ -114,14 +112,15 @@ public class GameClient{
 			http.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
 			HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
 			httppost.addHeader("User-Agent", USER_AGENT);
-			if(D) Log.i(TAG, "Login at " + httppost.getURI().toString());		
+			Log.i(TAG, "Login at " + httppost.getURI().toString());		
+			
 			//build login post data
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	        nameValuePairs.add(new BasicNameValuePair("v", "2"));
 	        nameValuePairs.add(new BasicNameValuePair("is_utf8", "0"));
 	        nameValuePairs.add(new BasicNameValuePair("login", username));
 	        nameValuePairs.add(new BasicNameValuePair("pass", password));
-	        nameValuePairs.add(new BasicNameValuePair("submit", "Einloggen"));
+	        nameValuePairs.add(new BasicNameValuePair("submit", "Submit"));
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	        //execute request
 	        HttpResponse response = http.execute(httppost);		
@@ -149,7 +148,6 @@ public class GameClient{
 	    		return (returnState == 0) ? GameClient.LOGIN_OK : returnState;
 	       	}       		
 		}catch (Exception e) {
-			Toast.makeText(this.context, e.getMessage(), Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 			return GameClient.LOGIN_UNKNOWN;
 		}
@@ -194,14 +192,8 @@ public class GameClient{
 			Element div = divs.get(i);
 			String name = div.select("span.planet-name").text();
 			String img = div.select("img.planetPic").attr("src");
-			img = img.replace("img/planets/", "").replace(".gif", "");
-			img = img.substring(0, img.lastIndexOf("_"));
-			int img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, context.getPackageName());
-			if(img_id == 0){
-				FlurryAgent.onError("planetImage", "drawable/planet_" + img, "loadPlanets");
-				Log.e(TAG, "Unable to find drawable/planet_" + img);
-				img_id = R.drawable.planet_default;
-			}
+			int img_id = this.getPlanetImage(img);
+			
 			Element link = div.select("a").get(0);
 			String info = link.attr("title");
 			int id = 0;
@@ -279,6 +271,28 @@ public class GameClient{
 	private String getPlanetNameFromOverview(String body){
 		Document html = Jsoup.parse(body);
 		return html.select("span#planetNameHeader").text();
+	}
+	
+	/**
+	 * Returns planet image id parsed from image url
+	 * @param url Image url
+	 * @return The Planet image id
+	 */
+	public int getPlanetImage(String url){
+		int img_id = R.drawable.planet_default;
+		
+		try{
+			String img = url.contains("(") ? Tools.between(url, "(", ")") : url;
+			img = img.replace("img/planets/", "").replace("micro/", "").replace(".gif", "");
+			img = img.substring(0, img.lastIndexOf("_"));
+			
+			img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, this.context.getPackageName());
+		}catch (Exception ex) {
+			FlurryAgent.onError("planetImage", "Cannot retreive image (URL: " + url + ")", "getPlanetImage");
+			Log.e(TAG, "Cannot retreive image (URL: " + url + ")");
+		}
+				
+		return img_id;
 	}
 	
 	/**

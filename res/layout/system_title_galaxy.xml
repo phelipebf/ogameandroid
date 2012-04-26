@@ -23,7 +23,6 @@
         android:layout_alignBottom="@+id/galaxy_spinner" />
 
     <EditText 
-    	android:text="192" 
     	android:maxLength="3"
     	android:lines="1"
     	android:inputType="number"
@@ -33,7 +32,9 @@
     	android:id="@+id/system" 
     	android:layout_toRightOf="@+id/prev_system" 
     	android:layout_alignTop="@+id/prev_system" 
-    	android:layout_alignBottom="@+id/prev_system" android:paddingLeft="10dip" android:paddingRight="10dip"/>     
+    	android:layout_alignBottom="@+id/prev_system" 
+    	android:paddingLeft="10dip" 
+    	android:paddingRight="10dip"/>     
     	
     <ImageButton 
     	android:layout_width="wrap_content"
@@ -43,4 +44,16 @@
         android:layout_toRightOf="@+id/system" 
         android:layout_alignTop="@+id/system" 
         android:layout_alignBottom="@+id/system" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:indeterminate="true" />
+
 </RelativeLayout>

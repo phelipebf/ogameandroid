@@ -4,10 +4,11 @@ import android.graphics.Color;
 
 public class GalaxyPlanet {
 	
-	public static enum PlayerStatus {ACTIVE, INACTIVE7, INACTIVE28, NOOB, VACATION, STRONG, BANNED};
+	public static enum PlayerStatus {ACTIVE, INACTIVE7, INACTIVE28, NOOB, VACATION, STRONG, HONORABLE, BANNED};
 	
 	private Integer position;
 	private boolean emptySlot = true;
+	private boolean myPlanet = false;
 	
 	private String planetName;
 	private String planetActivity;
@@ -15,6 +16,7 @@ public class GalaxyPlanet {
 	private int image;
 
 	private boolean moon = false;
+	private String moonActivity;
 	
 	private String debrisMetal;
 	private String debrisCrystal;
@@ -40,6 +42,12 @@ public class GalaxyPlanet {
 	}
 	public void setEmptySlot(boolean emptySlot) {
 		this.emptySlot = emptySlot;
+	}
+	public boolean isMyPlanet() {
+		return myPlanet;
+	}
+	public void setMyPlanet(boolean myPlanet) {
+		this.myPlanet = myPlanet;
 	}
 	public String getPlanetName() {
 		return planetName;
@@ -77,6 +85,9 @@ public class GalaxyPlanet {
 			case STRONG:
 				ret += " (s)";
 				break;
+			case HONORABLE:
+				ret += " (h)";
+				break;
 			case BANNED:
 				ret += " (b)";
 				break;			
@@ -108,6 +119,8 @@ public class GalaxyPlanet {
 			this.playerStatus = PlayerStatus.NOOB;
 		} else if("status_abbr_banned".equals(spanClass)) {
 			this.playerStatus = PlayerStatus.BANNED;
+		} else if("status_abbr_honorableTarget".equals(spanClass)) {
+			this.playerStatus = PlayerStatus.HONORABLE;
 		} else {
 			this.playerStatus = PlayerStatus.ACTIVE;	
 		}
@@ -125,6 +138,8 @@ public class GalaxyPlanet {
 		        return Color.parseColor("#00FF00"); //lime
 	      case STRONG: 
 		        return Color.parseColor("#FF0000");
+	      case HONORABLE:
+	    	  	return Color.parseColor("#FFD800"); //yellow
 	      case VACATION: 
 		        return Color.parseColor("#00FFFF"); //aqua
 	      default: 
@@ -189,16 +204,22 @@ public class GalaxyPlanet {
 	public void setMoon(boolean moon) {
 		this.moon = moon;
 	}
+	public String getMoonActivity() {
+		return moonActivity;
+	}
+	public void setMoonActivity(String moonActivity) {
+		this.moonActivity = moonActivity;
+	}
 	@Override
 	public String toString() {
 		return "GalaxyPlanet [allyMembers=" + allyMembers + ", allyName="
-				+ allyName + ", allyRank=" + allyRank + ", debrisCrystal="
-				+ debrisCrystal + ", debrisMetal=" + debrisMetal
-				+ ", debrisRecyclersNeeded=" + debrisRecyclersNeeded
-				+ ", planetActivity=" + planetActivity + ", planetCoords="
-				+ planetCoords + ", planetName=" + planetName + ", playerName="
-				+ playerName + ", playerRank=" + playerRank + ", position="
-				+ position + "]";
+			+ allyName + ", allyRank=" + allyRank + ", debrisCrystal="
+			+ debrisCrystal + ", debrisMetal=" + debrisMetal
+			+ ", debrisRecyclersNeeded=" + debrisRecyclersNeeded
+			+ ", planetActivity=" + planetActivity + ", planetCoords="
+			+ planetCoords + ", planetName=" + planetName + ", playerName="
+			+ playerName + ", playerRank=" + playerRank + ", position="
+			+ position + "]";
 	}	
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OGame</string>
+	<string name="app_name">OGame</string>
     <string name="select_planet">Selecione o Planeta</string>
     <string name="moon">Lua</string>
     <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
@@ -15,7 +15,7 @@
 	<string name="menu_about">Sobre</string>
 	<string name="menu_messages">Mensagens</string>
 	<string name="menu_fleet">Frota</string>
-	<string name="menu_galaxy">Galáxia/<string>
+	<string name="menu_galaxy">Galáxia</string>
 	<string name="menu_resources">Config. de Recursos</string>
 	
 	<string name="tab_overview">Visão Geral</string>
@@ -30,7 +30,7 @@
 	<string name="username">Nome de usuário</string>   
 	<string name="password">Senha</string>   
 	<string name="login_button">Login</string>
-        <string name="copyright_message">OGame e muitos dos gráficos são\n© 2003 - 2011 de Gameforge Productions</string>
+	<string name="copyright_message">OGame e muitos dos gráficos são\n© 2003 &#8211; 2011 de Gameforge Productions</string>
 	
 	<string name="more">mais</string>
 	<string name="requirements">Requisitos</string>
@@ -45,14 +45,14 @@
 	
 	<string name="new_command">Novo Comando</string>
 	<string name="enter_amount">Digite valor</string>
-	<string name="send_command">Enviando comando...</string>
-	<string name="ask_with_count" formatted="false">Send command for %d %s?</string>
+	<string name="send_command">Enviando comando &#8230;</string>
+	<string name="ask_with_count" >Send command for %1$d %2$s?</string>
 	<string name="ask_no_count">Send command for %s?</string>
 	<string name="now_building">%s is now being built.</string>
 	<string name="building_time">Building time: %s</string>
 	<string name="buildable_in">Not enough resources\nBuildable in: %s</string>
 	<string name="buildable_once">%s can only be built once</string>
-	<string name="loading">Loading...</string>
+	<string name="loading">Loading &#8230;</string>
 	<string name="change_planet">Switching to \"%s\"</string>
 	<string name="in_queue">In queue</string>
 	<string name="time_to_complete">Time to complete: %s</string>
@@ -78,6 +78,10 @@
 	<string name="settings_fleet_hostile_summary">Notify on hostile events</string>
 	<string name="settings_messages">Messages</string>
 	<string name="settings_messages_summary">Notify on unread messages</string>
+	
+	<string name="settings_galaxy">Galaxy Settings</string>
+	<string name="settings_galaxy_debris_mark">Debris mark</string>
+	<string name="settings_galaxy_debris_mark_summary">Mark debris for min number of recyclers</string>
 	
 	<string name="message_no_message">No message to display</string>
 	<string name="message_send">Send</string>
@@ -106,7 +110,7 @@
 	
 	<string name="galaxy_colonize">Colonize position %s?</string>
 	<string name="galaxy_probes">Send esp. probe?</string>
-	<string name="galaxy_activity">Activity: %s</string>
+	<string name="galaxy_activity">%s</string>
 	<string name="galaxy_activity_now">now</string>
 	<string name="galaxy_empty_slot">Empty slot</string>
 	

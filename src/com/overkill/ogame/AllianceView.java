@@ -5,16 +5,11 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 
 public class AllianceView extends Activity {
@@ -25,7 +20,7 @@ public class AllianceView extends Activity {
 		
 		Uri uri = getIntent().getData();
 		if(uri != null){
-			if(uri.getQueryParameter("allyid").equals("0")){
+			if(uri.getQueryParameter("allianceId").equals("0")){
 				Toast.makeText(this, "You cannot view nor edit your own ally yet", Toast.LENGTH_LONG).show();	
 				finish();
 				//Document html = Jsoup.parse(MainTabActivity.game.get("page=allianceOverview"));
@@ -47,7 +42,7 @@ public class AllianceView extends Activity {
 				web.getSettings().setSupportZoom(true);
 				web.getSettings().setLoadsImagesAutomatically(true);
 				setContentView(web);
-				web.loadUrl(MainTabActivity.game.getBaseUrl() + "ainfo.php?allyid=" + uri.getQueryParameter("allyid"));
+				web.loadUrl(MainTabActivity.game.getBaseUrl() + "allianceInfo.php?allianceId=" + uri.getQueryParameter("allianceId"));
 			}
 		}
 	}	

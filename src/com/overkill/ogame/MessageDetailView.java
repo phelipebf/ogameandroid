@@ -5,22 +5,21 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.overkill.ogame.game.Message;
-import com.overkill.ogame.game.Player;
-import com.overkill.ogame.game.Tools;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.overkill.ogame.game.Message;
+import com.overkill.ogame.game.Player;
+import com.overkill.ogame.game.Tools;
 
 public class MessageDetailView extends Activity {
 	int msg_id;

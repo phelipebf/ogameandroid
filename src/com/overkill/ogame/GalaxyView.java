@@ -19,7 +19,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -30,19 +29,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flurry.android.FlurryAgent;
 import com.overkill.ogame.game.FleetEvent;
 import com.overkill.ogame.game.GalaxyPlanet;
 import com.overkill.ogame.game.GalaxyPlanetAdapter;
 import com.overkill.ogame.game.GameClient;
 import com.overkill.ogame.game.Planet;
-import com.overkill.ogame.game.Tools;
 
 public class GalaxyView extends ListActivity {
+	public static final String TAG = "ogame";
 
 	private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -138,6 +137,8 @@ public class GalaxyView extends ListActivity {
 			}
 		});
         
+        ((ProgressBar)findViewById(R.id.progress_bar)).setVisibility(View.INVISIBLE);
+        
 		load();
 	}
 	
@@ -206,10 +207,12 @@ public class GalaxyView extends ListActivity {
 							getListView().setSelection(position);
 							getListView().setSelected(true);
 						}
+						((ProgressBar)findViewById(R.id.progress_bar)).setVisibility(View.INVISIBLE);
 					}
 				});
 			}
-		});		
+		});
+		((ProgressBar)findViewById(R.id.progress_bar)).setVisibility(View.VISIBLE);
 		t.start();		
 	}
 	
@@ -231,14 +234,14 @@ public class GalaxyView extends ListActivity {
 			dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					startActivity(new Intent(Intent.ACTION_VIEW,
-							Uri.parse("ogame://fleet?galaxy=" + String.valueOf(galaxy) + 
-									  "&system=" + String.valueOf(system) + 
-									  "&position=" + String.valueOf(p.getPosition()) + 
-									  "&type=1&mission=" + FleetEvent.MISSION_COLONIZATION))
+						Uri.parse("ogame://fleet?galaxy=" + String.valueOf(galaxy) + 
+						  "&system=" + String.valueOf(system) + 
+						  "&position=" + String.valueOf(p.getPosition()) + 
+						  "&type=1&mission=" + FleetEvent.MISSION_COLONIZATION))
 		    		);
 				}
 			});
-		}  else {
+		}else {
 			final ArrayList<String> mission_text = new ArrayList<String>();
 			final ArrayList<Integer> mission_id = new ArrayList<Integer>();
 			
@@ -252,8 +255,10 @@ public class GalaxyView extends ListActivity {
 				mission_id.add(Integer.valueOf(FleetEvent.MISSION_MISSILE));
 			}
 			
-			mission_text.add(getString(R.string.mission_attack));
-			mission_id.add(FleetEvent.MISSION_ATTACK);
+			if(p.isMyPlanet() == false){
+				mission_text.add(getString(R.string.mission_attack));
+				mission_id.add(FleetEvent.MISSION_ATTACK);
+			}
 			
 			mission_text.add(getString(R.string.mission_transport));
 			mission_id.add(FleetEvent.MISSION_TRANSPORT);
@@ -287,11 +292,11 @@ public class GalaxyView extends ListActivity {
 										public void run() {
 								    		String coords[] = p.getPlanetCoords().replace("[", "").replace("]", "").split(":");
 								    		startActivity(new Intent(Intent.ACTION_VIEW,
-													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
-															  "&system=" + coords[1] + 
-															  "&position=" + coords[2] + 
-															  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
-															  "&mission=" + String.valueOf(FleetEvent.MISSION_ATTACK)))
+												Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
+												  "&system=" + coords[1] + 
+												  "&position=" + coords[2] + 
+												  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
+												  "&mission=" + String.valueOf(FleetEvent.MISSION_ATTACK)))
 								    		);
 								    		finish(); 
 										}
@@ -303,17 +308,19 @@ public class GalaxyView extends ListActivity {
 										public void run() {
 								    		String coords[] = p.getPlanetCoords().replace("[", "").replace("]", "").split(":");
 								    		startActivity(new Intent(Intent.ACTION_VIEW,
-													Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
-															  "&system=" + coords[1] + 
-															  "&position=" + coords[2] + 
-															  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
-															  "&mission=" + String.valueOf(FleetEvent.MISSION_TRANSPORT)))
+												Uri.parse("ogame://fleet?galaxy=" + coords[0] + 
+												  "&system=" + coords[1] + 
+												  "&position=" + coords[2] + 
+												  "&type=" + String.valueOf(FleetEvent.PLANETTYPE_PLANET) + 
+												  "&mission=" + String.valueOf(FleetEvent.MISSION_TRANSPORT)))
 								    		);
 								    		finish(); 
 										}
 						    		});
 						    		break;	
-						    	case FleetEvent.MISSION_HARVEST: sendResult = sendRecycler(MainTabActivity.game, galaxy, system, p.getPosition(), p.getDebrisRecyclersNeeded()); break;
+						    	case FleetEvent.MISSION_HARVEST: 
+						    		sendResult = sendRecycler(MainTabActivity.game, galaxy, system, p.getPosition(), p.getDebrisRecyclersNeeded());
+						    		break;
 					    	}							
 							runOnUiThread(new Runnable() {					
 								@Override
@@ -431,8 +438,8 @@ public class GalaxyView extends ListActivity {
 		Elements slotValue = solarSystem.select("#slotValue");
 		slotsUsed = slotValue.select("#slotUsed").text();
 		slotValue.remove("#slotUsed");
-		slotsTotal = slotValue.text().trim().substring(2);
-		
+		slotsTotal = slotValue.text().trim().substring(2).replace("/", "");
+
 		for(Element tr : solarSystem.select("tr.row")) {
 			GalaxyPlanet planet = new GalaxyPlanet();
 			
@@ -444,30 +451,19 @@ public class GalaxyView extends ListActivity {
 				Element microplanet = tr.select("td.microplanet").get(0);
 				
 				String img = microplanet.attr("style");
-				img = Tools.between(img, "(", ")");
-				img = img.replace("img/planets/micro/", "").replace(".gif", "");
-				img = img.substring(0, img.lastIndexOf("_"));
-				int img_id = getResources().getIdentifier("drawable/planet_" + img, null, getPackageName());
-				if(img_id == 0){
-					FlurryAgent.onError("planetImage", "drawable/planet_" + img, "parseGalaxy");
-					Log.e(GameClient.TAG, "Unable to find drawable/planet_" + img);
-					img_id = R.drawable.planet_default;
-				}
+				int img_id = MainTabActivity.game.getPlanetImage(img);
 				planet.setImage(img_id);
 				
 				Elements h4 = microplanet.select("h4");
 				planet.setPlanetName(h4.select("span.textNormal").text());
 				
-				h4.remove("span.spacing");
-				String planetActivity = "";
-				if(h4.select("img").size() > 0){ //icon	
-					planetActivity = getApplicationContext().getString(R.string.galaxy_activity_now);
-				} else {
-					planetActivity = h4.text().trim();
-					if(planetActivity.indexOf("Activity:") >= 0) {
-						planetActivity = planetActivity.substring(planetActivity.indexOf("Activity:")+9);
-					} else {
-						planetActivity = null;
+				String planetActivity = null;
+				if (tr.select("div.activity").size() == 1){
+					if(tr.select("div.minute15").size() == 1){
+						planetActivity = getApplicationContext().getString(R.string.galaxy_activity_now);
+					}
+					else if(tr.select("div.showMinutes").size() == 1){
+						planetActivity = tr.select("div.showMinutes").get(0).text().trim();
 					}
 				}
 				planet.setPlanetActivity(planetActivity);
@@ -477,6 +473,17 @@ public class GalaxyView extends ListActivity {
 				Element moon = tr.select("td.moon").get(0);
 				if(moon.children().size() > 0) {
 					planet.setMoon(true);
+					
+					String moonActivity = null;
+					if (moon.select("div.activity").size() == 1){
+						if(moon.select("div.minute15").size() == 1){
+							moonActivity = getApplicationContext().getString(R.string.galaxy_activity_now);
+						}
+						else if(moon.select("div.showMinutes").size() == 1){
+							moonActivity = tr.select("div.showMinutes").get(0).text().trim();
+						}
+					}
+					planet.setMoonActivity(moonActivity);
 				}
 				
 				Element debris = tr.select("td.debris").get(0);
@@ -497,29 +504,29 @@ public class GalaxyView extends ListActivity {
 				h4 = player.select("h4");				
 				if(h4.isEmpty()) {//player is us
 					planet.setPlayerName(player.select("span").get(0).text());
+					planet.setMyPlanet(true);
 				} else {
 					planet.setPlayerName(h4.select("span > span").text());
-					String playerRank = player.select("li.rank").text();
-					playerRank = playerRank.substring(playerRank.indexOf(": ") + 2);
-					planet.setPlayerRank(playerRank);
+					planet.setPlayerRank(player.select("li.rank > a").text());
 					planet.setPlayerStatus(player.select("a.tipsGalaxy > span").attr("class"));			
 				}
 				
 				Element allytag = tr.select("td.allytag").get(0);
 				if(allytag.children().size() > 0) {	//no ally
-					String allyID = allytag.select("ul.ListLinks").select("a").first().attr("href");
-					if(allyID.contains("page=alliance")){ // our ally
+					Elements allyLink = allytag.select("ul.ListLinks").select("a[target*=ally]");
+					if(allyLink.size() == 0){ // our ally
 						planet.setAllyID(0);
 					}else{
-						//ainfo.php?allyid=??
-						allyID = allyID.substring(allyID.indexOf("ainfo.php?allyid=") + "ainfo.php?allyid=".length());
+						//allianceInfo.php?allianceId=??
+						String allyID = allyLink.get(0).attr("href");
+						allyID = allyID.substring(allyID.indexOf("allianceInfo.php?allianceId=") + "allianceInfo.php?allianceId=".length());
 						planet.setAllyID(Integer.valueOf(allyID));						
 					}
-					String allyName = allytag.select("h4 > span").text();
-					allyName = allyName.substring(allyName.indexOf("Alliance ") + 9);
+					String allyName = allytag.select("span").html();
+					allyName = allyName.substring(0, allyName.indexOf("<div")).trim();
 					planet.setAllyName(allyName);
-					String allyRank = allytag.select("li.rank").text();
-					allyRank = allyRank.substring(allyRank.indexOf(": ") + 2);
+					
+					String allyRank = allytag.select("li.rank > a").text();
 					planet.setAllyRank(allyRank);
 					String allyMembers = allytag.select("li.members").text();
 					allyMembers = allyMembers.substring(allyMembers.indexOf(": ") + 2);

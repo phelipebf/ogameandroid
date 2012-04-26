@@ -24,7 +24,7 @@
        	<CheckBoxPreference
                 android:key="show_ads"
                 android:title="@string/settings_show_ads"
-                android:defaultValue="true" />      
+                android:defaultValue="false" />      
        
        	<CheckBoxPreference
                 android:key="message_html"
@@ -98,6 +98,19 @@
                 android:summary="@string/settings_messages_summary"
                 android:dependency="fleetsystem_global"
                 android:layout="?android:attr/preferenceLayoutChild" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+            android:title="@string/settings_galaxy">
+
+        <EditTextPreference
+                android:key="debris_marker"
+                android:title="@string/settings_galaxy_debris_mark"
+                android:summary="@string/settings_galaxy_debris_mark_summary"
+				android:defaultValue="2"
+                android:layout="?android:attr/preferenceLayoutChild" 
+                android:inputType="phone"/>
+        
     </PreferenceCategory>
     
      <PreferenceCategory

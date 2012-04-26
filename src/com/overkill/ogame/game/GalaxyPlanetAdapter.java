@@ -3,6 +3,7 @@ package com.overkill.ogame.game;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -20,24 +21,35 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 	private Context context;
 	private int textViewResourceId;
 
+	private SharedPreferences settings;
+	
  	public GalaxyPlanetAdapter(Context context, int textViewResourceId, ArrayList<GalaxyPlanet> system) {
 		super(context, textViewResourceId, system);
+		
+		final String TAG = "ogame";
+		
 		this.context = context;
 		this.textViewResourceId = textViewResourceId;
+		
+		settings = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
  	}
  	
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) this.context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater vi = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(this.textViewResourceId, parent, false);
 		}
 
 		TextView txtPlanetIndex = ((TextView) v.findViewById(R.id.txt_planet_index));
 		TextView txtPlanetName = ((TextView) v.findViewById(R.id.txt_name));
 		TextView txtActivity = ((TextView) v.findViewById(R.id.txt_activity));
+		ImageView imgActivity = ((ImageView) v.findViewById(R.id.img_activity));
+		
+		TextView txtMoonActivity = ((TextView) v.findViewById(R.id.moon_txt_activity));
+		ImageView imgMoonActivity = ((ImageView) v.findViewById(R.id.moon_img_activity));
+		
 		TextView txtPlayer = ((TextView) v.findViewById(R.id.txt_player));
 		TextView txtRank = ((TextView) v.findViewById(R.id.txt_rank));
 		TextView txtAlly = ((TextView) v.findViewById(R.id.txt_ally));
@@ -46,6 +58,11 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 		ImageView imgMoon = ((ImageView) v.findViewById(R.id.img_moon));
 
 		txtActivity.setVisibility(View.INVISIBLE);
+		imgActivity.setVisibility(View.INVISIBLE);
+		
+		txtMoonActivity.setVisibility(View.INVISIBLE);
+		imgMoonActivity.setVisibility(View.INVISIBLE);
+		
 		txtPlayer.setVisibility(View.INVISIBLE);
 		txtRank.setVisibility(View.INVISIBLE);
 		txtAlly.setVisibility(View.INVISIBLE);
@@ -66,8 +83,12 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			txtPlanetName.setText(p.getPlanetName());
 
 			if(p.getPlanetActivity() != null) {
-				txtActivity.setVisibility(View.VISIBLE);
-				txtActivity.setText(context.getString(R.string.galaxy_activity, p.getPlanetActivity()));
+				if(p.getPlanetActivity().equals(context.getString(R.string.galaxy_activity_now))){
+					imgActivity.setVisibility(View.VISIBLE);
+				}else{
+					txtActivity.setVisibility(View.VISIBLE);
+					txtActivity.setText(context.getString(R.string.galaxy_activity, p.getPlanetActivity()));
+				}
 			}
 			
 			if(p.getPlayerRank() != null) {
@@ -92,9 +113,21 @@ public class GalaxyPlanetAdapter extends ArrayAdapter<GalaxyPlanet> {
 			
 			if(p.hasMoon()) {
 				imgMoon.setVisibility(View.VISIBLE);
+				if(p.getMoonActivity() != null) {
+					if(p.getMoonActivity().equals(context.getString(R.string.galaxy_activity_now))){
+						imgMoonActivity.setVisibility(View.VISIBLE);
+					}else{
+						txtMoonActivity.setVisibility(View.VISIBLE);
+						txtMoonActivity.setText(context.getString(R.string.galaxy_activity, p.getMoonActivity()));
+					}
+				}
 			}
 			
-			if(p.getDebrisRecyclersNeeded() > 0) {
+			if(p.getDebrisRecyclersNeeded() > 0) {				
+				int recyclersNeededBold = Integer.valueOf(settings.getString("debris_marker", "2"));			
+				String debrisIdentifier = "drawable/debris" + (p.getDebrisRecyclersNeeded() >= recyclersNeededBold ? "_green" : ""); 
+
+				imgDebris.setImageResource(context.getResources().getIdentifier(debrisIdentifier, null, context.getPackageName()));
 				imgDebris.setVisibility(View.VISIBLE);
 				imgDebris.setOnClickListener(new ImageView.OnClickListener() {			
 					@Override

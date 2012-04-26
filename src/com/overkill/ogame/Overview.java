@@ -46,10 +46,10 @@ public class Overview extends Activity {
 							txt_info.setText("");
 							
 							txt_info.append(Tools.between(info, "textContent[0] = \"", "\"") + " ");
-							txt_info.append(Tools.between(info, "textContent[1] = \"", "\"").replace("<span>", "").replace("</span>", "") + "\n");
+							txt_info.append(Tools.between(info, "textContent[1] = \"", "\"").replace("<span>", "").replace("</span>", "").replace("<\\/span>", "").replace("\\/", "/") + "\n");
 							
 							txt_info.append(Tools.between(info, "textContent[2] = \"", "\"") + " ");
-							txt_info.append(Tools.between(info, "textContent[3] = \"", "\"") + "\n");
+							txt_info.append(Tools.between(info, "textContent[3] = \"", "\"").replace("\\u00b0", "") + "\n");
 							
 							txt_info.append(Tools.between(info, "textContent[4] = \"", "\"") + " ");
 							txt_info.append(MainTabActivity.game.getCurrentPlanet().getCoordinates() + "\n");
@@ -66,9 +66,9 @@ public class Overview extends Activity {
 							h_countdown.removeCallbacks(t_countdown);
 							t_countdown = new Runnable() {
 						   		 public void run() {
-						   			 		loadCountdown();			 	
-							   			 	h_countdown.postDelayed(this, 1000);
-										}
+						   			 loadCountdown();			 	
+						   			 h_countdown.postDelayed(this, 1000);
+						   		 }
 							};   		   					
 							t_countdown.run();
 						}catch(Exception ex){

@@ -2,20 +2,21 @@
 
 package com.android.vending.billing;
 
-import com.android.vending.billing.BillingService.RequestPurchase;
-import com.android.vending.billing.BillingService.RestoreTransactions;
-import com.android.vending.billing.Consts.PurchaseState;
-import com.android.vending.billing.Consts.ResponseCode;
+import java.lang.reflect.Method;
 
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Handler;
 import android.util.Log;
 
-import java.lang.reflect.Method;
+import com.android.vending.billing.BillingService.RequestPurchase;
+import com.android.vending.billing.BillingService.RestoreTransactions;
+import com.android.vending.billing.Consts.PurchaseState;
+import com.android.vending.billing.Consts.ResponseCode;
 
 /**
  * An interface for observing changes related to purchases. The main application

@@ -7,7 +7,7 @@
 <Spinner
     android:layout_height="wrap_content"     
     android:id="@+id/sel_domain"
-    android:entries="@array/countries" android:layout_width="fill_parent"/>
+    android:entries="@array/countries" android:layout_width="fill_parent" />
     
 <Spinner
     android:layout_width="fill_parent" 
@@ -16,14 +16,15 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/username"
-    />
+    android:text="@string/username" />
+
 <EditText
 	android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:id="@+id/txt_login_user"
     android:text=""
-android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android:imeOptions="actionNext|flagNoEnterAction"/>
+	android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android:imeOptions="actionNext|flagNoEnterAction" />
+
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -33,7 +34,8 @@ android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android
     android:layout_height="wrap_content" 
     android:id="@+id/txt_login_password"    
     android:text=""
-    android:password="true" android:imeOptions="actionDone|flagNoEnterAction" android:inputType="textPassword"/>
+    android:imeOptions="actionDone|flagNoEnterAction" android:inputType="textPassword" />
+
 <CheckBox
 	android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -44,7 +46,8 @@ android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android
     android:layout_height="wrap_content" 
     android:id="@+id/btn_login"
     android:text="@string/login_button"
-    style="@style/MyLoginButton"/>
+    style="@style/MyLoginButton" />
+
 <ImageButton
 	android:layout_width="wrap_content" 
     android:layout_height="wrap_content"   
@@ -52,7 +55,14 @@ android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android
     android:background="@null"
     android:src="@drawable/btn_donate"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:layout_marginTop="30dp"/>  
+    android:layout_marginTop="30dp" />  
 
-<TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="bottom" android:id="@+id/txt_info" android:text="OGame and most of the graphics are\n© 2003 - 2011 Gameforge Productions" android:textSize="10dp"></TextView>
+<TextView 
+    android:layout_height="fill_parent" 
+    android:layout_width="fill_parent" 
+    android:gravity="bottom" 
+    android:id="@+id/txt_info" 
+    android:text="OGame and most of the graphics are\n© 2003 - 2012 Gameforge Productions" 
+    android:textSize="10dp" />
+
 </LinearLayout>
