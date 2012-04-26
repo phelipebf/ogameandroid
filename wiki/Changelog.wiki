@@ -2,6 +2,9 @@
 
 =Changelog=
 
+== 0.7.0 ==
+ * Some fixes to support server version 4.0.3
+
 == 0.6.7 ==
  * Some fixes so application can work with server version 3.1.0
  * Removed Attack action from galaxy view menu if player are the owner of selected planet
