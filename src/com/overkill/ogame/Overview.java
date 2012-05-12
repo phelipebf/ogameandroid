@@ -60,6 +60,15 @@ public class Overview extends Activity {
 							int end = info.indexOf("<", start);
 							txt_info.append(info.substring(start, end));
 							
+							//get info about unread messages
+							Document html = Jsoup.parse(info);
+							Elements alertBox = html.select("#message_alert_box");
+							if(alertBox.size() == 1) {
+								String unreadMessages = alertBox.select("span").text().trim();
+								MainTabActivity.notify.setMessages(Integer.valueOf(unreadMessages));
+							}else{
+								MainTabActivity.notify.setMessages(0);
+							}
 							
 							timeLastAjaxCall = SystemClock.elapsedRealtime();						
 							
@@ -74,12 +83,7 @@ public class Overview extends Activity {
 						}catch(Exception ex){
 							ex.printStackTrace();
 							txt_info.setText(ex.getLocalizedMessage());
-						}
-						
-						/*txt_info.append("\n\n" + Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_BUILDING)) + "\n");
-						txt_info.append(Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_RESEARCH)) + "\n");
-						txt_info.append(Tools.sec2str(Tools.getCountdown(info, Item.QUETYPE_MULTIPLE)) + "\n");*/
-						
+						}	
 					}
 				});
 			}

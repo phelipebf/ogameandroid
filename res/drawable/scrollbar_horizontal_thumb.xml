@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!--  cyan > blue -->
+    <!-- 
     <gradient 
     	android:startColor="#0000ff" 
     	android:endColor="#00ffff" 
     	android:angle="0"/>
-   	 
+   	-->
+   	
    	<!--  green -->
    	<!-- 
     <gradient 
@@ -20,12 +22,11 @@
     	android:endColor="#FFFF00" 
     	android:angle="0"/>
      -->
-    <!--  gray -->
-    <!--  
+    <!--  gray -->  
     <gradient 
-    	android:startColor="#000" 
-    	android:endColor="#000" 
+    	android:startColor="#404040" 
+    	android:endColor="#C0C0C0" 
     	android:angle="0"/>
-    -->
+    
     <corners android:radius="5dip" />
 </shape>

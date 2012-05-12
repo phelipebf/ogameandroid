@@ -17,15 +17,8 @@ public class PlanetListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.planet_list);
 		
-		planets.addAll( MainTabActivity.game.getPlanets());
-		
-		for(int i=0;i<planets.size();i++){
-			if(planets.get(i).hasMoon()){
-				planets.add(i+1, planets.get(i).getMoon());
-			}
-		}
+		planets.addAll(MainTabActivity.game.getPlanets());
 		
 		PlanetAdapter adapter = new PlanetAdapter(this, R.layout.adapter_item_planet, planets);
 		setListAdapter(adapter);	
@@ -34,12 +27,22 @@ public class PlanetListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		if(planets.get(position).getId()==0){
+		if(planets.get(position).getId() == 0){
 			finish();
 			return;
 		}
 		MainTabActivity.game.switchPlanet(planets.get(position).getId());
 		Toast.makeText(this, getString(R.string.change_planet, planets.get(position).getName()), Toast.LENGTH_SHORT).show();
+		finish();
+	}
+	
+	public void planetClicked(Planet p){
+		if (p.getId() == 0) {
+			finish();
+			return;
+		}
+		MainTabActivity.game.switchPlanet(p.getId());
+		Toast.makeText(this, getString(R.string.change_planet, p.getName()), Toast.LENGTH_SHORT).show();
 		finish();
 	}
 }

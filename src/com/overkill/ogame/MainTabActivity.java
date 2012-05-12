@@ -40,13 +40,14 @@ public class MainTabActivity extends ScrollableTabActivity{
     private int tab_shade_off; 
     private int tab_shade_on; 
     
-	//Game instanz für die gesammte App
+	//Game instance
 	public static GameClient game = null;
 	
 	//System for fleet and other info
 	public static NotificationSystem notify = null;
 	
 	public boolean ready = false;
+	
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
@@ -72,9 +73,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         final SharedPreferences preferences = getSharedPreferences(TAG, 0);
         
         if(getIntent().hasExtra("username")){
-        
 	        final String username = getIntent().getExtras().getString("username");    
-			
 			final String password = getIntent().getExtras().getString("password");    		
 			
 			final int domain_i = getIntent().getExtras().getInt("country");
@@ -183,7 +182,8 @@ public class MainTabActivity extends ScrollableTabActivity{
     	tab_shade_on = Integer.valueOf(preferences.getString("tab_shade_on", Integer.toString(RadioStateDrawable.SHADE_GRAY)));
         tab_shade_off = Integer.valueOf(preferences.getString("tab_shade_off", Integer.toString(RadioStateDrawable.SHADE_BLUE)));
     	
-    	if(preferences.getBoolean("show_ads", true)){
+    	if(preferences.getBoolean("show_ads", false)){
+    		Log.i(TAG, "Show Ads!");
 	    	//Load Ads
 	    	AdRequest adRequest = new AdRequest();
 	    	AdView adView = (AdView)this.findViewById(R.id.adView);
@@ -191,7 +191,6 @@ public class MainTabActivity extends ScrollableTabActivity{
     	}
         
     	//create NotificationSystem and show it
-    	
     	if(preferences.getBoolean("fleetsystem_global", true)){
 	       	notify = new NotificationSystem(MainTabActivity.this, MainTabActivity.game, preferences.getString("fleetsystem_sound", null));
 
@@ -338,7 +337,7 @@ public class MainTabActivity extends ScrollableTabActivity{
         	case R.id.fleet: startActivity(new Intent(this, MovementView.class)); return true;
         	case R.id.messages: startActivity(new Intent(this, MessageListView.class)); return true;
         	case R.id.galaxy: startActivity(new Intent(this, GalaxyView.class)); return true;
-        	case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
+//        	case R.id.resourceSettings: startActivity(new Intent(this, ResourceSettingsView.class)); return true;
         }
         return false;
     }
@@ -364,6 +363,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 			public void run() {
 				if(forceReload)
 					MainTabActivity.game.loadPlanets();
+				
 				final Planet p1 = MainTabActivity.game.getCurrentPlanet();	
 				p1.parse(MainTabActivity.game.get("page=fetchResources&ajax=1"));
 				runOnUiThread(new Runnable() {
@@ -372,6 +372,7 @@ public class MainTabActivity extends ScrollableTabActivity{
 		            		setTitle(p1.getName() + " " + p1.getCoordinates() + " " + getString(R.string.moon));
 		            	else
 					        setTitle(p1.getName() + " " + p1.getCoordinates());
+		            	
 				        setInfo(p1.getResources());
 				        setIcon(p1.getIcon());
 

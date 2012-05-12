@@ -1,7 +1,9 @@
 package com.overkill.ogame.game;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,11 +30,10 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.util.Log;
 
-import com.flurry.android.FlurryAgent;
 import com.overkill.ogame.R;
 
 /**
- * Controller für interaktion mit ogame server
+ * Controller for interaction with ogame server
  * @author Stephan
  *
  */
@@ -133,10 +134,22 @@ public class GameClient{
 	       	if(state.contains("error")){
 	       		return GameClient.LOGIN_WRONG_DATA;
 	       	}else{
-	       		this.session = Tools.between(state, "session=", "&");
+	       		Log.d(TAG, "State: " + state);
+	       		
+	       		if (state.indexOf("PHPSESSID=") > -1) {
+	       			this.session = Tools.between(state, "PHPSESSID=", "&");
+	       		} else {
+	       			this.session = Tools.between(state, "session=", "&");
+	       		}
+	       		
 	       		this.username = username;
 	       		this.password = password;
 	       		this.universe = universe;
+	       		
+	       		Log.d(TAG, "Session: " + this.session);
+	       		Log.d(TAG, "Username: " + this.username);
+	       		Log.d(TAG, "Universe: " + this.universe);
+	       		
 	    		this.imagebase = "http://"  + this.universe + "/game/";
 	    		this.indexbase = this.imagebase + "index.php?";
 	    		this.moon_regex = Tools.getServerSpecificData(this.context, this.universe.substring(this.universe.indexOf(".") + 1), "moon_regex");    
@@ -144,6 +157,7 @@ public class GameClient{
 	    		this.serverVersion = this.getServerVersion(html);
 	    		if(this.serverVersion.compareTo(this.latestWorkingServerVersion) > 0)
 	    			returnState = GameClient.LOGIN_SERVER_VERSION;
+	    		
 	    		loadPlanets(html);
 	    		return (returnState == 0) ? GameClient.LOGIN_OK : returnState;
 	       	}       		
@@ -172,7 +186,7 @@ public class GameClient{
 	}
 	
 	/**
-	 * Loads the planetlist and sets the currently selected planet id
+	 * Loads the planet list and sets the currently selected planet id
 	 */
 	public void loadPlanets(){
 		loadPlanets(this.get("page=overview"));		
@@ -214,11 +228,10 @@ public class GameClient{
 				if(!moon_href.equals("#")){
 					moon_id = Integer.valueOf(moon_href.substring(moon_href.indexOf("&cp=") + "&cp=".length()));
 				}
-				String moon_img = moon_div.select("img").attr("src");
-				String moon_img_nr = Tools.between(moon_img, "_", "_");
-				int moon_img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
 				String moon_name = moon_div.attr("title");
-				
+				String moon_img = moon_div.select("img").attr("src");
+				int moon_img_id = this.getMoonImage(moon_img);
+								
 				if(this.moon_regex.equals("")){
 					moon_name = moon_name.substring(moon_name.indexOf(" "), moon_name.lastIndexOf(" ")).trim();
 				}else{
@@ -235,42 +248,35 @@ public class GameClient{
 				m.setShortInfo(info);
 				tmp.setMoon(m);
 				
-				
 				if(link.classNames().contains("active") && m.getName().equals(this.getPlanetNameFromOverview(body))){
 					this.current_planet = m;				
-				}else if(link.classNames().contains("active"))
+				}else if(link.classNames().contains("active")){
 					this.current_planet = tmp;
-				
-				// if planet is active but has an id then the moon is our current planet
-				//if(link.classNames().contains("active") && tmp.getId() != 0)
-					//this.current_planet = m;
-				
+				}
 			}else{ // if has no moon			
 				if(link.classNames().contains("active")){
 					this.current_planet = tmp;	
 				}
 			}
 			Log.i(TAG, link.className());
-
 			
 			this.planets.add(tmp);				
 		} // For planets
 		
-		if(this.planets.size() == 1)
+		if(this.planets.size() == 1){
 			// If only one planet is present it has no active class
 			this.current_planet = this.planets.get(0);
-		
-		
+		}
 	}
 	
 	/**
-	 * Reads the planetname of the given overview-page
+	 * Reads the planet name of the given overview-page
 	 * @param body The HTML data of the overview
-	 * @return The Planetname
+	 * @return The Planet name
 	 */
 	private String getPlanetNameFromOverview(String body){
 		Document html = Jsoup.parse(body);
-		return html.select("span#planetNameHeader").text();
+		return html.select("span#planetNameHeader").text().trim();
 	}
 	
 	/**
@@ -281,17 +287,44 @@ public class GameClient{
 	public int getPlanetImage(String url){
 		int img_id = R.drawable.planet_default;
 		
-		try{
-			String img = url.contains("(") ? Tools.between(url, "(", ")") : url;
-			img = img.replace("img/planets/", "").replace("micro/", "").replace(".gif", "");
-			img = img.substring(0, img.lastIndexOf("_"));
-			
-			img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, this.context.getPackageName());
-		}catch (Exception ex) {
-			FlurryAgent.onError("planetImage", "Cannot retreive image (URL: " + url + ")", "getPlanetImage");
-			Log.e(TAG, "Cannot retreive image (URL: " + url + ")");
-		}
+		// TODO: planet images url changed
+//		try{
+//			String img = url.contains("(") ? Tools.between(url, "(", ")") : url;
+//			img = img.replace("img/planets/", "").replace("micro/", "").replace(".gif", "");
+//			img = img.substring(0, img.lastIndexOf("_"));
+//			
+//			if (! img.equals("")){
+//				img_id = this.context.getResources().getIdentifier("drawable/planet_" + img, null, this.context.getPackageName());
+//			}
+//		}catch (Exception ex) {
+//			FlurryAgent.onError("planetImage", "Cannot retreive image (URL: " + url + ")", "getPlanetImage");
+//			Log.w(TAG, "Cannot retreive image (URL: " + url + ")");
+//		}
 				
+		return img_id;
+	}
+	
+	/**
+	 * Returns moon image id parsed from moon url
+	 * @param url Moon url
+	 * @return The Moon image id
+	 */
+	public int getMoonImage(String url){
+		int img_id = R.drawable.moon_default;
+//		int img_id = R.drawable.moon;
+		
+		// TODO: moon images url changed
+//		try {
+//			String moon_img_nr = Tools.between(url, "_", "_");
+//			
+//			if (! moon_img_nr.equals("")){
+//				img_id = this.context.getResources().getIdentifier("drawable/moon_" + moon_img_nr, null, context.getPackageName());
+//			}
+//		}catch (Exception ex) {
+//			FlurryAgent.onError("moonImage", "Cannot retreive image (URL: " + url + ")", "getMoonImage");
+//			Log.w(TAG, "Cannot retreive image (URL: " + url + ")");
+//		}
+		
 		return img_id;
 	}
 	
@@ -305,11 +338,11 @@ public class GameClient{
 		try{
 			HttpGet httpget = new HttpGet(this.indexbase + url + "&session=" + this.session + "&token=" + token);
 			httpget.addHeader("User-Agent", USER_AGENT);
+			
 			Log.i(TAG, "execute " + httpget.getURI().toString());
 			HttpResponse response = this.http.execute(httpget);			
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-            response.getEntity().writeTo(ostream);
-			return ostream.toString();
+			
+            return inputStreamToString(response.getEntity().getContent()).toString();
 		}catch(Exception ex){
 			return "";
 		}
@@ -326,15 +359,11 @@ public class GameClient{
 			HttpPost httppost = new HttpPost(this.indexbase + url + "&session=" + this.session);
 			httppost.addHeader("User-Agent", USER_AGENT);
 			httppost.setEntity(new UrlEncodedFormEntity(postData));
+			
 			Log.i(TAG, "execute " + httppost.getURI().toString() + " " + httppost.getMethod());
 			HttpResponse response = this.http.execute(httppost);
-			/*if(response.getStatusLine().getStatusCode() != 200){
-				this.login();
-				return this.execute(url, postData, token);
-			}*/
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-            response.getEntity().writeTo(ostream);
-			return ostream.toString();
+			
+			return inputStreamToString(response.getEntity().getContent()).toString();
 		}catch(Exception ex){
 			return "";
 		}
@@ -349,7 +378,7 @@ public class GameClient{
 	 */
 	public synchronized String execute(String url, List<NameValuePair> postData, String token){
 		postData.add(new BasicNameValuePair("token", token));
-		return  execute(url, postData);
+		return execute(url, postData);
 	}
 	
 	/**
@@ -415,6 +444,32 @@ public class GameClient{
 			loadPlanets(get("page=overview&cp=" + planetId));
 		}
 	}
+
+	/**
+	 * Input stream to string
+	 * 
+	 * @param is
+	 * @return
+	 */
+	private StringBuilder inputStreamToString(InputStream is) {
+	    String line = "";
+	    StringBuilder total = new StringBuilder();
+	    
+	    // Wrap a BufferedReader around the InputStream
+	    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+	    // Read response until the end
+	    try {
+			while ((line = rd.readLine()) != null) { 
+			    total.append(line); 
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    
+	    // Return full string
+	    return total;
+	}
 	
 	/**
 	 * Returns the http-body of the given url
@@ -425,18 +480,13 @@ public class GameClient{
 		try{
 			HttpGet httpget = new HttpGet(this.indexbase + url + "&session=" + this.session);
 			httpget.addHeader("User-Agent", USER_AGENT);
+			
 			Log.i(TAG, "get " + httpget.getURI().toString());
 			HttpResponse response = this.http.execute(httpget);
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-            response.getEntity().writeTo(ostream);
-            String data = ostream.toString();
-            // TODO check if connection is valid. If not call login function
-            /*if(data.startsWith("<script>document.location.href=")){ // session has died
-            	this.login();
-            	return this.get(url);
-            }*/
-            return data;
+			
+			return inputStreamToString(response.getEntity().getContent()).toString();
 		}catch(Exception ex){
+			Log.e(TAG, ex.toString(), ex);
 			return null;
 		}
 	}	

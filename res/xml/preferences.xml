@@ -24,7 +24,7 @@
        	<CheckBoxPreference
                 android:key="show_ads"
                 android:title="@string/settings_show_ads"
-                android:defaultValue="false" />      
+                android:defaultValue="true" />      
        
        	<CheckBoxPreference
                 android:key="message_html"

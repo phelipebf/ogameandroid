@@ -261,12 +261,15 @@ public class Tools {
 	}
 	
 	public static String getServerSpecificData(Context ctx, String server, String key){
+		Log.d("getServerSpecificData", "Server: " + server + ", Key: " + key);
 		Document xml = Jsoup.parse(Tools.readRawTextFile(ctx, R.raw.languagedata));
 		Elements data = xml.select("data[server=" + server + "]");
 		if(data.size() > 0){
 			Elements item = data.first().select("string[name=" + key + "]");
 			if(item.size() > 0){
-				return item.first().text();			
+				String dataTxt = item.first().text();
+				Log.d("getServerSpecificData", "Data fetched: " + dataTxt);
+				return dataTxt;
 			}
 		}
 		return "";
