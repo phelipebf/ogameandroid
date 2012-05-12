@@ -2,6 +2,15 @@
 
 =Changelog=
 
+== 0.7.1 ==
+ * fix: notification system problems on ICS
+ * fix: fetching moon image (for now default moon image is used for ALL moons)
+ * fix: moon activity showing in two rows
+ * fix: fetching unread messages on overview
+ * fix: not able to send espionage or launch missales if number was ending with 0 
+ * new: removed Resource settings from context menu as it is available from scroll menu
+ * new: changed login layout so it could fit on smaller resolution
+
 == 0.7.0 ==
  * Some fixes to support server version 4.0.3
 
