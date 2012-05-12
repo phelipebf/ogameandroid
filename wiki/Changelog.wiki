@@ -8,6 +8,7 @@
  * fix: moon activity showing in two rows
  * fix: fetching unread messages on overview
  * fix: not able to send espionage or launch missales if number was ending with 0 
+ * tweak: planet list tweak (moon is shown in same row as planet -  clicking on moon image will switch to moon)
  * new: removed Resource settings from context menu as it is available from scroll menu
  * new: changed login layout so it could fit on smaller resolution
 
