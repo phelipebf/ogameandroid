@@ -221,11 +221,6 @@ public class GalaxyView extends ListActivity {
 		super.onListItemClick(l, v, position, id);	
 		final GalaxyPlanet p = (GalaxyPlanet)getListAdapter().getItem(position);
 
-		/*if(p.isEmptySlot() && ??? == 0) {
-			Toast.makeText(getApplicationContext(), "no colony ship", Toast.LENGTH_SHORT).show();
-			return;
-		}*/
-		
 	    final AlertDialog.Builder dialog = new AlertDialog.Builder(GalaxyView.this);
 		dialog.setTitle(R.string.more);
 		if(p.isEmptySlot()) {
@@ -245,12 +240,12 @@ public class GalaxyView extends ListActivity {
 			final ArrayList<String> mission_text = new ArrayList<String>();
 			final ArrayList<Integer> mission_id = new ArrayList<Integer>();
 			
-			if(probeCount.endsWith("0") == false){
+			if(Integer.valueOf(probeCount) > 0){
 				mission_text.add(getString(R.string.mission_espionage));		
 				mission_id.add(FleetEvent.MISSION_ESPIONAGE);
 			}
 			
-			if(missileCount.endsWith("0") == false){
+			if(Integer.valueOf(missileCount) > 0){
 				mission_text.add(getString(R.string.mission_missile));
 				mission_id.add(Integer.valueOf(FleetEvent.MISSION_MISSILE));
 			}
@@ -352,8 +347,7 @@ public class GalaxyView extends ListActivity {
 	 * @param system
 	 * @return
 	 */
-	private boolean canLoadContent(GameClient game, int galaxy, int system) {
-		
+	private boolean canLoadContent(GameClient game, int galaxy, int system) {	
 		if(isSolarSystemInCache(galaxy, system)) return true;
 				
 		List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
@@ -409,7 +403,6 @@ public class GalaxyView extends ListActivity {
 	 * @return
 	 */
 	private String sendShips(GameClient game, int mission, int galaxy, int system, int planetPosition, int planetType, int shipCount) {
-
 		List<NameValuePair> postData = new ArrayList<NameValuePair>(2);
         postData.add(new BasicNameValuePair("mission", String.valueOf(mission)));
         postData.add(new BasicNameValuePair("galaxy", String.valueOf(galaxy)));
@@ -421,8 +414,7 @@ public class GalaxyView extends ListActivity {
         return  parseResponse(html);
 	}
 	
-	private ArrayList<GalaxyPlanet> parseGalaxy(String html, int galaxy, int system){
-		
+	private ArrayList<GalaxyPlanet> parseGalaxy(String html, int galaxy, int system){		
 		ArrayList<GalaxyPlanet> galaxySystem = new ArrayList<GalaxyPlanet>();
 		
 		Document solarSystem = Jsoup.parse(html);
@@ -545,7 +537,6 @@ public class GalaxyView extends ListActivity {
 			+ " slots: " + slotsUsed
 			+ "/" + slotsTotal;
 	}
-	
 	
 	/**
 	 * Examples:

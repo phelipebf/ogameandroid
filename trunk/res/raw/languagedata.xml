@@ -15,7 +15,7 @@
 	<data server="ogame.com.es">
 		<string name="moon_regex">\|&lt;B&gt;Cambiar a ([^/]*)&lt;\/B&gt;</string>
 	</data>
-	<data server="ogame.com.hr">
+	<data server="hr.ogame.org">
 		<string name="moon_regex">\|&lt;B&gt;Prebaci na ([^/]*)&lt;\/B&gt;</string>
 	</data>
 </resources>

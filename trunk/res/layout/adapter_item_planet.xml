@@ -2,17 +2,19 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="fill_parent"
     android:padding="1dp"
+    android:layout_width="fill_parent"
     android:layout_height="60dip">
 
+    <!-- Planet -->
     <ImageView
-        android:background="@null"
         android:id="@+id/image"
-        android:src="@drawable/icon"
+        android:background="@null"
+        android:src="@null"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
         android:layout_width="48dip"
         android:layout_height="48dip" />
 
@@ -24,7 +26,7 @@
         android:ellipsize="marquee"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"/>
+        android:layout_toRightOf="@id/image" />
         
    <TextView
         android:id="@+id/info"
@@ -35,5 +37,16 @@
         android:layout_toRightOf="@id/image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+   
+   <!-- Moon -->
+   <ImageView
+        android:id="@+id/image_moon"
+        android:background="@null"
+        android:src="@null"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="48dip"
+        android:layout_height="48dip" />
 
 </RelativeLayout>

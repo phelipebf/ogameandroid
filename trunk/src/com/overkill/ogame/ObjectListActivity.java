@@ -34,7 +34,7 @@ public class ObjectListActivity extends ListActivity {
 	private Handler h_countdown = new Handler();
 	private Runnable t_countdown;
 	
-	/************* Daten werde als Extra übergeben *************/
+	/************************************************************/
 	String lastpageKey = "";
 	String pageKey;
 	String[] ulKey;
@@ -187,7 +187,6 @@ public class ObjectListActivity extends ListActivity {
 	
 	//get build time
 	private void askBuildWithTime(final BuildObject b, final int amount) {
-
 		final ProgressDialog loaderDialog = new ProgressDialog(this);					
 		loaderDialog.setMessage(getString(R.string.loading));
 		
@@ -218,7 +217,6 @@ public class ObjectListActivity extends ListActivity {
 	
 	//show a question to the user and sends the build request if user clicks yes
 	private void askBuild(final BuildObject b, final int amount, final String msg){
-		
 		AlertDialog.Builder alert = new AlertDialog.Builder(ObjectListActivity.this);
     	alert.setTitle(R.string.new_command);
     	alert.setMessage(msg);

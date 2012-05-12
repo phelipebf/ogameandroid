@@ -26,8 +26,8 @@
           android:icon="@android:drawable/ic_menu_mylocation"
           android:title="@string/menu_galaxy"
           android:enabled="true" />
-    <item android:id="@+id/resourceSettings"
+    <!-- item android:id="@+id/resourceSettings"
           android:icon="@android:drawable/ic_menu_manage"
           android:title="@string/menu_resources"
-          android:enabled="true" />
+          android:enabled="true" /-->
 </menu>

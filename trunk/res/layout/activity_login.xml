@@ -2,67 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/background"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:orientation="vertical">
-    
-<Spinner
-    android:layout_height="wrap_content"     
-    android:id="@+id/sel_domain"
-    android:entries="@array/countries" android:layout_width="fill_parent" />
-    
-<Spinner
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"     
-    android:id="@+id/sel_uni"  />
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/username" />
-
-<EditText
-	android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:id="@+id/txt_login_user"
-    android:text=""
-	android:nextFocusDown="@+id/txt_login_password" android:inputType="text" android:imeOptions="actionNext|flagNoEnterAction" />
-
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/password" />
-<EditText
-	android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:id="@+id/txt_login_password"    
-    android:text=""
-    android:imeOptions="actionDone|flagNoEnterAction" android:inputType="textPassword" />
-
-<CheckBox
-	android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:id="@+id/check_save"
-    android:text="@string/save_login" />
-<Button
-	android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:id="@+id/btn_login"
-    android:text="@string/login_button"
-    style="@style/MyLoginButton" />
-
-<ImageButton
-	android:layout_width="wrap_content" 
-    android:layout_height="wrap_content"   
-    android:id="@+id/btn_donate"
-    android:background="@null"
-    android:src="@drawable/btn_donate"
-    android:layout_gravity="center_vertical|center_horizontal"
-    android:layout_marginTop="30dp" />  
-
-<TextView 
     android:layout_height="fill_parent" 
-    android:layout_width="fill_parent" 
-    android:gravity="bottom" 
-    android:id="@+id/txt_info" 
-    android:text="OGame and most of the graphics are\n© 2003 - 2012 Gameforge Productions" 
-    android:textSize="10dp" />
+    android:orientation="vertical">
+    
+	<Spinner
+	    android:id="@+id/sel_domain"
+	    android:layout_height="wrap_content"     
+	    android:entries="@array/countries" 
+	    android:layout_width="fill_parent" />
+	    
+	<Spinner
+	    android:id="@+id/sel_uni"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" />
+	
+	<TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/username" />
+	<EditText
+	    android:id="@+id/txt_login_user"
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text=""
+		android:nextFocusDown="@+id/txt_login_password" 
+		android:inputType="text" 
+		android:imeOptions="actionNext|flagNoEnterAction" />
+	
+	<TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/password" />
+	<EditText
+	    android:id="@+id/txt_login_password"
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text=""
+	    android:imeOptions="actionDone|flagNoEnterAction" 
+	    android:inputType="textPassword" />
+	
+	<RelativeLayout
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content" >
+		
+	    <CheckBox
+			android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"
+		    android:layout_marginRight="10dp" 
+		    android:id="@+id/check_save"
+		    android:text="@string/save_login" />
+		
+		<Button
+			android:id="@+id/btn_login"
+			android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:layout_toRightOf="@id/check_save" 
+		    android:text="@string/login_button"
+		    style="@style/MyLoginButton" />
+	</RelativeLayout>
+		
+	<ImageButton
+	    android:id="@+id/btn_donate"
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"   
+	    android:background="@null"
+	    android:src="@drawable/btn_donate"
+	    android:layout_gravity="center_vertical|center_horizontal"
+	    android:layout_marginTop="10dp" />  
+	
+	<TextView 
+	    android:layout_height="fill_parent" 
+	    android:layout_width="fill_parent" 
+	    android:gravity="bottom" 
+	    android:id="@+id/txt_info" 
+	    android:text="OGame and most of the graphics are\n© 2003 - 2012 Gameforge Productions" 
+	    android:textSize="10dp" />
 
 </LinearLayout>

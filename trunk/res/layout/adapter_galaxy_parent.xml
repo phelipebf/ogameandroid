@@ -77,16 +77,6 @@
     	android:layout_alignBottom="@+id/txt_rank" />
     
     <ImageView 
-        android:id="@+id/img_debris" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content" 
-    	android:layout_alignParentRight="true" 
-    	android:src="@null"
-    	android:layout_centerVertical="true" 
-    	android:layout_marginRight="4dip"
-    	android:layout_marginLeft="4dip" />
-    
-    <ImageView 
         android:id="@+id/img_moon" 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
@@ -98,7 +88,7 @@
     <!-- Moon activity -->
     <ImageView 
         android:id="@+id/moon_img_activity" 
-        android:layout_toRightOf="@+id/img_moon" 
+        android:layout_toLeftOf="@+id/img_debris"
     	android:layout_height="wrap_content" 
     	android:layout_width="wrap_content" 
     	android:layout_alignTop="@+id/img_moon" 
@@ -110,8 +100,18 @@
     	android:textSize="10sp"
     	android:paddingLeft="1dp"
     	android:paddingRight="1dp"
-    	android:layout_toRightOf="@+id/img_moon" 
+    	android:layout_toLeftOf="@+id/img_debris"
     	android:layout_height="wrap_content" 
     	android:layout_width="wrap_content"  
     	android:layout_alignTop="@+id/img_moon" />
+    
+    <ImageView 
+        android:id="@+id/img_debris" 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_alignParentRight="true" 
+    	android:src="@null"
+    	android:layout_centerVertical="true" 
+    	android:layout_marginRight="4dip"
+    	android:layout_marginLeft="4dip" />
 </RelativeLayout>

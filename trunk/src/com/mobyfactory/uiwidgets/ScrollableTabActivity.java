@@ -83,8 +83,7 @@ public class ScrollableTabActivity extends ActivityGroup implements
 		contentViewLayout = (LinearLayout) findViewById(R.id.contentViewLayout);
 
 		bottomRadioGroup = (RadioGroup) findViewById(R.id.bottomMenu);
-		contentViewLayoutParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		contentViewLayoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 
 		defaultOffShade = RadioStateDrawable.SHADE_GRAY;
 		defaultOnShade = RadioStateDrawable.SHADE_YELLOW;
@@ -94,8 +93,7 @@ public class ScrollableTabActivity extends ActivityGroup implements
 		titleList = new ArrayList<String>();
 		states = new ArrayList<int[]>();
 
-		buttonLayoutParams = new RadioGroup.LayoutParams(320 / 5,
-				RadioGroup.LayoutParams.WRAP_CONTENT);
+		buttonLayoutParams = new RadioGroup.LayoutParams(320 / 5, RadioGroup.LayoutParams.WRAP_CONTENT);
 	}
 
 	public void onResume() {
