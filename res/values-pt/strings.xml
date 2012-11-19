@@ -83,27 +83,27 @@
 	<string name="settings_galaxy_debris_mark">Debris mark</string>
 	<string name="settings_galaxy_debris_mark_summary">Mark debris for min number of recyclers</string>
 	
-	<string name="message_no_message">No message to display</string>
-	<string name="message_send">Send</string>
-	<string name="message_reply">Reply</string>
-	<string name="message_report">Report</string>
-	<string name="message_delete">Delete</string>
-	<string name="message_delete_all">Delete All</string>
-	<string name="message_delete_selected">Delete Selected</string>
-	<string name="message_from">From:</string>
-	<string name="message_to">To:</string>
-	<string name="message_date">Date:</string>
-	<string name="message_subject">Subject:</string>
-	<string name="message_mark_as_read">Mark as Read</string>
+	<string name="message_no_message">Sem mensagens para exibir</string>
+	<string name="message_send">Enviar</string>
+	<string name="message_reply">Responder</string>
+	<string name="message_report">Reportar</string>
+	<string name="message_delete">Apagar</string>
+	<string name="message_delete_all">Apagar Todas</string>
+	<string name="message_delete_selected">Apagar Selecionada(s)</string>
+	<string name="message_from">De:</string>
+	<string name="message_to">Para:</string>
+	<string name="message_date">Data:</string>
+	<string name="message_subject">Assunto:</string>
+	<string name="message_mark_as_read">Marcar como Lida</string>
 	
-	<string name="message_folder_10">Inbox</string>
-	<string name="message_folder_7">Espionage</string>
-	<string name="message_folder_5">Battle</string>
-	<string name="message_folder_6">Player</string>
-	<string name="message_folder_8">Expedition</string>
-	<string name="message_folder_2">Alliance</string>
-	<string name="message_folder_4">Other</string>
-	<string name="message_folder_3">Recycle Bin</string>
+	<string name="message_folder_10">Caixa de Entrada</string>
+	<string name="message_folder_7">Espionagem</string>
+	<string name="message_folder_5">Batalha</string>
+	<string name="message_folder_6">Jogador</string>
+	<string name="message_folder_8">Expedição</string>
+	<string name="message_folder_2">Aliança</string>
+	<string name="message_folder_4">Outros</string>
+	<string name="message_folder_3">Lixeira</string>
 	
 	<string name="object_amount">Amount</string>
 	<string name="object_level">Level</string>
@@ -146,25 +146,25 @@
 	<string name="mission_missile">Missile Attack</string>
 	<string name="mission_harvest">Harvest</string>
 	
-	<string name="yes">Yes</string>
-	<string name="no">No</string>
+	<string name="yes">Sim</string>
+	<string name="no">Não</string>
 	
-	<string name="planet_rename_title">Rename Planet</string>
-	<string name="planet_rename_text">Enter new Name:</string>
-	<string name="planet_abandon_title">Abandon Planet</string>
-	<string name="planet_abandon_text">Are you sure you want to abandon the planet called %s?</string>
-	<string name="planet_abandon_question">To abandon the planet please enter your password</string>
+	<string name="planet_rename_title">Renomear Planeta</string>
+	<string name="planet_rename_text">Digite o novo nome:</string>
+	<string name="planet_abandon_title">Abandonar Planeta</string>
+	<string name="planet_abandon_text">Você tem certeza que quer abandonar o planeta %s?</string>
+	<string name="planet_abandon_question">Para abandonar o planeta, por favor digite sua senha</string>
 	
-	<string name="billing_not_supported_title">Can\'t make purchases</string>
-    <string name="billing_not_supported_message">The Market billing
-     service is not available at this time.  You can continue to use this app but you
-     won\'t be able to make purchases.</string>
-    <string name="cannot_connect_title">Can\'t connect to Market</string>
-    <string name="cannot_connect_message">This app cannot connect to Market.
-     Your version of Market may be out of date.
-     You can continue to use this app but you
-     won\'t be able to make purchases.</string>     
-    <string name="learn_more">Learn more</string>
+	<string name="billing_not_supported_title">Impossível fazer compras</string>
+    <string name="billing_not_supported_message">O serviço de cobranças do
+     Google PLay não esdtá disponível no momento. Você pode continuar usando esse app mas
+     não poderá realizar compras.</string>
+    <string name="cannot_connect_title">Não foi possível se conectar ao Google Play</string>
+    <string name="cannot_connect_message">Este app não pode se conecar ao Google Play.
+     Sua versão do Google Play pode estar desatualizada.
+     Você pode continuar usando esse app mas
+     não poderá realizar compras.</string>     
+    <string name="learn_more">Leia mais</string>
     <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
-    <string name="restoring_transactions">Checking for purchase</string>
+    <string name="restoring_transactions">Verificando compras</string>
 </resources>
