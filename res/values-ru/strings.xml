@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OGame</string>
+    <string name="select_planet">Выберите планету</string>
+    <string name="moon">Луна</string>
+    <!-- This must exactly match the moon's tooltip in the planet list. ([^/]*) Must be where the name of the moon is.  -->
+    <!-- '<' must be replaced by '&lt;'. '>' must be replaced by '&gt'. All '|' and '/' must be escaped by a leading '\\'-->
+    <string name="moon_name_regex" formatted="false">\\|&lt;B&gt;Перейти к ([^/]*)&lt;\\/B&gt;</string>
+    
+    <string name="tos_version">1</string>
+    <string name="tos">Это приложение не одобрено Gameforge и не вините меня, если ваш аккаунт заблокируют.\nЭто приложение экспериментальное, поэтому я не несу ответственности за любой вред, нанесенный Вашему аккаунту.</string>
+
+
+        <string name="menu_settings">Настройки</string>
+        <string name="menu_reload_serverlist">Перезагрузить список серверов</string>
+        <string name="menu_about">О программе</string>
+        <string name="menu_messages">Сообщения</string>
+        <string name="menu_fleet">Флот</string>
+        <string name="menu_galaxy">Галактика</string>
+        <string name="menu_resources">Ресурсы</string>
+        
+        <string name="tab_overview">Обзор</string>
+        <string name="tab_resources">Ресурсы</string>
+        <string name="tab_station">Станция</string>
+        <string name="tab_research">Исследования</string>
+        <string name="tab_shipyard">Верфь</string>
+        <string name="tab_defense">Защита</string>
+        <string name="tab_fleet">Флот</string>
+        
+        <string name="save_login">Сохранить логин</string>    
+        <string name="username">Имя</string>   
+        <string name="password">Пароль</string>   
+        <string name="login_button">Логин</string>
+        
+        <string name="more">Больше</string>
+        <string name="requirements">Требования</string>
+        <string name="not_available">Не доступно</string>
+        <string name="save">Сохранить</string>
+        
+        <string name="fleet_info_title">Информация о флоте</string>
+        <string name="new_mission">Новая миссия</string>
+        
+        <string name="error_login">Неравильный логин</string>
+        <string name="error_load">Невозможно получить доступ к серверу</string>
+        <string name="error_send_command">Невозможно послать команду</string>
+        <string name="error_connection_timeout">Не удается подключиться. Пожалуйста, проверьте подключение к сети</string>
+        <string name="error_unknown">Произошла неизвестная ошибка</string>
+        
+        <string name="new_command">Новая команда</string>
+        <string name="enter_amount">Введите количество</string>
+        <string name="send_command">Отправка команды &#8230;</string>
+        <string name="ask_with_count" formatted="false">Отправить команду %d %s?</string>
+        <string name="ask_no_count">Отправить команду %s?</string>
+        <string name="now_building">%s строится.</string>
+        <string name="building_time">Время постройки: %s</string>
+        <string name="buildable_in">Не хватает ресурсов\nПостроится: %s</string>
+        <string name="buildable_once">%s может быть построен только один раз</string>
+        <string name="loading">Загрузка &#8230;</string>
+        <string name="change_planet">Переход к \"%s\"</string>
+        <string name="in_queue">В очереди</string>
+        <string name="time_to_complete">Время выполнения: %s</string>
+        <string name="cancel_upgrade">Отменить улучшение?</string>
+        <string name="expansion_cancelled">Экспансия отменена</string>
+        
+        <string name="settings_display">Параметры экрана</string>
+        <string name="settings_disabled">Скрыть неактивные</string>
+        <string name="settings_disabled_summary">Скрыть объекты, которые я не могу построить</string>
+        
+        <string name="settings_show_ads">Показывать рекламу</string>
+        
+        <string name="settings_fleet">Настройки оповещения</string>
+        <string name="settings_fleet_global">Активировать оповещение</string>
+        <string name="settings_fleet_global_summary">Глобально активировать оповещение</string>
+        <string name="settings_fleet_sound">Звук оповещения</string>
+        <string name="settings_fleet_sound_summary">Выбрать звук</string>
+        <string name="settings_fleet_neutral">Нейтрал</string>
+        <string name="settings_fleet_neutral_summary">Оповещение о нейтральном событии</string>
+        <string name="settings_fleet_friendly">Друзья</string>
+        <string name="settings_fleet_friendly_summary">Оповещение о дружественном событии</string>
+        <string name="settings_fleet_hostile">Враждебный</string>
+        <string name="settings_fleet_hostile_summary">Оповещение о враждебном событии</string>
+        <string name="settings_messages">Сообщения</string>
+        <string name="settings_messages_summary">Оповещение о непрочитанных сообщениях</string>
+        
+        <string name="settings_galaxy">Настройки галактики</string>
+        <string name="settings_galaxy_debris_mark">Показывать мусор</string>
+        <string name="settings_galaxy_debris_mark_summary">Показывать мусор с мин. количеством переработчиков</string>
+        
+        <string name="message_no_message">Нет сообщений для отображения</string>
+        <string name="message_send">Отправить</string>
+        <string name="message_reply">Ответить</string>
+        <string name="message_report">Сообщить</string>
+        <string name="message_delete">Удалить</string>
+        <string name="message_delete_all">Удалить все</string>
+        <string name="message_delete_selected">Удалить отмеченные</string>
+        <string name="message_from">От:</string>
+        <string name="message_to">Кому:</string>
+        <string name="message_date">Дата:</string>
+        <string name="message_subject">Тема:</string>
+        <string name="message_mark_as_read">Отметить как прочитанное</string>
+        
+        <string name="message_folder_10">Входящие</string>
+        <string name="message_folder_7">Шпионаж</string>
+        <string name="message_folder_5">Бой</string>
+        <string name="message_folder_6">Игрок</string>
+        <string name="message_folder_8">Экспедиция</string>
+        <string name="message_folder_2">Альянс</string>
+        <string name="message_folder_4">Другое</string>
+        <string name="message_folder_3">Корзина</string>
+        
+        <string name="object_amount">Количество</string>
+        <string name="object_level">Уровень</string>
+        
+        <string name="galaxy_colonize">Колонизировать %s?</string>
+        <string name="galaxy_probes">Отправить шпионский зонд?</string>
+        <string name="galaxy_activity">%s</string>
+        <string name="galaxy_activity_now">сейчас</string>
+        <string name="galaxy_empty_slot">Пусто</string>
+        
+        <string name="fleet1_reset">Сброс</string>
+        <string name="fleet1_all">Все</string>
+        <string name="fleet1_next">Следующий</string>
+        
+        <string name="fleet2_acs">Боевая эффективность</string>
+        <string name="fleet2_shortcuts">Ярлыки</string>
+        <string name="fleet2_speed">Скорость</string>
+        <string name="fleet2_refresh">Обновить</string>
+        <string name="fleet2_back">Назад</string>
+        <string name="fleet2_planet">Планета</string>
+        <string name="fleet2_debris">Мусор</string>
+        <string name="fleet2_consumption">Необходимо дейтерия:</string>
+        <string name="fleet2_duration">Продолжительность полета:</string>
+        <string name="fleet2_arrival">Прибытие:</string>
+        <string name="fleet2_return">Возвращение:</string>
+        <string name="fleet2_cargobays">Свобдно в грузовом отсеке:</string>
+        
+        <string name="fleet3_metal">Металлы:</string>
+        <string name="fleet3_crystal">Кристаллы:</string>
+        <string name="fleet3_deuterium">Дейтерий:</string>
+        <string name="fleet3_target">Цель:</string>
+        <string name="fleet3_send">Отправить флот</string>
+        <string name="fleet3_cargobays">Грузовой отсек:</string>
+        <string name="fleet3_noMission">Выбор миссии</string>
+        <string name="fleet3_expedition">Продолжительность экспедиции (ч):</string>
+                
+        <string name="mission_attack">Атака</string>
+        <string name="mission_transport">Транспортировка</string>
+        <string name="mission_espionage">Шпионаж</string>
+        <string name="mission_missile">Ракетная атака</string>
+        <string name="mission_harvest">Собрать мусор</string>
+        
+        <string name="yes">Да</string>
+        <string name="no">Нет</string>
+        
+        <string name="planet_rename_title">Переименовать планету</string>
+        <string name="planet_rename_text">Новое название:</string>
+        <string name="planet_abandon_title">Покинуть планету</string>
+        <string name="planet_abandon_text">Вы уверены, что хотите покинуть планету %s?</string>
+        <string name="planet_abandon_question">Чтобы покинуть планету введите свой пароль</string>
+        
+        <string name="billing_not_supported_title">Нельзя делать покупки</string>
+    <string name="billing_not_supported_message">Сервис магазина не доступен. Можно пользоваться приложением, но нельзя совершать покупки.</string>
+    <string name="cannot_connect_title">Не могу соединиться с магазином</string>
+    <string name="cannot_connect_message">Это приложение не соединятеся с магазином.
+     Ваша верия магазина устарела.
+     Можно пользоваться приложением, но нельзя совершать покупки.</string>     
+    <string name="learn_more">Узнать больше</string>
+    <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
+    <string name="restoring_transactions">Проверка покупки</string>
+</resources>
