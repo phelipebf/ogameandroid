@@ -1,9 +1,14 @@
+v0.7.2
+- fix[Paster]: fix values-it/strings.xml
+- fix[Paster]: fix SettingsViewWithInAppBilling.java
+- fix[Paster]: we can login now,but there are still some problems we need to solve
+
 v0.7.1
 - fix: notification system problems on ICS
 - fix: fetching moon image (for now default moon image is used for ALL moons)
 - fix: moon activity showing in two rows
 - fix: fetching unread messages on overview
-- fix: not able to send espionage or launch missales if number was ending with 0 
+- fix: not able to send espionage or launch missles if number was ending with 0 
 - new: removed Resource settings from context menu as it is available from scroll menu
 - new: changed login layout so it could fit on smaller resolution
 

@@ -111,14 +111,17 @@ public class GameClient{
 		int returnState = 0;
 		try{
 			http.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
-			HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
+			//HttpPost httppost = new HttpPost("http://" + universe + "/game/reg/login2.php");
+			HttpPost httppost = new HttpPost("http://ogame.tw/main/login/index.php");
 			httppost.addHeader("User-Agent", USER_AGENT);
 			Log.i(TAG, "Login at " + httppost.getURI().toString());		
 			
 			//build login post data
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-	        nameValuePairs.add(new BasicNameValuePair("v", "2"));
-	        nameValuePairs.add(new BasicNameValuePair("is_utf8", "0"));
+	        //nameValuePairs.add(new BasicNameValuePair("v", "2"));
+	        //nameValuePairs.add(new BasicNameValuePair("is_utf8", "0"));
+			nameValuePairs.add(new BasicNameValuePair("kid", ""));
+			nameValuePairs.add(new BasicNameValuePair("uni", universe));
 	        nameValuePairs.add(new BasicNameValuePair("login", username));
 	        nameValuePairs.add(new BasicNameValuePair("pass", password));
 	        nameValuePairs.add(new BasicNameValuePair("submit", "Submit"));
@@ -135,12 +138,12 @@ public class GameClient{
 	       		return GameClient.LOGIN_WRONG_DATA;
 	       	}else{
 	       		Log.d(TAG, "State: " + state);
-	       		
+	       		/*
 	       		if (state.indexOf("PHPSESSID=") > -1) {
 	       			this.session = Tools.between(state, "PHPSESSID=", "&");
 	       		} else {
 	       			this.session = Tools.between(state, "session=", "&");
-	       		}
+	       		}*/
 	       		
 	       		this.username = username;
 	       		this.password = password;
@@ -152,13 +155,25 @@ public class GameClient{
 	       		
 	    		this.imagebase = "http://"  + this.universe + "/game/";
 	    		this.indexbase = this.imagebase + "index.php?";
+	    		
+	    		String html = this.get2("page=overview",state);
+	    		html = html.replace("<script>document.location.href='", "");
+	    		html = html.replace("'</script>", "");
+	    		String html2 = this.get2("page=overview",html);
+	    		Document doc = Jsoup.parse(html2);
+	    		Elements eMETA = doc.select("meta[name=ogame-session]");
+	    		this.session = eMETA.attr("content"); 
+	    		Log.d(TAG, "Username: " + this.username);
+	       		Log.d(TAG, "Universe: " + this.universe);
+	    		Log.d(TAG, "Session: " + this.session);
+	    		/*
 	    		this.moon_regex = Tools.getServerSpecificData(this.context, this.universe.substring(this.universe.indexOf(".") + 1), "moon_regex");    
 	    		String html = this.get("page=overview");
 	    		this.serverVersion = this.getServerVersion(html);
 	    		if(this.serverVersion.compareTo(this.latestWorkingServerVersion) > 0)
 	    			returnState = GameClient.LOGIN_SERVER_VERSION;
-	    		
-	    		loadPlanets(html);
+	    		*/
+	    		loadPlanets(html2);
 	    		return (returnState == 0) ? GameClient.LOGIN_OK : returnState;
 	       	}       		
 		}catch (Exception e) {
@@ -479,6 +494,21 @@ public class GameClient{
 	public synchronized String get(String url){
 		try{
 			HttpGet httpget = new HttpGet(this.indexbase + url + "&session=" + this.session);
+			httpget.addHeader("User-Agent", USER_AGENT);
+			
+			Log.i(TAG, "get " + httpget.getURI().toString());
+			HttpResponse response = this.http.execute(httpget);
+			
+			return inputStreamToString(response.getEntity().getContent()).toString();
+		}catch(Exception ex){
+			Log.e(TAG, ex.toString(), ex);
+			return null;
+		}
+	}
+	
+	public synchronized String get2(String url,String url2){
+		try{
+			HttpGet httpget = new HttpGet(url2);//this.indexbase + url + "&session=" + this.session
 			httpget.addHeader("User-Agent", USER_AGENT);
 			
 			Log.i(TAG, "get " + httpget.getURI().toString());
