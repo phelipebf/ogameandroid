@@ -195,10 +195,10 @@ public class SettingsViewWithInAppBilling extends PreferenceActivity{
 
     /** An array of product list entries for the products that can be purchased. */
     private static final CatalogEntry[] CATALOG = new CatalogEntry[] {
-        new CatalogEntry("ogame.inapp.donate.1", "Donate 1 �", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.2", "Donate 2 �", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.5", "Donate 5 �", Managed.UNMANAGED),
-        new CatalogEntry("ogame.inapp.donate.10", "Donate 10 �", Managed.UNMANAGED)
+        new CatalogEntry("ogame.inapp.donate.1", "Donate 1 嚙�", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.2", "Donate 2 嚙�", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.5", "Donate 5 嚙�", Managed.UNMANAGED),
+        new CatalogEntry("ogame.inapp.donate.10", "Donate 10 嚙�", Managed.UNMANAGED)
     };
 
     private String mItemName;

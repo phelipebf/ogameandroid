@@ -167,5 +167,5 @@
      ma non sarai in grado di fare acquisti.</string>     
     <string name="learn_more">Learn more</string>
     <string name="help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
-    <string name="restoring_transactions">Controllo per l'acquisto</string>
+    <string name="restoring_transactions">Controllo per l\'acquisto</string>
 </resources>
